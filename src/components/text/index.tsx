@@ -1,5 +1,6 @@
-import { fontSizes, fontWeights, lineHeights } from "@/src/theme/config";
 import { Text, TextProps } from "@chakra-ui/react";
+
+import { fontSizes, fontWeights } from "@/src/theme/config";
 
 export type Variants =
   | "h1"
@@ -216,7 +217,17 @@ export const StyledText = ({
     <Text
       className={className}
       color={color}
-      style={{ ...TextUtils(variant), ...style }}
+      style={style}
+      fontSize={{
+        base: TextUtils(smVariant).fontSize,
+        md: TextUtils(mdVariant).fontSize,
+        lg: TextUtils(variant).fontSize,
+      }}
+      fontWeight={{
+        base: TextUtils(smVariant).fontWeight,
+        md: TextUtils(mdVariant).fontWeight,
+        lg: TextUtils(variant).fontWeight,
+      }}
       {...props}
     >
       {children}
