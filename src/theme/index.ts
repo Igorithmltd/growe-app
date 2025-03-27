@@ -6,8 +6,8 @@ export const system = createSystem(defaultConfig, {
       colors: {
         primary: { value: "#9BAB69" }, // Main green
         secondary: { value: "#454839" }, // Dark olive
-        accent: { value: "#A9AD98" }, // Light grayish green
-        background: { value: "#FDFDFD" }, // White background
+        grey: { value: "#A9AD9B" }, // Light grayish green
+        bluelight: { value: "#FDFDFD" }, // White background
         text: { value: "#1A202C" }, // Dark gray
         muted: { value: "#FAF8FF" }, // Soft purple
       },
