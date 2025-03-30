@@ -10,6 +10,7 @@ export const system = createSystem(defaultConfig, {
         bluelight: { value: "#FDFDFD" }, // White background
         text: { value: "#1A202C" }, // Dark gray
         muted: { value: "#FAF8FF" }, // Soft purple
+        border: { value: "#F4F4F4" }, // Soft purple
       },
       fonts: {
         heading: { value: "'Inter', sans-serif" },

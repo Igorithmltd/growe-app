@@ -41,7 +41,7 @@ export const StyledButton = ({
       bg={linear ? "linear-gradient( #9BAB89 0%, #3F452A 100%)" : bgColor}
       borderRadius="10px"
       px="20px"
-      py="12px"
+      py="20px"
       color={color}
       size={size}
       loading={loading}
@@ -53,8 +53,7 @@ export const StyledButton = ({
         bg: linear ? "linear-gradient(135deg, #8E9F7D 0%, #374024 100%)" : "primaryLight01",
       }}
       fontSize="16px"
-      fontFamily="lato"
-      fontWeight="bold"
+      fontWeight="normal"
       display="flex"
       alignItems="center"
       gap={2}
