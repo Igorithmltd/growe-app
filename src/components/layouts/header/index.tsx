@@ -11,7 +11,6 @@ import {
   Link as ChakraLink,
   Spacer,
   VStack,
-  IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion"; // Using framer-motion for animation
