@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import {
   Box,
@@ -13,49 +13,30 @@ import {
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { motion, AnimatePresence } from "framer-motion"; // Using framer-motion for animation
+import { motion, AnimatePresence } from "framer-motion";
+import { StyledText, StyledButton } from "@/src/components";
 import logo from "@/public/images/logo.webp";
-import navLinks from "@/src/utils/constants";
-import { StyledText } from "../../text";
-import { StyledButton } from "../../button";
+import { navLinks } from "@/src/utils/constants";
 import { Close, Hamburger } from "@/public/svgs";
+import { useSectionStore } from "@/src/stores/active-section";
+import { handleNavigationClick } from "@/src/utils/helpers";
 
 const Header = () => {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const { activeSection, setActiveSection } = useSectionStore();
   const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
   const { open, onToggle } = useDisclosure();
+
+  console.log(activeSection);
+  
 
   useEffect(() => {
     setIsClient(true);
 
     if (typeof window !== "undefined") {
       if (window.location.hash) {
-        setActiveSection(window.location.hash);
+        setActiveSection(window.location.hash);   
       }
-
-      const handleScroll = () => {
-        const scrollPosition = window.scrollY + 100;
-        let foundSection = null;
-
-        for (const link of navLinks) {
-          if (link.href.startsWith("#")) {
-            const section = document.getElementById(link.href.slice(1));
-            if (section) {
-              const { top, height } = section.getBoundingClientRect();
-              const sectionTop = top + window.scrollY;
-              const sectionBottom = sectionTop + height;
-
-              if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                foundSection = link.href;
-                break;
-              }
-            }
-          }
-        }
-
-        setActiveSection(foundSection);
-      };
 
       window.addEventListener("scroll", handleScroll);
       handleScroll();
@@ -64,17 +45,45 @@ const Header = () => {
     }
   }, []);
 
-  const handleLinkClick = (href: string) => (e: React.MouseEvent) => {
-    if (pathname === "/" && href.startsWith("#")) {
-      setActiveSection(href);
-      onToggle();
-    } else if (href === "/") {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setActiveSection("#home");
-      onToggle();
+  const handleScroll = useCallback(() => {
+    const scrollPosition = window.scrollY + 100;
+    let foundSection = null;
+
+    // Check all sections
+    for (const link of navLinks) {
+      const sectionId = link.href.startsWith("/#")
+        ? link.href.slice(2)
+        : link.href.startsWith("#")
+          ? link.href.slice(1)
+          : null;
+
+      if (sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          const { top, height } = section.getBoundingClientRect();
+          const sectionTop = top + window.scrollY;
+          const sectionBottom = sectionTop + height;
+
+          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            foundSection = `#${sectionId}`;
+            break;
+          }
+        }
+      }
     }
-  };
+
+    if (!foundSection && scrollPosition < 100) {
+      foundSection = "#home";
+    }
+
+    setActiveSection(foundSection || "#home");
+  }, [setActiveSection]);
+
+  const handleLinkClick = useMemo(
+    () => (href: string) =>
+      handleNavigationClick(href, pathname, setActiveSection, open ? onToggle : undefined),
+    [pathname, setActiveSection, open, onToggle]
+  );
 
   if (!isClient) return null;
 
@@ -84,7 +93,7 @@ const Header = () => {
       bg="white"
       px={{ base: 4, lg: 12 }}
       py={4}
-      boxShadow="sm"
+      boxShadow="xs"
       position="fixed"
       top={0}
       left={0}
@@ -92,16 +101,86 @@ const Header = () => {
       zIndex={70}
     >
       <Container maxW="full">
-        <Flex align="center" direction={{ base: "column", lg: "row" }}>
-          <Flex w="full" align="center">
-            <ChakraLink href="/" onClick={handleLinkClick("/")} w={{ base: "100px", lg: "auto" }}>
-              <Image src={logo.src} alt="Grove logo" w="full" />
-            </ChakraLink>
+        <Flex align="center">
+          <ChakraLink
+            href="/"
+            onClick={handleLinkClick("/")}
+            w={{ base: "100px", lg: "auto" }}
+            flexShrink={0} // Prevent logo from shrinking
+          >
+            <Image src={logo.src} alt="Grove logo" w="full" />
+          </ChakraLink>
 
-            <Spacer />
+          <Spacer />
 
-            <Box display={{ base: "none", lg: "block" }}>
-              <HStack spaceX={8} p={5} border="1px solid" borderColor="border" borderRadius="10px">
+          <HStack
+            spaceX={8}
+            display={{ base: "none", lg: "flex" }}
+            p={5}
+            border="1px solid"
+            borderColor="border"
+            borderRadius="10px"
+            flexShrink={0} // Prevent nav from shrinking
+          >
+            {navLinks.map((link) => (
+              <ChakraLink
+                key={link.href}
+                href={link.href}
+                onClick={handleLinkClick(link.href)}
+                scrollBehavior="smooth"
+                _hover={{ color: "primary", textDecoration: "none" }}
+                _focus={{ outline: "none" }}
+              >
+                <StyledText
+                  variant="p18-regular"
+                  color={
+                    activeSection === link.href || (link.href === "/" && activeSection === "#home")
+                      ? "primary"
+                      : "grey"
+                  }
+                  fontWeight={
+                    activeSection === link.href || (link.href === "/" && activeSection === "#home")
+                      ? "semibold"
+                      : "normal"
+                  }
+                >
+                  {link.name}
+                </StyledText>
+              </ChakraLink>
+            ))}
+          </HStack>
+
+          <Spacer display={{ base: "none", lg: "block" }} />
+
+          <Box display={{ base: "none", lg: "block" }} ml={4} flexShrink={0}>
+            <StyledButton type="button">Get Started</StyledButton>
+          </Box>
+
+          <Box display={{ base: "flex", lg: "none" }} onClick={onToggle} ml={4}>
+            {open ? <Close /> : <Hamburger />}
+          </Box>
+        </Flex>
+
+        {/* Mobile menu */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{ width: "100%", overflow: "hidden" }}
+            >
+              <VStack
+                spaceY={4}
+                align="flex-start"
+                w="full"
+                my={6}
+                p={5}
+                border="1px solid"
+                borderColor="border"
+                borderRadius="10px"
+              >
                 {navLinks.map((link) => (
                   <ChakraLink
                     key={link.href}
@@ -110,14 +189,15 @@ const Header = () => {
                     scrollBehavior="smooth"
                     _hover={{ color: "primary", textDecoration: "none" }}
                     _focus={{ outline: "none" }}
+                    w="full"
                   >
                     <StyledText
-                      variant="p18-regular"
+                      smVariant="p16-regular"
                       color={
                         activeSection === link.href ||
                         (link.href === "/" && activeSection === "#home")
                           ? "primary"
-                          : "grey"
+                          : "secondary"
                       }
                       fontWeight={
                         activeSection === link.href ||
@@ -130,79 +210,13 @@ const Header = () => {
                     </StyledText>
                   </ChakraLink>
                 ))}
-              </HStack>
-            </Box>
-
-            <Spacer display={{ base: "none", lg: "block" }} />
-
-            <Box display={{ base: "none", lg: "block" }} ml={4}>
-              <StyledButton type="button">Get Started</StyledButton>
-            </Box>
-
-            <Box display={{ base: "flex", lg: "none" }} onClick={onToggle}>
-              {open ? <Close /> : <Hamburger />}
-            </Box>
-          </Flex>
-
-          <AnimatePresence>
-            {open && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
-                style={{ width: "100%", overflow: "hidden" }}
-              >
-                <VStack
-                  spaceY={8}
-                  align="flex-start"
-                  w="full"
-                  pt={4}
-                  pb={6}
-                  display={{ base: "flex", lg: "none" }}
-                  mt={8}
-                  p={5}
-                  border="1px solid"
-                  borderColor="border"
-                  borderRadius="10px"
-                >
-                  {navLinks.map((link) => (
-                    <ChakraLink
-                      key={link.href}
-                      href={link.href}
-                      onClick={handleLinkClick(link.href)}
-                      scrollBehavior="smooth"
-                      _hover={{ color: "primary", textDecoration: "none" }}
-                      _focus={{ outline: "none" }}
-                      w="full"
-                    >
-                      <StyledText
-                        smVariant="p16-regular"
-                        color={
-                          activeSection === link.href ||
-                          (link.href === "/" && activeSection === "#home")
-                            ? "primary"
-                            : "secondary"
-                        }
-                        fontWeight={
-                          activeSection === link.href ||
-                          (link.href === "/" && activeSection === "#home")
-                            ? "semibold"
-                            : "normal"
-                        }
-                      >
-                        {link.name}
-                      </StyledText>
-                    </ChakraLink>
-                  ))}
-                  <StyledButton type="button" w="145px" mt={6}>
-                    Get Started
-                  </StyledButton>
-                </VStack>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </Flex>
+                <StyledButton type="button" w="full" mt={4}>
+                  Get Started
+                </StyledButton>
+              </VStack>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Container>
     </Box>
   );
