@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { Box, HStack, Stack, Spacer, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { socialLinks } from "@/src/utils/constants";
 import { StyledText, StyledButton, StyledField } from "@/src/components";
 
@@ -29,16 +31,22 @@ const SocialLink = ({ href, icon: Icon, bgColor = "#F8FBEB" }: SocialLinkProps) 
   );
 };
 
+interface FormValue {
+  email: string;
+}
+
+const validationSchema = yup.object().shape({
+  email: yup.string().email("Please enter a valid email address").required("Email is required"),
+});
+
 export const FooterNewsletter = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "",
-    },
+  } = useForm<FormValue>({
+    resolver: yupResolver(validationSchema),
   });
 
   const onSubmit = (data: { email: string }) => {
@@ -80,13 +88,7 @@ export const FooterNewsletter = () => {
                 type="email"
                 fontSize={{ base: "14px", md: "16px" }}
                 w="full"
-                fieldProps={register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
-                    message: "Please enter a valid email address",
-                  },
-                })}
+                fieldProps={register("email")}
                 error={errors.email?.message}
                 bgColor=""
                 borderRadius="md"
