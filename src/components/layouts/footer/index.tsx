@@ -6,7 +6,7 @@ import LinkGrid from "./link-grid";
 
 const Footer = () => {
   return (
-    <Box as="footer" mt={"150px"}>
+    <Box as="footer">
       <Box maxW={{ md: "95%", lg: "90%" }} mx="auto" px={5} py={12}>
         <VStack spaceY={12} align="stretch" py={12}>
           <Stack
