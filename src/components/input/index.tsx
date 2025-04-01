@@ -1,117 +1,79 @@
-// Core
-import React, { ChangeEvent } from "react";
-import { Input, InputProps, Textarea, InputGroup } from "@chakra-ui/react";
-import { Field } from "formik";
-//
-import { StyledText } from "../text";
+"use client";
 
-type InputPropsType = InputProps & {
-  placeholder?: string;
-  name: string;
-  type: string;
-  bgColor?: string;
+import { Field, Input, Textarea } from "@chakra-ui/react";
+import { UseFormRegisterReturn } from "react-hook-form";
+import { StyledText } from "@/src/components";
 
-  validate?: (value: string) => string | undefined;
-  disabled?: boolean;
-  value?: string | number;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+interface StyledFieldProps extends Field.RootProps {
   label?: string;
+  placeholder: string;
+  type?: string;
+  fieldProps: UseFormRegisterReturn;
+  error?: string;
+  isTextarea?: boolean;
+  bgColor?: string;
+  borderRadius?: string;
   labelColor?: string;
   labelWeight?: string;
-  isInput?: boolean;
-  hasIcon?: boolean;
-  icon?: React.ReactNode;
-  borderRadius?: string;
-  max?: string;
-};
+  disabled?: boolean;
+}
 
-export const StyledInput = ({
-  name,
-  bgColor = "grey3",
-  placeholder = "Search",
-
-  type,
-  validate,
-  disabled = false,
-  value,
-  onChange,
+export const StyledField = ({
   label,
-  labelColor,
-  isInput = true,
-  hasIcon = false,
-  icon,
-  max,
+  placeholder,
+  type = "text",
+  fieldProps,
+  error,
+  isTextarea = false,
+  bgColor = "white",
+  borderRadius = "radius",
+  labelColor = "grey",
+  labelWeight,
+  disabled = false,
   ...props
-}: InputPropsType) => {
-  const commonStyles = {
-    borderRadius: "4px",
-    color: "grey_shade2",
-    borderColor: "grey_tint3",
-    focusBorderColor: "secondary",
-    fontSize: { base: "sm", md: "lg" },
-    fontWeight: { base: "medium", md: "normal" },
-    fontFamily: "lato",
-    _placeholder: {
-      color: "grey_shade2",
-      fontFamily: "lato",
-      fontSizes: "xl",
-      fontWeight: "normal",
-    },
-    _disabled: { color: "grey", bg: "grey_tint3", cursor: "not-allowed" },
-  };
-  const mergedProps = {
-    ...props,
-    ...commonStyles,
-  };
-
+}: StyledFieldProps) => {
   return (
-    <>
+    <Field.Root invalid={!!error} disabled={disabled} spaceY={1}>
       {label && (
-        <StyledText
-          py={2}
-          fontFamily="lato"
-          fontSize={{ base: "sm", md: "md" }}
-          fontWeight={{ base: "medium", md: "medium" }}
-          color={labelColor || "grey_shade3"}
-        >
-          {label}
-        </StyledText>
+        <Field.Label>
+          <StyledText
+            smVariant="p14-medium"
+            mdVariant="p16-medium"
+            variant="p16-medium"
+            color={labelColor}
+            fontWeight={labelWeight}
+          >
+            {label}
+          </StyledText>
+        </Field.Label>
       )}
-      {isInput ? (
-        <InputGroup>
-          <Field
-            as={Input}
-            name={name}
-            type={type}
-            value={value}
-            placeholder={placeholder}
-            padding={6}
-            bgColor={bgColor}
-            pr={hasIcon ? 14 : ""}
-            validate={validate}
-            onChange={onChange}
-            disabled={disabled}
-            max={max}
-            {...mergedProps}
-          />
-          
-        </InputGroup>
-      ) : (
-        <Field
-          as={Textarea}
-          name={name}
-          type={type}
-          value={value}
+
+      {isTextarea ? (
+        <Textarea
           placeholder={placeholder}
-          bgColor={bgColor}
-          validate={validate}
-          onChange={onChange}
-          disabled={disabled}
-          {...mergedProps}
+          {...fieldProps}
+          bg={bgColor}
+          borderColor="grey"
+          size="lg"
+          borderRadius={borderRadius}
+        />
+      ) : (
+        <Input
+          type={type}
+          placeholder={placeholder}
+          {...fieldProps}
+          bg={bgColor}
+          borderColor="grey"
+          size="lg"
+          borderRadius={borderRadius}
+          {...props}
         />
       )}
-    </>
+      <Field.ErrorText fontSize="12px" fontWeight="normal" color="red.500">
+        {error}
+      </Field.ErrorText>
+    </Field.Root>
   );
 };
 
-export default StyledInput;
+export default StyledField;

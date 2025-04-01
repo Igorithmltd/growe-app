@@ -1,25 +1,51 @@
+"use client";
+
 import Link from "next/link";
-import { Box, Button, Flex, Grid, HStack, Input, Spacer, Stack, VStack } from "@chakra-ui/react";
+import { Box, HStack, Stack, Spacer, VStack } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 import { socialLinks } from "@/src/utils/constants";
-import { StyledText, StyledButton, StyledInput } from "@/src/components";
+import { StyledText, StyledButton, StyledField } from "@/src/components";
 
 interface SocialLinkProps {
   href: string;
-  icon: React.ComponentType; // Type for component
+  icon: React.ComponentType;
   bgColor?: string;
 }
 
 const SocialLink = ({ href, icon: Icon, bgColor = "#F8FBEB" }: SocialLinkProps) => {
   return (
-    <Grid bg={bgColor} boxSize="48px" borderRadius="full" placeItems="center">
+    <Box
+      bg={bgColor}
+      boxSize="48px"
+      borderRadius="full"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
       <Link href={href} target="_blank" rel="noopener noreferrer">
-        <Icon /> {/* Render as component */}
+        <Icon />
       </Link>
-    </Grid>
+    </Box>
   );
 };
 
 export const FooterNewsletter = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  const onSubmit = (data: { email: string }) => {
+    console.log("Form submitted with:", data);
+    reset();
+  };
+
   return (
     <Box borderTopWidth="1px" borderTopColor="border" py={16}>
       <Stack
@@ -28,7 +54,7 @@ export const FooterNewsletter = () => {
         px={5}
         direction={{ base: "column", lg: "row" }}
         align="center"
-        spaceY={3}
+        gap={3}
       >
         <HStack gap={4}>
           {socialLinks.map((link, index) => (
@@ -38,7 +64,7 @@ export const FooterNewsletter = () => {
 
         <Spacer />
 
-        <VStack>
+        <VStack align={{ base: "center", lg: "stretch" }}>
           <StyledText
             smVariant="p16-medium"
             mdVariant="p16-medium"
@@ -47,10 +73,34 @@ export const FooterNewsletter = () => {
           >
             Subscribe to Get financial tips & updates
           </StyledText>
-          <Flex gap={4}>
-            <StyledInput name="news" type="text"  />
-            <StyledButton type="button">Subscribe</StyledButton>
-          </Flex>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <HStack align="center" gap={0} bg="#f9f9f9" py={2} borderRadius="lg">
+              <StyledField
+                placeholder="Enter your email"
+                type="email"
+                fontSize={{ base: "14px", md: "16px" }}
+                w="full"
+                fieldProps={register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/,
+                    message: "Please enter a valid email address",
+                  },
+                })}
+                error={errors.email?.message}
+                bgColor=""
+                borderRadius="md"
+                labelColor="darkgrey"
+                py={6}
+                border="none"
+                outline="none"
+              />
+
+              <Spacer />
+
+              <StyledButton type="submit">Subscribe</StyledButton>
+            </HStack>
+          </form>
         </VStack>
       </Stack>
     </Box>
