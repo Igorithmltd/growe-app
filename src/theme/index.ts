@@ -7,9 +7,11 @@ export const system = createSystem(defaultConfig, {
         primary: { value: "#9BAB69" }, // Main green
         secondary: { value: "#454839" }, // Dark olive
         grey: { value: "#A9AD9B" }, // Light grayish green
+        darkgrey: { value: "#333333" },
         bluelight: { value: "#FDFDFD" }, // White background
         text: { value: "#1A202C" }, // Dark gray
         muted: { value: "#FAF8FF" }, // Soft purple
+        border: { value: "#F4F4F4" }, // Soft purple
       },
       fonts: {
         heading: { value: "'Inter', sans-serif" },
