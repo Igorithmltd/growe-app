@@ -1,4 +1,4 @@
-import { Box, Grid, Heading, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Container, Grid, Heading, Image, Text, VStack } from "@chakra-ui/react";
 import {
   PersonalSavings as PersonalSavingsIcon,
   GroupSavings as GroupSavingsIcon,
@@ -64,11 +64,18 @@ const FeaturesSection = () => {
           Growe?
         </Text>
       </StyledText>
-      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap="38px" mt={8}>
-        {features.map((feature, index) => (
-          <FeatureCard feature={feature} key={index} />
-        ))}
-      </Grid>
+      <Container maxW="full">
+        <Grid
+          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+          maxWidth="container.lg"
+          gap="38px"
+          mt={8}
+        >
+          {features.map((feature, index) => (
+            <FeatureCard feature={feature} key={index} />
+          ))}
+        </Grid>
+      </Container>
     </Box>
   );
 };
