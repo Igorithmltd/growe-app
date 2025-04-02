@@ -11,6 +11,8 @@ import GroupSavings from "./group-savings.svg";
 import Investments from "./investment.svg";
 import FinancialNotes from "./financial-notes.svg";
 import StarIcon from "./star.svg";
+import PlayStore from "./playstore.svg";
+import AppStore from "./appstore.svg";
 
 export {
   Hamburger,
@@ -23,5 +25,7 @@ export {
   GroupSavings,
   Investments,
   FinancialNotes,
-  StarIcon
+  StarIcon,
+  PlayStore,
+  AppStore,
 };

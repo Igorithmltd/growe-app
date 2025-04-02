@@ -45,8 +45,8 @@ const FeatureCard = ({ feature }: { feature: Feature }) => {
           {feature.description}
         </StyledText>
       </VStack>
-      <Box mt={12}>
-        <Image src={feature.image} alt={feature.title} mx="auto" />
+      <Box mt={12} maxWidth={{ base: "184px", md: "305px" }} mx="auto">
+        <Image src={feature.image} alt={feature.title} w="full" />
       </Box>
     </Box>
   );

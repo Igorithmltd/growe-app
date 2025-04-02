@@ -5,6 +5,7 @@ import UniteSection from "./unite-section";
 import FeaturesSection from "./features-section";
 import Testimonials from "./testimonials";
 import FAQSection from "./faqs-section";
+import DownloadSection from "./download";
 
 const LandingLayout = () => {
   return (
@@ -14,6 +15,7 @@ const LandingLayout = () => {
       <UniteSection />
       <Testimonials />
       <FAQSection />
+      <DownloadSection />
       <Footer />
     </Box>
   );

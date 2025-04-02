@@ -22,6 +22,7 @@ const FAQItem = ({ question, answer }: FAQItemProps) => (
       lineHeight={1.2}
       _expanded={{ fontWeight: "bold" }}
       justifyContent="space-between"
+      cursor="pointer"
     >
       {question}
       <Accordion.ItemIndicator />
