@@ -66,7 +66,7 @@ const FeaturesSection = () => {
       </StyledText>
       <Container maxW="full">
         <Grid
-          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+          templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }}
           maxWidth="container.lg"
           gap="38px"
           mt={8}
