@@ -56,7 +56,7 @@ const Testimonials = () => {
         maxW={{ md: "95%", lg: "90%" }}
         mx="auto"
         px={5}
-        py={18}
+        py="90px"
       >
         <Box width={{ md: "40%" }} mx="auto">
           <StyledText

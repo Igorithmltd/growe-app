@@ -4,7 +4,7 @@ import image from "@/public/images/unite-image.webp";
 
 const UniteSection = () => {
   return (
-    <Box mt={"150px"} maxW={{ md: "95%", lg: "90%" }} mx="auto" px={5} py={18}>
+    <Box maxW={{ md: "95%", lg: "90%" }} mx="auto" px={5} py="90px">
       <Stack direction={{ base: "column", lg: "row" }} align="center" spaceY="12">
         <Box maxWidth="450px">
           <Image src={image.src} alt="unite-image" w="full" />
