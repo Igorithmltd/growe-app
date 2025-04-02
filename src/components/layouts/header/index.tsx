@@ -90,7 +90,7 @@ const Header = () => {
   return (
     <Box
       as="header"
-      bg="white"
+      bg="#FDFDFD"
       px={{ base: 4, lg: 12 }}
       py={4}
       boxShadow="xs"

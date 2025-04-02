@@ -49,6 +49,8 @@ const FeaturesSection = () => {
       mx="auto"
       px={5}
       py={18}
+      bg="white"
+      borderRadius="20px"
     >
       <StyledText
         fontSize={{ base: "12px", md: "18px" }}

@@ -49,7 +49,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <Box bg="#FAF8FF" w="100vw">
+    <Box bg="#FAF8FF">
       <Box
         id="testimonials"
         textAlign="center"
@@ -78,7 +78,7 @@ const Testimonials = () => {
         <Grid
           templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
           gap={8}
-          mt={8}
+          mt="50px"
         >
           {testimonials.map((testimonial, index) => (
             <TestimonialCard key={index} testimonial={testimonial} />

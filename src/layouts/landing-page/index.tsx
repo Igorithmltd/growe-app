@@ -4,14 +4,16 @@ import { Box } from "@chakra-ui/react";
 import UniteSection from "./unite-section";
 import FeaturesSection from "./features-section";
 import Testimonials from "./testimonials";
+import FAQSection from "./faqs-section";
 
 const LandingLayout = () => {
   return (
-    <Box>
+    <Box bg="#FDFDFD">
       <Header />
       <FeaturesSection />
       <UniteSection />
       <Testimonials />
+      <FAQSection />
       <Footer />
     </Box>
   );
