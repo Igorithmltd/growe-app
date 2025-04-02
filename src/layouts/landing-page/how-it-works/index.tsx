@@ -1,6 +1,5 @@
 import { StyledText } from "@/src/components";
 import { Box, Image, Spacer, Stack, Text } from "@chakra-ui/react";
-import image from "@/public/images/how-it-works.webp";
 import Stepper from "./stepper";
 
 const HowItWorks = () => {

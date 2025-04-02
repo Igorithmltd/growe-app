@@ -1,7 +1,6 @@
 import { StarIcon } from "@/public/svgs";
 import { StyledText } from "@/src/components";
 import { Avatar, Box, HStack, Spacer, VStack } from "@chakra-ui/react";
-import { FC } from "react";
 
 interface Testimonial {
   name: string;

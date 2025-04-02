@@ -1,14 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Heading,
-  Image,
-  Spacer,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Spacer, Stack, Text, VStack } from "@chakra-ui/react";
 import { StyledButton, StyledText } from "@/src/components";
 import FAQs from "./faq";
 

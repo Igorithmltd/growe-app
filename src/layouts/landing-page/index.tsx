@@ -6,14 +6,12 @@ import FeaturesSection from "./features-section";
 import Testimonials from "./testimonials";
 import FAQSection from "./faqs-section";
 import DownloadSection from "./download";
-import HowItWorks from "./how-it-works";
 
 const LandingLayout = () => {
   return (
     <Box bg="#FDFDFD">
       <Header />
       <FeaturesSection />
-      {/* <HowItWorks /> */}
       <UniteSection />
       <Testimonials />
       <FAQSection />

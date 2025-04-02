@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Heading, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Container, Grid, Text } from "@chakra-ui/react";
 import {
   PersonalSavings as PersonalSavingsIcon,
   GroupSavings as GroupSavingsIcon,

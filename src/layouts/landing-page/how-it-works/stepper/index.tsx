@@ -1,5 +1,5 @@
 import { StyledText } from "@/src/components";
-import { Button, ButtonGroup, Stack, Steps } from "@chakra-ui/react";
+import {  Steps } from "@chakra-ui/react";
 
 const steps = [
   {
