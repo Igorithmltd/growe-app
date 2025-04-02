@@ -7,6 +7,7 @@ import {
 } from "@/public/svgs";
 import FeatureCard from "./card";
 import { StyledText } from "@/src/components";
+import HowItWorks from "../how-it-works";
 
 const features = [
   {
@@ -41,43 +42,36 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <Box
-      id="features"
-      textAlign="center"
-      mt={"150px"}
-      maxW={{ md: "95%", lg: "90%" }}
-      mx="auto"
-      px={5}
-      py={18}
-      bg="white"
-      borderRadius="20px"
-    >
-      <StyledText
-        fontSize={{ base: "12px", md: "18px" }}
-        fontWeight="normal"
-        color="#A9AD9B"
-        my={6}
-      >
-        Features
-      </StyledText>
-      <StyledText fontSize={{ base: "21px", md: "35px" }} fontWeight="medium" color="secondary">
-        Why Choose{" "}
-        <Text as="span" color="primary">
-          Growe?
-        </Text>
-      </StyledText>
-      <Container maxW="full">
-        <Grid
-          templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }}
-          maxWidth="container.lg"
-          gap="38px"
-          mt={8}
+    <Box maxW={{ md: "95%", lg: "90%" }} borderRadius="20px" bg="white" mx="auto">
+      <Box id="features" textAlign="center" mt={"150px"} px={5} py={18}>
+        <StyledText
+          fontSize={{ base: "12px", md: "18px" }}
+          fontWeight="normal"
+          color="#A9AD9B"
+          my={6}
         >
-          {features.map((feature, index) => (
-            <FeatureCard feature={feature} key={index} />
-          ))}
-        </Grid>
-      </Container>
+          Features
+        </StyledText>
+        <StyledText fontSize={{ base: "21px", md: "35px" }} fontWeight="medium" color="secondary">
+          Why Choose{" "}
+          <Text as="span" color="primary">
+            Growe?
+          </Text>
+        </StyledText>
+        <Container maxW="full">
+          <Grid
+            templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }}
+            maxWidth="container.lg"
+            gap="38px"
+            mt={8}
+          >
+            {features.map((feature, index) => (
+              <FeatureCard feature={feature} key={index} />
+            ))}
+          </Grid>
+        </Container>
+      </Box>
+      <HowItWorks />
     </Box>
   );
 };
