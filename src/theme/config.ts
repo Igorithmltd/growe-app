@@ -9,6 +9,7 @@ export const fontSizes = {
   size8: "16px",
   size9: "14px",
   size10: "12px",
+  size20: "20px",
 };
 
 export const fontWeights = {

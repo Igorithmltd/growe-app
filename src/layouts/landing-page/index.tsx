@@ -3,6 +3,7 @@ import Header from "@/src/components/layouts/header";
 import { Box } from "@chakra-ui/react";
 import UniteSection from "./unite-section";
 import FeaturesSection from "./features-section";
+import Testimonials from "./testimonials";
 
 const LandingLayout = () => {
   return (
@@ -10,6 +11,7 @@ const LandingLayout = () => {
       <Header />
       <FeaturesSection />
       <UniteSection />
+      <Testimonials />
       <Footer />
     </Box>
   );

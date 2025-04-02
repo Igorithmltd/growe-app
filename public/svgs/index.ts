@@ -10,6 +10,7 @@ import PersonalSavings from "./personal-savings.svg";
 import GroupSavings from "./group-savings.svg";
 import Investments from "./investment.svg";
 import FinancialNotes from "./financial-notes.svg";
+import StarIcon from "./star.svg";
 
 export {
   Hamburger,
@@ -22,4 +23,5 @@ export {
   GroupSavings,
   Investments,
   FinancialNotes,
+  StarIcon
 };

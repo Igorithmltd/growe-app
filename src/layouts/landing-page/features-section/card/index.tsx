@@ -35,11 +35,17 @@ const FeatureCard = ({ feature }: { feature: Feature }) => {
           </Box>
         </HStack>
 
-        <StyledText smVariant="p12-regular" mdVariant="p14-regular" variant="p16-regular" mb={4}>
+        <StyledText
+          smVariant="p12-regular"
+          mdVariant="p14-regular"
+          variant="p16-regular"
+          mb={4}
+          textAlign="start"
+        >
           {feature.description}
         </StyledText>
       </VStack>
-      <Box mt={12}  >
+      <Box mt={12}>
         <Image src={feature.image} alt={feature.title} mx="auto" />
       </Box>
     </Box>

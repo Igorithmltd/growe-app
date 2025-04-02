@@ -17,6 +17,10 @@ export type Variants =
   | "p21-medium"
   | "p21-semibold"
   | "p21-bold"
+  | "p20-regular"
+  | "p20-medium"
+  | "p20-semibold"
+  | "p20-bold"
   | "p18-regular"
   | "p18-medium"
   | "p18-semibold"
@@ -104,6 +108,26 @@ export const TextUtils = (variant?: Variants) => {
     case "p21-bold":
       return {
         fontSize: fontSizes.size6,
+        fontWeight: fontWeights.weight4,
+      };
+    case "p20-regular":
+      return {
+        fontSize: fontSizes.size20,
+        fontWeight: fontWeights.weight1,
+      };
+    case "p20-medium":
+      return {
+        fontSize: fontSizes.size20,
+        fontWeight: fontWeights.weight2,
+      };
+    case "p20-semibold":
+      return {
+        fontSize: fontSizes.size20,
+        fontWeight: fontWeights.weight3,
+      };
+    case "p20-bold":
+      return {
+        fontSize: fontSizes.size20,
         fontWeight: fontWeights.weight4,
       };
     case "p18-regular":
