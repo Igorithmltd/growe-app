@@ -24,7 +24,12 @@ export const FooterLinks = ({ title, links }: FooterLinksProps) => {
 
   return (
     <VStack align="flex-start" spaceY={5}>
-      <StyledText smVariant="p16-medium" mdVariant="p16-medium"  variant="p18-medium" color="darkgrey">
+      <StyledText
+        smVariant="p16-medium"
+        mdVariant="p16-medium"
+        variant="p18-medium"
+        color="darkgrey"
+      >
         {title}
       </StyledText>
       {links.map((link, index) => (
@@ -32,9 +37,10 @@ export const FooterLinks = ({ title, links }: FooterLinksProps) => {
           key={index}
           href={link.href}
           onClick={handleClick(link.href)}
-          color="grey" 
+          color="grey"
           fontSize={{ base: "14px", md: "16px" }}
           _hover={{ color: "primary", textDecoration: "none" }}
+          _focus={{ outline: "none" }}
         >
           {link.label}
         </Link>
