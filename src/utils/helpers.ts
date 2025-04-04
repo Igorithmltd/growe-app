@@ -3,25 +3,25 @@ export const handleNavigationClick =
     href: string,
     pathname: string,
     setActiveSection: (section: string) => void,
-    onToggle?: () => void
+    onClose?: () => void
   ) =>
   (e: React.MouseEvent) => {
     e.preventDefault();
 
-    // Handle home link
     if (href === "/" || href === "/#home" || href === "#home") {
       setActiveSection("#home");
+
       if (pathname !== "/") {
         window.location.href = "/";
       } else {
         window.scrollTo({ top: 0, behavior: "smooth" });
         history.replaceState(null, "", "#home");
       }
-      onToggle?.();
+
+      setTimeout(() => onClose?.(), 1500); // 👈 delay closing menu
       return;
     }
 
-    // Handle section links
     const sectionId = href.startsWith("/#")
       ? href.slice(2)
       : href.startsWith("#")
@@ -42,11 +42,12 @@ export const handleNavigationClick =
             behavior: "smooth",
           });
         }
+
         history.replaceState(null, "", `#${sectionId}`);
+        setTimeout(() => onClose?.(), 300); // 👈 delay closing menu
       } else {
         window.location.href = `/#${sectionId}`;
+        setTimeout(() => onClose?.(), 300); // for good measure
       }
-
-      onToggle?.();
     }
   };

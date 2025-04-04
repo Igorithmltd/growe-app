@@ -2,6 +2,8 @@ import bundleAnalyzer from "@next/bundle-analyzer";
 import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  reactStrictMode: false,
+
   webpack(config, { isServer }) {
     // ➡️ 1. Forcefully suppress the warning (most reliable method)
     config.ignoreWarnings = [
