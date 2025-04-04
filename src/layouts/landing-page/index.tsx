@@ -7,12 +7,14 @@ import Testimonials from "./testimonials";
 import FAQSection from "./faqs-section";
 import DownloadSection from "./download";
 import Hero from "./hero";
+import Partners from "./partners";
 
 const LandingLayout = () => {
   return (
     <Box bg="#FDFDFD">
       <Header />
       <Hero />
+      <Partners />
       <FeaturesSection />
       <UniteSection />
       <Testimonials />
