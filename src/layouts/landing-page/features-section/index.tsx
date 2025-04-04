@@ -43,7 +43,7 @@ const features = [
 const FeaturesSection = () => {
   return (
     <Box maxW={{ md: "95%", lg: "90%" }} borderRadius="20px" bg="white" mx="auto">
-      <Box id="features" textAlign="center" mt={"150px"} px={5} py={18}>
+      <Box id="features" textAlign="center" px={5} py={18}>
         <StyledText
           fontSize={{ base: "12px", md: "18px" }}
           fontWeight="normal"
