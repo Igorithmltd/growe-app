@@ -1,6 +1,6 @@
-import { AppStore, PlayStore } from "@/public/svgs";
+import { AppStore, PlayStore, Rocket } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
-import { Box, Flex, HStack, Icon, Stack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Icon, Image, Spacer, Stack, Text, VStack } from "@chakra-ui/react";
 
 const Hero = () => {
   return (
@@ -17,11 +17,12 @@ const Hero = () => {
         direction={{ base: "column", lg: "row" }}
         spaceY={5}
         align="center"
-        py={24}
+        py={4}
         pl={{ lg: 28 }}
       >
-        <VStack align="start" spaceY={5}>
-          <Flex bg="#F8FBEB" px={5} py={3} borderRadius="full">
+        <VStack align={{ base: "center", lg: "start" }} spaceY={5} flex={1}>
+          <Flex bg="#F8FBEB" px={5} py={3} borderRadius="full" gap={2} align="center">
+            <Rocket />
             <StyledText smVariant="p12-regular" mdVariant="p14-regular" variant="p18-regular">
               50,000+ Active Savers & Investors on Growe
             </StyledText>
@@ -32,7 +33,7 @@ const Hero = () => {
             fontWeight="semibold"
             color="secondary"
             textAlign="start"
-            lineHeight={1.2}
+            lineHeight={1.1}
           >
             <Text as="span" color="primary">
               Save
@@ -53,8 +54,13 @@ const Hero = () => {
             group savings designed to help you grow wealth effortlessly.
           </StyledText>
 
-          <HStack spaceX={3}>
-            <StyledButton type="button" display="flex" alignItems="center">
+          <HStack spaceX={{ base: 3, lg: 3 }} justify="center">
+            <StyledButton
+              type="button"
+              display="flex"
+              alignItems="center"
+              px={{ base: 3, md: "20px" }}
+            >
               <Icon>
                 <AppStore />
               </Icon>
@@ -66,6 +72,7 @@ const Hero = () => {
               type="button"
               display="flex"
               alignItems="center"
+              px={{ base: 3, md: "20px" }}
             >
               <Icon>
                 <PlayStore />
@@ -74,6 +81,19 @@ const Hero = () => {
             </StyledButton>
           </HStack>
         </VStack>
+
+        <Spacer flex={0.2} />
+
+        <Box
+          flex={1}
+          bgGradient="linear-gradient(180deg, #EDF5CE 0%, #9BAB89 100%)"
+          h="full"
+          w="full"
+          borderRadius={{ base: "10px", lg: "unset" }}
+          borderLeftRadius={{ lg: "20px" }}
+        >
+          <Image src="/images/hero-image.webp" />
+        </Box>
       </Stack>
     </Box>
   );

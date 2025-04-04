@@ -22,7 +22,7 @@ const steps = [
 
 const Stepper = () => {
   return (
-    <Steps.Root orientation="vertical" height="350px" count={steps.length} flex={{ lg: 1.6 }}>
+    <Steps.Root orientation="vertical" height="370px" count={steps.length} flex={{ lg: 1.6 }}>
       <Steps.List>
         {steps.map((step, index) => (
           <Steps.Item key={index} index={index} title={step.title} mt={0}>
@@ -39,6 +39,7 @@ const Stepper = () => {
                 fontWeight="normal"
                 color="white"
                 mb={4}
+                lineHeight={1}
               >
                 {step.title}
               </StyledText>

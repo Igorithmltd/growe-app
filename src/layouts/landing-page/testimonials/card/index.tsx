@@ -45,6 +45,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
             mdVariant="p16-medium"
             variant="p20-medium"
             color="secondary"
+            textAlign="start"
           >
             {testimonial.name}, {testimonial.role}
           </StyledText>

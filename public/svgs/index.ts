@@ -13,6 +13,7 @@ import FinancialNotes from "./financial-notes.svg";
 import StarIcon from "./star.svg";
 import PlayStore from "./playstore.svg";
 import AppStore from "./appstore.svg";
+import Rocket from "./rocket.svg";
 
 export {
   Hamburger,
@@ -28,4 +29,5 @@ export {
   StarIcon,
   PlayStore,
   AppStore,
+  Rocket,
 };
