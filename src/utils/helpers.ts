@@ -18,7 +18,7 @@ export const handleNavigationClick =
         history.replaceState(null, "", "#home");
       }
 
-      setTimeout(() => onClose?.(), 300); // 👈 delay closing menu
+      setTimeout(() => onClose?.(), 1500); // 👈 delay closing menu
       return;
     }
 
