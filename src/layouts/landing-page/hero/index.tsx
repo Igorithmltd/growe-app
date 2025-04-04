@@ -86,6 +86,7 @@ const Hero = () => {
 
         <Box
           flex={1}
+          flexShrink={0}
           bgGradient="linear-gradient(180deg, #EDF5CE 0%, #9BAB89 100%)"
           h="full"
           w="full"
