@@ -27,15 +27,12 @@ const Header = () => {
   const [isClient, setIsClient] = useState(false);
   const { open, onToggle } = useDisclosure();
 
-  console.log(activeSection);
-  
-
   useEffect(() => {
     setIsClient(true);
 
     if (typeof window !== "undefined") {
       if (window.location.hash) {
-        setActiveSection(window.location.hash);   
+        setActiveSection(window.location.hash);
       }
 
       window.addEventListener("scroll", handleScroll);
