@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Box,
   Container,
@@ -26,6 +26,12 @@ const Header = () => {
   const pathname = usePathname();
   const [isClient, setIsClient] = useState(false);
   const { open, onToggle } = useDisclosure();
+
+  const router = useRouter();
+
+  const navigateGetStarted = () => {
+    router.push("/onboarding");
+  };
 
   useEffect(() => {
     setIsClient(true);
@@ -150,7 +156,9 @@ const Header = () => {
           <Spacer display={{ base: "none", lg: "block" }} />
 
           <Box display={{ base: "none", lg: "block" }} ml={4} flexShrink={0}>
-            <StyledButton type="button">Get Started</StyledButton>
+            <StyledButton type="button" onClick={navigateGetStarted}>
+              Get Started
+            </StyledButton>
           </Box>
 
           <Box display={{ base: "flex", lg: "none" }} onClick={onToggle} ml={4}>
@@ -207,7 +215,7 @@ const Header = () => {
                     </StyledText>
                   </ChakraLink>
                 ))}
-                <StyledButton type="button" w="full" mt={4}>
+                <StyledButton type="button" onClick={navigateGetStarted} w="full" mt={4}>
                   Get Started
                 </StyledButton>
               </VStack>

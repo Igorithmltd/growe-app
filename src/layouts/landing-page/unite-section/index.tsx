@@ -1,8 +1,15 @@
 import { StyledButton, StyledText } from "@/src/components";
 import { Box, Image, Spacer, Stack, VStack } from "@chakra-ui/react";
 import image from "@/public/images/unite-image.webp";
+import { useRouter } from "next/navigation";
 
 const UniteSection = () => {
+const router = useRouter();
+
+  const navigateGetStarted = () => {
+    router.push("/onboarding");
+  };
+
   return (
     <Box maxW={{ md: "95%", lg: "90%" }} mx="auto" px={5} py="90px">
       <Stack direction={{ base: "column", lg: "row" }} align="center" spaceY="12">
@@ -23,7 +30,7 @@ const UniteSection = () => {
             Pool resources with friends or family, set shared goals, and achieve them faster through
             collaborative savings.{" "}
           </StyledText>
-          <StyledButton type="button" size="md">
+          <StyledButton type="button" size="md" onClick={navigateGetStarted}>
             Get started
           </StyledButton>
         </VStack>
