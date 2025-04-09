@@ -6,7 +6,7 @@ export default function OnboardingLayout({ children }: Readonly<{ children: Reac
     <Stack direction={{ base: "column", lg: "row" }} align="center">
       <OnboardingCarousel />
       <Spacer />
-      <Box w="45%" px={10}>
+      <Box w="45%" px={{ lg: 10 }}>
         {children}
       </Box>
     </Stack>
