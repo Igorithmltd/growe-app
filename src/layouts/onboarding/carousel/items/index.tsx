@@ -50,7 +50,7 @@ const Item1 = () => {
         >
           Smart Personal Savings
         </StyledText>
-        <StyledText fontSize={{ base: "md", lg: "xl" }} fontWeight="semibold" color="#8F8F8F">
+        <StyledText fontSize={{ base: "md", lg: "xl" }} fontWeight={{base: "semibold", lg: "medium"}} color="#8F8F8F">
           Achieve your dreams faster with personalized savings that grow your money automatically.
         </StyledText>
       </Box>
@@ -107,7 +107,7 @@ const Item2 = () => {
         >
           Group Savings Made Easy
         </StyledText>
-        <StyledText fontSize={{ base: "md", lg: "xl" }} fontWeight="semibold" color="#8F8F8F">
+        <StyledText fontSize={{ base: "md", lg: "xl" }} fontWeight={{base: "semibold", lg: "medium"}} color="#8F8F8F">
           Save together with friends and family. Create or join savings groups and choose how you
           want to receive your funds.{" "}
         </StyledText>
@@ -165,7 +165,7 @@ const Item3 = () => {
         >
           Smart Investments
         </StyledText>
-        <StyledText fontSize={{ base: "md", lg: "xl" }} fontWeight="semibold" color="#8F8F8F">
+        <StyledText fontSize={{ base: "md", lg: "xl" }} fontWeight={{base: "semibold", lg: "medium"}} color="#8F8F8F">
           Access curated investment opportunities based on your risk preference. Track performance
           and grow your wealth.
         </StyledText>

@@ -3,7 +3,7 @@ import { VStack } from "@chakra-ui/react";
 
 const OnboardingPage = () => {
   return (
-    <VStack mt={{ base: 14, lg: "unset" }} spaceY={6} align="stretch" px={8}>
+    <VStack mt={{ base: 14, lg: "unset" }} spaceY={4} align="stretch" px={8}>
       <StyledButton type="button" py={8}>
         Get Started
       </StyledButton>
