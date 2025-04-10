@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { slides } from "../../carousel/items";
+import { slides } from "../../onboarding/carousel/items";
 
 const AuthCarousel = () => {
   const sliderRef = useRef<Slider>(null);

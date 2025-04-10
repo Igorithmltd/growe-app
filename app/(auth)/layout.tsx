@@ -1,4 +1,4 @@
-import AuthCarousel from "@/src/layouts/onboarding/auth/carousel";
+import AuthCarousel from "@/src/layouts/auth/carousel";
 import { Box, Spacer, Stack } from "@chakra-ui/react";
 
 export default function AuthLayout({ children }: Readonly<{ children: React.ReactNode }>) {

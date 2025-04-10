@@ -1,12 +1,12 @@
-import { EmailVerificationForm } from "@/src/layouts/onboarding/auth/verify-email";
+import { EmailVerificationForm } from "@/src/layouts//auth/verify-email";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Growe | Verify Email",
 };
 
-const OnboardingPage = () => {
+const VerificationPage = () => {
   return <EmailVerificationForm />;
 };
 
-export default OnboardingPage;
+export default VerificationPage;
