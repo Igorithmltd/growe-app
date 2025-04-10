@@ -26,7 +26,7 @@ export const StyledField = ({
   error,
   isTextarea = false,
   bgColor = "white",
-  borderRadius = "radius",
+  borderRadius = "10px",
   labelColor = "grey",
   labelWeight,
   disabled = false,
@@ -65,6 +65,7 @@ export const StyledField = ({
           bg={bgColor}
           borderColor="grey"
           size="lg"
+          fontSize="14px"
           borderRadius={borderRadius}
           {...props}
         />
