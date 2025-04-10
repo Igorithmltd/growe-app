@@ -15,7 +15,7 @@ const Item1 = () => {
         borderBottomRadius={{ base: "30px", lg: 6 }}
       >
         <StyledText
-          fontSize={{ base: "120px", lg: "170px" }}
+          fontSize={{ base: "108px", lg: "170px" }}
           fontWeight="semibold"
           color="white"
           zIndex={1}
@@ -72,7 +72,7 @@ const Item2 = () => {
         borderBottomRadius={{ base: "30px", lg: 6 }}
       >
         <StyledText
-          fontSize={{ base: "120px", lg: "170px" }}
+          fontSize={{ base: "108px", lg: "170px" }}
           fontWeight="semibold"
           zIndex={1}
           color="#C1C89A"
@@ -130,7 +130,7 @@ const Item3 = () => {
         borderBottomRadius={{ base: "30px", lg: 6 }}
       >
         <StyledText
-          fontSize={{ base: "120px", lg: "170px" }}
+          fontSize={{ base: "108px", lg: "170px" }}
           fontWeight="semibold"
           zIndex={1}
           color="#C1C89A"

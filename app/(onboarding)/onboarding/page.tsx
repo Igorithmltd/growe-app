@@ -1,5 +1,10 @@
 import { StyledButton } from "@/src/components";
 import { VStack } from "@chakra-ui/react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Growe | Get Started",
+};
 
 const OnboardingPage = () => {
   return (
