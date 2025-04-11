@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: Readonly<{ children: React.Reac
       <AuthCarousel />
       <Spacer />
       <Box w={{ lg: "45%" }} px={{ lg: 10 }}>
-        <Box ml={6}>
+        <Box ml={6} mt={{ base: 6, lg: "unset" }}>
           <BackIcon />
         </Box>
         {children}

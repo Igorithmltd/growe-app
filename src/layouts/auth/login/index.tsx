@@ -1,43 +1,21 @@
 "use client";
 
-import {
-  Box,
-  VStack,
-  Text,
-  HStack,
-  Link,
-  IconButton,
-  InputRightElement,
-  InputGroup,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { Box, VStack, Text, HStack, Link } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { StyledField, StyledButton, StyledText } from "@/src/components";
+//
+import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
+import { LoginFormValues, loginSchema } from "@/src/schema/auth.schema";
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
-
-const validationSchema = yup.object().shape({
-  email: yup.string().required("Email or phone number is required"),
-  password: yup.string().required("Password is required"),
-});
-
-export const LoginForm = () => {
+const LoginLayout = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<LoginFormValues>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(loginSchema),
   });
-
-  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = (data: LoginFormValues) => {
     console.log("Login data:", data);
@@ -46,7 +24,7 @@ export const LoginForm = () => {
 
   return (
     <Box px={6} py={10} mx="auto" mt={{ base: 6 }}>
-      <VStack align="stretch" spacing={6}>
+      <VStack align="stretch" spaceY={6}>
         <Box>
           <StyledText
             fontSize={{ base: "18px", md: "21px", lg: "24px" }}
@@ -61,43 +39,47 @@ export const LoginForm = () => {
         </Box>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spacing={4} align="stretch">
+          <VStack spaceY={4} align="stretch">
             <StyledField
-              label="Email / Phone Number"
+              label="Email"
               placeholder="Enter your email"
+              labelColor="secondary"
               type="text"
               fieldProps={register("email")}
-              error={errors.email?.message}
-              bg="#F8F8F8"
+              error={errors?.email?.message}
               py="20px"
+              bg="#F8F8F8"
               border="2px solid #9BAB69"
+              _focus={{
+                outlineWidth: "2px",
+                border: "none",
+              }}
             />
 
-            <InputGroup>
-              <StyledField
-                label="Password"
-                placeholder="Enter your password"
-                type={showPassword ? "text" : "password"}
-                fieldProps={register("password")}
-                error={errors.password?.message}
-                bg="#F8F8F8"
-                py="20px"
-                border="2px solid #9BAB69"
-              />
-              <InputRightElement top="50%" transform="translateY(-50%)">
-                <IconButton
-                  variant="ghost"
-                  aria-label="Toggle Password Visibility"
-                  icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                  onClick={() => setShowPassword(!showPassword)}
-                  size="sm"
-                />
-              </InputRightElement>
-            </InputGroup>
+            <PasswordInput
+              label="Password"
+              placeholder="Enter your password"
+              labelColor="secondary"
+              field={register("password")}
+              error={errors?.password?.message}
+              py="20px"
+              bg="#F8F8F8"
+              border="2px solid #9BAB69"
+              _focus={{
+                outlineWidth: "2px",
+                border: "none",
+              }}
+            />
 
             <HStack justify="flex-end">
-              <Link fontSize="sm" color="secondary">
-                Forgotten Password
+              <Link
+                fontSize={{ base: "sm", md: "md", lg: "lg" }}
+                color="secondary"
+                _hover={{
+                  textDecor: "none",
+                }}
+              >
+                Forgot Password?
               </Link>
             </HStack>
 
@@ -107,13 +89,21 @@ export const LoginForm = () => {
           </VStack>
         </form>
 
-        <Text textAlign="center" fontSize="sm" mt={4}>
+        <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
           New to Growe?{" "}
-          <Link fontWeight="medium" color="secondary">
+          <Link
+            fontWeight="semibold"
+            color="secondary"
+            _hover={{
+              textDecor: "none",
+            }}
+          >
             Create an Account
           </Link>
-        </Text>
+        </StyledText>
       </VStack>
     </Box>
   );
 };
+
+export default LoginLayout;

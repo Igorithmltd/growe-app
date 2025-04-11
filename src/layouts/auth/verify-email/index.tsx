@@ -1,27 +1,19 @@
 "use client";
 
-import { Box, VStack, Text } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { StyledField, StyledButton, StyledText } from "@/src/components";
-
-interface FormValue {
-  email: string;
-}
-
-const validationSchema = yup.object().shape({
-  email: yup.string().email("Please enter a valid email address").required("Email is required"),
-});
+import { VerifyFormValue, verifySchema } from "@/src/schema/auth.schema";
 
 export const EmailVerificationForm = () => {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, touchedFields },
-  } = useForm<FormValue>({
-    resolver: yupResolver(validationSchema),
+    formState: { errors },
+  } = useForm<VerifyFormValue>({
+    resolver: yupResolver(verifySchema),
   });
 
   const onSubmit = (data: { email: string }) => {
