@@ -32,7 +32,7 @@ const SignupLayout = () => {
   };
 
   return (
-    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>
+    <Box px={6} py={10} mx="auto">
       <VStack align="stretch" spaceY={6}>
         <Box>
           <StyledText
