@@ -44,6 +44,8 @@ const AuthCarousel = () => {
       p={{ base: 0, md: 5 }}
       w={{ base: "100%", lg: "45%" }}
       display={{ base: "none", lg: "block" }}
+      position="fixed"
+      top={-2}
     >
       <Slider ref={sliderRef} {...settings}>
         {slides.map((SlideComponent, index) => (

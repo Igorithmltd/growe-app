@@ -22,8 +22,18 @@ const LoginLayout = () => {
     reset();
   };
 
+  const commonProps = {
+    py: "20px",
+    bg: "#F8F8F8",
+    border: "2px solid #9BAB69",
+    _focus: {
+      outlineWidth: "2px",
+      border: "none",
+    },
+  };
+
   return (
-    <Box px={6} py={10} mx="auto" mt={{ base: 6 }}>
+    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>
       <VStack align="stretch" spaceY={6}>
         <Box>
           <StyledText
@@ -47,13 +57,7 @@ const LoginLayout = () => {
               type="text"
               fieldProps={register("email")}
               error={errors?.email?.message}
-              py="20px"
-              bg="#F8F8F8"
-              border="2px solid #9BAB69"
-              _focus={{
-                outlineWidth: "2px",
-                border: "none",
-              }}
+              {...commonProps}
             />
 
             <PasswordInput
@@ -62,13 +66,7 @@ const LoginLayout = () => {
               labelColor="secondary"
               field={register("password")}
               error={errors?.password?.message}
-              py="20px"
-              bg="#F8F8F8"
-              border="2px solid #9BAB69"
-              _focus={{
-                outlineWidth: "2px",
-                border: "none",
-              }}
+              {...commonProps}
             />
 
             <HStack justify="flex-end">
@@ -92,10 +90,14 @@ const LoginLayout = () => {
         <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
           New to Growe?{" "}
           <Link
+            href="/sign-up"
             fontWeight="semibold"
             color="secondary"
             _hover={{
               textDecor: "none",
+            }}
+            _focus={{
+              outline: "none",
             }}
           >
             Create an Account

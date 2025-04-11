@@ -22,7 +22,7 @@ export const EmailVerificationForm = () => {
   };
 
   return (
-    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>
+    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "120px" }}>
       <VStack spaceY={6} align="stretch">
         <Box>
           <StyledText
