@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState } from "react";
@@ -40,11 +41,7 @@ export const PasswordInput = ({
             bg: "transparent",
           }}
         >
-          {showPassword ? (
-            <MdOutlineVisibilityOff   />
-          ) : (
-            <MdOutlineVisibility   />
-          )}
+          {showPassword ? <MdOutlineVisibilityOff /> : <MdOutlineVisibility />}
         </IconButton>
       }
       {...props}

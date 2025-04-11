@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, VStack, Text, HStack, Link } from "@chakra-ui/react";
+import { Box, VStack, HStack, Link } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
