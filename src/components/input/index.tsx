@@ -1,14 +1,14 @@
 "use client";
 
-import { Field, Input, Textarea } from "@chakra-ui/react";
+import { Field, Input, InputGroup, Textarea } from "@chakra-ui/react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { StyledText } from "@/src/components";
 
-interface StyledFieldProps extends Field.RootProps {
+export interface StyledFieldProps extends Field.RootProps {
   label?: string;
   placeholder: string;
   type?: string;
-  fieldProps: UseFormRegisterReturn;
+  fieldProps?: UseFormRegisterReturn;
   error?: string;
   isTextarea?: boolean;
   bgColor?: string;
@@ -16,6 +16,7 @@ interface StyledFieldProps extends Field.RootProps {
   labelColor?: string;
   labelWeight?: string;
   disabled?: boolean;
+  icon?: React.ReactNode;
 }
 
 export const StyledField = ({
@@ -26,10 +27,11 @@ export const StyledField = ({
   error,
   isTextarea = false,
   bgColor = "white",
-  borderRadius = "radius",
+  borderRadius = "10px",
   labelColor = "grey",
   labelWeight,
   disabled = false,
+  icon,
   ...props
 }: StyledFieldProps) => {
   return (
@@ -58,16 +60,19 @@ export const StyledField = ({
           borderRadius={borderRadius}
         />
       ) : (
-        <Input
-          type={type}
-          placeholder={placeholder}
-          {...fieldProps}
-          bg={bgColor}
-          borderColor="grey"
-          size="lg"
-          borderRadius={borderRadius}
-          {...props}
-        />
+        <InputGroup endElement={icon}>
+          <Input
+            type={type}
+            placeholder={placeholder}
+            {...fieldProps}
+            bg={bgColor}
+            borderColor="grey"
+            size="lg"
+            fontSize="14px"
+            borderRadius={borderRadius}
+            {...props}
+          />
+        </InputGroup>
       )}
       <Field.ErrorText fontSize="12px" fontWeight="normal" color="red.500">
         {error}

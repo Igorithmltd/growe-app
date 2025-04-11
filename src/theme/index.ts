@@ -27,6 +27,18 @@ export const system = createSystem(defaultConfig, {
         subheadingMobile: { value: "25px" },
         titleMobile: { value: "14px" },
         descriptionMobile: { value: "12px" },
+
+        "7xl": { value: "65px" },
+        "6xl": { value: "50px" },
+        "5xl": { value: "37px" },
+        "4xl": { value: "24px" },
+        "3xl": { value: "23px" },
+        "2xl": { value: "21px" },
+        xl: { value: "18px" },
+        lg: { value: "16px" },
+        md: { value: "14px" },
+        sm: { value: "12px" },
+        xs: { value: "10px" },
       },
       fontWeights: {
         regular: { value: "400" },
