@@ -9,7 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
 
-export const EmailVerificationForm = () => {
+export const ForgotPasswordForm = () => {
   const router = useRouter();
   const pathname = usePathname();
   const createQueryString = useQueryString();
@@ -60,10 +60,11 @@ export const EmailVerificationForm = () => {
               color="secondary"
               fontWeight="semibold"
             >
-              Verify Your Email to Get Started!
+              Forgot Your Password!
             </StyledText>
             <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
-              Enter your Email for verification
+              No worries! we just need you to type your email address and we will send the
+              verification code.
             </StyledText>
           </Box>
 
@@ -97,8 +98,7 @@ export const EmailVerificationForm = () => {
               Enter Verification Code
             </StyledText>
             <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
-              We’ve sent a verification code to “{email}”. Please enter the code below to complete
-              your registration.
+              We’ve sent a verification code to “{email}”. Please enter the code below.
             </StyledText>
           </Box>
 
@@ -108,6 +108,7 @@ export const EmailVerificationForm = () => {
                 count={6}
                 fieldProps={register("code")}
                 error={otpErrors.code?.message}
+                // store={pinInputStore!}
               />
 
               <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
