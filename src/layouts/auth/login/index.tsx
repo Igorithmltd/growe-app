@@ -71,10 +71,14 @@ const LoginLayout = () => {
 
             <HStack justify="flex-end">
               <Link
+                href="/forgot-password"
                 fontSize={{ base: "sm", md: "md", lg: "lg" }}
                 color="secondary"
                 _hover={{
                   textDecor: "none",
+                }}
+                _focus={{
+                  outline: "none",
                 }}
               >
                 Forgot Password?

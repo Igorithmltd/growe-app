@@ -16,8 +16,21 @@ export const loginSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
 });
 
+export const resetSchema = Yup.object().shape({
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+    .matches(/[0-9]/, "Password must contain at least one number")
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one symbol")
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Please confirm your password"),
+});
+
 export type VerifyFormValue = Yup.InferType<typeof verifySchema>;
 export type LoginFormValues = Yup.InferType<typeof loginSchema>;
+export type ResetFormValues = Yup.InferType<typeof resetSchema>;
 
 export interface SignupFormValues {
   firstName: string;
