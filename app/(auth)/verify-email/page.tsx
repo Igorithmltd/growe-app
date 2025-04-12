@@ -1,7 +1,7 @@
 import { EmailVerificationForm } from "@/src/layouts//auth/verify-email";
 import { Suspense } from "react";
-import { Spinner } from "@chakra-ui/react";
 import { Metadata } from "next";
+import { Loader } from "@/src/components";
 
 export const metadata: Metadata = {
   title: "Growe | Verify Email",
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const VerificationPage = () => {
   return (
-    <Suspense fallback={<Spinner color="primary" size="xl" />}>
+    <Suspense fallback={<Loader />}>
       <EmailVerificationForm />
     </Suspense>
   );
