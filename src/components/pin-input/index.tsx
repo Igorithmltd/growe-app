@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Field, Flex, PinInput, usePinInput } from "@chakra-ui/react";
+import { Field, Flex, PinInput, usePinInput } from "@chakra-ui/react";
 import { StyledText } from "@/src/components";
 import { UseFormRegisterReturn } from "react-hook-form";
 
