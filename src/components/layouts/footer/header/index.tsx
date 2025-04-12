@@ -7,7 +7,7 @@ const FooterHeader = () => {
   const router = useRouter();
 
   const navigateGetStarted = () => {
-    router.push("/onboarding");
+    router.push("/get-started");
   };
   return (
     <VStack spaceY={8} align="start" w={{ base: "unset", lg: "30%" }}>
