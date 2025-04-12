@@ -61,7 +61,7 @@ export const OnboardingLayout = () => {
 
   return (
     <VStack mt={{ base: 14, lg: "unset" }} spaceY={4} align="stretch" px={8}>
-      <StyledButton type="button" py={8} onClick={() => router.push("/get-started")}>
+      <StyledButton type="button" py={8} onClick={() => router.push("/verify-email")}>
         Get Started
       </StyledButton>
       <StyledButton

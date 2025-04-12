@@ -4,10 +4,10 @@ import image from "@/public/images/unite-image.webp";
 import { useRouter } from "next/navigation";
 
 const UniteSection = () => {
-const router = useRouter();
+  const router = useRouter();
 
   const navigateGetStarted = () => {
-    router.push("/onboarding");
+    router.push("/get-started");
   };
 
   return (

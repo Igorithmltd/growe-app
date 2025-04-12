@@ -30,7 +30,7 @@ const Header = () => {
   const router = useRouter();
 
   const navigateGetStarted = () => {
-    router.push("/onboarding");
+    router.push("/get-started");
   };
 
   useEffect(() => {
