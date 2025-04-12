@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, VStack } from "@chakra-ui/react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, StyledPinInput } from "@/src/components";
 import { otpSchema, VerifyFormValue, verifySchema } from "@/src/schema/auth.schema";
@@ -29,7 +29,6 @@ export const EmailVerificationForm = () => {
 
   // OTP form
   const {
-    control,
     register,
     handleSubmit: handleOtpSubmit,
     reset: resetOtpForm,
