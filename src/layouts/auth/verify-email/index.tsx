@@ -1,65 +1,123 @@
 "use client";
 
 import { Box, VStack } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { StyledField, StyledButton, StyledText } from "@/src/components";
-import { VerifyFormValue, verifySchema } from "@/src/schema/auth.schema";
+import { StyledField, StyledButton, StyledText, StyledPinInput } from "@/src/components";
+import { otpSchema, VerifyFormValue, verifySchema } from "@/src/schema/auth.schema";
+import { usePathname, useRouter } from "next/navigation";
+import { useQueryString } from "@/src/hooks/useQueryString";
+import { useQueryParams } from "@/src/hooks/useQueryParams";
 
 export const EmailVerificationForm = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const createQueryString = useQueryString();
+  const { getQueryParams } = useQueryParams();
+
+  const email = getQueryParams("email");
+
+  // Email form
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
+    register: emailRegister,
+    handleSubmit: handleEmailSubmit,
+    reset: resetEmailForm,
+    formState: { errors: emailErrors },
   } = useForm<VerifyFormValue>({
     resolver: yupResolver(verifySchema),
   });
 
-  const onSubmit = (data: { email: string }) => {
-    console.log("Verifying email:", data);
-    reset();
+  // OTP form
+  const {
+    control,
+    register,
+    handleSubmit: handleOtpSubmit,
+    reset: resetOtpForm,
+    formState: { errors: otpErrors },
+  } = useForm<{ code: string }>({
+    resolver: yupResolver(otpSchema),
+  });
+
+  const onSubmitEmail = (data: { email: string }) => {
+    console.log("Submitting email:", data.email);
+    router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
+      scroll: false,
+    });
+    resetEmailForm();
+  };
+
+  const onSubmitOtp = (data: { code: string }) => {
+    console.log("Verifying OTP:", data.code);
+    resetOtpForm();
   };
 
   return (
     <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "120px" }}>
-      <VStack spaceY={6} align="stretch">
-        <Box>
-          <StyledText
-            fontSize={{ base: "16px", md: "21px", lg: "24px" }}
-            color="secondary"
-            fontWeight="semibold"
-          >
-            Verify Your Email to Get Started!
-          </StyledText>
-          <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
-            Enter your Email for verification
-          </StyledText>
-        </Box>
+      {!email ? (
+        <VStack spaceY={6} align="stretch">
+          <Box>
+            <StyledText
+              fontSize={{ base: "16px", md: "21px", lg: "24px" }}
+              color="secondary"
+              fontWeight="semibold"
+            >
+              Verify Your Email to Get Started!
+            </StyledText>
+            <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
+              Enter your Email for verification
+            </StyledText>
+          </Box>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spaceY={4} align="stretch">
-            <StyledField
-              label="Email"
-              labelColor="secondary"
-              placeholder="Enter your email"
-              type="text"
-              fieldProps={register("email")}
-              error={errors.email?.message}
-              py="20px"
-              bg="#F8F8F8"
-              border="2px solid #9BAB69"
-              _focus={{
-                outlineWidth: "2px",
-                border: "none",
-              }}
-            />
-            <StyledButton type="submit" w="full" mt={4}>
-              Submit
-            </StyledButton>
-          </VStack>
-        </form>
-      </VStack>
+          <form onSubmit={handleEmailSubmit(onSubmitEmail)}>
+            <VStack spaceY={4} align="stretch">
+              <StyledField
+                label="Email"
+                labelColor="secondary"
+                placeholder="Enter your email"
+                type="text"
+                fieldProps={emailRegister("email")}
+                error={emailErrors.email?.message}
+                py="20px"
+                bg="#F8F8F8"
+                border="2px solid #9BAB69"
+              />
+              <StyledButton type="submit" w="full" mt={4}>
+                Submit
+              </StyledButton>
+            </VStack>
+          </form>
+        </VStack>
+      ) : (
+        <VStack spaceY={6} align="stretch">
+          <Box>
+            <StyledText
+              fontSize={{ base: "16px", md: "21px", lg: "24px" }}
+              color="secondary"
+              fontWeight="semibold"
+            >
+              Enter Verification Code
+            </StyledText>
+            <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
+              We’ve sent a verification code to “{email}”. Please enter the code below to complete
+              your registration.
+            </StyledText>
+          </Box>
+
+          <form onSubmit={handleOtpSubmit(onSubmitOtp)}>
+            <VStack spaceY={4} align="stretch">
+              <StyledPinInput
+                count={6}
+                fieldProps={register("code")}
+                error={otpErrors.code?.message}
+              />
+
+              <StyledButton type="submit" w="full" mt={4}>
+                Verify
+              </StyledButton>
+            </VStack>
+          </form>
+        </VStack>
+      )}
     </Box>
   );
 };

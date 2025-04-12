@@ -4,6 +4,12 @@ import { phoneRegExp } from "../utils/helpers";
 export const verifySchema = Yup.object().shape({
   email: Yup.string().email("Please enter a valid email address").required("Email is required"),
 });
+export const otpSchema = Yup.object().shape({
+  code: Yup.string()
+    .required("OTP is required")
+    .matches(/^\d+$/, "OTP must be numeric")
+    .length(6, "OTP must be exactly 6 digits"),
+});
 
 export const loginSchema = Yup.object().shape({
   email: Yup.string().email("Please enter a valid email address").required("Email is required"),
