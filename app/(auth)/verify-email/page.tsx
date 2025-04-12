@@ -1,4 +1,6 @@
 import { EmailVerificationForm } from "@/src/layouts//auth/verify-email";
+import { Suspense } from "react";
+import { Spinner } from "@chakra-ui/react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,7 +8,11 @@ export const metadata: Metadata = {
 };
 
 const VerificationPage = () => {
-  return <EmailVerificationForm />;
+  return (
+    <Suspense fallback={<Spinner color="primary" size="xl" />}>
+      <EmailVerificationForm />
+    </Suspense>
+  );
 };
 
 export default VerificationPage;
