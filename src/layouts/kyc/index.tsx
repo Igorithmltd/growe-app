@@ -13,7 +13,7 @@ interface VerificationOptionProps {
 const VerificationOption = ({ title, subtitle, label }: VerificationOptionProps) => {
   return (
     <Box w="full" px={4} py={6} borderRadius="lg" bg="white" boxShadow="sm">
-      <Link href={`/kyc/${label.toLocaleUpperCase()}`} style={{ textDecoration: "none" }}>
+      <Link href={`/kyc/${label.toLowerCase()}`} style={{ textDecoration: "none" }}>
         <StyledText
           smVariant="p14-medium"
           mdVariant="p14-medium"
