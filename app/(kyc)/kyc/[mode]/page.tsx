@@ -6,11 +6,19 @@ export const metadata: Metadata = {
   title: "Growe | KYC",
 };
 
-const BVNPage = async ({ params }: { params: { mode: string } }) => {
+interface PageParams {
+  mode: string;
+}
+
+interface PageProps {
+  params: Promise<PageParams>; 
+}
+
+const VerificationPage = async ({ params }: PageProps) => {
   const { mode } = await params;
   const isBvn = mode === "bvn";
 
   return isBvn ? <BVNLayout /> : <NINLayout />;
 };
 
-export default BVNPage;
+export default VerificationPage;
