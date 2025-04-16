@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledField, StyledButton, StyledText, StyledPinInput } from "@/src/components";
-import { BVNFormValues, bvnSchema } from "@/src/schema/kyc.schema";
+import { BVNFormValues, bvnSchema, NINFormValues, ninSchema } from "@/src/schema/kyc.schema";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
 import { otpSchema } from "@/src/schema/auth.schema";
 import { useState } from "react";
 
-const BVNLayout = () => {
+const NINLayout = () => {
   const router = useRouter();
   const pathname = usePathname();
   const createQueryString = useQueryString();
@@ -20,15 +20,15 @@ const BVNLayout = () => {
 
   const [phone, setPhone] = useState<string>("");
 
-  const bvn = getQueryParams("verify");
+  const nin = getQueryParams("verify");
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<BVNFormValues>({
-    resolver: yupResolver(bvnSchema),
+  } = useForm<NINFormValues>({
+    resolver: yupResolver(ninSchema),
   });
 
   const {
@@ -40,10 +40,10 @@ const BVNLayout = () => {
     resolver: yupResolver(otpSchema),
   });
 
-  const onSubmit = (data: BVNFormValues) => {
+  const onSubmit = (data: NINFormValues) => {
     console.log("Submitting email:", data);
     setPhone(data.phone);
-    router.replace(pathname + "?" + createQueryString("verify", String(data.bvn)), {
+    router.replace(pathname + "?" + createQueryString("verify", String(data.nin)), {
       scroll: false,
     });
     reset();
@@ -65,8 +65,8 @@ const BVNLayout = () => {
   };
 
   return (
-    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: bvn ? "120px" : "unset" }}>
-      {!bvn ? (
+    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: nin ? "120px" : "unset" }}>
+      {!nin ? (
         <VStack align="stretch" spaceY={6}>
           <Box>
             <StyledText
@@ -74,27 +74,27 @@ const BVNLayout = () => {
               fontWeight="semibold"
               color="secondary"
             >
-              BVN Verification
+              NIN Verification
             </StyledText>
             <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={2}>
-              Enter your BVN details for quick verification
+              Enter your NIN details for quick verification
             </StyledText>
           </Box>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spaceY={4} align="stretch">
               <StyledField
-                label="Bank Verification Number"
-                placeholder="Enter 11-digits BVN"
+                label="National Identification Number"
+                placeholder="Enter 11-digits NIN"
                 labelColor="secondary"
                 type="text"
-                fieldProps={register("bvn")}
-                error={errors?.bvn?.message}
+                fieldProps={register("nin")}
+                error={errors?.nin?.message}
                 {...commonProps}
               />
 
               <StyledField
-                label="Phone Number linked to BVN"
+                label="Phone Number linked to NIN"
                 placeholder="eg. 08163149876"
                 labelColor="secondary"
                 fieldProps={register("phone")}
@@ -113,11 +113,7 @@ const BVNLayout = () => {
                 variant="p14-regular"
                 color="secondary"
               >
-                Don't know your BVN? Dial{" "}
-                <Text as="span" fontWeight="bold">
-                  *565*0#
-                </Text>{" "}
-                on your registered phone number
+                Don't have your NIN? Visit the nearest NIMC enrollment center
               </StyledText>
 
               <StyledButton type="submit" w="full" mt={2}>
@@ -127,9 +123,9 @@ const BVNLayout = () => {
           </form>
 
           <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
-            Use NIN instead? Click{" "}
+            Use BVN instead? Click{" "}
             <Link
-              href="/kyc/nin"
+              href="/kyc/bvn"
               fontWeight="semibold"
               color="secondary"
               _hover={{
@@ -151,7 +147,7 @@ const BVNLayout = () => {
               color="secondary"
               fontWeight="semibold"
             >
-              BVN Verification
+              NIN Verification
             </StyledText>
             <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
               We’ve sent a verification code to “{phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2")}
@@ -186,4 +182,4 @@ const BVNLayout = () => {
   );
 };
 
-export default BVNLayout;
+export default NINLayout;
