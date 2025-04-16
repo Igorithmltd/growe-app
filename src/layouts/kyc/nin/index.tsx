@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledField, StyledButton, StyledText, StyledPinInput } from "@/src/components";
-import { BVNFormValues, bvnSchema, NINFormValues, ninSchema } from "@/src/schema/kyc.schema";
+import { NINFormValues, ninSchema } from "@/src/schema/kyc.schema";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";

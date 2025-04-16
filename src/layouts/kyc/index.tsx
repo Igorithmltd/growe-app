@@ -1,7 +1,6 @@
 import { StyledText } from "@/src/components";
 import { Box, VStack, Text, HStack } from "@chakra-ui/react";
 import Link from "next/link";
-import { CiLock } from "react-icons/ci";
 import { MdOutlineLock } from "react-icons/md";
 
 interface VerificationOptionProps {
