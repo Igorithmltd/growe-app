@@ -3,14 +3,13 @@
 import { Box, VStack, Link, Text } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-//
 import { StyledField, StyledButton, StyledText, StyledPinInput } from "@/src/components";
 import { BVNFormValues, bvnSchema } from "@/src/schema/kyc.schema";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
 import { otpSchema } from "@/src/schema/auth.schema";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const BVNLayout = () => {
   const router = useRouter();
@@ -19,6 +18,13 @@ const BVNLayout = () => {
   const { getQueryParams } = useQueryParams();
 
   const [phone, setPhone] = useState<string>("");
+
+  useEffect(() => {
+    const storedPhone = sessionStorage.getItem("phone");
+    if (storedPhone) {
+      setPhone(storedPhone);
+    }
+  }, []);
 
   const bvn = getQueryParams("verify");
 
@@ -42,6 +48,7 @@ const BVNLayout = () => {
 
   const onSubmit = (data: BVNFormValues) => {
     console.log("Submitting email:", data);
+    sessionStorage.setItem("phone", data.phone);
     setPhone(data.phone);
     router.replace(pathname + "?" + createQueryString("verify", String(data.bvn)), {
       scroll: false,
@@ -154,8 +161,7 @@ const BVNLayout = () => {
               BVN Verification
             </StyledText>
             <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
-              We’ve sent a verification code to “{phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2")}
-              ”.
+              We've sent a verification code to "{phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2")}"
             </StyledText>
           </Box>
 
@@ -168,7 +174,7 @@ const BVNLayout = () => {
               />
 
               <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
-                Didn’t receive the code?{" "}
+                Didn't receive the code?{" "}
                 <Text as="span" fontWeight="semibold" color="secondary">
                   Resend
                 </Text>{" "}

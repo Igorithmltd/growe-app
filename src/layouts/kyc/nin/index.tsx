@@ -10,7 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
 import { otpSchema } from "@/src/schema/auth.schema";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const NINLayout = () => {
   const router = useRouter();
@@ -19,6 +19,13 @@ const NINLayout = () => {
   const { getQueryParams } = useQueryParams();
 
   const [phone, setPhone] = useState<string>("");
+
+  useEffect(() => {
+    const storedPhone = sessionStorage.getItem("phone");
+    if (storedPhone) {
+      setPhone(storedPhone);
+    }
+  }, []);
 
   const nin = getQueryParams("verify");
 
@@ -42,6 +49,7 @@ const NINLayout = () => {
 
   const onSubmit = (data: NINFormValues) => {
     console.log("Submitting email:", data);
+    sessionStorage.setItem("phone", data.phone);
     setPhone(data.phone);
     router.replace(pathname + "?" + createQueryString("verify", String(data.nin)), {
       scroll: false,
