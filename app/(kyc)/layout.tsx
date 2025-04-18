@@ -5,8 +5,9 @@ import { BackIcon } from "@/public/svgs";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import KycCarousel from "@/src/layouts/kyc/carousel";
 import { StyledText } from "@/src/components";
+import { Suspense } from "react";
 
-export default function KycLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+function KycLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -54,5 +55,13 @@ export default function KycLayout({ children }: Readonly<{ children: React.React
         {children}
       </Box>
     </Stack>
+  );
+}
+
+export default function KycLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <Suspense>
+      <KycLayoutContent>{children}</KycLayoutContent>
+    </Suspense>
   );
 }
