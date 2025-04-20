@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { slides } from "./items";
 import { StyledButton } from "@/src/components";
 import { useRouter } from "next/navigation";
+import { ROUTES } from "@/src/utils/constants";
 
 const OnboardingCarousel = () => {
   const sliderRef = useRef<Slider>(null);
@@ -61,7 +62,7 @@ export const OnboardingLayout = () => {
 
   return (
     <VStack mt={{ base: 14, lg: "unset" }} spaceY={4} align="stretch" px={8}>
-      <StyledButton type="button" py={8} onClick={() => router.push("/verify-email")}>
+      <StyledButton type="button" py={8} onClick={() => router.push(ROUTES.AUTH.VERIFY_EMAIL)}>
         Get Started
       </StyledButton>
       <StyledButton
@@ -69,7 +70,7 @@ export const OnboardingLayout = () => {
         color="primary"
         bgColor="#E1E5D4"
         py={8}
-        onClick={() => router.push("/login")}
+        onClick={() => router.push(ROUTES.AUTH.LOGIN)}
       >
         Login
       </StyledButton>
