@@ -78,6 +78,6 @@ export const ROUTES = {
     NIN: "/kyc/nin",
   },
   ONBOARDING: {
-    GET_STARTED: "/onboarding/get-started",
+    GET_STARTED: "/get-started",
   },
 };
