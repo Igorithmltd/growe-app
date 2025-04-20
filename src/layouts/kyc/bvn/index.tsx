@@ -10,6 +10,7 @@ import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
 import { otpSchema } from "@/src/schema/auth.schema";
 import { useState, useEffect } from "react";
+import { ROUTES } from "@/src/utils/constants";
 
 const BVNLayout = () => {
   const router = useRouter();
@@ -136,7 +137,7 @@ const BVNLayout = () => {
           <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
             Use NIN instead? Click{" "}
             <Link
-              href="/kyc/nin"
+              href={ROUTES.KYC.NIN}
               fontWeight="semibold"
               color="secondary"
               _hover={{
