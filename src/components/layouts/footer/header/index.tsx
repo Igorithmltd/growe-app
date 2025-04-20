@@ -2,13 +2,15 @@ import { Box, Image, VStack } from "@chakra-ui/react";
 import logo from "@/public/images/logo.webp";
 import { StyledButton, StyledText } from "@/src/components";
 import { useRouter } from "next/navigation";
+import { ROUTES } from "@/src/utils/constants";
 
 const FooterHeader = () => {
   const router = useRouter();
 
   const navigateGetStarted = () => {
-    router.push("/get-started");
+    router.push(ROUTES.ONBOARDING.GET_STARTED);
   };
+
   return (
     <VStack spaceY={8} align="start" w={{ base: "unset", lg: "30%" }}>
       <Box>

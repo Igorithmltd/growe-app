@@ -108,7 +108,6 @@ export const ForgotPasswordForm = () => {
                 count={6}
                 fieldProps={register("code")}
                 error={otpErrors.code?.message}
-                // store={pinInputStore!}
               />
 
               <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>

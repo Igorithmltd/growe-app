@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { LoginFormValues, loginSchema } from "@/src/schema/auth.schema";
+import { ROUTES } from "@/src/utils/constants";
 
 const LoginLayout = () => {
   const {
@@ -71,7 +72,7 @@ const LoginLayout = () => {
 
             <HStack justify="flex-end">
               <Link
-                href="/forgot-password"
+                href={ROUTES.AUTH.FORGOT_PASSWORD}
                 fontSize={{ base: "sm", md: "md", lg: "lg" }}
                 color="secondary"
                 _hover={{
@@ -94,7 +95,7 @@ const LoginLayout = () => {
         <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
           New to Growe?{" "}
           <Link
-            href="/sign-up"
+            href={ROUTES.AUTH.SIGN_UP}
             fontWeight="semibold"
             color="secondary"
             _hover={{

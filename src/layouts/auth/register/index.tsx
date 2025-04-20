@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { SignupFormValues, signupSchema } from "@/src/schema/auth.schema";
+import { ROUTES } from "@/src/utils/constants";
 
 const SignupLayout = () => {
   const {
@@ -123,14 +124,14 @@ const SignupLayout = () => {
             <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
               Have an account?{" "}
               <Link
-                href="/login"
+                href={ROUTES.AUTH.LOGIN}
                 fontWeight="semibold"
                 color="secondary"
                 _hover={{
                   textDecor: "none",
                 }}
                 _focus={{
-                    outline: "none"
+                  outline: "none",
                 }}
               >
                 Sign in

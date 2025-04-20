@@ -11,6 +11,7 @@ import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
 import { otpSchema } from "@/src/schema/auth.schema";
 import { useEffect, useState } from "react";
+import { ROUTES } from "@/src/utils/constants";
 
 const NINLayout = () => {
   const router = useRouter();
@@ -133,7 +134,7 @@ const NINLayout = () => {
           <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
             Use BVN instead? Click{" "}
             <Link
-              href="/kyc/bvn"
+              href={ROUTES.KYC.BVN}
               fontWeight="semibold"
               color="secondary"
               _hover={{
