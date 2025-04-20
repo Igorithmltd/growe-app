@@ -16,7 +16,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { StyledText, StyledButton } from "@/src/components";
 import logo from "@/public/images/logo.webp";
-import { navLinks } from "@/src/utils/constants";
+import { navLinks, ROUTES } from "@/src/utils/constants";
 import { Close, Hamburger } from "@/public/svgs";
 import { useSectionStore } from "@/src/stores/active-section";
 import { handleNavigationClick } from "@/src/utils/helpers";
@@ -30,7 +30,7 @@ const Header = () => {
   const router = useRouter();
 
   const navigateGetStarted = () => {
-    router.push("/get-started");
+    router.push(ROUTES.ONBOARDING.GET_STARTED);
   };
 
   useEffect(() => {
@@ -109,7 +109,7 @@ const Header = () => {
             href="/"
             onClick={handleLinkClick("/")}
             w={{ base: "100px", lg: "auto" }}
-            flexShrink={0} // Prevent logo from shrinking
+            flexShrink={0}
           >
             <Image src={logo.src} alt="Grove logo" w="full" />
           </ChakraLink>
@@ -123,7 +123,7 @@ const Header = () => {
             border="1px solid"
             borderColor="border"
             borderRadius="10px"
-            flexShrink={0} // Prevent nav from shrinking
+            flexShrink={0}
           >
             {navLinks.map((link) => (
               <ChakraLink
