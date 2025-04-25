@@ -14,6 +14,7 @@ import StarIcon from "./star.svg";
 import PlayStore from "./playstore.svg";
 import AppStore from "./appstore.svg";
 import Rocket from "./rocket.svg";
+import BackIcon from "./back-arrow.svg";
 
 export {
   Hamburger,
@@ -30,4 +31,5 @@ export {
   PlayStore,
   AppStore,
   Rocket,
+  BackIcon,
 };

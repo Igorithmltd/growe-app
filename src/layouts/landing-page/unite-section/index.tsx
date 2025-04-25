@@ -2,12 +2,13 @@ import { StyledButton, StyledText } from "@/src/components";
 import { Box, Image, Spacer, Stack, VStack } from "@chakra-ui/react";
 import image from "@/public/images/unite-image.webp";
 import { useRouter } from "next/navigation";
+import { ROUTES } from "@/src/utils/constants";
 
 const UniteSection = () => {
-const router = useRouter();
+  const router = useRouter();
 
   const navigateGetStarted = () => {
-    router.push("/onboarding");
+    router.push(ROUTES.ONBOARDING.GET_STARTED);
   };
 
   return (

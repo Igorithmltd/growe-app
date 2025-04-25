@@ -63,3 +63,21 @@ export const socialLinks = [
     icon: MediumIcon,
   },
 ];
+
+export const ROUTES = {
+  AUTH: {
+    LOGIN: "/login",
+    SIGN_UP: "/sign-up",
+    RESET_PASSWORD: "/reset-password",
+    FORGOT_PASSWORD: "/forgot-password",
+    VERIFY_EMAIL: "/verify-email",
+  },
+  KYC: {
+    ROOT: "/kyc",
+    BVN: "/kyc/bvn",
+    NIN: "/kyc/nin",
+  },
+  ONBOARDING: {
+    GET_STARTED: "/get-started",
+  },
+};
