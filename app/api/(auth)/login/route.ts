@@ -1,12 +1,56 @@
+/**
+ * @swagger
+ * /api/login:
+ *   post:
+ *     summary: Login
+ *     tags:
+ *       - Auth
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: user@example.com
+ *               password:
+ *                 type: string
+ *                 format: string
+ *                 example: Passcode134
+ *     responses:
+ *       200:
+ *         description: Login successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Login successfully
+ *       400:
+ *         description: Missing or invalid email or Password
+ *       500:
+ *         description: Server error
+ */
+
+
+
+
 import BaseService from "@/app/backend/services/baseService";
 import { connectToDatabase } from "@/lib/mongoose";
 import validateData from "@/lib/validate";
 import User from "@/models/user";
-import { NextResponse } from "next/server";
-import cookie from 'cookie';
+import { NextRequest, NextResponse } from "next/server";
+import * as cookie from 'cookie'; // ✅ this works
 
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   await connectToDatabase();
   try {
     const post = await request.json();
@@ -46,7 +90,6 @@ export async function POST(request: Request) {
           path: '/',
         })
       );
-
 
     return BaseService.sendSuccessResponse(token);
   } catch (error) {

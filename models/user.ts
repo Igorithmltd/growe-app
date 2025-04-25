@@ -7,25 +7,35 @@ import jwt from "jsonwebtoken";
 export interface IUser extends Document {
   email: string;
   username: string;
+  fullname: string;
   password: string;
-  createdAt: Date;
-  updatedAt: Date;
+  phone_number: string;
+  referral_code: string;
+  otp: string;
+  otpExpiresAt: Date;
+  isVerified: boolean;
 }
 
 const UserSchema: Schema = new Schema(
   {
     email: { type: String, required: true, trim: true, unique: true },
-    username: { type: String, required: true },
-    password: { type: String, required: true },
+    username: { type: String, trim: true, unique: true },
+    fullname: { type: String, trim: true, unique: true },
+    phone_number: { type: String, trim: true, unique: true },
+    password: { type: String},
+    referral_code: { type: String},
+    otp: { type: String },
+    otpExpiresAt: { type: Date },
+    isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
 
 UserSchema.pre<IUser>("save", async function (next) {
+
   try {
     if (this.isModified("password")) {
       // const user = this as IUser;
-
       const hashPassword = await bcrypt.hash(this.password, 10);
       this.password = hashPassword;
     }
@@ -35,6 +45,8 @@ UserSchema.pre<IUser>("save", async function (next) {
     return next(typedError);
   }
 });
+
+
 
 UserSchema.methods.comparePassword = async function (password: string) {
   const user = this;
