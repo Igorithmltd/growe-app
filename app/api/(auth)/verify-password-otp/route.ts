@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       return BaseService.sendFailedResponse("OTP expired");
     }
 
-    userExists.otp = '';
+    userExists.otp = "";
     userExists.otpExpiresAt = null;
     await userExists.save();
 

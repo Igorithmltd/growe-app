@@ -25,7 +25,7 @@ const sendEmail = async ({
       });
       return false;
     }
-    transporter.sendMail({to, subject, html, from: 'groweapp@support.com'}, (err, info) => {
+    transporter.sendMail({to, subject, html, from: "groweapp@support.com"}, (err, info) => {
       if (err) {
         return console.log("Error sending mail:", err.message);
       }

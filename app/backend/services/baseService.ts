@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
-import {empty} from '../utils/data-check'
-import { ReturnDataType } from './types';
+import { NextResponse } from "next/server";
+import {empty} from "../utils/data-check";
+import { ReturnDataType } from "./types";
 
 class BaseService {
     static sendFailedResponse(data: any) {
@@ -15,8 +15,8 @@ class BaseService {
         if (!empty(data) || data === "0" || data === 0 || data === "") {
           returnData.data = data;
         }
-        return NextResponse.json(returnData)
+        return NextResponse.json(returnData);
       }
 }
 
-export default BaseService
+export default BaseService;

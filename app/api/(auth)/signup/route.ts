@@ -28,9 +28,9 @@ export async function POST(request: Request) {
         return BaseService.sendFailedResponse(validateResult.data);
       }
 
-      const userExists = await User.findOne({email})
+      const userExists = await User.findOne({email});
       if(!empty(userExists)){
-        return BaseService.sendFailedResponse('User already exists. Please log in')
+        return BaseService.sendFailedResponse("User already exists. Please log in");
       }
 
 

@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
     }
 
     userExists.isVerified = true;
-    userExists.otp = '';
+    userExists.otp = "";
     userExists.otpExpiresAt = null;
     await userExists.save();
 
