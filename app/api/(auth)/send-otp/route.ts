@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
       html: emailHtml,
     });
 
-    return BaseService.sendSuccessResponse('Email sent. Please verify your email');
+    return BaseService.sendSuccessResponse("Email sent. Please verify your email");
   } catch (error) {
     console.log(error, "the error");
     return NextResponse.json({ error }, { status: 500 });

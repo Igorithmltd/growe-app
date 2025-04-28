@@ -49,8 +49,8 @@ UserSchema.pre<IUser>("save", async function (next) {
 
 
 UserSchema.methods.comparePassword = async function (password: string) {
-  const user = this;
-  return await bcrypt.compare(password, user.password);
+  // const user = this;
+  return await bcrypt.compare(password, this.password);
 };
 UserSchema.methods.generateToken = async function (secret_token: string) {
   const token = jwt.sign(

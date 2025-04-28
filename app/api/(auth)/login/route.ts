@@ -47,7 +47,7 @@ import { connectToDatabase } from "@/lib/mongoose";
 import validateData from "@/lib/validate";
 import User from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
-import * as cookie from 'cookie'; // ✅ this works
+import * as cookie from "cookie"; // ✅ this works
 
 
 export async function POST(request: NextRequest) {
@@ -71,10 +71,10 @@ export async function POST(request: NextRequest) {
         return BaseService.sendFailedResponse(validateResult.data);
       }
 
-      const userExists = await User.findOne({email})
+      const userExists = await User.findOne({email});
 
       if (!(await userExists.comparePassword(password))) {
-        return BaseService.sendFailedResponse('Wrong email or password')
+        return BaseService.sendFailedResponse("Wrong email or password");
       }
       const token = await userExists.generateToken(
         process.env.TOKEN_SECRET || ""
@@ -82,12 +82,12 @@ export async function POST(request: NextRequest) {
 
       const headers = new Headers();
       headers.append(
-        'Set-Cookie',
-        cookie.serialize('growe_token', token, {
+        "Set-Cookie",
+        cookie.serialize("growe_token", token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === 'production',
+          secure: process.env.NODE_ENV === "production",
           maxAge: 3600 * 2, // let do 2 hour
-          path: '/',
+          path: "/",
         })
       );
 

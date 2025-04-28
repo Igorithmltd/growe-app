@@ -1,6 +1,6 @@
 // global.d.ts
 declare global {
-    var mongoose: {
+    const mongoose: {
       conn: any;
       promise: Promise<any> | null;
     };
