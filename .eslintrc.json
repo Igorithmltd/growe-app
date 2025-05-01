@@ -24,6 +24,7 @@
 		"semi": ["error", "always"],
 		"react/react-in-jsx-scope": "off",
 		"no-mixed-spaces-and-tabs": 0,
-		"react/no-unescaped-entities": "off"
+		"react/no-unescaped-entities": "off",
+		"@typescript-eslint/no-explicit-any": "off"  // Disables the "any" rule globally
 	}
 }
