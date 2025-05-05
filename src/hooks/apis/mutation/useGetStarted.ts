@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { handleError } from "@/src/utils/helpers";
 import { useFetcher } from "../../useFetcher";
-import { LoginFormValues, VerifyFormValue } from "@/src/schema/auth.schema";
+import { VerifyFormValue } from "@/src/schema/auth.schema";
 import useShowToast from "../../useShowToast";
 
 export const useGetStarted = () => {
