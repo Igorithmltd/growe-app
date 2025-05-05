@@ -1,0 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+type GlobalResponseData<T> = {
+  message: string;
+  success: boolean;
+  data: T;
+};
+type AuthResponseData = {
+  success: boolean;
+  message: string;
+};
+
+type ErrorResponseData = {
+  statusCode: number;
+  message: string;
+  error?: string;
+};
