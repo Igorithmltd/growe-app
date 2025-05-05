@@ -4,11 +4,13 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, StyledPinInput } from "@/src/components";
-import { otpSchema, VerifyFormValue, verifySchema } from "@/src/schema/auth.schema";
+import { OtpFormValues, otpSchema, VerifyFormValue, verifySchema } from "@/src/schema/auth.schema";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
 import { useGetStarted } from "@/src/hooks/apis/mutation/useGetStarted";
+import { useVerifyOtp } from "@/src/hooks/apis/mutation/useVerifyOtp";
+import { ROUTES } from "@/src/utils/constants";
 
 export const EmailVerificationForm = () => {
   const router = useRouter();
@@ -19,6 +21,7 @@ export const EmailVerificationForm = () => {
   const email = getQueryParams("email");
 
   const { mutate: getStarted, isPending } = useGetStarted();
+  const { mutate: verifyOtp, isPending: isLoading } = useVerifyOtp();
 
   // Email form
   const {
@@ -35,8 +38,8 @@ export const EmailVerificationForm = () => {
     register,
     handleSubmit: handleOtpSubmit,
     reset: resetOtpForm,
-    formState: { errors: otpErrors },
-  } = useForm<{ code: string }>({
+    formState: { errors: otpErrors, isSubmitting: isOtpSubmitting },
+  } = useForm<OtpFormValues>({
     resolver: yupResolver(otpSchema),
   });
 
@@ -51,9 +54,14 @@ export const EmailVerificationForm = () => {
     });
   };
 
-  const onSubmitOtp = (data: { code: string }) => {
-    console.log("Verifying OTP:", data.code);
-    resetOtpForm();
+  const onSubmitOtp = (data: OtpFormValues) => {
+    verifyOtp(data, {
+      onSuccess: () => {
+        resetEmailForm();
+        resetOtpForm();
+        router.push(ROUTES.AUTH.LOGIN);
+      },
+    });
   };
 
   return (
@@ -124,7 +132,7 @@ export const EmailVerificationForm = () => {
                 in 30 seconds.
               </StyledText>
 
-              <StyledButton type="submit" w="full" mt={4}>
+              <StyledButton type="submit" w="full" mt={4} loading={isOtpSubmitting || isLoading}>
                 Verify
               </StyledButton>
             </VStack>

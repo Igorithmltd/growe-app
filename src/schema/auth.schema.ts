@@ -31,6 +31,7 @@ export const resetSchema = Yup.object().shape({
 export type VerifyFormValue = Yup.InferType<typeof verifySchema>;
 export type LoginFormValues = Yup.InferType<typeof loginSchema>;
 export type ResetFormValues = Yup.InferType<typeof resetSchema>;
+export type OtpFormValues = Yup.InferType<typeof otpSchema>;
 
 export interface SignupFormValues {
   firstName: string;
