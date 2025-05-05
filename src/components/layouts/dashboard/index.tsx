@@ -63,6 +63,8 @@ export const MobileNavbar = () => {
 };
 
 export const DesktopSidebar = () => {
+  const pathname = usePathname();
+
   return (
     <Flex
       position="fixed"
@@ -73,13 +75,46 @@ export const DesktopSidebar = () => {
       bg="white"
       borderRight="1px solid #e2e8f0"
       flexDirection="column"
+      justifyContent="space-between"
+      py={6}
     >
-      {/* Sidebar header */}
-      <Box p={4} borderBottom="1px solid #e2e8f0">
-        <Box fontWeight="bold">Hello, John</Box>
-        <Box fontSize="sm" color="gray.500">
-          Welcome back
+      <Box>
+        {/* Sidebar header */}
+        <Box px={6} mb={8}>
+          <Box fontWeight="bold">Hello, John</Box>
+          <Box fontSize="sm" color="gray.500">
+            Welcome back
+          </Box>
         </Box>
+
+        {/* Navigation */}
+        <VStack align="start" spaceY={6} px={6}>
+          {navItems.map(({ label, icon: Icon, href }) => {
+            const isActive = pathname === href;
+
+            return (
+              <Link key={label} href={href} passHref>
+                <Flex
+                  align="center"
+                  gap={3}
+                  color={isActive ? "primary" : "#BFBFBF"}
+                  fontWeight={isActive ? "bold" : "normal"}
+                  cursor="pointer"
+                >
+                  <Icon size={20} />
+                  <StyledText fontSize="sm" color="inherit">
+                    {label}
+                  </StyledText>
+                </Flex>
+              </Link>
+            );
+          })}
+        </VStack>
+      </Box>
+
+      {/* Avatar placeholder at the bottom (optional) */}
+      <Box px={6} mt={10}>
+        <Box w="40px" h="40px" bg="gray.300" borderRadius="full" />
       </Box>
     </Flex>
   );
