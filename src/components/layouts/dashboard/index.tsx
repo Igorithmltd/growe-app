@@ -49,8 +49,13 @@ export const MobileNavbar = () => {
 
         return (
           <Link key={label} href={href}>
-            <VStack textAlign="center" color={isActive ? "primary" : "#BFBFBF"} cursor="pointer">
-              <Icon size={20} />
+            <VStack
+              textAlign="center"
+              color={isActive ? "primary" : "#BFBFBF"}
+              fontSize="20px"
+              cursor="pointer"
+            >
+              <Icon />
               <StyledText fontSize="sm" fontWeight="normal" color="inherit">
                 {label}
               </StyledText>
@@ -88,7 +93,7 @@ export const DesktopSidebar = () => {
         </Box>
 
         {/* Navigation */}
-        <VStack align="start" spaceY={6} px={6}>
+        <VStack align="start" spaceY={12} px={6}>
           {navItems.map(({ label, icon: Icon, href }) => {
             const isActive = pathname === href;
 
@@ -96,13 +101,15 @@ export const DesktopSidebar = () => {
               <Link key={label} href={href} passHref>
                 <Flex
                   align="center"
-                  gap={3}
-                  color={isActive ? "primary" : "#BFBFBF"}
+                  gap={4}
+                  color={isActive ? "primary" : "grey"}
                   fontWeight={isActive ? "bold" : "normal"}
                   cursor="pointer"
+                  _hover={{ color: "primary" }}
+                  fontSize="30px"
                 >
-                  <Icon size={20} />
-                  <StyledText fontSize="sm" color="inherit">
+                  <Icon />
+                  <StyledText fontSize="xl" fontWeight="semibold" color="inherit">
                     {label}
                   </StyledText>
                 </Flex>
