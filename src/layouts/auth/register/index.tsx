@@ -6,20 +6,30 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { SignupFormValues, signupSchema } from "@/src/schema/auth.schema";
 import { ROUTES } from "@/src/utils/constants";
+import { useRegister } from "@/src/hooks/apis/mutation/useRegister";
+import { useRouter } from "next/navigation";
 
 const SignupLayout = () => {
+  const router = useRouter();
+
+  const { mutate, isPending } = useRegister();
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: yupResolver(signupSchema),
   });
 
   const onSubmit = (data: SignupFormValues) => {
-    console.log("Signup data:", data);
-    reset();
+    mutate(data, {
+      onSuccess: () => {
+        reset();
+        router.push(ROUTES.KYC.ROOT);
+      },
+    });
   };
 
   const commonProps = {
@@ -117,7 +127,7 @@ const SignupLayout = () => {
               {...commonProps}
             />
 
-            <StyledButton type="submit" w="full" mt={2}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
               Create Account
             </StyledButton>
 
