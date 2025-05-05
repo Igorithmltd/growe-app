@@ -1,3 +1,5 @@
+import { deleteCookie } from "cookies-next";
+
 export const handleNavigationClick =
   (
     href: string,
@@ -55,3 +57,14 @@ export const handleNavigationClick =
   export const phoneRegExp =
 	/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
+
+  export const signOutUser = async (redirectLogin = true) => {
+    "use client";
+  
+    // Delete the cookies
+    deleteCookie("x-token");
+    deleteCookie("refresh-token");
+    if (redirectLogin) {
+      window.location.href = "/login";
+    }
+  };

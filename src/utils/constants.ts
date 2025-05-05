@@ -81,3 +81,5 @@ export const ROUTES = {
     GET_STARTED: "/get-started",
   },
 };
+
+export const BASE_URL = process.env.NEXT_PUBLIC_REST_API as string;
