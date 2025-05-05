@@ -80,6 +80,13 @@ export const ROUTES = {
   ONBOARDING: {
     GET_STARTED: "/get-started",
   },
+  DASHBOARD: {
+    HOME: "/home",
+    SAVINGS: "/savings",
+    INVEST: "/invest",
+    CHAT: "/chat",
+    ME: "/me",
+  },
 };
 
 export const BASE_URL = process.env.NEXT_PUBLIC_REST_API as string;
