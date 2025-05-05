@@ -8,6 +8,7 @@ import { otpSchema, VerifyFormValue, verifySchema } from "@/src/schema/auth.sche
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
+import { useGetStarted } from "@/src/hooks/apis/mutation/useGetStarted";
 
 export const EmailVerificationForm = () => {
   const router = useRouter();
@@ -17,12 +18,14 @@ export const EmailVerificationForm = () => {
 
   const email = getQueryParams("email");
 
+  const { mutate: getStarted, isPending } = useGetStarted();
+
   // Email form
   const {
     register: emailRegister,
     handleSubmit: handleEmailSubmit,
     reset: resetEmailForm,
-    formState: { errors: emailErrors },
+    formState: { errors: emailErrors, isSubmitting: isEmailSubmitting },
   } = useForm<VerifyFormValue>({
     resolver: yupResolver(verifySchema),
   });
@@ -37,12 +40,15 @@ export const EmailVerificationForm = () => {
     resolver: yupResolver(otpSchema),
   });
 
-  const onSubmitEmail = (data: { email: string }) => {
-    console.log("Submitting email:", data.email);
-    router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
-      scroll: false,
+  const onSubmitEmail = (data: VerifyFormValue) => {
+    getStarted(data, {
+      onSuccess: () => {
+        resetEmailForm();
+        router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
+          scroll: false,
+        });
+      },
     });
-    resetEmailForm();
   };
 
   const onSubmitOtp = (data: { code: string }) => {
@@ -80,7 +86,7 @@ export const EmailVerificationForm = () => {
                 bg="#F8F8F8"
                 border="2px solid #9BAB69"
               />
-              <StyledButton type="submit" w="full" mt={4}>
+              <StyledButton type="submit" w="full" mt={4} loading={isEmailSubmitting || isPending}>
                 Submit
               </StyledButton>
             </VStack>
