@@ -7,12 +7,12 @@ import { useFetcher } from "../../useFetcher";
 import { VerifyFormValue } from "@/src/schema/auth.schema";
 import useShowToast from "../../useShowToast";
 
-export const useGetStarted = () => {
+export const useVerifyEmail = () => {
   const showToast = useShowToast();
 
-  const getStarted = async (data: VerifyFormValue): Promise<AuthResponseData> => {
+  const verifyEmail = async (data: VerifyFormValue): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/verify",
+      url: "/auth/verify-email",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
@@ -24,7 +24,7 @@ export const useGetStarted = () => {
   };
 
   return useMutation<AuthResponseData, AxiosError<ErrorResponseData>, VerifyFormValue>({
-    mutationFn: getStarted,
+    mutationFn: verifyEmail,
     onError: (error) => {
       if (error.response) {
         const errorData = error.response.data;

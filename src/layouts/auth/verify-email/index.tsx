@@ -8,7 +8,7 @@ import { OtpFormValues, otpSchema, VerifyFormValue, verifySchema } from "@/src/s
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
-import { useGetStarted } from "@/src/hooks/apis/mutation/useGetStarted";
+import { useVerifyEmail } from "@/src/hooks/apis/mutation/useVerifyEmail";
 import { useVerifyOtp } from "@/src/hooks/apis/mutation/useVerifyOtp";
 import { ROUTES } from "@/src/utils/constants";
 
@@ -20,7 +20,7 @@ export const EmailVerificationForm = () => {
 
   const email = getQueryParams("email");
 
-  const { mutate: getStarted, isPending } = useGetStarted();
+  const { mutate: getStarted, isPending } = useVerifyEmail();
   const { mutate: verifyOtp, isPending: isLoading } = useVerifyOtp();
 
   // Email form
