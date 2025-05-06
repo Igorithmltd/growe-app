@@ -59,7 +59,7 @@ export const EmailVerificationForm = () => {
       onSuccess: () => {
         resetEmailForm();
         resetOtpForm();
-        router.push(ROUTES.AUTH.LOGIN);
+        router.push(ROUTES.AUTH.SIGN_UP);
       },
     });
   };

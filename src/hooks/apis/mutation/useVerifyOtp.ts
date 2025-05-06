@@ -12,7 +12,7 @@ export const useVerifyOtp = () => {
 
   const verifyOtp = async (data: OtpFormValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/verify",
+      url: "/auth/verify-otp",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
