@@ -6,20 +6,26 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { ResetFormValues, resetSchema } from "@/src/schema/auth.schema";
+import { useResetPassword } from "@/src/hooks/apis/mutation/useResetPassword";
 
 const ResetPasswordForm = () => {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ResetFormValues>({
     resolver: yupResolver(resetSchema),
   });
 
+  const { mutate: resetPassword, isPending } = useResetPassword();
+
   const onSubmit = (data: ResetFormValues) => {
-    console.log("Reset data:", data);
-    reset();
+    resetPassword(data, {
+      onSuccess: () => {
+        reset();
+      },
+    });
   };
 
   const commonProps = {
@@ -68,7 +74,7 @@ const ResetPasswordForm = () => {
               {...commonProps}
             />
 
-            <StyledButton type="submit" w="full" mt={2}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
               Submit
             </StyledButton>
           </VStack>
