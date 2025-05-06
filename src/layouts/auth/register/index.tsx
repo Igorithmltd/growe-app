@@ -42,6 +42,7 @@ const SignupLayout = () => {
       onSuccess: () => {
         reset();
         router.push(ROUTES.KYC.ROOT);
+        localStorage.removeItem("email");
       },
     });
   };

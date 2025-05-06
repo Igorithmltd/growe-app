@@ -7,12 +7,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { ResetFormValues, resetSchema } from "@/src/schema/auth.schema";
 import { useResetPassword } from "@/src/hooks/apis/mutation/useResetPassword";
+import { useEffect } from "react";
+import { ROUTES } from "@/src/utils/constants";
+import { useRouter } from "next/navigation";
 
 const ResetPasswordForm = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ResetFormValues>({
     resolver: yupResolver(resetSchema),
@@ -20,10 +26,24 @@ const ResetPasswordForm = () => {
 
   const { mutate: resetPassword, isPending } = useResetPassword();
 
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setValue("email", storedEmail);
+    }
+  }, [setValue]);
+
   const onSubmit = (data: ResetFormValues) => {
+    if (!data.email) {
+      router.push(ROUTES.AUTH.FORGOT_PASSWORD);
+      return;
+    }
+
     resetPassword(data, {
       onSuccess: () => {
         reset();
+        router.push(ROUTES.AUTH.LOGIN);
+        localStorage.removeItem("email");
       },
     });
   };

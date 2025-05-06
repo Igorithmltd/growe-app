@@ -57,6 +57,7 @@ export const ForgotPasswordForm = () => {
       { otp: data.code, email: email as string },
       {
         onSuccess: () => {
+          localStorage.setItem("email", email as string);
           resetEmailForm();
           resetOtpForm();
           router.push(ROUTES.AUTH.RESET_PASSWORD);
