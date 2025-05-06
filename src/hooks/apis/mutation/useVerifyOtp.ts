@@ -4,7 +4,6 @@ import { useMutation } from "@tanstack/react-query";
 
 import { handleError } from "@/src/utils/helpers";
 import { useFetcher } from "../../useFetcher";
-import { OtpFormValues } from "@/src/schema/auth.schema";
 import useShowToast from "../../useShowToast";
 
 export const useVerifyOtp = () => {
