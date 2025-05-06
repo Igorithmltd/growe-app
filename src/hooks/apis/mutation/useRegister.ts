@@ -12,7 +12,7 @@ export const useRegister = () => {
 
   const register = async (data: SignupFormValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/register",
+      url: "/auth/register",
       requestType: "POST",
       body: data,
       useBaseUrl: true,

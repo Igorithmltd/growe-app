@@ -8,6 +8,7 @@ import { SignupFormValues, signupSchema } from "@/src/schema/auth.schema";
 import { ROUTES } from "@/src/utils/constants";
 import { useRegister } from "@/src/hooks/apis/mutation/useRegister";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const SignupLayout = () => {
   const router = useRouter();
@@ -18,12 +19,25 @@ const SignupLayout = () => {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: yupResolver(signupSchema),
   });
 
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setValue("email", storedEmail);
+    }
+  }, [setValue]);
+
   const onSubmit = (data: SignupFormValues) => {
+    if (!data.email) {
+      router.push(ROUTES.AUTH.VERIFY_EMAIL);
+      return;
+    }
+
     mutate(data, {
       onSuccess: () => {
         reset();
@@ -125,6 +139,12 @@ const SignupLayout = () => {
               fieldProps={register("referralCode")}
               error={errors?.referralCode?.message}
               {...commonProps}
+            />
+            <StyledField
+              hidden
+              placeholder="Enter Referral Code (optional)"
+              type="text"
+              fieldProps={register("email")}
             />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>

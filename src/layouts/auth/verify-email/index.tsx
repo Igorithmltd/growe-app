@@ -46,10 +46,10 @@ export const EmailVerificationForm = () => {
   const onSubmitEmail = (data: VerifyFormValue) => {
     getStarted(data, {
       onSuccess: () => {
-        resetEmailForm();
         router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
           scroll: false,
         });
+        resetEmailForm();
       },
     });
   };

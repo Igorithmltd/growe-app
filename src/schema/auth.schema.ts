@@ -34,6 +34,7 @@ export type ResetFormValues = Yup.InferType<typeof resetSchema>;
 export type OtpFormValues = Yup.InferType<typeof otpSchema>;
 
 export interface SignupFormValues {
+  email?: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -64,4 +65,5 @@ export const signupSchema: Yup.ObjectSchema<SignupFormValues> = Yup.object().sha
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Please confirm your password"),
   referralCode: Yup.string().optional(),
+  email: Yup.string().optional(),
 });
