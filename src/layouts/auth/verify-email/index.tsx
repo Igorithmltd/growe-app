@@ -55,13 +55,17 @@ export const EmailVerificationForm = () => {
   };
 
   const onSubmitOtp = (data: OtpFormValues) => {
-    verifyOtp(data, {
-      onSuccess: () => {
-        resetEmailForm();
-        resetOtpForm();
-        router.push(ROUTES.AUTH.SIGN_UP);
-      },
-    });
+    verifyOtp(
+      { otp: data.code, email: email as string },
+      {
+        onSuccess: () => {
+          localStorage.setItem("email", email as string);
+          resetEmailForm();
+          resetOtpForm();
+          router.push(ROUTES.AUTH.SIGN_UP);
+        },
+      }
+    );
   };
 
   return (

@@ -10,7 +10,7 @@ import useShowToast from "../../useShowToast";
 export const useVerifyOtp = () => {
   const showToast = useShowToast();
 
-  const verifyOtp = async (data: OtpFormValues): Promise<AuthResponseData> => {
+  const verifyOtp = async (data: { email: string; otp: string }): Promise<AuthResponseData> => {
     const response = await useFetcher({
       url: "/auth/verify-otp",
       requestType: "POST",
@@ -23,7 +23,11 @@ export const useVerifyOtp = () => {
     return response.data;
   };
 
-  return useMutation<AuthResponseData, AxiosError<ErrorResponseData>, OtpFormValues>({
+  return useMutation<
+    AuthResponseData,
+    AxiosError<ErrorResponseData>,
+    { email: string; otp: string }
+  >({
     mutationFn: verifyOtp,
     onError: (error) => {
       if (error.response) {
