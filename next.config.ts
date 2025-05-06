@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
 
   webpack(config, { isServer }) {
-    // ➡️ 1. Forcefully suppress the warning (most reliable method)
     config.ignoreWarnings = [
       {
         module: /cache/,
@@ -13,18 +12,16 @@ const nextConfig: NextConfig = {
       },
     ];
 
-    // ➡️ 2. Disable infrastructure logs (optional)
     config.infrastructureLogging = {
       level: "none",
     };
 
-    // ➡️ 3. Your existing SVG loader setup
     const fileLoaderRule = config.module.rules.find((rule: any) => rule.test?.test?.(".svg"));
     config.module.rules.push(
       {
         ...fileLoaderRule,
         test: /\.svg$/i,
-        resourceQuery: /url/, // *.svg?url
+        resourceQuery: /url/,
       },
       {
         test: /\.svg$/i,
@@ -39,6 +36,7 @@ const nextConfig: NextConfig = {
   },
 
   images: {
+    unoptimized: true, // ✅ Disable sharp usage
     remotePatterns: [
       {
         protocol: "https",
