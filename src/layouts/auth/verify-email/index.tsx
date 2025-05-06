@@ -11,6 +11,8 @@ import { useQueryParams } from "@/src/hooks/useQueryParams";
 import { useVerifyEmail } from "@/src/hooks/apis/mutation/useVerifyEmail";
 import { useVerifyOtp } from "@/src/hooks/apis/mutation/useVerifyOtp";
 import { ROUTES } from "@/src/utils/constants";
+import { useState, useEffect } from "react";
+import { useSendOtp } from "@/src/hooks/apis/mutation/useSendOtp";
 
 export const EmailVerificationForm = () => {
   const router = useRouter();
@@ -22,6 +24,21 @@ export const EmailVerificationForm = () => {
 
   const { mutate: getStarted, isPending } = useVerifyEmail();
   const { mutate: verifyOtp, isPending: isLoading } = useVerifyOtp();
+  const { mutate: resendOtp, isPending: isResending } = useSendOtp();
+
+  // Initial resend interval
+  const [resendInterval, setResendInterval] = useState(30);
+  const [countdown, setCountdown] = useState(resendInterval);
+  const [canResend, setCanResend] = useState(false);
+
+  useEffect(() => {
+    if (!canResend && countdown > 0) {
+      const timer = setTimeout(() => setCountdown((prev) => prev - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (countdown === 0 && !canResend) {
+      setCanResend(true);
+    }
+  }, [countdown, canResend]);
 
   // Email form
   const {
@@ -50,6 +67,8 @@ export const EmailVerificationForm = () => {
           scroll: false,
         });
         resetEmailForm();
+        setCountdown(30);
+        setCanResend(false);
       },
     });
   };
@@ -63,6 +82,24 @@ export const EmailVerificationForm = () => {
           resetEmailForm();
           resetOtpForm();
           router.push(ROUTES.AUTH.SIGN_UP);
+        },
+      }
+    );
+  };
+
+  const handleResendOtp = () => {
+    if (!email || !canResend) return;
+
+    resendOtp(
+      { email },
+      {
+        onSuccess: () => {
+          setCountdown(resendInterval * 2);
+          setResendInterval(resendInterval * 2);
+          setCanResend(false);
+        },
+        onError: (error) => {
+          console.error("Failed to resend OTP:", error);
         },
       }
     );
@@ -115,7 +152,7 @@ export const EmailVerificationForm = () => {
               Enter Verification Code
             </StyledText>
             <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
-              We’ve sent a verification code to “{email}”. Please enter the code below to complete
+              We've sent a verification code to "{email}". Please enter the code below to complete
               your registration.
             </StyledText>
           </Box>
@@ -129,11 +166,25 @@ export const EmailVerificationForm = () => {
               />
 
               <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
-                Didn’t receive the code?{" "}
-                <Text as="span" fontWeight="semibold" color="secondary">
-                  Resend
-                </Text>{" "}
-                in 30 seconds.
+                Didn't receive the code?{" "}
+                {canResend ? (
+                  <Text
+                    as="span"
+                    fontWeight="semibold"
+                    color="secondary"
+                    cursor="pointer"
+                    onClick={!isResending ? handleResendOtp : undefined}
+                  >
+                    {isResending ? "Sending..." : "Resend"}
+                  </Text>
+                ) : (
+                  <Text as="span" fontWeight="semibold" color="secondary">
+                    Resend in{" "}
+                    {countdown >= 60
+                      ? `${Math.floor(countdown / 60)}m ${countdown % 60}s`
+                      : `${countdown}s`}
+                  </Text>
+                )}
               </StyledText>
 
               <StyledButton type="submit" w="full" mt={4} loading={isOtpSubmitting || isLoading}>
