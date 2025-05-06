@@ -16,7 +16,28 @@ export const loginSchema = Yup.object().shape({
   password: Yup.string().required("Password is required"),
 });
 
-export const resetSchema = Yup.object().shape({
+export type VerifyFormValue = Yup.InferType<typeof verifySchema>;
+export type LoginFormValues = Yup.InferType<typeof loginSchema>;
+export type OtpFormValues = Yup.InferType<typeof otpSchema>;
+
+export interface SignupFormValues {
+  email?: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  phone: string;
+  password: string;
+  confirmPassword: string;
+  referralCode?: string;
+}
+
+export interface ResetFormValues {
+  email?: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export const resetSchema: Yup.ObjectSchema<ResetFormValues> = Yup.object().shape({
   password: Yup.string()
     .min(8, "Password must be at least 8 characters")
     .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
@@ -26,21 +47,8 @@ export const resetSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Please confirm your password"),
+  email: Yup.string().optional(),
 });
-
-export type VerifyFormValue = Yup.InferType<typeof verifySchema>;
-export type LoginFormValues = Yup.InferType<typeof loginSchema>;
-export type ResetFormValues = Yup.InferType<typeof resetSchema>;
-
-export interface SignupFormValues {
-  firstName: string;
-  lastName: string;
-  username: string;
-  phone: string;
-  password: string;
-  confirmPassword: string;
-  referralCode?: string;
-}
 
 export const signupSchema: Yup.ObjectSchema<SignupFormValues> = Yup.object().shape({
   firstName: Yup.string().required("First name is required"),
@@ -63,4 +71,5 @@ export const signupSchema: Yup.ObjectSchema<SignupFormValues> = Yup.object().sha
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Please confirm your password"),
   referralCode: Yup.string().optional(),
+  email: Yup.string().optional(),
 });

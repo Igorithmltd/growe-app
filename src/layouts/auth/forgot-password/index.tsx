@@ -4,10 +4,12 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, StyledPinInput } from "@/src/components";
-import { otpSchema, VerifyFormValue, verifySchema } from "@/src/schema/auth.schema";
+import { OtpFormValues, otpSchema, VerifyFormValue, verifySchema } from "@/src/schema/auth.schema";
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
+import { useForgotPassword } from "@/src/hooks/apis/mutation/useForgotPassword";
+import { ROUTES } from "@/src/utils/constants";
 
 export const ForgotPasswordForm = () => {
   const router = useRouter();
@@ -17,12 +19,14 @@ export const ForgotPasswordForm = () => {
 
   const email = getQueryParams("email");
 
+  const { forgotPassword, verifyPasswordOtp, isPending, isVerifying } = useForgotPassword();
+
   // Email form
   const {
     register: emailRegister,
     handleSubmit: handleEmailSubmit,
     reset: resetEmailForm,
-    formState: { errors: emailErrors },
+    formState: { errors: emailErrors, isSubmitting: isEmailSubmitting },
   } = useForm<VerifyFormValue>({
     resolver: yupResolver(verifySchema),
   });
@@ -32,22 +36,34 @@ export const ForgotPasswordForm = () => {
     register,
     handleSubmit: handleOtpSubmit,
     reset: resetOtpForm,
-    formState: { errors: otpErrors },
-  } = useForm<{ code: string }>({
+    formState: { errors: otpErrors, isSubmitting: isOtpSubmitting },
+  } = useForm<OtpFormValues>({
     resolver: yupResolver(otpSchema),
   });
 
-  const onSubmitEmail = (data: { email: string }) => {
-    console.log("Submitting email:", data.email);
-    router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
-      scroll: false,
+  const onSubmitEmail = (data: VerifyFormValue) => {
+    forgotPassword(data, {
+      onSuccess: () => {
+        router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
+          scroll: false,
+        });
+        resetEmailForm();
+      },
     });
-    resetEmailForm();
   };
 
-  const onSubmitOtp = (data: { code: string }) => {
-    console.log("Verifying OTP:", data.code);
-    resetOtpForm();
+  const onSubmitOtp = (data: OtpFormValues) => {
+    verifyPasswordOtp(
+      { otp: data.code, email: email as string },
+      {
+        onSuccess: () => {
+          localStorage.setItem("email", email as string);
+          resetEmailForm();
+          resetOtpForm();
+          router.push(ROUTES.AUTH.RESET_PASSWORD);
+        },
+      }
+    );
   };
 
   return (
@@ -81,7 +97,7 @@ export const ForgotPasswordForm = () => {
                 bg="#F8F8F8"
                 border="2px solid #9BAB69"
               />
-              <StyledButton type="submit" w="full" mt={4}>
+              <StyledButton type="submit" w="full" mt={4} loading={isEmailSubmitting || isPending}>
                 Submit
               </StyledButton>
             </VStack>
@@ -118,7 +134,7 @@ export const ForgotPasswordForm = () => {
                 in 30 seconds.
               </StyledText>
 
-              <StyledButton type="submit" w="full" mt={4}>
+              <StyledButton type="submit" w="full" mt={4} loading={isOtpSubmitting || isVerifying}>
                 Verify
               </StyledButton>
             </VStack>

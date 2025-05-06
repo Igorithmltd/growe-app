@@ -6,20 +6,45 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { SignupFormValues, signupSchema } from "@/src/schema/auth.schema";
 import { ROUTES } from "@/src/utils/constants";
+import { useRegister } from "@/src/hooks/apis/mutation/useRegister";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const SignupLayout = () => {
+  const router = useRouter();
+
+  const { mutate, isPending } = useRegister();
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: yupResolver(signupSchema),
   });
 
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setValue("email", storedEmail);
+    }
+  }, [setValue]);
+
   const onSubmit = (data: SignupFormValues) => {
-    console.log("Signup data:", data);
-    reset();
+    if (!data.email) {
+      router.push(ROUTES.AUTH.VERIFY_EMAIL);
+      return;
+    }
+
+    mutate(data, {
+      onSuccess: () => {
+        reset();
+        router.push(ROUTES.KYC.ROOT);
+        localStorage.removeItem("email");
+      },
+    });
   };
 
   const commonProps = {
@@ -116,8 +141,14 @@ const SignupLayout = () => {
               error={errors?.referralCode?.message}
               {...commonProps}
             />
+            <StyledField
+              hidden
+              placeholder="Enter Referral Code (optional)"
+              type="text"
+              fieldProps={register("email")}
+            />
 
-            <StyledButton type="submit" w="full" mt={2}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
               Create Account
             </StyledButton>
 

@@ -6,20 +6,46 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { ResetFormValues, resetSchema } from "@/src/schema/auth.schema";
+import { useResetPassword } from "@/src/hooks/apis/mutation/useResetPassword";
+import { useEffect } from "react";
+import { ROUTES } from "@/src/utils/constants";
+import { useRouter } from "next/navigation";
 
 const ResetPasswordForm = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm<ResetFormValues>({
     resolver: yupResolver(resetSchema),
   });
 
+  const { mutate: resetPassword, isPending } = useResetPassword();
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setValue("email", storedEmail);
+    }
+  }, [setValue]);
+
   const onSubmit = (data: ResetFormValues) => {
-    console.log("Reset data:", data);
-    reset();
+    if (!data.email) {
+      router.push(ROUTES.AUTH.FORGOT_PASSWORD);
+      return;
+    }
+
+    resetPassword(data, {
+      onSuccess: () => {
+        reset();
+        router.push(ROUTES.AUTH.LOGIN);
+        localStorage.removeItem("email");
+      },
+    });
   };
 
   const commonProps = {
@@ -68,7 +94,7 @@ const ResetPasswordForm = () => {
               {...commonProps}
             />
 
-            <StyledButton type="submit" w="full" mt={2}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
               Submit
             </StyledButton>
           </VStack>
