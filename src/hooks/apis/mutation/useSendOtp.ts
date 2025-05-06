@@ -47,12 +47,5 @@ export const useSendOtp = () => {
         });
       }
     },
-    onSuccess: () => {
-      showToast({
-        title: "Success",
-        description: "Verification email sent successfully.",
-        status: "success",
-      });
-    },
   });
 };

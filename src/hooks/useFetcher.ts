@@ -20,6 +20,8 @@ type FetcherResponse = {
   error?: {
     statusCode: number;
     message: string;
+    user?: any;
+    raw?: any;
   };
 };
 
@@ -101,11 +103,15 @@ export const useFetcher = async ({
       }
     }
 
+    const backendError = (axiosError.response?.data as any)?.data?.error;
+
     return {
       data: undefined,
       error: {
         statusCode: axiosError.response?.status || 500,
-        message: (axiosError.response?.data as any)?.message || axiosError.message,
+        message: backendError?.message || axiosError.message,
+        user: backendError?.user,
+        raw: backendError,
       },
     };
   }

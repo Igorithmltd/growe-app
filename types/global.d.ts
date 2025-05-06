@@ -13,5 +13,12 @@ type AuthResponseData = {
 type ErrorResponseData = {
   statusCode: number;
   message: string;
-  error?: string;
+  user?: ErrorUser;
+  raw?: any;
+};
+
+type ErrorUser = {
+  isVerified: boolean;
+  firstName: string;
+  email: string;
 };

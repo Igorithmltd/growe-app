@@ -70,13 +70,13 @@ export const signOutUser = async (redirectLogin = true) => {
 };
 
 export const handleError = (error: any): AxiosError<ErrorResponseData> => {
-  const { statusCode, message } = error;
+  const { statusCode, message, user, raw } = error;
 
   const axiosError = new AxiosError<ErrorResponseData>(message);
 
   axiosError.response = {
     status: statusCode,
-    data: error, // The full error object
+    data: { statusCode, message, user, raw },
     statusText: "Error",
     headers: {},
     config: {} as any,

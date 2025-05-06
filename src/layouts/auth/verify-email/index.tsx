@@ -13,12 +13,14 @@ import { useVerifyOtp } from "@/src/hooks/apis/mutation/useVerifyOtp";
 import { ROUTES } from "@/src/utils/constants";
 import { useState, useEffect } from "react";
 import { useSendOtp } from "@/src/hooks/apis/mutation/useSendOtp";
+import useShowToast from "@/src/hooks/useShowToast";
 
 export const EmailVerificationForm = () => {
   const router = useRouter();
   const pathname = usePathname();
   const createQueryString = useQueryString();
   const { getQueryParams } = useQueryParams();
+  const showToast = useShowToast();
 
   const email = getQueryParams("email");
 
@@ -62,7 +64,86 @@ export const EmailVerificationForm = () => {
 
   const onSubmitEmail = (data: VerifyFormValue) => {
     getStarted(data, {
+      onError: (error) => {
+        if (error.response) {
+          const errorData = error.response.data;
+
+          if (errorData.statusCode === 400 && !errorData.user?.isVerified) {
+            resendOtp(
+              { email: data.email },
+              {
+                onSuccess: () => {
+                  showToast({
+                    title: "Success",
+                    description: "Verification email sent successfully.",
+                    status: "success",
+                  });
+                  router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
+                    scroll: false,
+                  });
+                  resetEmailForm();
+                  setCountdown(30);
+                  setCanResend(false);
+                },
+              }
+            );
+            router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
+              scroll: false,
+            });
+            return;
+          }
+
+          if (
+            errorData.statusCode === 400 &&
+            errorData.user?.isVerified &&
+            !errorData.user?.firstName
+          ) {
+            showToast({
+              title: "Error",
+              description: "Email already verified. Please complete sign up.",
+              status: "error",
+            });
+            return;
+          }
+
+          if (
+            errorData.statusCode === 400 &&
+            errorData.user?.isVerified &&
+            errorData.user?.firstName
+          ) {
+            showToast({
+              title: "Error",
+              description: "User with email exists. Please login.",
+              status: "error",
+            });
+            return;
+          }
+
+          showToast({
+            title: "Error",
+            description: errorData.message || "Something went wrong on the server",
+            status: "error",
+          });
+        } else if (error.request) {
+          showToast({
+            title: "Network Error",
+            description: "No response received from the server, try again",
+            status: "warning",
+          });
+        } else {
+          showToast({
+            title: "Error",
+            description: error.message || "An unknown error occurred",
+            status: "error",
+          });
+        }
+      },
       onSuccess: () => {
+        showToast({
+          title: "Success",
+          description: "Verification email sent successfully.",
+          status: "success",
+        });
         router.replace(pathname + "?" + createQueryString("email", String(data.email)), {
           scroll: false,
         });
@@ -74,6 +155,15 @@ export const EmailVerificationForm = () => {
   };
 
   const onSubmitOtp = (data: OtpFormValues) => {
+    if (!email) {
+      showToast({
+        title: "Error",
+        description: "Email is missing. Please restart verification.",
+        status: "error",
+      });
+      router.push(ROUTES.AUTH.VERIFY_EMAIL);
+      return;
+    }
     verifyOtp(
       { otp: data.code, email: email as string },
       {
@@ -94,12 +184,14 @@ export const EmailVerificationForm = () => {
       { email },
       {
         onSuccess: () => {
+          showToast({
+            title: "Success",
+            description: "Verification email sent successfully.",
+            status: "success",
+          });
           setCountdown(resendInterval * 2);
           setResendInterval(resendInterval * 2);
           setCanResend(false);
-        },
-        onError: (error) => {
-          console.error("Failed to resend OTP:", error);
         },
       }
     );
