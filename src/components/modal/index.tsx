@@ -4,7 +4,7 @@ import { Box, BoxProps, CloseButton, useBreakpointValue } from "@chakra-ui/react
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 
-const MotionBox = motion.create(Box);
+const MotionBox = motion(Box);
 
 interface ModalProps extends BoxProps {
   isOpen: boolean;
@@ -40,32 +40,33 @@ export const Modal = ({
         onClick={closeOnOverlayClick ? onClose : undefined}
       />
 
-      {/* Animated Modal */}
+      {/* Modal Content */}
       <MotionBox
         initial={{
-          y: isMobile ? "100%" : 0,
+          y: isMobile ? "100%" : "-50%",
           opacity: 0,
           x: "-50%",
         }}
         animate={{
-          y: 0,
+          y: isMobile ? 0 : "-50%",
           opacity: 1,
           x: "-50%",
         }}
         exit={{
-          y: isMobile ? "100%" : 0,
+          y: isMobile ? "100%" : "-50%",
           opacity: 0,
           x: "-50%",
         }}
         transition={{ duration: 0.3 }}
         position="fixed"
         left="50%"
-        top={isMobile ? undefined : "40%"}
+        top={isMobile ? undefined : "50%"}
         bottom={isMobile ? 0 : undefined}
         zIndex={1001}
         onClick={(e) => e.stopPropagation()}
+        width={isMobile ? "100vw" : "auto"}
         style={{
-          transform: isMobile ? "translateY(0)" : "translateY(-50%)",
+          transform: isMobile ? "none" : "translate(-50%, -50%)",
         }}
       >
         <Box
@@ -82,9 +83,9 @@ export const Modal = ({
           {!isMobile && hasCloseButton && (
             <CloseButton
               position="absolute"
-              top={0}
-              right={0}
-              size="xl"
+              top={2}
+              right={2}
+              size="md"
               onClick={onClose}
               zIndex={1002}
             />
