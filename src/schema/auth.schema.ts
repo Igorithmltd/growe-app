@@ -21,14 +21,14 @@ export type LoginFormValues = Yup.InferType<typeof loginSchema>;
 export type OtpFormValues = Yup.InferType<typeof otpSchema>;
 
 export interface SignupFormValues {
-  email?: string;
-  firstName: string;
-  lastName: string;
+  email: string;
+  first_name: string;
+  last_name: string;
   username: string;
-  phone: string;
+  phone_number: string;
   password: string;
   confirmPassword: string;
-  referralCode?: string;
+  referral_code?: string;
 }
 
 export interface ResetFormValues {
@@ -51,12 +51,12 @@ export const resetSchema: Yup.ObjectSchema<ResetFormValues> = Yup.object().shape
 });
 
 export const signupSchema: Yup.ObjectSchema<SignupFormValues> = Yup.object().shape({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
+  first_name: Yup.string().required("First name is required"),
+  last_name: Yup.string().required("Last name is required"),
   username: Yup.string()
     .required("Username is required")
     .min(8, "Username must be at least 8 characters"),
-  phone: Yup.string()
+  phone_number: Yup.string()
     .required("Phone Number is required")
     .matches(phoneRegExp, "Phone number is not valid")
     .min(11)
@@ -70,6 +70,6 @@ export const signupSchema: Yup.ObjectSchema<SignupFormValues> = Yup.object().sha
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Please confirm your password"),
-  referralCode: Yup.string().optional(),
-  email: Yup.string().optional(),
+  referral_code: Yup.string().optional(),
+  email: Yup.string().email().required("Email is required"),
 });

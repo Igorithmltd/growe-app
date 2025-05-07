@@ -41,7 +41,7 @@ const SignupLayout = () => {
     mutate(data, {
       onSuccess: () => {
         reset();
-        router.push(ROUTES.KYC.ROOT);
+        router.push(ROUTES.AUTH.LOGIN);
         localStorage.removeItem("email");
       },
     });
@@ -76,12 +76,21 @@ const SignupLayout = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spaceY={4} align="stretch">
             <StyledField
+              label="Email"
+              placeholder="Enter your verified email"
+              labelColor="secondary"
+              type="text"
+              fieldProps={register("email")}
+              error={errors?.email?.message}
+              {...commonProps}
+            />
+            <StyledField
               label="First Name"
               placeholder="e.g John"
               labelColor="secondary"
               type="text"
-              fieldProps={register("firstName")}
-              error={errors?.firstName?.message}
+              fieldProps={register("first_name")}
+              error={errors?.first_name?.message}
               {...commonProps}
             />
             <StyledField
@@ -89,8 +98,8 @@ const SignupLayout = () => {
               placeholder="e.g Doe"
               labelColor="secondary"
               type="text"
-              fieldProps={register("lastName")}
-              error={errors?.lastName?.message}
+              fieldProps={register("last_name")}
+              error={errors?.last_name?.message}
               {...commonProps}
             />
 
@@ -109,8 +118,8 @@ const SignupLayout = () => {
               placeholder="Enter Phone Number"
               labelColor="secondary"
               type="tel"
-              fieldProps={register("phone")}
-              error={errors?.phone?.message}
+              fieldProps={register("phone_number")}
+              error={errors?.phone_number?.message}
               {...commonProps}
             />
 
@@ -137,8 +146,8 @@ const SignupLayout = () => {
               placeholder="Enter Referral Code (optional)"
               labelColor="secondary"
               type="text"
-              fieldProps={register("referralCode")}
-              error={errors?.referralCode?.message}
+              fieldProps={register("referral_code")}
+              error={errors?.referral_code?.message}
               {...commonProps}
             />
             <StyledField

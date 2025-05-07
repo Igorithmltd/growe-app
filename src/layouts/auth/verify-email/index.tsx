@@ -80,6 +80,7 @@ export const EmailVerificationForm = () => {
               { email: data.email },
               {
                 onSuccess: () => {
+                  localStorage.setItem("email", data.email);
                   showToast({
                     title: "Success",
                     description: "Verification email sent successfully.",
@@ -105,6 +106,7 @@ export const EmailVerificationForm = () => {
             errorData.user?.isVerified &&
             !errorData.user?.firstName
           ) {
+            localStorage.setItem("email", data.email);
             showToast({
               title: "Error",
               description: "Email already verified. Please complete sign up.",
