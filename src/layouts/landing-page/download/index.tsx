@@ -1,4 +1,4 @@
-import { AppStore, PlayStore, SuccessMark } from "@/public/svgs";
+import { AppStore, PlayStore, SuccessMark, InfoMark } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
 import InfoModal from "@/src/components/modals/InfoModal";
 import { useModal } from "@/src/contexts/ModalContext";
@@ -60,7 +60,7 @@ const DownloadSection = () => {
         hasButton={true}
         buttonText="Proceed to login"
         onButtonClick={() => setIsInfoOpen(false)}
-        icon={<SuccessMark />}
+        icon={<InfoMark />}
       />
     </Box>
   );
