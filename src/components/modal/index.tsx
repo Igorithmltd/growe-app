@@ -1,0 +1,98 @@
+"use client";
+
+import { Box, BoxProps, CloseButton, useBreakpointValue } from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { motion } from "framer-motion";
+
+const MotionBox = motion(Box);
+
+interface ModalProps extends BoxProps {
+  isOpen: boolean;
+  onClose: () => void;
+  children: ReactNode;
+  closeOnOverlayClick?: boolean;
+  hasCloseButton?: boolean;
+}
+
+export const Modal = ({
+  isOpen,
+  onClose,
+  children,
+  closeOnOverlayClick = true,
+  hasCloseButton = true,
+  ...boxProps
+}: ModalProps) => {
+  const isMobile = useBreakpointValue({ base: true, md: false });
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      {/* Overlay */}
+      <Box
+        position="fixed"
+        top={0}
+        left={0}
+        width="100vw"
+        height="100vh"
+        bg="blackAlpha.600"
+        zIndex={1000}
+        onClick={closeOnOverlayClick ? onClose : undefined}
+      />
+
+      {/* Modal Content */}
+      <MotionBox
+        initial={{
+          y: isMobile ? "100%" : "-50%",
+          opacity: 0,
+          x: "-50%",
+        }}
+        animate={{
+          y: isMobile ? 0 : "-50%",
+          opacity: 1,
+          x: "-50%",
+        }}
+        exit={{
+          y: isMobile ? "100%" : "-50%",
+          opacity: 0,
+          x: "-50%",
+        }}
+        transition={{ duration: 0.3 }}
+        position="fixed"
+        left="50%"
+        top={isMobile ? undefined : "50%"}
+        bottom={isMobile ? 0 : undefined}
+        zIndex={1001}
+        onClick={(e) => e.stopPropagation()}
+        width={isMobile ? "100vw" : "auto"}
+        style={{
+          transform: isMobile ? "none" : "translate(-50%, -50%)",
+        }}
+      >
+        <Box
+          bg="white"
+          position="relative"
+          borderTopRadius={isMobile ? "30px" : undefined}
+          borderRadius={isMobile ? undefined : "xl"}
+          boxShadow="lg"
+          width={isMobile ? "100vw" : "400px"}
+          maxW={isMobile ? "100vw" : "90vw"}
+          p={6}
+          {...boxProps}
+        >
+          {!isMobile && hasCloseButton && (
+            <CloseButton
+              position="absolute"
+              top={2}
+              right={2}
+              size="md"
+              onClick={onClose}
+              zIndex={1002}
+            />
+          )}
+          {children}
+        </Box>
+      </MotionBox>
+    </>
+  );
+};
