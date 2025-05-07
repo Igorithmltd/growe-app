@@ -2,14 +2,21 @@
 
 import { createContext, useContext, useState } from "react";
 
-const ModalContext = createContext<any>(undefined);
+interface ModalContextType {
+  isSuccessOpen: boolean;
+  setIsSuccessOpen: (value: boolean) => void;
+  isErrorOpen: boolean;
+  setIsErrorOpen: (value: boolean) => void;
+}
+
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isSuccessOpen, setIsSuccessOpen] = useState<boolean>(false);
-  const [isErrorOpen, setisErrorOpen] = useState<boolean>(false);
+  const [isErrorOpen, setIsErrorOpen] = useState<boolean>(false);
 
   return (
-    <ModalContext.Provider value={{ isSuccessOpen, setIsSuccessOpen, isErrorOpen, setisErrorOpen }}>
+    <ModalContext.Provider value={{ isSuccessOpen, setIsSuccessOpen, isErrorOpen, setIsErrorOpen }}>
       {children}
     </ModalContext.Provider>
   );
