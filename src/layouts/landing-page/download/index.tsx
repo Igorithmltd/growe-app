@@ -4,8 +4,6 @@ import { useModal } from "@/src/contexts/ModalContext";
 import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 
 const DownloadSection = () => {
-  const { isSuccessOpen, setIsSuccessOpen, isErrorOpen, setIsErrorOpen } = useModal();
-
   return (
     <Box
       bgGradient="linear-gradient(135deg, #B7C489 0%, #9BAB69 50%, #B7C489 100%)"
@@ -29,9 +27,6 @@ const DownloadSection = () => {
             display="flex"
             alignItems="center"
             px={{ base: 3, md: "20px" }}
-            onClick={() => {
-              setIsErrorOpen(true);
-            }}
           >
             <Icon>
               <AppStore />
@@ -53,10 +48,6 @@ const DownloadSection = () => {
           </StyledButton>
         </HStack>
       </VStack>
-
-      <Modal isOpen={isErrorOpen} onClose={() => setIsErrorOpen(false)}>
-        <Text>❌ This is an error modal</Text>
-      </Modal>
     </Box>
   );
 };
