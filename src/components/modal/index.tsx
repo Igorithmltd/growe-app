@@ -1,15 +1,15 @@
 "use client";
 
-import { Box, useBreakpointValue } from "@chakra-ui/react";
+import { Box, BoxProps, useBreakpointValue } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
-interface ModalProps {
+interface ModalProps extends BoxProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
 }
 
-export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
+export const Modal = ({ isOpen, onClose, children, ...boxProps }: ModalProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   if (!isOpen) return null;
@@ -35,18 +35,18 @@ export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
         left="50%"
         transform={isMobile ? "translateX(-50%)" : "translate(-50%, 50%)"}
         bg="white"
-        borderTopRadius={isMobile ? "2xl" : undefined}
+        borderTopRadius={isMobile ? "30px" : undefined}
         borderRadius={isMobile ? undefined : "xl"}
         boxShadow="lg"
         width={isMobile ? "100vw" : "400px"}
-        maxW="90vw"
+        maxW={isMobile ? "100vw" : "90vw"}
         zIndex={1001}
         p={6}
-        onClick={(e) => e.stopPropagation()} // prevent overlay click from triggering close
+        onClick={(e) => e.stopPropagation()}
+        {...boxProps}
       >
         {children}
       </Box>
     </>
   );
 };
-
