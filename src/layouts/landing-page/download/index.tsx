@@ -1,11 +1,8 @@
-import { AppStore, PlayStore, SuccessMark, InfoMark } from "@/public/svgs";
+import { AppStore, PlayStore } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
-import InfoModal from "@/src/components/modals/InfoModal";
-import { useModal } from "@/src/contexts/ModalContext";
 import { Box, HStack, Icon, VStack } from "@chakra-ui/react";
 
 const DownloadSection = () => {
-  const { setIsInfoOpen } = useModal();
   return (
     <Box
       bgGradient="linear-gradient(135deg, #B7C489 0%, #9BAB69 50%, #B7C489 100%)"
@@ -29,9 +26,6 @@ const DownloadSection = () => {
             display="flex"
             alignItems="center"
             px={{ base: 3, md: "20px" }}
-            onClick={() => {
-              setIsInfoOpen(true);
-            }}
           >
             <Icon>
               <AppStore />
@@ -53,15 +47,6 @@ const DownloadSection = () => {
           </StyledButton>
         </HStack>
       </VStack>
-
-      <InfoModal
-        title="Verification Successful"
-        message="Your identity has been verified successfully. You now have access to Growe features."
-        hasButton={true}
-        buttonText="Proceed to login"
-        onButtonClick={() => setIsInfoOpen(false)}
-        icon={<InfoMark />}
-      />
     </Box>
   );
 };

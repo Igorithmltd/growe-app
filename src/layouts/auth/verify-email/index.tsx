@@ -14,6 +14,9 @@ import { ROUTES } from "@/src/utils/constants";
 import { useState, useEffect } from "react";
 import { useSendOtp } from "@/src/hooks/apis/mutation/useSendOtp";
 import useShowToast from "@/src/hooks/useShowToast";
+import { useModal } from "@/src/contexts/ModalContext";
+import { InfoMark } from "@/public/svgs";
+import InfoModal from "@/src/components/modals/InfoModal";
 
 export const EmailVerificationForm = () => {
   const router = useRouter();
@@ -21,6 +24,8 @@ export const EmailVerificationForm = () => {
   const createQueryString = useQueryString();
   const { getQueryParams } = useQueryParams();
   const showToast = useShowToast();
+
+  const { setIsInfoOpen } = useModal();
 
   const email = getQueryParams("email");
 
@@ -32,6 +37,8 @@ export const EmailVerificationForm = () => {
   const [resendInterval, setResendInterval] = useState(30);
   const [countdown, setCountdown] = useState(resendInterval);
   const [canResend, setCanResend] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
     if (!canResend && countdown > 0) {
@@ -103,6 +110,8 @@ export const EmailVerificationForm = () => {
               description: "Email already verified. Please complete sign up.",
               status: "error",
             });
+            setIsRegister(true);
+            setIsInfoOpen(true);
             return;
           }
 
@@ -116,6 +125,7 @@ export const EmailVerificationForm = () => {
               description: "User with email exists. Please login.",
               status: "error",
             });
+            setIsInfoOpen(true);
             return;
           }
 
@@ -195,6 +205,16 @@ export const EmailVerificationForm = () => {
         },
       }
     );
+  };
+
+  const handleButtonClick = () => {
+    setIsRedirecting(true);
+    if (isRegister) {
+      router.push(ROUTES.AUTH.SIGN_UP);
+    } else {
+      router.push(ROUTES.AUTH.LOGIN);
+    }
+    setIsInfoOpen(false);
   };
 
   return (
@@ -286,6 +306,18 @@ export const EmailVerificationForm = () => {
           </form>
         </VStack>
       )}
+
+      <InfoModal
+        title={isRegister ? "Email already verified" : "User with email exists"}
+        message={
+          isRegister ? "Email verified, please complete sign up" : "Please login to your account"
+        }
+        hasButton={true}
+        buttonText={isRegister ? "Sign Up" : "Login"}
+        isLoading={isRedirecting}
+        onButtonClick={handleButtonClick}
+        icon={<InfoMark />}
+      />
     </Box>
   );
 };

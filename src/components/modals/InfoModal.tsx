@@ -11,6 +11,7 @@ interface InfoModalProps {
   hasButton?: boolean;
   buttonText?: string;
   onButtonClick?: () => void;
+  isLoading?: boolean;
   icon?: ReactNode;
 }
 
@@ -20,6 +21,7 @@ const InfoModal = ({
   hasButton = false,
   buttonText,
   onButtonClick,
+  isLoading = false,
   icon,
 }: InfoModalProps) => {
   const { isInfoOpen, setIsInfoOpen } = useModal();
@@ -40,7 +42,7 @@ const InfoModal = ({
           {message}
         </StyledText>
         {hasButton && (
-          <StyledButton type="button" onClick={onButtonClick}>
+          <StyledButton type="button" onClick={onButtonClick} loading={isLoading}>
             {buttonText}
           </StyledButton>
         )}
