@@ -1,7 +1,6 @@
 import { AppStore, PlayStore } from "@/public/svgs";
-import { Modal, StyledButton, StyledText } from "@/src/components";
-import { useModal } from "@/src/contexts/ModalContext";
-import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { StyledButton, StyledText } from "@/src/components";
+import { Box, HStack, Icon, VStack } from "@chakra-ui/react";
 
 const DownloadSection = () => {
   return (

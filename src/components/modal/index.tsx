@@ -11,6 +11,7 @@ interface ModalProps extends BoxProps {
   onClose: () => void;
   children: ReactNode;
   closeOnOverlayClick?: boolean;
+  hasCloseButton?: boolean;
 }
 
 export const Modal = ({
@@ -18,6 +19,7 @@ export const Modal = ({
   onClose,
   children,
   closeOnOverlayClick = true,
+  hasCloseButton = true,
   ...boxProps
 }: ModalProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -77,11 +79,12 @@ export const Modal = ({
           p={6}
           {...boxProps}
         >
-          {!isMobile && (
+          {!isMobile && hasCloseButton && (
             <CloseButton
               position="absolute"
-              top={4}
-              right={4}
+              top={0}
+              right={0}
+              size="xl"
               onClick={onClose}
               zIndex={1002}
             />

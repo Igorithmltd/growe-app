@@ -20,6 +20,7 @@ import ChatIcon from "./chat.svg";
 import ProfileIcon from "./profile.svg";
 import SavingsIcon from "./savings.svg";
 import InvestIcon from "./invest.svg";
+import SuccessMark from "./success-mark.svg";
 
 export {
   Hamburger,
@@ -42,4 +43,5 @@ export {
   ProfileIcon,
   SavingsIcon,
   InvestIcon,
+  SuccessMark,
 };
