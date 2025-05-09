@@ -22,10 +22,10 @@ export type OtpFormValues = Yup.InferType<typeof otpSchema>;
 
 export interface SignupFormValues {
   email: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   username: string;
-  phone_number: string;
+  phoneNumber: string;
   password: string;
   confirmPassword: string;
   referral_code?: string;
@@ -51,12 +51,12 @@ export const resetSchema: Yup.ObjectSchema<ResetFormValues> = Yup.object().shape
 });
 
 export const signupSchema: Yup.ObjectSchema<SignupFormValues> = Yup.object().shape({
-  first_name: Yup.string().required("First name is required"),
-  last_name: Yup.string().required("Last name is required"),
+  firstName: Yup.string().required("First name is required"),
+  lastName: Yup.string().required("Last name is required"),
   username: Yup.string()
     .required("Username is required")
     .min(8, "Username must be at least 8 characters"),
-  phone_number: Yup.string()
+  phoneNumber: Yup.string()
     .required("Phone Number is required")
     .matches(phoneRegExp, "Phone number is not valid")
     .min(11)

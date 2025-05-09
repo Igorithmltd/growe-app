@@ -66,6 +66,21 @@ const SignupLayout = () => {
             return;
           }
 
+          if (
+            errorData.statusCode === 400 &&
+            errorData.message === "Email already registered. Please proceed to login"
+          ) {
+            showToast({
+              title: "Error",
+              description: "Email already registered. Please proceed to login",
+              status: "error",
+            });
+
+            setIsVerify(false);
+            setIsInfoOpen(true);
+            return;
+          }
+
           console.log(errorData);
           showToast({
             title: "Error",
@@ -151,8 +166,8 @@ const SignupLayout = () => {
               placeholder="e.g John"
               labelColor="secondary"
               type="text"
-              fieldProps={register("first_name")}
-              error={errors?.first_name?.message}
+              fieldProps={register("firstName")}
+              error={errors?.firstName?.message}
               {...commonProps}
             />
             <StyledField
@@ -160,8 +175,8 @@ const SignupLayout = () => {
               placeholder="e.g Doe"
               labelColor="secondary"
               type="text"
-              fieldProps={register("last_name")}
-              error={errors?.last_name?.message}
+              fieldProps={register("lastName")}
+              error={errors?.lastName?.message}
               {...commonProps}
             />
 
@@ -180,8 +195,8 @@ const SignupLayout = () => {
               placeholder="Enter Phone Number"
               labelColor="secondary"
               type="tel"
-              fieldProps={register("phone_number")}
-              error={errors?.phone_number?.message}
+              fieldProps={register("phoneNumber")}
+              error={errors?.phoneNumber?.message}
               {...commonProps}
             />
 
@@ -238,7 +253,7 @@ const SignupLayout = () => {
       </VStack>
 
       <InfoModal
-        title={isVerify ? "Email does not exist" : "User with email exists"}
+        title={isVerify ? "Email does not exist" : "Email already registered"}
         message={
           isVerify
             ? "Email does not exist. Please verify your email"

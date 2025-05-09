@@ -120,7 +120,7 @@ export const EmailVerificationForm = () => {
           if (
             errorData.statusCode === 400 &&
             errorData.user?.isVerified &&
-            errorData.user?.firstName
+            errorData.user?.isRegistrationComplete
           ) {
             showToast({
               title: "Error",
