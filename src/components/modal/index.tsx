@@ -4,7 +4,7 @@ import { Box, BoxProps, CloseButton, useBreakpointValue } from "@chakra-ui/react
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 
-const MotionBox = motion(Box);
+const MotionBox = motion.create(Box);
 
 interface ModalProps extends BoxProps {
   isOpen: boolean;
