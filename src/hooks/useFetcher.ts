@@ -109,7 +109,7 @@ export const useFetcher = async ({
       data: undefined,
       error: {
         statusCode: axiosError.response?.status || 500,
-        message: backendError?.message || axiosError.message,
+        message: backendError || axiosError.message,
         user: backendError?.user,
         raw: backendError,
       },

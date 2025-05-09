@@ -30,7 +30,6 @@ const LoginLayout = () => {
         router.push(ROUTES.DASHBOARD.HOME);
       },
     });
-    reset();
   };
 
   const commonProps = {
