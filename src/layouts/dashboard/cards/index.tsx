@@ -1,7 +1,6 @@
 import { ReuseableCard, StyledButton, StyledText } from "@/src/components";
-import { Box, EmptyStateTitle, Flex, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
-import { FiClipboard } from "react-icons/fi";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
 interface SavingsCardProps {
@@ -110,11 +109,7 @@ export const SavingsCard = ({
   );
 };
 
-export const MessageCard = ({
-  bg = "white",
-}: {
-  bg?: string;
-}) => {
+export const MessageCard = ({ bg = "white" }: { bg?: string }) => {
   return (
     <ReuseableCard
       boxShadow="none"
@@ -122,17 +117,15 @@ export const MessageCard = ({
       px={6}
       py={6}
       bg={bg}
-    //   minWidth={{ base: "360px", md: "400px", lg: "49%" }}
+      //   minWidth={{ base: "360px", md: "400px", lg: "49%" }}
     >
       <HStack justify="space-between">
         <HStack>
-            <Box></Box>
-            <VStack></VStack>
+          <Box></Box>
+          <VStack></VStack>
         </HStack>
 
-        <VStack>
-
-        </VStack>
+        <VStack></VStack>
       </HStack>
     </ReuseableCard>
   );

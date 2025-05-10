@@ -1,20 +1,7 @@
 "use client";
 
 import { StyledText } from "@/src/components";
-import {
-  Box,
-  Flex,
-  Text,
-  Heading,
-  VStack,
-  HStack,
-  Avatar,
-  Badge,
-  Progress,
-  Icon,
-  Button,
-} from "@chakra-ui/react";
-import { FiChevronRight, FiMessageSquare } from "react-icons/fi";
+import { Box, Flex, Text, Heading, VStack, HStack, Badge, Button } from "@chakra-ui/react";
 import { GoBell } from "react-icons/go";
 import { AccountCard, SavingsCard } from "../cards";
 
@@ -52,7 +39,7 @@ const DashboardHome = () => {
       {/* Account info */}
 
       <HStack
-        spaceX={{base: 2, md: 4}}
+        spaceX={{ base: 2, md: 4 }}
         overflowX="auto"
         mt={8}
         css={{

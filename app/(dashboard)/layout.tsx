@@ -1,6 +1,6 @@
 "use client";
 
-import { DesktopSidebar, MobileHeader, MobileNavbar } from "@/src/components/layouts/dashboard";
+import { DesktopSidebar, MobileNavbar } from "@/src/components/layouts/dashboard";
 import { Box, useBreakpointValue } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
