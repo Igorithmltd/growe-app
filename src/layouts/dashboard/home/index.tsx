@@ -1,3 +1,5 @@
+"use client";
+
 import { StyledText } from "@/src/components";
 import {
   Box,
@@ -14,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { FiChevronRight, FiMessageSquare } from "react-icons/fi";
 import { GoBell } from "react-icons/go";
+import { SavingsCard } from "../cards";
 
 const DashboardHome = () => {
   return (
@@ -35,26 +38,16 @@ const DashboardHome = () => {
       </HStack>
 
       {/* Total savings section */}
-      <Box bg="gray.50" p={4} borderRadius="md" mb={6}>
-        <Text fontSize="sm" color="gray.500" mb={1}>
-          Total savings
-        </Text>
-        <Heading size="lg" mb={1}>
-          ¥ 0.00
-        </Heading>
-        <Text fontSize="sm" color="gray.500">
-          0% interest
-        </Text>
-
-        <Flex justify="space-between" mt={4}>
-          <Button variant="solid" colorScheme="blue">
-            Finance Notes
-          </Button>
-          <Button variant="solid" colorScheme="blue">
-            View savings
-          </Button>
-        </Flex>
-      </Box>
+      <SavingsCard
+        title="Total Savings"
+        amount="0.00"
+        interest="0%"
+        bgImage="url('/images/card-image.webp')"
+        notes="Financial Notes ›"
+        buttonText="View Savings"
+        buttonAction={() => {}}
+        notesAction={() => {}}
+      />
 
       {/* Account info */}
       <Box mb={6}>
