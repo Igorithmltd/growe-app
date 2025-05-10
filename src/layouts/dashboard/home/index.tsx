@@ -73,6 +73,7 @@ const DashboardHome = () => {
           accountName="John Doe"
           accountNumber="0123456789"
           bank="Monniepoint Microfinance Bank"
+          bg="#F6EDD9"
         />
       </HStack>
 

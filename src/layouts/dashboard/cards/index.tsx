@@ -110,6 +110,33 @@ export const SavingsCard = ({
   );
 };
 
+export const MessageCard = ({
+  bg = "white",
+}: {
+  bg?: string;
+}) => {
+  return (
+    <ReuseableCard
+      boxShadow="none"
+      borderRadius="15px"
+      px={6}
+      py={6}
+      bg={bg}
+    //   minWidth={{ base: "360px", md: "400px", lg: "49%" }}
+    >
+      <HStack justify="space-between">
+        <HStack>
+            <Box></Box>
+            <VStack></VStack>
+        </HStack>
+
+        <VStack>
+
+        </VStack>
+      </HStack>
+    </ReuseableCard>
+  );
+};
 export const AccountCard = ({
   bg = "#F8FBEB",
   color = "primary",
