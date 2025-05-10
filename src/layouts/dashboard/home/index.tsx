@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { FiChevronRight, FiMessageSquare } from "react-icons/fi";
 import { GoBell } from "react-icons/go";
-import { SavingsCard } from "../cards";
+import { AccountCard, SavingsCard } from "../cards";
 
 const DashboardHome = () => {
   return (
@@ -33,7 +33,7 @@ const DashboardHome = () => {
         </VStack>
 
         <Box boxSize={{ base: "22px", md: "24px" }} color="bfgrey">
-          <GoBell size="full" />
+          <GoBell size="100%" />
         </Box>
       </HStack>
 
@@ -50,20 +50,31 @@ const DashboardHome = () => {
       />
 
       {/* Account info */}
-      <Box mb={6}>
-        <Text fontSize="xl" fontWeight="bold">
-          7854356789
-        </Text>
-        <Text fontSize="sm" color="gray.500">
-          ACCOUNT NAMES
-        </Text>
-        <Text fontSize="md" mb={2}>
-          John Doe
-        </Text>
-        <Text fontSize="sm" color="gray.500">
-          Moniepoint Microfinance bank
-        </Text>
-      </Box>
+
+      <HStack
+        spaceX={{base: 2, md: 4}}
+        overflowX="auto"
+        mt={8}
+        css={{
+          scrollbarWidth: "none", // Firefox
+          msOverflowStyle: "none", // IE 10+
+          "&::-webkit-scrollbar": {
+            display: "none", // Chrome, Safari
+          },
+        }}
+      >
+        <AccountCard
+          accountName="John Doe"
+          accountNumber="0123456789"
+          bank="Monniepoint Microfinance Bank"
+        />
+
+        <AccountCard
+          accountName="John Doe"
+          accountNumber="0123456789"
+          bank="Monniepoint Microfinance Bank"
+        />
+      </HStack>
 
       {/* Recent messages section */}
       <Heading size="sm" mb={3}>

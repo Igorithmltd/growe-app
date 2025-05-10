@@ -23,8 +23,8 @@ const Layout = ({ children }: LayoutProps) => {
   }
 
   return (
-    <Box height="100vh" display="flex" flexDirection="column" bg="#FDFDFD">
-      <MobileHeader />
+    <Box height="100vh" display="flex" flexDirection="column" bg="#FDFDFD" pt={5}>
+      {/* <MobileHeader /> */}
       <Box flex={1} overflowY="auto" pb="80px" px={4}>
         {children}
       </Box>
