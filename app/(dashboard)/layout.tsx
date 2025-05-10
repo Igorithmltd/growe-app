@@ -11,27 +11,24 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
-  return (
-    <Box h="100vh" bg="#f5f5f5" flexDirection="column" position="relative">
-      {/* Mobile Header - only shown on mobile */}
-      {!isDesktop && <MobileHeader />}
-
-      {/* Main Content Area */}
-      <Box flex={1} overflowY="auto" pb={!isDesktop ? "80px" : 0}>
-        {children}
-      </Box>
-
-      {!isDesktop && <MobileNavbar />}
-
-      {/* Desktop Sidebar - only shown on desktop */}
-      {isDesktop && <DesktopSidebar />}
-
-      {/* Desktop Main Content - offset for sidebar */}
-      {isDesktop && (
-        <Box ml="250px" flex={1} p={6} bg="red">
+  if (isDesktop) {
+    return (
+      <Box display="flex" height="100vh">
+        <DesktopSidebar />
+        <Box ml="250px" flex={1} p={6} bg="#FDFDFD" overflowY="auto">
           {children}
         </Box>
-      )}
+      </Box>
+    );
+  }
+
+  return (
+    <Box height="100vh" display="flex" flexDirection="column" bg="#FDFDFD">
+      <MobileHeader />
+      <Box flex={1} overflowY="auto" pb="80px" px={4}>
+        {children}
+      </Box>
+      <MobileNavbar />
     </Box>
   );
 };

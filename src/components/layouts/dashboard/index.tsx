@@ -51,7 +51,7 @@ export const MobileNavbar = () => {
           <Link key={label} href={href}>
             <VStack
               textAlign="center"
-              color={isActive ? "primary" : "#BFBFBF"}
+              color={isActive ? "primary" : "bfgrey"}
               fontSize="20px"
               cursor="pointer"
             >
