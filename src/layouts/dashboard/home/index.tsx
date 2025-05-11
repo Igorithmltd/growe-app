@@ -10,7 +10,7 @@ const DashboardHome = () => {
   return (
     <VStack w="full" align="stretch" spaceY={{ base: 6, md: 8 }} p={2}>
       {/* Header with welcome message */}
-      <HStack justify="space-between" align="center" mb={6}>
+      <HStack justify="space-between" align="center">
         <VStack align="flex-start" spaceY={0}>
           <StyledText fontSize={{ base: "lg", md: "xl" }} fontWeight="medium" color="primary">
             Hello, John

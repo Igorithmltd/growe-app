@@ -124,9 +124,17 @@ export const MessageCard = ({
   isRead?: boolean;
 }) => {
   return (
-    <ReuseableCard boxShadow="none" borderRadius="15px" px={6} py={6} bg={bg}>
+    <ReuseableCard
+      boxShadow="xs"
+      border="1px solid"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      px={6}
+      py={6}
+      bg={bg}
+    >
       <HStack justify="space-between" color="bfgrey">
-        <HStack spaceX={2}>
+        <HStack spaceX={2} flex={1}>
           <Grid
             fontSize={{ base: "md", md: "3xl" }}
             placeItems="center"
@@ -156,7 +164,7 @@ export const MessageCard = ({
           </VStack>
         </HStack>
 
-        <VStack spaceY={2}>
+        <VStack spaceY={2} flex={0.5} align="end">
           <StyledText
             fontSize={{ base: "xs", md: "sm", lg: "md" }}
             fontWeight="normal"
