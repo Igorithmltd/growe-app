@@ -1,7 +1,7 @@
 "use client";
 
 import { StyledText } from "@/src/components";
-import { Box, Flex, Text, Heading, VStack, HStack, Badge, Button } from "@chakra-ui/react";
+import { Box, VStack, HStack } from "@chakra-ui/react";
 import { GoBell } from "react-icons/go";
 import { AccountCard, MessageCard, SavingsCard } from "../cards";
 import { MdChevronRight } from "react-icons/md";
