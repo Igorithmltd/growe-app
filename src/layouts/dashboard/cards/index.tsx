@@ -250,16 +250,9 @@ export const AccountCard = ({
 
 export const ActiveSavingsCard = ({
   bg = "white",
-  title,
-  timeAgo,
-  message,
-  isRead = true,
+ 
 }: {
   bg?: string;
-  title: string;
-  message: string;
-  timeAgo: string;
-  isRead?: boolean;
 }) => {
   return (
     <ReuseableCard
@@ -278,7 +271,7 @@ export const ActiveSavingsCard = ({
         </HStack>
 
         <Box>
-            
+
         </Box>
       </VStack>
     </ReuseableCard>
