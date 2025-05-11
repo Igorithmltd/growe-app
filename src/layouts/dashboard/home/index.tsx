@@ -94,41 +94,32 @@ const DashboardHome = () => {
       </Box>
 
       {/* Active savings */}
-      <Heading size="sm" mb={3}>
-        Active Savings
-      </Heading>
-      <Box borderWidth="1px" borderRadius="md" p={4} mb={6}>
-        <Text fontWeight="bold" mb={2}>
-          Rent
-        </Text>
-        <Text fontSize="sm" color="gray.500" mb={2}>
-          6 months plan
-        </Text>
+      <Box>
+        <HStack justify="space-between">
+          <StyledText
+            fontSize={{ base: "md", md: "lg", lg: "2xl" }}
+            fontWeight="medium"
+            color="secondary"
+          >
+            Active Savings
+          </StyledText>
 
-        <VStack spaceY={2} mb={3}>
-          <Flex justify="space-between" w="full">
-            <Text fontSize="sm">90% completed</Text>
-            <Text fontSize="sm">¥800,000</Text>
-          </Flex>
-          {/* <Progress value={90} size="sm" colorScheme="green" borderRadius="full" /> */}
+          <MdChevronRight size={30} fontWeight={400} cursor="pointer" color="secondary" />
+        </HStack>
+
+        <VStack align="stretch" spaceY={4} mt={6}>
+          <MessageCard
+            timeAgo="2m ago"
+            title="Family Savings"
+            message="Payment for this month has been received"
+          />
+
+          <MessageCard
+            timeAgo="1hr ago"
+            title="Investment Group"
+            message="New investment opportunity available"
+          />
         </VStack>
-
-        <Text fontSize="sm" color="gray.500">
-          Target amount
-        </Text>
-      </Box>
-
-      {/* Promoted savings groups */}
-      <Box bg="blue.50" p={4} borderRadius="md">
-        <Heading size="sm" mb={2}>
-          Promoted savings Groups
-        </Heading>
-        <Text fontSize="sm" mb={3}>
-          ¥50K each
-        </Text>
-        <Button variant="solid" colorScheme="blue">
-          Find more
-        </Button>
       </Box>
     </VStack>
   );
