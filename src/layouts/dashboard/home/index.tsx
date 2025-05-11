@@ -3,7 +3,7 @@
 import { StyledText } from "@/src/components";
 import { Box, VStack, HStack } from "@chakra-ui/react";
 import { GoBell } from "react-icons/go";
-import { AccountCard, MessageCard, SavingsCard } from "../cards";
+import { AccountCard, ActiveSavingsCard, MessageCard, SavingsCard } from "../cards";
 import { MdChevronRight } from "react-icons/md";
 
 const DashboardHome = () => {
@@ -108,17 +108,7 @@ const DashboardHome = () => {
         </HStack>
 
         <VStack align="stretch" spaceY={4} mt={6}>
-          <MessageCard
-            timeAgo="2m ago"
-            title="Family Savings"
-            message="Payment for this month has been received"
-          />
-
-          <MessageCard
-            timeAgo="1hr ago"
-            title="Investment Group"
-            message="New investment opportunity available"
-          />
+          <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
         </VStack>
       </Box>
     </VStack>

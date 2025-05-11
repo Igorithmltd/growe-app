@@ -1,25 +1,32 @@
 import { Progress } from "@chakra-ui/react";
+import { StyledText } from "../text";
 
 interface StyledProgressProps {
   value: number;
   label?: string;
-  showValueText?: boolean;
   colorScheme?: string;
 }
 
 export const StyledProgress = ({
   value,
   label,
-  showValueText = true,
-  colorScheme = "blue",
+  colorScheme = "primary",
 }: StyledProgressProps) => {
   return (
-    <Progress.Root value={value} max={100}>
-      <Progress.Track>
-        <Progress.Range style={{ backgroundColor: `var(--chakra-colors-${colorScheme}-500)` }} />
+    <Progress.Root value={value} max={100} unstyled={true}>
+      <Progress.Track borderRadius="20px" h="8px" bg="#f7f7f7">
+        <Progress.Range borderRadius="20px" bg={colorScheme} h="full" />
       </Progress.Track>
-      {label && <Progress.Label>{label}</Progress.Label>}
-      {showValueText && <Progress.ValueText />}
+      {label && (
+        <StyledText
+          fontSize={{ base: "xs", md: "sm", lg: "md" }}
+          fontWeight="normal"
+          color="bfgrey"
+          mt={2}
+        >
+          {label}
+        </StyledText>
+      )}
     </Progress.Root>
   );
 };

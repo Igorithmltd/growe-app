@@ -1,5 +1,5 @@
 import { ChatIcon } from "@/public/svgs";
-import { ReuseableCard, StyledButton, StyledText } from "@/src/components";
+import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
@@ -250,9 +250,16 @@ export const AccountCard = ({
 
 export const ActiveSavingsCard = ({
   bg = "white",
- 
+  value,
+  name,
+  plan,
+  amount,
 }: {
   bg?: string;
+  value: number;
+  name: string;
+  plan: string;
+  amount: string;
 }) => {
   return (
     <ReuseableCard
@@ -264,14 +271,44 @@ export const ActiveSavingsCard = ({
       py={6}
       bg={bg}
     >
-      <VStack>
-        <HStack>
-            <Box></Box>
-            <Box></Box>
+      <VStack align="stretch" spaceY={3}>
+        <HStack justify="space-between" align="stretch">
+          <VStack spaceY={1} align="start" justify="space-between">
+            <StyledText
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
+              fontWeight="medium"
+              color="secondary"
+            >
+              {name}
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {plan} plan
+            </StyledText>
+          </VStack>
+          <Box spaceY={1}>
+            <StyledText
+              fontSize={{ base: "md", md: "lg", lg: "2xl" }}
+              fontWeight="medium"
+              color="secondary"
+            >
+              ₦{amount}
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              Target amount
+            </StyledText>
+          </Box>
         </HStack>
 
         <Box>
-
+          <StyledProgress value={value} label={`${value}% completed`} />
         </Box>
       </VStack>
     </ReuseableCard>
