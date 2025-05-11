@@ -5,4 +5,5 @@ export { PasswordInput } from "./password-input";
 export { StyledPinInput } from "./pin-input";
 export { Modal } from "./modal";
 export { ReuseableCard } from "./card";
+export { StyledProgress } from "./progress";
 export { Loader, Spinner } from "./loader";

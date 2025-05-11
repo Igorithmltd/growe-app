@@ -1,5 +1,5 @@
 import { ChatIcon } from "@/public/svgs";
-import { ReuseableCard, StyledButton, StyledText } from "@/src/components";
+import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
@@ -124,9 +124,17 @@ export const MessageCard = ({
   isRead?: boolean;
 }) => {
   return (
-    <ReuseableCard boxShadow="none" borderRadius="15px" px={6} py={6} bg={bg}>
+    <ReuseableCard
+      boxShadow="xs"
+      border="1px solid"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      px={6}
+      py={6}
+      bg={bg}
+    >
       <HStack justify="space-between" color="bfgrey">
-        <HStack spaceX={2}>
+        <HStack spaceX={2} flex={1}>
           <Grid
             fontSize={{ base: "md", md: "3xl" }}
             placeItems="center"
@@ -156,7 +164,7 @@ export const MessageCard = ({
           </VStack>
         </HStack>
 
-        <VStack spaceY={2}>
+        <VStack spaceY={2} flex={0.5} align="end">
           <StyledText
             fontSize={{ base: "xs", md: "sm", lg: "md" }}
             fontWeight="normal"
@@ -236,6 +244,73 @@ export const AccountCard = ({
           </StyledText>
         </Flex>
       </HStack>
+    </ReuseableCard>
+  );
+};
+
+export const ActiveSavingsCard = ({
+  bg = "white",
+  value,
+  name,
+  plan,
+  amount,
+}: {
+  bg?: string;
+  value: number;
+  name: string;
+  plan: string;
+  amount: string;
+}) => {
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      border="1px solid"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      px={6}
+      py={6}
+      bg={bg}
+    >
+      <VStack align="stretch" spaceY={3}>
+        <HStack justify="space-between" align="stretch">
+          <VStack spaceY={1} align="start" justify="space-between">
+            <StyledText
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
+              fontWeight="medium"
+              color="secondary"
+            >
+              {name}
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {plan} plan
+            </StyledText>
+          </VStack>
+          <Box spaceY={1}>
+            <StyledText
+              fontSize={{ base: "md", md: "lg", lg: "2xl" }}
+              fontWeight="medium"
+              color="secondary"
+            >
+              ₦{amount}
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              Target amount
+            </StyledText>
+          </Box>
+        </HStack>
+
+        <Box>
+          <StyledProgress value={value} label={`${value}% completed`} />
+        </Box>
+      </VStack>
     </ReuseableCard>
   );
 };
