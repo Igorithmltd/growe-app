@@ -247,3 +247,40 @@ export const AccountCard = ({
     </ReuseableCard>
   );
 };
+
+export const ActiveSavingsCard = ({
+  bg = "white",
+  title,
+  timeAgo,
+  message,
+  isRead = true,
+}: {
+  bg?: string;
+  title: string;
+  message: string;
+  timeAgo: string;
+  isRead?: boolean;
+}) => {
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      border="1px solid"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      px={6}
+      py={6}
+      bg={bg}
+    >
+      <VStack>
+        <HStack>
+            <Box></Box>
+            <Box></Box>
+        </HStack>
+
+        <Box>
+            
+        </Box>
+      </VStack>
+    </ReuseableCard>
+  );
+};
