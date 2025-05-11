@@ -52,7 +52,7 @@ export const useFetcher = async ({
   try {
     const result: AxiosResponse = await axios(config);
 
-    const newToken = result.headers["x-token"];
+    const newToken = result.headers["Authorization"] || result.headers["authorization"];
     const refreshToken = result.headers["refresh"];
 
     if (newToken) setCookie("x-token", newToken);

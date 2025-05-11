@@ -1,5 +1,7 @@
 import { ChatIcon } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
+import useShowToast from "@/src/hooks/useShowToast";
+import { copyToClipboard } from "@/src/utils/helpers";
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
@@ -204,6 +206,16 @@ export const AccountCard = ({
   accountName: string;
   bank: string;
 }) => {
+  const toast = useShowToast();
+
+  const handleCopy = async () => {
+    const success = await copyToClipboard(accountNumber);
+    toast({
+      title: success ? "Copied!" : "Copy failed",
+      status: success ? "success" : "error",
+    });
+  };
+
   return (
     <ReuseableCard
       boxShadow="none"
@@ -230,7 +242,7 @@ export const AccountCard = ({
               </StyledText>
             </VStack>
 
-            <MdContentCopy />
+            <MdContentCopy onClick={handleCopy} cursor="pointer" />
           </HStack>
 
           <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="inherit">

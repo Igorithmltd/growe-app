@@ -4,11 +4,8 @@ import { useFetcher } from "../../useFetcher";
 import { handleError } from "@/src/utils/helpers";
 //
 
-
-const useAdmin = () => {
-  const fetchUser = useCallback(async (): Promise<
-    GlobalResponseData<any>
-  > => {
+const useUser = () => {
+  const fetchUser = useCallback(async (): Promise<GlobalResponseData<any>> => {
     try {
       const response = await useFetcher({
         url: "/user/get-account",
@@ -29,7 +26,7 @@ const useAdmin = () => {
 };
 
 export function useAuth() {
-  const { fetchUser } = useAdmin();
+  const { fetchUser } = useUser();
 
   const { data, error, isPending, isFetching, refetch } = useQuery({
     queryKey: ["user"],
