@@ -3,11 +3,12 @@
 import { StyledText } from "@/src/components";
 import { Box, Flex, Text, Heading, VStack, HStack, Badge, Button } from "@chakra-ui/react";
 import { GoBell } from "react-icons/go";
-import { AccountCard, SavingsCard } from "../cards";
+import { AccountCard, MessageCard, SavingsCard } from "../cards";
+import { MdChevronRight } from "react-icons/md";
 
 const DashboardHome = () => {
   return (
-    <Box w="full" p={2}>
+    <VStack w="full" align="stretch" spaceY={{ base: 6, md: 8 }} p={2}>
       {/* Header with welcome message */}
       <HStack justify="space-between" align="center" mb={6}>
         <VStack align="flex-start" spaceY={0}>
@@ -41,7 +42,6 @@ const DashboardHome = () => {
       <HStack
         spaceX={{ base: 2, md: 4 }}
         overflowX="auto"
-        mt={8}
         css={{
           scrollbarWidth: "none", // Firefox
           msOverflowStyle: "none", // IE 10+
@@ -65,63 +65,33 @@ const DashboardHome = () => {
       </HStack>
 
       {/* Recent messages section */}
-      <Heading size="sm" mb={3}>
-        Recent Messages
-      </Heading>
+      <Box>
+        <HStack justify="space-between">
+          <StyledText
+            fontSize={{ base: "md", md: "lg", lg: "2xl" }}
+            fontWeight="medium"
+            color="secondary"
+          >
+            Recent Messages
+          </StyledText>
 
-      <VStack spaceY={4} mb={6}>
-        {/* Message 1 */}
-        <Box w="full" p={3} borderWidth="1px" borderRadius="md">
-          <Flex justify="space-between">
-            <Text fontWeight="bold">Family Savings</Text>
-            <Badge
-              colorScheme="red"
-              borderRadius="full"
-              boxSize={5}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              1
-            </Badge>
-          </Flex>
-          <Text fontSize="sm" color="gray.600">
-            Payment for this month has been received
-          </Text>
-          <Flex justify="space-between" mt={2}>
-            <Text fontSize="xs" color="gray.400">
-              2m ago
-            </Text>
-            {/* <Icon as={FiMessageSquare} color="gray.400" /> */}
-          </Flex>
-        </Box>
+          <MdChevronRight size={30} fontWeight={400} cursor="pointer" color="secondary" />
+        </HStack>
 
-        {/* Message 2 */}
-        <Box w="full" p={3} borderWidth="1px" borderRadius="md">
-          <Flex justify="space-between">
-            <Text fontWeight="bold">Investment Group</Text>
-            <Badge
-              colorScheme="red"
-              borderRadius="full"
-              boxSize={5}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              1
-            </Badge>
-          </Flex>
-          <Text fontSize="sm" color="gray.600">
-            New investment opportunity available
-          </Text>
-          <Flex justify="space-between" mt={2}>
-            <Text fontSize="xs" color="gray.400">
-              1hr ago
-            </Text>
-            {/* <Icon as={FiMessageSquare} color="gray.400" /> */}
-          </Flex>
-        </Box>
-      </VStack>
+        <VStack align="stretch" spaceY={4} mt={6}>
+          <MessageCard
+            timeAgo="2m ago"
+            title="Family Savings"
+            message="Payment for this month has been received"
+          />
+
+          <MessageCard
+            timeAgo="1hr ago"
+            title="Investment Group"
+            message="New investment opportunity available"
+          />
+        </VStack>
+      </Box>
 
       {/* Active savings */}
       <Heading size="sm" mb={3}>
@@ -160,7 +130,7 @@ const DashboardHome = () => {
           Find more
         </Button>
       </Box>
-    </Box>
+    </VStack>
   );
 };
 
