@@ -1,5 +1,6 @@
+import { ChatIcon } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledText } from "@/src/components";
-import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
@@ -109,27 +110,79 @@ export const SavingsCard = ({
   );
 };
 
-export const MessageCard = ({ bg = "white" }: { bg?: string }) => {
+export const MessageCard = ({
+  bg = "white",
+  title,
+  timeAgo,
+  message,
+  isRead = true,
+}: {
+  bg?: string;
+  title: string;
+  message: string;
+  timeAgo: string;
+  isRead?: boolean;
+}) => {
   return (
-    <ReuseableCard
-      boxShadow="none"
-      borderRadius="15px"
-      px={6}
-      py={6}
-      bg={bg}
-      //   minWidth={{ base: "360px", md: "400px", lg: "49%" }}
-    >
-      <HStack justify="space-between">
-        <HStack>
-          <Box></Box>
-          <VStack></VStack>
+    <ReuseableCard boxShadow="none" borderRadius="15px" px={6} py={6} bg={bg}>
+      <HStack justify="space-between" color="bfgrey">
+        <HStack spaceX={2}>
+          <Grid
+            fontSize={{ base: "md", md: "3xl" }}
+            placeItems="center"
+            boxSize={{ base: "30px", md: "45px" }}
+            borderRadius="full"
+            bg="#F8FBEB"
+            color="primary"
+          >
+            <ChatIcon />
+          </Grid>
+
+          <VStack align="start" spaceY={{ base: 2, md: 4 }}>
+            <StyledText
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
+              fontWeight="medium"
+              color="secondary"
+            >
+              {title}
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="inherit"
+            >
+              {message}
+            </StyledText>
+          </VStack>
         </HStack>
 
-        <VStack></VStack>
+        <VStack spaceY={2}>
+          <StyledText
+            fontSize={{ base: "xs", md: "sm", lg: "md" }}
+            fontWeight="normal"
+            color="inherit"
+          >
+            {timeAgo}
+          </StyledText>
+
+          {isRead && (
+            <Grid
+              bg="#F06767"
+              placeItems="center"
+              boxSize="15px"
+              color="white"
+              borderRadius="full"
+              fontSize={{ base: "8px", md: "xs" }}
+            >
+              1
+            </Grid>
+          )}
+        </VStack>
       </HStack>
     </ReuseableCard>
   );
 };
+
 export const AccountCard = ({
   bg = "#F8FBEB",
   color = "primary",
