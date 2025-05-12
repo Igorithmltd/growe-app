@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 type UserDetailsState = {
-  user: any;
-  setUser: (user: any) => void;
+  user: UserDetails | null;
+  setUser: (user: UserDetails) => void;
 };
 
 export const useUserDetailsStore = create<UserDetailsState>((set) => ({
