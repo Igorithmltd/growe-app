@@ -3,7 +3,6 @@
 type GlobalResponseData<T> = {
   success: boolean;
   data: {
-    error: string;
     message: T;
   };
 };
