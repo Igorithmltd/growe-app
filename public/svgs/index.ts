@@ -22,6 +22,7 @@ import SavingsIcon from "./savings.svg";
 import InvestIcon from "./invest.svg";
 import SuccessMark from "./success-mark.svg";
 import InfoMark from "./info-mark.svg";
+import EmptyFolder from "./empty-folder.svg";
 
 export {
   Hamburger,
@@ -46,4 +47,5 @@ export {
   InvestIcon,
   SuccessMark,
   InfoMark,
+  EmptyFolder,
 };

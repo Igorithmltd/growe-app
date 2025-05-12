@@ -1,4 +1,4 @@
-import { ChatIcon } from "@/public/svgs";
+import { ChatIcon, EmptyFolder } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
@@ -326,6 +326,32 @@ export const ActiveSavingsCard = ({
         <Box>
           <StyledProgress value={value} label={`${value}% completed`} />
         </Box>
+      </VStack>
+    </ReuseableCard>
+  );
+};
+
+export const EmptyCard = ({ bg = "white", title }: { bg?: string; title: string }) => {
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      border="1px solid"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      px={6}
+      py={10}
+      bg={bg}
+    >
+      <VStack align="center" spaceY={5}>
+        <EmptyFolder />
+
+        <StyledText
+          fontSize={{ base: "xs", md: "sm", lg: "md" }}
+          fontWeight="normal"
+          color="secondary"
+        >
+          {title}
+        </StyledText>
       </VStack>
     </ReuseableCard>
   );
