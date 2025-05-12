@@ -52,8 +52,8 @@ export const useFetcher = async ({
   try {
     const result: AxiosResponse = await axios(config);
 
-    const newToken = result.headers["Authorization"] || result.headers["authorization"];
-    const refreshToken = result.headers["refresh"];
+    const newToken = result.headers["authorization"].replace("Bearer ", "");
+    const refreshToken = result.headers["refresh_token"].replace("Bearer ", "");
 
     if (newToken) setCookie("x-token", newToken);
     if (refreshToken) setCookie("refresh-token", refreshToken);
