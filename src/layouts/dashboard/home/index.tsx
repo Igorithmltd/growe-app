@@ -6,15 +6,18 @@ import { GoBell } from "react-icons/go";
 import { AccountCard, ActiveSavingsCard, MessageCard, SavingsCard } from "../cards";
 import { MdChevronRight } from "react-icons/md";
 import { FaChevronRight } from "react-icons/fa6";
+import { useUserDetailsStore } from "@/src/stores/user-details";
 
 const DashboardHome = () => {
+  const user = useUserDetailsStore((state) => state.user);
+
   return (
     <VStack w="full" align="stretch" spaceY={{ base: 6, md: 8 }} p={2}>
       {/* Header with welcome message */}
       <HStack justify="space-between" align="center">
         <VStack align="flex-start" spaceY={0}>
           <StyledText fontSize={{ base: "lg", md: "xl" }} fontWeight="medium" color="primary">
-            Hello, John
+            Hello,{""} {user?.firstName}
           </StyledText>
           <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="secondary">
             Welcome back

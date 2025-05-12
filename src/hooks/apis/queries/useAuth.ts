@@ -5,7 +5,7 @@ import { handleError } from "@/src/utils/helpers";
 //
 
 const useUser = () => {
-  const fetchUser = useCallback(async (): Promise<GlobalResponseData<any>> => {
+  const fetchUser = useCallback(async (): Promise<GlobalResponseData<UserDetails>> => {
     try {
       const response = await useFetcher({
         url: "/users/get-account",

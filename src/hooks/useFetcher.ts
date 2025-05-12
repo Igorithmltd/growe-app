@@ -52,11 +52,15 @@ export const useFetcher = async ({
   try {
     const result: AxiosResponse = await axios(config);
 
-    const newToken = result.headers["authorization"].replace("Bearer ", "");
-    const refreshToken = result.headers["refresh_token"].replace("Bearer ", "");
+    const newToken = result.headers["authorization"];
+    const refreshToken = result.headers["refresh_token"];
 
-    if (newToken) setCookie("x-token", newToken);
-    if (refreshToken) setCookie("refresh-token", refreshToken);
+    if (newToken) {
+      setCookie("x-token", newToken.replace("Bearer ", ""));
+    }
+    if (refreshToken) {
+      setCookie("refresh-token", refreshToken.replace("Bearer ", ""));
+    }
 
     return { data: result.data };
   } catch (error) {
@@ -68,8 +72,8 @@ export const useFetcher = async ({
         const refreshToken = getCookie("refresh-token");
 
         const refreshResponse = await axios({
-          method: "POST",
-          url: `${BASE_URL}/admin/refresh`,
+          method: "GET",
+          url: `${BASE_URL}/auth/refresh-token`,
           headers: {
             Authorization: refreshToken ? `Bearer ${refreshToken}` : "",
             "Content-Type": "application/json",

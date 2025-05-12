@@ -26,21 +26,23 @@ export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
   }
 
   if (data?.success) {
-    setUser(data.data);
+    setUser(data.data.message);
   }
 
   if (error) {
     const statusCode = (error as any)?.response?.status || (error as any)?.status || null;
 
-    if (statusCode !== 401) {
+    if (statusCode >= 500 && statusCode < 600) {
       deleteCookie("x-token");
       deleteCookie("refresh-token");
-      window.location.href = "/login";
+
       showToast({
         title: error?.message || "Network Error",
         description: "No response received from the server, try again",
         status: "error",
       });
+
+      window.location.href = "/login";
     }
     return <Fragment>{children}</Fragment>;
   }
