@@ -5,6 +5,7 @@ import { Box, VStack, HStack } from "@chakra-ui/react";
 import { GoBell } from "react-icons/go";
 import { AccountCard, ActiveSavingsCard, MessageCard, SavingsCard } from "../cards";
 import { MdChevronRight } from "react-icons/md";
+import { FaChevronRight } from "react-icons/fa6";
 
 const DashboardHome = () => {
   return (
@@ -31,7 +32,11 @@ const DashboardHome = () => {
         amount="0.00"
         interest="0%"
         bgImage="url('/images/card-image.webp')"
-        notes="Financial Notes ›"
+        notes={
+          <HStack as="span">
+            Financial Notes <FaChevronRight />
+          </HStack>
+        }
         buttonText="View Savings"
         buttonAction={() => {}}
         notesAction={() => {}}

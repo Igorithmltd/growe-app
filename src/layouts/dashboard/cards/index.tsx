@@ -3,7 +3,7 @@ import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/c
 import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
 interface SavingsCardProps {
@@ -14,8 +14,10 @@ interface SavingsCardProps {
   amount: string;
   amountColor?: string;
   buttonBg?: string;
-  buttonText: string;
-  notes?: string;
+  buttonText: ReactNode;
+  notes?: ReactNode;
+  boxShadow?: string;
+  color?: string;
   notesAction?: VoidFunction;
   buttonAction: VoidFunction;
 }
@@ -32,17 +34,19 @@ export const SavingsCard = ({
   notes,
   notesAction,
   interest,
+  boxShadow = "none",
+  color = "#EDE8D0",
 }: SavingsCardProps) => {
   const [visible, setVisible] = useState<boolean>();
 
   return (
     <ReuseableCard
-      boxShadow="none"
+      boxShadow={boxShadow}
       borderRadius="15px"
       px={6}
       py={6}
       bg={bg}
-      color="#EDE8D0"
+      color={color}
       backgroundImage={bgImage}
     >
       <HStack justify="space-between" alignItems="stretch">
