@@ -26,95 +26,97 @@ const DashboardHome = () => {
         </Box>
       </HStack>
 
-      {/* Total savings section */}
-      <SavingsCard
-        title="Total Savings"
-        amount="0.00"
-        interest="0%"
-        bgImage="url('/images/card-image.webp')"
-        notes={
-          <HStack as="span">
-            Financial Notes <FaChevronRight />
+      <Box spaceY={{ base: 6, md: 8 }} px={{ xl: 50 }}>
+        {/* Total savings section */}
+        <SavingsCard
+          title="Total Savings"
+          amount="0.00"
+          interest="0%"
+          bgImage="url('/images/card-image.webp')"
+          notes={
+            <HStack as="span">
+              Financial Notes <FaChevronRight />
+            </HStack>
+          }
+          buttonText="View Savings"
+          buttonAction={() => {}}
+          notesAction={() => {}}
+        />
+
+        {/* Account info */}
+
+        <HStack
+          spaceX={{ base: 2, md: 4 }}
+          overflowX="auto"
+          css={{
+            scrollbarWidth: "none", // Firefox
+            msOverflowStyle: "none", // IE 10+
+            "&::-webkit-scrollbar": {
+              display: "none", // Chrome, Safari
+            },
+          }}
+        >
+          <AccountCard
+            accountName="John Doe"
+            accountNumber="0123456789"
+            bank="Monniepoint Microfinance Bank"
+          />
+
+          <AccountCard
+            accountName="John Doe"
+            accountNumber="0123456789"
+            bank="Monniepoint Microfinance Bank"
+            bg="#F6EDD9"
+          />
+        </HStack>
+
+        {/* Recent messages section */}
+        <Box>
+          <HStack justify="space-between">
+            <StyledText
+              fontSize={{ base: "md", md: "lg", lg: "2xl" }}
+              fontWeight="medium"
+              color="secondary"
+            >
+              Recent Messages
+            </StyledText>
+
+            <MdChevronRight size={30} fontWeight={400} cursor="pointer" color="secondary" />
           </HStack>
-        }
-        buttonText="View Savings"
-        buttonAction={() => {}}
-        notesAction={() => {}}
-      />
 
-      {/* Account info */}
+          <VStack align="stretch" spaceY={4} mt={6}>
+            <MessageCard
+              timeAgo="2m ago"
+              title="Family Savings"
+              message="Payment for this month has been received"
+            />
 
-      <HStack
-        spaceX={{ base: 2, md: 4 }}
-        overflowX="auto"
-        css={{
-          scrollbarWidth: "none", // Firefox
-          msOverflowStyle: "none", // IE 10+
-          "&::-webkit-scrollbar": {
-            display: "none", // Chrome, Safari
-          },
-        }}
-      >
-        <AccountCard
-          accountName="John Doe"
-          accountNumber="0123456789"
-          bank="Monniepoint Microfinance Bank"
-        />
+            <MessageCard
+              timeAgo="1hr ago"
+              title="Investment Group"
+              message="New investment opportunity available"
+            />
+          </VStack>
+        </Box>
 
-        <AccountCard
-          accountName="John Doe"
-          accountNumber="0123456789"
-          bank="Monniepoint Microfinance Bank"
-          bg="#F6EDD9"
-        />
-      </HStack>
+        {/* Active savings */}
+        <Box>
+          <HStack justify="space-between">
+            <StyledText
+              fontSize={{ base: "md", md: "lg", lg: "2xl" }}
+              fontWeight="medium"
+              color="secondary"
+            >
+              Active Savings
+            </StyledText>
 
-      {/* Recent messages section */}
-      <Box>
-        <HStack justify="space-between">
-          <StyledText
-            fontSize={{ base: "md", md: "lg", lg: "2xl" }}
-            fontWeight="medium"
-            color="secondary"
-          >
-            Recent Messages
-          </StyledText>
+            <MdChevronRight size={30} fontWeight={400} cursor="pointer" color="secondary" />
+          </HStack>
 
-          <MdChevronRight size={30} fontWeight={400} cursor="pointer" color="secondary" />
-        </HStack>
-
-        <VStack align="stretch" spaceY={4} mt={6}>
-          <MessageCard
-            timeAgo="2m ago"
-            title="Family Savings"
-            message="Payment for this month has been received"
-          />
-
-          <MessageCard
-            timeAgo="1hr ago"
-            title="Investment Group"
-            message="New investment opportunity available"
-          />
-        </VStack>
-      </Box>
-
-      {/* Active savings */}
-      <Box>
-        <HStack justify="space-between">
-          <StyledText
-            fontSize={{ base: "md", md: "lg", lg: "2xl" }}
-            fontWeight="medium"
-            color="secondary"
-          >
-            Active Savings
-          </StyledText>
-
-          <MdChevronRight size={30} fontWeight={400} cursor="pointer" color="secondary" />
-        </HStack>
-
-        <VStack align="stretch" spaceY={4} mt={6}>
-          <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
-        </VStack>
+          <VStack align="stretch" spaceY={4} mt={6}>
+            <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
+          </VStack>
+        </Box>
       </Box>
     </VStack>
   );
