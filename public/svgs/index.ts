@@ -23,6 +23,7 @@ import InvestIcon from "./invest.svg";
 import SuccessMark from "./success-mark.svg";
 import InfoMark from "./info-mark.svg";
 import EmptyFolder from "./empty-folder.svg";
+import GroupIcon from "./group.svg";
 
 export {
   Hamburger,
@@ -48,4 +49,5 @@ export {
   SuccessMark,
   InfoMark,
   EmptyFolder,
+  GroupIcon
 };

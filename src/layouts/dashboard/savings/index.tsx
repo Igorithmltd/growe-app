@@ -5,7 +5,7 @@ import { Box, HStack } from "@chakra-ui/react";
 import PersonalSavings from "./personal";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { SavingsIcon } from "@/public/svgs";
+import { GroupIcon, SavingsIcon } from "@/public/svgs";
 
 const MotionBox = motion.create(Box);
 
@@ -29,17 +29,19 @@ const SavingsLayout = () => {
         mx="auto"
         justifyContent="space-between"
       >
-        {["Personal Savings", "Group Savings"].map((item) => {
-          // Determine if the current item matches the `isCustomer` state
+        {[
+          { name: "Personal Savings", icon: <SavingsIcon /> },
+          { name: "Group Savings", icon: <GroupIcon /> },
+        ].map((item) => {
           const isSelected =
-            (item === "Personal Savings" && isPersonal) ||
-            (item === "Group Savings" && !isPersonal);
+            (item.name === "Personal Savings" && isPersonal) ||
+            (item.name === "Group Savings" && !isPersonal);
           return (
             <MotionBox
-              key={item}
+              key={item.name}
               whileTap={{ scale: 0.95 }}
               whileHover={{ scale: 1.05 }}
-              bg={isSelected ? "#FDFDFD" : "transparent"}
+              bg={isSelected ? "bluelight" : "transparent"}
               textAlign="center"
               py={{ base: 2, md: 4 }}
               w="50%"
@@ -47,10 +49,10 @@ const SavingsLayout = () => {
               border={isSelected ? "1px solid" : "unset"}
               borderColor="#F8F8F8"
               cursor="pointer"
-              onClick={() => setIsPersonal(item === "Personal Savings")}
+              onClick={() => setIsPersonal(item.name === "Personal Savings")}
             >
               <StyledText
-                color="primary"
+                color={isSelected ? "primary" : "#8F8F8F"}
                 fontSize={{ base: "sm", md: "md" }}
                 fontWeight="normal"
                 display="flex"
@@ -59,9 +61,9 @@ const SavingsLayout = () => {
                 justifyContent="center"
               >
                 <Box as="span" fontSize="20px">
-                  <SavingsIcon />
+                  {item.icon}
                 </Box>
-                {item}
+                {item.name}
               </StyledText>
             </MotionBox>
           );
