@@ -43,7 +43,7 @@ export const SavingsCard = ({
     <ReuseableCard
       boxShadow={boxShadow}
       borderRadius="15px"
-      px={6}
+      px={{base: 3, md: 6}}
       py={6}
       bg={bg}
       color={color}
@@ -135,7 +135,7 @@ export const MessageCard = ({
       border="1px solid"
       borderColor="#F8FBEB"
       borderRadius="15px"
-      px={6}
+      px={{base: 3, md: 6}}
       py={6}
       bg={bg}
     >
@@ -224,7 +224,7 @@ export const AccountCard = ({
     <ReuseableCard
       boxShadow="none"
       borderRadius="15px"
-      px={6}
+      px={{base: 3, md: 6}}
       py={6}
       bg={bg}
       minWidth={{ base: "360px", md: "400px", lg: "49%" }}
@@ -283,7 +283,7 @@ export const ActiveSavingsCard = ({
       border="1px solid"
       borderColor="#F8FBEB"
       borderRadius="15px"
-      px={6}
+      px={{base: 3, md: 6}}
       py={6}
       bg={bg}
     >
@@ -338,7 +338,7 @@ export const EmptyCard = ({ bg = "white", title }: { bg?: string; title: string 
       border="1px solid"
       borderColor="#F8FBEB"
       borderRadius="15px"
-      px={6}
+      px={{base: 3, md: 6}}
       py={10}
       bg={bg}
     >

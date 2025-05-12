@@ -8,7 +8,7 @@ const useUser = () => {
   const fetchUser = useCallback(async (): Promise<GlobalResponseData<any>> => {
     try {
       const response = await useFetcher({
-        url: "/user/get-account",
+        url: "/users/get-account",
         requestType: "GET",
         useBaseUrl: true,
       });
