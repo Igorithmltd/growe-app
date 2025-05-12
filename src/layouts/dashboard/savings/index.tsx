@@ -6,6 +6,7 @@ import PersonalSavings from "./personal";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { GroupIcon, SavingsIcon } from "@/public/svgs";
+import GroupSavings from "./group";
 
 const MotionBox = motion.create(Box);
 
@@ -19,7 +20,8 @@ const SavingsLayout = () => {
       </StyledText>
 
       <HStack
-        mb={{ base: 8, md: 12 }}
+        mb={6}
+        mt={6}
         align="center"
         p={2}
         bg="white"
@@ -70,7 +72,17 @@ const SavingsLayout = () => {
         })}
       </HStack>
 
-      <PersonalSavings />
+      <Box px={{ xl: 50 }}>
+        <MotionBox
+          key={isPersonal ? "personal" : "proup"}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 50 }}
+          transition={{ duration: 0.5 }}
+        >
+          {isPersonal ? <PersonalSavings /> : <GroupSavings />}
+        </MotionBox>
+      </Box>
     </Box>
   );
 };
