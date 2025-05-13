@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { GroupIcon, SavingsIcon } from "@/public/svgs";
 import GroupSavings from "./group";
+import QuickSavingLayout from "./personal/quick-saving";
 
 const MotionBox = motion.create(Box);
 
@@ -83,6 +84,8 @@ const SavingsLayout = () => {
           {isPersonal ? <PersonalSavings /> : <GroupSavings />}
         </MotionBox>
       </Box>
+
+      <QuickSavingLayout />
     </Box>
   );
 };
