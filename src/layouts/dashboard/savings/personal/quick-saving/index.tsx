@@ -4,11 +4,12 @@ import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
-import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
-import { ROUTES } from "@/src/utils/constants";
+import { StyledField, StyledButton, StyledText } from "@/src/components";
+// import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
 import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
+import { BackIcon } from "@/public/svgs";
 
 const QuickSavingLayout = () => {
   const router = useRouter();
@@ -16,7 +17,7 @@ const QuickSavingLayout = () => {
   const {
     register,
     handleSubmit,
-    reset,
+    // reset,
     formState: { errors, isSubmitting },
   } = useForm<QuickSavingValues>({
     resolver: yupResolver(quickSavingSchema),
@@ -29,6 +30,7 @@ const QuickSavingLayout = () => {
     //     router.push(ROUTES.DASHBOARD.HOME);
     //   },
     // });
+    console.log(data);
   };
 
   const commonProps = {
@@ -42,33 +44,59 @@ const QuickSavingLayout = () => {
   };
 
   return (
-    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <VStack spaceY={4} align="stretch">
-          <StyledField
-            label="Amount"
-            placeholder="Enter amount to save (Min: 1000)"
-            labelColor="secondary"
-            type="text"
-            fieldProps={register("amount")}
-            error={errors?.amount?.message}
-            {...commonProps}
-          />
+    <Box px={6} py={10} mt={{ base: 6, lg: "unset" }}>
+      <Box
+        display="flex"
+        gap={4}
+        alignItems="center"
+        mt={{ base: 6, lg: "unset" }}
+        cursor="pointer"
+        onClick={() => router.back()}
+      >
+        <BackIcon />
 
-          <AmountInput
-            label="Password"
-            placeholder="Enter your password"
-            labelColor="secondary"
-            field={register("amount")}
-            error={errors?.amount?.message}
-            {...commonProps}
-          />
+        <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="medium" color="secondary">
+          Quick Save
+        </StyledText>
+      </Box>
 
-          <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
-            Save
-          </StyledButton>
-        </VStack>
-      </form>
+      <StyledText
+        mt={6}
+        fontSize={{ base: "sm", md: "md", lg: "lg" }}
+        fontWeight="normal"
+        color="bfgrey"
+      >
+        Add money to your savings and watch your goals grow instantly!
+      </StyledText>
+
+      <Box w={{ lg: "65%" }} mx="auto" mt={14}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <VStack spaceY={4} align="stretch">
+            <StyledField
+              label="Amount"
+              placeholder="Enter amount to save (Min: 1000)"
+              labelColor="secondary"
+              type="text"
+              fieldProps={register("amount")}
+              error={errors?.amount?.message}
+              {...commonProps}
+            />
+
+            <AmountInput
+              label="Password"
+              placeholder="Enter your password"
+              labelColor="secondary"
+              field={register("amount")}
+              error={errors?.amount?.message}
+              {...commonProps}
+            />
+
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+              Save
+            </StyledButton>
+          </VStack>
+        </form>
+      </Box>
     </Box>
   );
 };
