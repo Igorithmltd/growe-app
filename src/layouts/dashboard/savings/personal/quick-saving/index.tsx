@@ -1,35 +1,33 @@
 "use client";
 
-import { Box, VStack, HStack, Link } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
-import { LoginFormValues, loginSchema } from "@/src/schema/auth.schema";
 import { ROUTES } from "@/src/utils/constants";
-import { useLogin } from "@/src/hooks/apis/mutation/useLogin";
 import { useRouter } from "next/navigation";
+import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
 
 const LoginLayout = () => {
   const router = useRouter();
-  const { mutate: login, isPending } = useLogin();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>({
-    resolver: yupResolver(loginSchema),
+  } = useForm<QuickSavingValues>({
+    resolver: yupResolver(quickSavingSchema),
   });
 
-  const onSubmit = (data: LoginFormValues) => {
-    login(data, {
-      onSuccess: () => {
-        reset();
-        router.push(ROUTES.DASHBOARD.HOME);
-      },
-    });
+  const onSubmit = (data: QuickSavingValues) => {
+    // login(data, {
+    //   onSuccess: () => {
+    //     reset();
+    //     router.push(ROUTES.DASHBOARD.HOME);
+    //   },
+    // });
   };
 
   const commonProps = {
@@ -44,80 +42,23 @@ const LoginLayout = () => {
 
   return (
     <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>
-      <VStack align="stretch" spaceY={6}>
-        <Box>
-          <StyledText
-            fontSize={{ base: "18px", md: "21px", lg: "24px" }}
-            fontWeight="semibold"
-            color="secondary"
-          >
-            Welcome Back to Growe!
-          </StyledText>
-          <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={2}>
-            Let’s get you back to saving, investing, and achieving your goals!
-          </StyledText>
-        </Box>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <VStack spaceY={4} align="stretch">
+          <StyledField
+            label="Amount"
+            placeholder="Enter amount to save (Min: 1000)"
+            labelColor="secondary"
+            type="text"
+            fieldProps={register("amount")}
+            error={errors?.amount?.message}
+            {...commonProps}
+          />
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spaceY={4} align="stretch">
-            <StyledField
-              label="Email"
-              placeholder="Enter your email"
-              labelColor="secondary"
-              type="text"
-              fieldProps={register("email")}
-              error={errors?.email?.message}
-              {...commonProps}
-            />
-
-            <PasswordInput
-              label="Password"
-              placeholder="Enter your password"
-              labelColor="secondary"
-              field={register("password")}
-              error={errors?.password?.message}
-              {...commonProps}
-            />
-
-            <HStack justify="flex-end">
-              <Link
-                href={ROUTES.AUTH.FORGOT_PASSWORD}
-                fontSize={{ base: "sm", md: "md", lg: "lg" }}
-                color="secondary"
-                _hover={{
-                  textDecor: "none",
-                }}
-                _focus={{
-                  outline: "none",
-                }}
-              >
-                Forgot Password?
-              </Link>
-            </HStack>
-
-            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
-              Log In
-            </StyledButton>
-          </VStack>
-        </form>
-
-        <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
-          New to Growe?{" "}
-          <Link
-            href={ROUTES.AUTH.SIGN_UP}
-            fontWeight="semibold"
-            color="secondary"
-            _hover={{
-              textDecor: "none",
-            }}
-            _focus={{
-              outline: "none",
-            }}
-          >
-            Create an Account
-          </Link>
-        </StyledText>
-      </VStack>
+          <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+            Save
+          </StyledButton>
+        </VStack>
+      </form>
     </Box>
   );
 };
