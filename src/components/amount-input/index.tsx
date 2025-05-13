@@ -24,6 +24,7 @@ export const AmountInput = ({
       bgColor="white"
       error={error}
       fieldProps={field}
+      currency="₦"
       {...props}
     />
   );
