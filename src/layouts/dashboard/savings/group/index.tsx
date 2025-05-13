@@ -48,7 +48,7 @@ const GroupSavings = () => {
 
         <VStack align="stretch" spaceY={4} mt={6}>
           {isEmpty ? (
-            <EmptyCard title="You Don’t Have Any Active Savings Yet!" />
+            <EmptyCard title="You Don’t Have Any Active Group Savings Yet!" />
           ) : (
             <VStack align="stretch" spaceY={4}>
               <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
