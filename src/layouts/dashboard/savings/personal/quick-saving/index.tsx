@@ -8,8 +8,9 @@ import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/comp
 import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
 import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
+import { AmountInput } from "@/src/components/amount-input";
 
-const LoginLayout = () => {
+const QuickSavingLayout = () => {
   const router = useRouter();
 
   const {
@@ -54,6 +55,15 @@ const LoginLayout = () => {
             {...commonProps}
           />
 
+          <AmountInput
+            label="Password"
+            placeholder="Enter your password"
+            labelColor="secondary"
+            field={register("amount")}
+            error={errors?.amount?.message}
+            {...commonProps}
+          />
+
           <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
             Save
           </StyledButton>
@@ -63,4 +73,4 @@ const LoginLayout = () => {
   );
 };
 
-export default LoginLayout;
+export default QuickSavingLayout;

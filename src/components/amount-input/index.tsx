@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
+import { Box } from "@chakra-ui/react";
 //
 import { StyledField, StyledFieldProps } from "../input";
 
@@ -24,7 +25,11 @@ export const AmountInput = ({
       bgColor="white"
       error={error}
       fieldProps={field}
-      currency="₦"
+      currency={
+        <Box px={2} fontWeight="bold" fontSize="lg">
+          ₦
+        </Box>
+      }
       {...props}
     />
   );
