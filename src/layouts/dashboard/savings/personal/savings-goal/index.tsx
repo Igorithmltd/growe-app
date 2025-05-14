@@ -11,6 +11,8 @@ import { quickSavingSchema } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon } from "@/public/svgs";
 import { useState } from "react";
+import WeekModal from "../../modals/WeekModal";
+import { useModal } from "@/src/contexts/ModalContext";
 
 export interface QuickSavingValues {
   purpose: string;
@@ -24,7 +26,10 @@ export interface QuickSavingValues {
 const SavingGoalLayout = () => {
   const router = useRouter();
 
+  const { setIsWeekOpen } = useModal();
+
   const [frequency, setFrequency] = useState("");
+  const [weekDay, setWeekDay] = useState("");
 
   const {
     register,
@@ -122,6 +127,9 @@ const SavingGoalLayout = () => {
               onChange={(val) => {
                 setFrequency(val);
                 setValue("frequency", val);
+                if (val === "Week") {
+                  setIsWeekOpen(true); // triggers the modal
+                }
               }}
             />
 
@@ -142,6 +150,8 @@ const SavingGoalLayout = () => {
               Save
             </StyledButton>
           </VStack>
+
+          <WeekModal value={weekDay} onChange={(val) => setWeekDay(val)} />
         </form>
       </Box>
     </Box>

@@ -37,7 +37,7 @@ export const SelectButtonGroup = ({
         templateColumns: `repeat(${columns}, auto)`,
         justifyContent: "start",
       }
-    : { spaceX: spacing };
+    : { gap: spacing, flexWrap: "wrap", align: "center" };
 
   return (
     <Box>
