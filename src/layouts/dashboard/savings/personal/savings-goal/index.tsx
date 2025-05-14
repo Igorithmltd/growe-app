@@ -4,23 +4,36 @@ import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
-import { StyledField, StyledButton, StyledText } from "@/src/components";
+import { StyledField, StyledButton, StyledText, SelectButtonGroup } from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
-import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
+import { quickSavingSchema } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon } from "@/public/svgs";
+import { useState } from "react";
+
+export interface QuickSavingValues {
+  purpose: string;
+  targetAmount: number;
+  frequentAmount: number;
+  frequency: string;
+  duration: string;
+  interestRate: number;
+}
 
 const SavingGoalLayout = () => {
   const router = useRouter();
 
+  const [frequency, setFrequency] = useState("");
+
   const {
     register,
     handleSubmit,
+    setValue,
     // reset,
     formState: { errors, isSubmitting },
   } = useForm<QuickSavingValues>({
-    resolver: yupResolver(quickSavingSchema),
+    // resolver: yupResolver(quickSavingSchema),
   });
 
   const onSubmit = (data: QuickSavingValues) => {
@@ -77,8 +90,8 @@ const SavingGoalLayout = () => {
               placeholder="e.g Rent, Vacation..."
               labelColor="secondary"
               type="text"
-              fieldProps={register("amount")}
-              error={errors?.amount?.message}
+              fieldProps={register("purpose")}
+              error={errors?.purpose?.message}
               {...commonProps}
             />
 
@@ -86,8 +99,8 @@ const SavingGoalLayout = () => {
               label="Target Amount"
               placeholder="Enter target amount"
               labelColor="secondary"
-              field={register("amount")}
-              error={errors?.amount?.message}
+              field={register("targetAmount")}
+              error={errors?.targetAmount?.message}
               {...commonProps}
             />
 
@@ -95,9 +108,34 @@ const SavingGoalLayout = () => {
               label="Frequent Amount"
               placeholder="Enter frequent amount to add to target"
               labelColor="secondary"
-              field={register("amount")}
-              error={errors?.amount?.message}
+              field={register("frequentAmount")}
+              error={errors?.frequentAmount?.message}
               {...commonProps}
+            />
+
+            <SelectButtonGroup
+              label="Every"
+              labelColor="secondary"
+              options={["Day", "Week", "Month"]}
+              value={frequency}
+              error={errors?.frequency?.message}
+              onChange={(val) => {
+                setFrequency(val);
+                setValue("frequency", val);
+              }}
+            />
+
+            <SelectButtonGroup
+              isGrid
+              label="For"
+              labelColor="secondary"
+              options={["6 months", "9 months", "1 year", "Let me choose"]}
+              value={frequency}
+              error={errors?.frequency?.message}
+              onChange={(val) => {
+                setFrequency(val);
+                setValue("frequency", val);
+              }}
             />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
