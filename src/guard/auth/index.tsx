@@ -9,6 +9,8 @@ import useShowToast from "@/src/hooks/useShowToast";
 import { useUserDetailsStore } from "@/src/stores/user-details";
 import { Loader } from "@/src/components";
 import { useAuth } from "@/src/hooks/apis/queries/useAuth";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/src/utils/constants";
 
 type RouteGuardProps = {
   children: ReactNode;
@@ -16,6 +18,7 @@ type RouteGuardProps = {
 
 export const dynamic = "force-dynamic";
 export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
+  const router = useRouter();
   const showToast = useShowToast();
 
   const { data, isPending, error, isFetching } = useAuth();
@@ -32,10 +35,10 @@ export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
   if (error) {
     const statusCode = (error as any)?.response?.status || (error as any)?.status || null;
 
-    if (statusCode >= 500 && statusCode < 600) {
+    if (statusCode !== 401) {
       deleteCookie("x-token");
       deleteCookie("refresh-token");
-
+      router.push(ROUTES.AUTH.LOGIN);
       showToast({
         title: error?.message || "Network Error",
         description: "No response received from the server, try again",
