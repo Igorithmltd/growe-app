@@ -33,7 +33,6 @@ const MonthModal = ({ value, onChange }: MonthModalProps) => {
 
         <SelectButtonGroup
           isGrid
-          isCircle
           width="1fr"
           columns={5}
           options={days}
