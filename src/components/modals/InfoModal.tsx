@@ -6,7 +6,7 @@ import { Flex, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 interface InfoModalProps {
-  title: string;
+  title?: string;
   message: string;
   hasButton?: boolean;
   buttonText?: string;

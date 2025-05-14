@@ -9,6 +9,7 @@ import { GroupIcon, SavingsIcon } from "@/public/svgs";
 import GroupSavings from "./group";
 import QuickSavingLayout from "./personal/quick-saving";
 import SavingGoalLayout from "./personal/savings-goal";
+import SummaryLayout from "./personal/savings-goal/summary";
 
 const MotionBox = motion.create(Box);
 
@@ -88,6 +89,7 @@ const SavingsLayout = () => {
 
       <QuickSavingLayout />
       <SavingGoalLayout />
+      <SummaryLayout />
     </Box>
   );
 };
