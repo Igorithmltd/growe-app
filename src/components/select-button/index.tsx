@@ -30,7 +30,6 @@ export const SelectButtonGroup = ({
   label,
   error,
   width = "auto",
-  isCircle = false,
 }: SelectButtonGroupProps) => {
   const Wrapper = isGrid ? SimpleGrid : HStack;
   const wrapperProps = isGrid
@@ -62,8 +61,8 @@ export const SelectButtonGroup = ({
           <Button
             w="fit-content"
             key={option}
-            px={5}
-            py={isCircle ? 5 : 2}
+            h="40px"
+            minW="40px"
             bg={value === option ? "primary" : "border"}
             color={value === option ? "white" : "bfgrey"}
             borderRadius="full"

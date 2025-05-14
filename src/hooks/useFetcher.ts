@@ -80,10 +80,10 @@ export const useFetcher = async ({
           },
         });
 
-        const newAccessToken = refreshResponse.headers["x-token"];
+        const newAccessToken = refreshResponse.headers["authorization"];
 
         if (newAccessToken) {
-          setCookie("x-token", newAccessToken);
+          setCookie("x-token", newAccessToken.replace("Bearer ", ""));
 
           config = {
             ...config,

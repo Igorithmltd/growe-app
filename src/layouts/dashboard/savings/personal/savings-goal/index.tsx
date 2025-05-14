@@ -74,7 +74,7 @@ const SavingGoalLayout = () => {
       >
         <BackIcon />
 
-        <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="medium" color="secondary">
+        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
           Saving Goal
         </StyledText>
       </Box>

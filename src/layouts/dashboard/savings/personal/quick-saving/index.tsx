@@ -9,7 +9,8 @@ import { StyledField, StyledButton, StyledText } from "@/src/components";
 import { useRouter } from "next/navigation";
 import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
-import { BackIcon } from "@/public/svgs";
+import { BackIcon, SuccessMark } from "@/public/svgs";
+import InfoModal from "@/src/components/modals/InfoModal";
 
 const QuickSavingLayout = () => {
   const router = useRouter();
@@ -55,7 +56,7 @@ const QuickSavingLayout = () => {
       >
         <BackIcon />
 
-        <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="medium" color="secondary">
+        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
           Quick Save
         </StyledText>
       </Box>
@@ -97,6 +98,13 @@ const QuickSavingLayout = () => {
           </VStack>
         </form>
       </Box>
+
+      <InfoModal
+        message="Woohoo! 🎉 Your Transaction Was a Success!"
+        hasButton={true}
+        buttonText={"Go back to Quick Save"}
+        icon={<SuccessMark />}
+      />
     </Box>
   );
 };
