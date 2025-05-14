@@ -2,12 +2,11 @@
 
 import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+// import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledField, StyledButton, StyledText, SelectButtonGroup } from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
-import { quickSavingSchema } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon } from "@/public/svgs";
 import { useState } from "react";
