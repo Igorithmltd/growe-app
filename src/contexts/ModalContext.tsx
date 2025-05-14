@@ -7,6 +7,8 @@ interface ModalContextType {
   setIsInfoOpen: (value: boolean) => void;
   isWeekOpen: boolean;
   setIsWeekOpen: (value: boolean) => void;
+  isMonthOpen: boolean;
+  setIsMonthOpen: (value: boolean) => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -14,9 +16,12 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isInfoOpen, setIsInfoOpen] = useState<boolean>(false);
   const [isWeekOpen, setIsWeekOpen] = useState<boolean>(false);
+  const [isMonthOpen, setIsMonthOpen] = useState<boolean>(false);
 
   return (
-    <ModalContext.Provider value={{ isInfoOpen, setIsInfoOpen, isWeekOpen, setIsWeekOpen }}>
+    <ModalContext.Provider
+      value={{ isInfoOpen, setIsInfoOpen, isWeekOpen, setIsWeekOpen, isMonthOpen, setIsMonthOpen }}
+    >
       {children}
     </ModalContext.Provider>
   );

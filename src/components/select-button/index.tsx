@@ -14,6 +14,8 @@ interface SelectButtonGroupProps {
   labelWeight?: string;
   error?: string;
   spacing?: number;
+  width?: string;
+  isCircle?: boolean;
 }
 
 export const SelectButtonGroup = ({
@@ -27,6 +29,8 @@ export const SelectButtonGroup = ({
   labelWeight = "medium",
   label,
   error,
+  width = "auto",
+  isCircle = false,
 }: SelectButtonGroupProps) => {
   const Wrapper = isGrid ? SimpleGrid : HStack;
   const wrapperProps = isGrid
@@ -34,7 +38,7 @@ export const SelectButtonGroup = ({
         gap: spacing,
         alignItems: "start",
         w: "auto",
-        templateColumns: `repeat(${columns}, auto)`,
+        templateColumns: `repeat(${columns}, ${width})`,
         justifyContent: "start",
       }
     : { gap: spacing, flexWrap: "wrap", align: "center" };
@@ -59,7 +63,7 @@ export const SelectButtonGroup = ({
             w="fit-content"
             key={option}
             px={5}
-            py={2}
+            py={isCircle ? 5 : 2}
             bg={value === option ? "primary" : "border"}
             color={value === option ? "white" : "bfgrey"}
             borderRadius="full"
