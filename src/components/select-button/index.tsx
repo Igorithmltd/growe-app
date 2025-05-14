@@ -29,7 +29,15 @@ export const SelectButtonGroup = ({
   error,
 }: SelectButtonGroupProps) => {
   const Wrapper = isGrid ? SimpleGrid : HStack;
-  const wrapperProps = isGrid ? { columns, gap: spacing } : { spaceX: spacing };
+  const wrapperProps = isGrid
+    ? {
+        gap: spacing,
+        alignItems: "start",
+        w: "auto",
+        templateColumns: `repeat(${columns}, auto)`,
+        justifyContent: "start",
+      }
+    : { spaceX: spacing };
 
   return (
     <Box>
@@ -48,6 +56,7 @@ export const SelectButtonGroup = ({
       <Wrapper {...wrapperProps}>
         {options.map((option) => (
           <Button
+            w="fit-content"
             key={option}
             px={5}
             py={2}

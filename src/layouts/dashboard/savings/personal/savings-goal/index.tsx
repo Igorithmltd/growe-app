@@ -126,6 +126,7 @@ const SavingGoalLayout = () => {
             />
 
             <SelectButtonGroup
+              isGrid
               label="For"
               labelColor="secondary"
               options={["6 months", "9 months", "1 year", "Let me choose"]}
