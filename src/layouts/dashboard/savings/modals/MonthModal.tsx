@@ -24,7 +24,7 @@ const MonthModal = ({ value, onChange }: MonthModalProps) => {
         </StyledText>
 
         <StyledText
-          fontSize={{ base: "am", md: "md", lg: "lg" }}
+          fontSize={{ base: "sm", md: "md", lg: "lg" }}
           fontWeight="normal"
           color="bfgrey"
         >
