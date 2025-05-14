@@ -8,6 +8,7 @@ import { useState } from "react";
 import { GroupIcon, SavingsIcon } from "@/public/svgs";
 import GroupSavings from "./group";
 import QuickSavingLayout from "./personal/quick-saving";
+import SavingGoalLayout from "./personal/savings-goal";
 
 const MotionBox = motion.create(Box);
 
@@ -86,6 +87,7 @@ const SavingsLayout = () => {
       </Box>
 
       <QuickSavingLayout />
+      <SavingGoalLayout />
     </Box>
   );
 };
