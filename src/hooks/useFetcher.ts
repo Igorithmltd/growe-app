@@ -72,7 +72,7 @@ export const useFetcher = async ({
         const refreshToken = getCookie("refresh-token");
 
         const refreshResponse = await axios({
-          method: "GET",
+          method: "POST",
           url: `${BASE_URL}/auth/refresh-token`,
           headers: {
             Authorization: refreshToken ? `Bearer ${refreshToken}` : "",
