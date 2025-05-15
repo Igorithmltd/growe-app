@@ -82,6 +82,9 @@ export const useFetcher = async ({
 
         const newAccessToken = refreshResponse.headers["authorization"];
 
+        console.log(newAccessToken);
+        
+
         if (newAccessToken) {
           setCookie("x-token", newAccessToken.replace("Bearer ", ""));
 
