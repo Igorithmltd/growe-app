@@ -424,3 +424,39 @@ export const GroupCard = ({
     </ReuseableCard>
   );
 };
+
+export const DetailsCard = ({
+  bg = "white",
+  title,
+  value,
+}: {
+  bg?: string;
+  title: string;
+  value: string;
+}) => {
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      border="1px solid"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      px={{ base: 3, md: 6 }}
+      py={10}
+      bg={bg}
+    >
+      <VStack align="stretch" spaceY={5}>
+        <StyledText
+          fontSize={{ base: "xs", md: "sm", lg: "md" }}
+          fontWeight="normal"
+          color="bfgrey"
+        >
+          {title}
+        </StyledText>
+
+        <StyledText fontSize={{ base: "sm", md: "md", lg: "lg" }} fontWeight="normal">
+          {value}
+        </StyledText>
+      </VStack>
+    </ReuseableCard>
+  );
+};
