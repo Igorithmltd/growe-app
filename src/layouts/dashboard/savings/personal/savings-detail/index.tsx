@@ -1,8 +1,6 @@
-import { BackIcon, TargetMark } from "@/public/svgs";
+import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
-import InfoModal from "@/src/components/modals/InfoModal";
-import { useModal } from "@/src/contexts/ModalContext";
-import { Box, Grid, HStack, VStack } from "@chakra-ui/react";
+import { Grid, HStack, VStack } from "@chakra-ui/react";
 import { ActiveSavingsCard, DetailsCard } from "../../../cards";
 
 const data = [
