@@ -15,12 +15,12 @@ interface SavingsCardProps {
   amount: string;
   amountColor?: string;
   buttonBg?: string;
-  buttonText: ReactNode;
+  buttonText?: ReactNode;
   notes?: ReactNode;
   boxShadow?: string;
   color?: string;
   notesAction?: VoidFunction;
-  buttonAction: VoidFunction;
+  buttonAction?: VoidFunction;
 }
 
 export const SavingsCard = ({
@@ -98,19 +98,21 @@ export const SavingsCard = ({
               {notes}
             </StyledText>
           )}
-          <StyledButton
-            type="button"
-            bg={buttonBg}
-            py={{ base: 2, md: 4 }}
-            px={{ base: 3, md: 5 }}
-            fontSize={{ base: "sm", md: "md" }}
-            fontWeight="normal"
-            color="primary"
-            borderRadius="full"
-            onClick={buttonAction}
-          >
-            {buttonText}
-          </StyledButton>
+          {buttonText && (
+            <StyledButton
+              type="button"
+              bg={buttonBg}
+              py={{ base: 2, md: 4 }}
+              px={{ base: 3, md: 5 }}
+              fontSize={{ base: "sm", md: "md" }}
+              fontWeight="normal"
+              color="primary"
+              borderRadius="full"
+              onClick={buttonAction}
+            >
+              {buttonText}
+            </StyledButton>
+          )}
         </VStack>
       </HStack>
     </ReuseableCard>

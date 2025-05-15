@@ -19,12 +19,6 @@ const GroupSavings = () => {
           color="bfgrey"
           buttonBg="#F8FBEB"
           boxShadow="sm"
-          buttonText={
-            <>
-              <FaPlus size="18px" /> Quick Save
-            </>
-          }
-          buttonAction={() => {}}
         />
 
         <HStack alignSelf={{ lg: "start" }}>
