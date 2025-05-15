@@ -437,14 +437,12 @@ export const DetailsCard = ({
   return (
     <ReuseableCard
       boxShadow="xs"
-      border="1px solid"
-      borderColor="#F8FBEB"
       borderRadius="15px"
       px={{ base: 3, md: 6 }}
-      py={10}
+      py={{ base: 3, md: 6 }}
       bg={bg}
     >
-      <VStack align="stretch" spaceY={5}>
+      <VStack align="stretch" spaceY={1}>
         <StyledText
           fontSize={{ base: "xs", md: "sm", lg: "md" }}
           fontWeight="normal"
@@ -453,7 +451,7 @@ export const DetailsCard = ({
           {title}
         </StyledText>
 
-        <StyledText fontSize={{ base: "sm", md: "md", lg: "lg" }} fontWeight="normal">
+        <StyledText fontSize={{ base: "sm", md: "md", lg: "lg" }} fontWeight="normal" color="secondary">
           {value}
         </StyledText>
       </VStack>
