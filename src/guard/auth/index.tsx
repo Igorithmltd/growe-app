@@ -38,7 +38,7 @@ export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
     if (statusCode !== 401) {
       deleteCookie("x-token");
       deleteCookie("refresh-token");
-      router.push(ROUTES.AUTH.LOGIN);
+      // router.push(ROUTES.AUTH.LOGIN);
       showToast({
         title: error?.message || "Network Error",
         description: "No response received from the server, try again",

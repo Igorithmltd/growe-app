@@ -1,7 +1,8 @@
 import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
-import { Grid, HStack, VStack } from "@chakra-ui/react";
-import { ActiveSavingsCard, DetailsCard } from "../../../cards";
+import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
+import { ActiveSavingsCard, ActivityCard, DetailsCard } from "../../../cards";
+import { FaUser } from "react-icons/fa6";
 
 const data = [
   { label: "Target Amount", value: "₦800,000" },
@@ -36,6 +37,31 @@ const SavingDetailsLayout = () => {
           Break Savings
         </StyledButton>
       </HStack>
+
+      <Box>
+        <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="medium" color="secondary">
+          Latest Activities
+        </StyledText>
+
+        <VStack
+          align="stretch"
+          bg="white"
+          borderRadius="2xl"
+          separator={<StackSeparator color="border" />}
+        >
+          <ActivityCard
+            icon={<FaUser size={20} />}
+            title="Rent Personal Savings Goal created"
+            timeAgo="15 hours"
+            status="Started"
+          />
+          <ActivityCard
+            icon={<FaUser size={20} />}
+            title="Deposited ₦133,000 for Rent savings goal"
+            timeAgo="18 hours"
+          />
+        </VStack>
+      </Box>
     </VStack>
   );
 };
