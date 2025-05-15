@@ -3,6 +3,7 @@ import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/c
 import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
+import Image from "next/image";
 import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
@@ -14,12 +15,12 @@ interface SavingsCardProps {
   amount: string;
   amountColor?: string;
   buttonBg?: string;
-  buttonText: ReactNode;
+  buttonText?: ReactNode;
   notes?: ReactNode;
   boxShadow?: string;
   color?: string;
   notesAction?: VoidFunction;
-  buttonAction: VoidFunction;
+  buttonAction?: VoidFunction;
 }
 
 export const SavingsCard = ({
@@ -43,7 +44,7 @@ export const SavingsCard = ({
     <ReuseableCard
       boxShadow={boxShadow}
       borderRadius="15px"
-      px={{base: 3, md: 6}}
+      px={{ base: 3, md: 6 }}
       py={6}
       bg={bg}
       color={color}
@@ -97,19 +98,21 @@ export const SavingsCard = ({
               {notes}
             </StyledText>
           )}
-          <StyledButton
-            type="button"
-            bg={buttonBg}
-            py={{ base: 2, md: 4 }}
-            px={{ base: 3, md: 5 }}
-            fontSize={{ base: "sm", md: "md" }}
-            fontWeight="normal"
-            color="primary"
-            borderRadius="full"
-            onClick={buttonAction}
-          >
-            {buttonText}
-          </StyledButton>
+          {buttonText && (
+            <StyledButton
+              type="button"
+              bg={buttonBg}
+              py={{ base: 2, md: 4 }}
+              px={{ base: 3, md: 5 }}
+              fontSize={{ base: "sm", md: "md" }}
+              fontWeight="normal"
+              color="primary"
+              borderRadius="full"
+              onClick={buttonAction}
+            >
+              {buttonText}
+            </StyledButton>
+          )}
         </VStack>
       </HStack>
     </ReuseableCard>
@@ -135,7 +138,7 @@ export const MessageCard = ({
       border="1px solid"
       borderColor="#F8FBEB"
       borderRadius="15px"
-      px={{base: 3, md: 6}}
+      px={{ base: 3, md: 6 }}
       py={6}
       bg={bg}
     >
@@ -224,7 +227,7 @@ export const AccountCard = ({
     <ReuseableCard
       boxShadow="none"
       borderRadius="15px"
-      px={{base: 3, md: 6}}
+      px={{ base: 3, md: 6 }}
       py={6}
       bg={bg}
       minWidth={{ base: "360px", md: "400px", lg: "49%" }}
@@ -283,7 +286,7 @@ export const ActiveSavingsCard = ({
       border="1px solid"
       borderColor="#F8FBEB"
       borderRadius="15px"
-      px={{base: 3, md: 6}}
+      px={{ base: 3, md: 6 }}
       py={6}
       bg={bg}
     >
@@ -338,7 +341,7 @@ export const EmptyCard = ({ bg = "white", title }: { bg?: string; title: string 
       border="1px solid"
       borderColor="#F8FBEB"
       borderRadius="15px"
-      px={{base: 3, md: 6}}
+      px={{ base: 3, md: 6 }}
       py={10}
       bg={bg}
     >
@@ -351,6 +354,105 @@ export const EmptyCard = ({ bg = "white", title }: { bg?: string; title: string 
           color="secondary"
         >
           {title}
+        </StyledText>
+      </VStack>
+    </ReuseableCard>
+  );
+};
+
+export const GroupCard = ({
+  title,
+  image,
+  maxMemberAllowed,
+  membersJoined,
+  amountEach,
+}: {
+  title: string;
+  image: string;
+  maxMemberAllowed: number;
+  membersJoined: number;
+  amountEach: string;
+}) => {
+  return (
+    <ReuseableCard
+      boxShadow="none"
+      borderRadius={"12px"}
+      px={0}
+      py={0}
+      bg={"transparent"}
+      flex="0 0 auto"
+      width={{ base: "143px", md: "190px", lg: "240px", xl: "280px" }}
+    >
+      <VStack align="stretch" spaceY={5}>
+        <Box
+          position="relative"
+          w="full"
+          height={{ base: "109px", md: "145px", lg: "183px", xl: "214px" }}
+        >
+          <Image
+            src={image}
+            alt={title}
+            fill
+            style={{ borderRadius: "14px", objectFit: "cover" }}
+          />
+
+          <StyledText
+            fontSize={{ base: "2xs", md: "sm", lg: "lg" }}
+            fontWeight="normal"
+            color="primary"
+            position="absolute"
+            bg="#F8FBEBA8"
+            p={2}
+            borderRadius="full"
+            right={2}
+            top={2}
+          >
+            {`₦${amountEach} each`}
+          </StyledText>
+        </Box>
+
+        <StyledText fontSize={{ base: "sm", md: "md", lg: "lg" }} fontWeight="normal" color="black">
+          {title}
+        </StyledText>
+
+        <StyledProgress
+          max={maxMemberAllowed}
+          value={membersJoined}
+          label={`${maxMemberAllowed} members`}
+        />
+      </VStack>
+    </ReuseableCard>
+  );
+};
+
+export const DetailsCard = ({
+  bg = "white",
+  title,
+  value,
+}: {
+  bg?: string;
+  title: string;
+  value: string;
+}) => {
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      borderRadius="15px"
+      px={{ base: 3, md: 6 }}
+      py={{ base: 3, md: 6 }}
+      bg={bg}
+    >
+      <VStack align="stretch" spaceY={1}>
+        <StyledText
+          fontSize={{ base: "xs", md: "sm", lg: "md" }}
+          fontWeight="normal"
+          color="bfgrey"
+        >
+          {title}
+        </StyledText>
+
+        <StyledText fontSize={{ base: "sm", md: "md", lg: "lg" }} fontWeight="normal" color="secondary">
+          {value}
         </StyledText>
       </VStack>
     </ReuseableCard>

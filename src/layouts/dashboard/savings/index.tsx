@@ -10,6 +10,7 @@ import GroupSavings from "./group";
 import QuickSavingLayout from "./personal/quick-saving";
 import SavingGoalLayout from "./personal/savings-goal";
 import SummaryLayout from "./personal/savings-goal/summary";
+import SavingDetailsLayout from "./personal/savings-detail";
 
 const MotionBox = motion.create(Box);
 
@@ -90,6 +91,7 @@ const SavingsLayout = () => {
       <QuickSavingLayout />
       <SavingGoalLayout />
       <SummaryLayout />
+      <SavingDetailsLayout />
     </Box>
   );
 };
