@@ -8,6 +8,7 @@ export const system = createSystem(defaultConfig, {
         secondary: { value: "#454839" }, // Dark olive
         grey: { value: "#A9AD9B" }, // Light grayish green
         darkgrey: { value: "#333333" },
+        bfgrey: { value: "#8F8F8F" }, // Light gray
         bluelight: { value: "#FDFDFD" }, // White background
         text: { value: "#1A202C" }, // Dark gray
         muted: { value: "#FAF8FF" }, // Soft purple
@@ -39,6 +40,7 @@ export const system = createSystem(defaultConfig, {
         md: { value: "14px" },
         sm: { value: "12px" },
         xs: { value: "10px" },
+        "2xs": { value: "8px" },
       },
       fontWeights: {
         regular: { value: "400" },

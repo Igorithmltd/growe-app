@@ -1,3 +1,6 @@
+import { AxiosError } from "axios";
+import { deleteCookie } from "cookies-next";
+
 export const handleNavigationClick =
   (
     href: string,
@@ -52,6 +55,41 @@ export const handleNavigationClick =
     }
   };
 
-  export const phoneRegExp =
-	/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+export const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
+export const signOutUser = async (redirectLogin = true) => {
+  "use client";
+
+  // Delete the cookies
+  deleteCookie("x-token");
+  deleteCookie("refresh-token");
+  if (redirectLogin) {
+    window.location.href = "/login";
+  }
+};
+
+export const handleError = (error: any): AxiosError<ErrorResponseData> => {
+  const { statusCode, message, user, raw } = error;
+
+  const axiosError = new AxiosError<ErrorResponseData>(message);
+
+  axiosError.response = {
+    status: statusCode,
+    data: { statusCode, message, user, raw },
+    statusText: "Error",
+    headers: {},
+    config: {} as any,
+  };
+
+  throw axiosError;
+};
+
+export const copyToClipboard = async (text: string): Promise<boolean> => {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (err) {
+    return false;
+  }
+};

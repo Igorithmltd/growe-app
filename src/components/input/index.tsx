@@ -3,6 +3,7 @@
 import { Field, Input, InputGroup, Textarea } from "@chakra-ui/react";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { StyledText } from "@/src/components";
+import { ReactNode } from "react";
 
 export interface StyledFieldProps extends Field.RootProps {
   label?: string;
@@ -16,7 +17,8 @@ export interface StyledFieldProps extends Field.RootProps {
   labelColor?: string;
   labelWeight?: string;
   disabled?: boolean;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
+  currency?: ReactNode;
 }
 
 export const StyledField = ({
@@ -32,6 +34,7 @@ export const StyledField = ({
   labelWeight,
   disabled = false,
   icon,
+  currency,
   ...props
 }: StyledFieldProps) => {
   return (
@@ -60,7 +63,7 @@ export const StyledField = ({
           borderRadius={borderRadius}
         />
       ) : (
-        <InputGroup endElement={icon}>
+        <InputGroup startElement={currency} endElement={icon}>
           <Input
             type={type}
             placeholder={placeholder}

@@ -15,6 +15,16 @@ import PlayStore from "./playstore.svg";
 import AppStore from "./appstore.svg";
 import Rocket from "./rocket.svg";
 import BackIcon from "./back-arrow.svg";
+import HomeIcon from "./home.svg";
+import ChatIcon from "./chat.svg";
+import ProfileIcon from "./profile.svg";
+import SavingsIcon from "./savings.svg";
+import InvestIcon from "./invest.svg";
+import SuccessMark from "./success-mark.svg";
+import InfoMark from "./info-mark.svg";
+import EmptyFolder from "./empty-folder.svg";
+import GroupIcon from "./group.svg";
+import TargetMark from "./target-mark.svg";
 
 export {
   Hamburger,
@@ -32,4 +42,14 @@ export {
   AppStore,
   Rocket,
   BackIcon,
+  HomeIcon,
+  ChatIcon,
+  ProfileIcon,
+  SavingsIcon,
+  InvestIcon,
+  SuccessMark,
+  InfoMark,
+  EmptyFolder,
+  GroupIcon,
+  TargetMark,
 };

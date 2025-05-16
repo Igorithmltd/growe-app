@@ -1,0 +1,39 @@
+import { useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useFetcher } from "../../useFetcher";
+import { handleError } from "@/src/utils/helpers";
+//
+
+const useUser = () => {
+  const fetchUser = useCallback(async (): Promise<GlobalResponseData<UserDetails>> => {
+    try {
+      const response = await useFetcher({
+        url: "/users/get-account",
+        requestType: "GET",
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw handleError(response.error);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw handleError(error);
+    }
+  }, []);
+  return { fetchUser };
+};
+
+export function useAuth() {
+  const { fetchUser } = useUser();
+
+  const { data, error, isPending, isFetching, refetch } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      return await fetchUser();
+    },
+  });
+
+  return { data, error, isPending, isFetching, refetch };
+}

@@ -6,20 +6,122 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { SignupFormValues, signupSchema } from "@/src/schema/auth.schema";
 import { ROUTES } from "@/src/utils/constants";
+import { useRegister } from "@/src/hooks/apis/mutation/useRegister";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import InfoModal from "@/src/components/modals/InfoModal";
+import useShowToast from "@/src/hooks/useShowToast";
+import { useModal } from "@/src/contexts/ModalContext";
+import { InfoMark } from "@/public/svgs";
 
 const SignupLayout = () => {
+  const router = useRouter();
+  const showToast = useShowToast();
+  const { setIsInfoOpen } = useModal();
+  const [isVerify, setIsVerify] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const { mutate, isPending } = useRegister();
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: yupResolver(signupSchema),
   });
 
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setValue("email", storedEmail);
+    }
+  }, [setValue]);
+
   const onSubmit = (data: SignupFormValues) => {
-    console.log("Signup data:", data);
-    reset();
+    if (!data.email) {
+      router.push(ROUTES.AUTH.VERIFY_EMAIL);
+      return;
+    }
+
+    mutate(data, {
+      onError: (error) => {
+        if (error.response) {
+          const errorData = error.response.data;
+
+          if (
+            errorData.statusCode === 400 &&
+            errorData.message === "User does not exist. Please try again later"
+          ) {
+            showToast({
+              title: "Error",
+              description: "Email does not exist. Verify your email",
+              status: "error",
+            });
+
+            setIsVerify(true);
+            setIsInfoOpen(true);
+            return;
+          }
+
+          if (
+            errorData.statusCode === 400 &&
+            errorData.message === "Email already registered. Please proceed to login"
+          ) {
+            showToast({
+              title: "Error",
+              description: "Email already registered. Please proceed to login",
+              status: "error",
+            });
+
+            setIsVerify(false);
+            setIsInfoOpen(true);
+            return;
+          }
+
+          console.log(errorData);
+          showToast({
+            title: "Error",
+            description: errorData.message || "Something went wrong on the server",
+            status: "error",
+          });
+        } else if (error.request) {
+          showToast({
+            title: "Network Error",
+            description: "No response received from the server, try again",
+            status: "warning",
+          });
+        } else {
+          showToast({
+            title: "Error",
+            description: error.message || "An unknown error occurred",
+            status: "error",
+          });
+        }
+      },
+      onSuccess: () => {
+        showToast({
+          title: "Success",
+          description: "Registration in successfully.",
+          status: "success",
+        });
+        reset();
+        router.push(ROUTES.AUTH.LOGIN);
+        localStorage.removeItem("email");
+      },
+    });
+  };
+
+  const handleButtonClick = () => {
+    setIsRedirecting(true);
+    if (isVerify) {
+      router.push(ROUTES.AUTH.VERIFY_EMAIL);
+    } else {
+      router.push(ROUTES.AUTH.LOGIN);
+    }
+    setIsInfoOpen(false);
   };
 
   const commonProps = {
@@ -50,6 +152,15 @@ const SignupLayout = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spaceY={4} align="stretch">
+            <StyledField
+              label="Email"
+              placeholder="Enter your verified email"
+              labelColor="secondary"
+              type="text"
+              fieldProps={register("email")}
+              error={errors?.email?.message}
+              {...commonProps}
+            />
             <StyledField
               label="First Name"
               placeholder="e.g John"
@@ -84,8 +195,8 @@ const SignupLayout = () => {
               placeholder="Enter Phone Number"
               labelColor="secondary"
               type="tel"
-              fieldProps={register("phone")}
-              error={errors?.phone?.message}
+              fieldProps={register("phoneNumber")}
+              error={errors?.phoneNumber?.message}
               {...commonProps}
             />
 
@@ -112,12 +223,12 @@ const SignupLayout = () => {
               placeholder="Enter Referral Code (optional)"
               labelColor="secondary"
               type="text"
-              fieldProps={register("referralCode")}
-              error={errors?.referralCode?.message}
+              fieldProps={register("referral_code")}
+              error={errors?.referral_code?.message}
               {...commonProps}
             />
 
-            <StyledButton type="submit" w="full" mt={2}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
               Create Account
             </StyledButton>
 
@@ -140,6 +251,20 @@ const SignupLayout = () => {
           </VStack>
         </form>
       </VStack>
+
+      <InfoModal
+        title={isVerify ? "Email does not exist" : "Email already registered"}
+        message={
+          isVerify
+            ? "Email does not exist. Please verify your email"
+            : "Please login to your account"
+        }
+        hasButton={true}
+        buttonText={isVerify ? "Verify Email" : "Login"}
+        isLoading={isRedirecting}
+        onButtonClick={handleButtonClick}
+        icon={<InfoMark />}
+      />
     </Box>
   );
 };

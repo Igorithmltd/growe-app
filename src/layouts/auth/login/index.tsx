@@ -7,20 +7,29 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { LoginFormValues, loginSchema } from "@/src/schema/auth.schema";
 import { ROUTES } from "@/src/utils/constants";
+import { useLogin } from "@/src/hooks/apis/mutation/useLogin";
+import { useRouter } from "next/navigation";
 
 const LoginLayout = () => {
+  const router = useRouter();
+  const { mutate: login, isPending } = useLogin();
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: yupResolver(loginSchema),
   });
 
   const onSubmit = (data: LoginFormValues) => {
-    console.log("Login data:", data);
-    reset();
+    login(data, {
+      onSuccess: () => {
+        reset();
+        router.push(ROUTES.DASHBOARD.HOME);
+      },
+    });
   };
 
   const commonProps = {
@@ -86,7 +95,7 @@ const LoginLayout = () => {
               </Link>
             </HStack>
 
-            <StyledButton type="submit" w="full" mt={2}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
               Log In
             </StyledButton>
           </VStack>
