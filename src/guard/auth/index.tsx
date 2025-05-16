@@ -45,7 +45,7 @@ export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
         status: "error",
       });
 
-      window.location.href = "/login";
+      // window.location.href = "/login";
     }
     return <Fragment>{children}</Fragment>;
   }
