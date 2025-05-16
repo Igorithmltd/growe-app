@@ -462,7 +462,6 @@ export const DetailsCard = ({
 };
 
 export const ActivityCard = ({
-  bg = "white",
   title,
   timeAgo,
   icon,

@@ -9,8 +9,8 @@ import useShowToast from "@/src/hooks/useShowToast";
 import { useUserDetailsStore } from "@/src/stores/user-details";
 import { Loader } from "@/src/components";
 import { useAuth } from "@/src/hooks/apis/queries/useAuth";
-import { useRouter } from "next/navigation";
-import { ROUTES } from "@/src/utils/constants";
+// import { useRouter } from "next/navigation";
+// import { ROUTES } from "@/src/utils/constants";
 
 type RouteGuardProps = {
   children: ReactNode;
@@ -18,7 +18,7 @@ type RouteGuardProps = {
 
 export const dynamic = "force-dynamic";
 export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const showToast = useShowToast();
 
   const { data, isPending, error, isFetching } = useAuth();
