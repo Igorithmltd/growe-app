@@ -84,8 +84,6 @@ const SavingsLayout = () => {
           {isPersonal ? <PersonalSavings /> : <GroupSavings />}
         </MotionBox>
       </Box>
-      
-      <SavingDetailsLayout />
     </Box>
   );
 };
