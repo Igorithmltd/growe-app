@@ -17,7 +17,7 @@ const SummaryLayout = () => {
   const { setIsInfoOpen } = useModal();
 
   return (
-    <Box w={{ lg: "65%" }} mx="auto">
+    <Box>
       <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
         Summary
       </StyledText>

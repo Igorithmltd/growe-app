@@ -13,6 +13,7 @@ import { useState } from "react";
 import WeekModal from "../../modals/WeekModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import MonthModal from "../../modals/MonthModal";
+import SummaryLayout from "./summary";
 
 export interface QuickSavingValues {
   purpose: string;
@@ -31,6 +32,8 @@ const SavingGoalLayout = () => {
   const [frequency, setFrequency] = useState("");
   const [weekDay, setWeekDay] = useState("");
   const [monthDay, setMonthDay] = useState("");
+
+  const [isCompleted, setIsCompleted] = useState<boolean>()
 
   const {
     register,
@@ -153,6 +156,8 @@ const SavingGoalLayout = () => {
           <MonthModal value={monthDay} onChange={(val) => setMonthDay(val)} />
         </form>
       </Box>
+
+      <SummaryLayout />
     </Box>
   );
 };
