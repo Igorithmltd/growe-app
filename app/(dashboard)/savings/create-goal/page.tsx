@@ -1,12 +1,13 @@
-import QuickSavingLayout from "@/src/layouts/dashboard/savings/personal/quick-saving";
+
+import SavingGoalLayout from "@/src/layouts/dashboard/savings/personal/savings-goal";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Growe | Savings | Quick Savings",
 };
 
-const QuickSavingsPage = () => {
-  return <QuickSavingLayout />;
+const SavingGoalPage = () => {
+  return <SavingGoalLayout />;
 };
 
-export default QuickSavingsPage;
+export default SavingGoalPage;
