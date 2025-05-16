@@ -33,7 +33,7 @@ const SavingGoalLayout = () => {
   const [weekDay, setWeekDay] = useState("");
   const [monthDay, setMonthDay] = useState("");
 
-  const [isCompleted, setIsCompleted] = useState<boolean>()
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const {
     register,
@@ -46,13 +46,8 @@ const SavingGoalLayout = () => {
   });
 
   const onSubmit = (data: QuickSavingValues) => {
-    // login(data, {
-    //   onSuccess: () => {
-    //     reset();
-    //     router.push(ROUTES.DASHBOARD.HOME);
-    //   },
-    // });
     console.log(data);
+    setIsCompleted(true);
   };
 
   const commonProps = {
@@ -65,10 +60,18 @@ const SavingGoalLayout = () => {
     },
   };
 
+  const handleBack = () => {
+    if (isCompleted) {
+      setIsCompleted(false);
+    } else {
+      () => router.back();
+    }
+  };
+
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
-        <Box cursor="pointer" onClick={() => router.back()}>
+        <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
         </Box>
 
@@ -77,87 +80,91 @@ const SavingGoalLayout = () => {
         </StyledText>
       </Box>
 
-      <StyledText
-        mt={6}
-        fontSize={{ base: "sm", md: "md", lg: "lg" }}
-        fontWeight="normal"
-        color="bfgrey"
-      >
-        Create a goal, set a deadline, and start saving easily!{" "}
-      </StyledText>
+      {isCompleted ? (
+        <SummaryLayout />
+      ) : (
+        <>
+          <StyledText
+            mt={6}
+            fontSize={{ base: "sm", md: "md", lg: "lg" }}
+            fontWeight="normal"
+            color="bfgrey"
+          >
+            Create a goal, set a deadline, and start saving easily!{" "}
+          </StyledText>
 
-      <Box mt={14}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spaceY={4} align="stretch">
-            <StyledField
-              label="What are you saving for?"
-              placeholder="e.g Rent, Vacation..."
-              labelColor="secondary"
-              type="text"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
-              {...commonProps}
-            />
+          <Box mt={14}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <VStack spaceY={4} align="stretch">
+                <StyledField
+                  label="What are you saving for?"
+                  placeholder="e.g Rent, Vacation..."
+                  labelColor="secondary"
+                  type="text"
+                  fieldProps={register("purpose")}
+                  error={errors?.purpose?.message}
+                  {...commonProps}
+                />
 
-            <AmountInput
-              label="Target Amount"
-              placeholder="Enter target amount"
-              labelColor="secondary"
-              field={register("targetAmount")}
-              error={errors?.targetAmount?.message}
-              {...commonProps}
-            />
+                <AmountInput
+                  label="Target Amount"
+                  placeholder="Enter target amount"
+                  labelColor="secondary"
+                  field={register("targetAmount")}
+                  error={errors?.targetAmount?.message}
+                  {...commonProps}
+                />
 
-            <AmountInput
-              label="Frequent Amount"
-              placeholder="Enter frequent amount to add to target"
-              labelColor="secondary"
-              field={register("frequentAmount")}
-              error={errors?.frequentAmount?.message}
-              {...commonProps}
-            />
+                <AmountInput
+                  label="Frequent Amount"
+                  placeholder="Enter frequent amount to add to target"
+                  labelColor="secondary"
+                  field={register("frequentAmount")}
+                  error={errors?.frequentAmount?.message}
+                  {...commonProps}
+                />
 
-            <SelectButtonGroup
-              label="Every"
-              labelColor="secondary"
-              options={["Day", "Week", "Month"]}
-              value={frequency}
-              error={errors?.frequency?.message}
-              onChange={(val) => {
-                setFrequency(val);
-                setValue("frequency", val);
-                if (val === "Week") {
-                  setIsWeekOpen(true);
-                } else if (val === "Month") {
-                  setIsMonthOpen(true);
-                }
-              }}
-            />
+                <SelectButtonGroup
+                  label="Every"
+                  labelColor="secondary"
+                  options={["Day", "Week", "Month"]}
+                  value={frequency}
+                  error={errors?.frequency?.message}
+                  onChange={(val) => {
+                    setFrequency(val);
+                    setValue("frequency", val);
+                    if (val === "Week") {
+                      setIsWeekOpen(true);
+                    } else if (val === "Month") {
+                      setIsMonthOpen(true);
+                    }
+                  }}
+                />
 
-            <SelectButtonGroup
-              isGrid
-              label="For"
-              labelColor="secondary"
-              options={["6 months", "9 months", "1 year", "Let me choose"]}
-              value={frequency}
-              error={errors?.frequency?.message}
-              onChange={(val) => {
-                setFrequency(val);
-                setValue("frequency", val);
-              }}
-            />
+                <SelectButtonGroup
+                  isGrid
+                  label="For"
+                  labelColor="secondary"
+                  options={["6 months", "9 months", "1 year", "Let me choose"]}
+                  value={frequency}
+                  error={errors?.frequency?.message}
+                  onChange={(val) => {
+                    setFrequency(val);
+                    setValue("frequency", val);
+                  }}
+                />
 
-            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
-              Save
-            </StyledButton>
-          </VStack>
+                <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+                  Save
+                </StyledButton>
+              </VStack>
 
-          <WeekModal value={weekDay} onChange={(val) => setWeekDay(val)} />
-          <MonthModal value={monthDay} onChange={(val) => setMonthDay(val)} />
-        </form>
-      </Box>
-
-      <SummaryLayout />
+              <WeekModal value={weekDay} onChange={(val) => setWeekDay(val)} />
+              <MonthModal value={monthDay} onChange={(val) => setMonthDay(val)} />
+            </form>
+          </Box>
+        </>
+      )}
     </Box>
   );
 };
