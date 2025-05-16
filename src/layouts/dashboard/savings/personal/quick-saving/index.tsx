@@ -38,16 +38,11 @@ const QuickSavingLayout = () => {
   };
 
   return (
-    <Box px={6} py={10} w={{ lg: "65%" }} mx="auto" mt={{ base: 6, lg: "unset" }}>
-      <Box
-        display="flex"
-        gap={4}
-        alignItems="center"
-        mt={{ base: 6, lg: "unset" }}
-        cursor="pointer"
-        onClick={() => router.back()}
-      >
-        <BackIcon />
+    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+      <Box display="flex" gap={4} alignItems="center">
+        <Box cursor="pointer" onClick={() => router.back()}>
+          <BackIcon />
+        </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
           Quick Save
