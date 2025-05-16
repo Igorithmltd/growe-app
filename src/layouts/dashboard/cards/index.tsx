@@ -4,6 +4,8 @@ import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
 import { Box, Flex, Grid, HStack, Tag, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
@@ -280,6 +282,8 @@ export const ActiveSavingsCard = ({
   plan: string;
   amount: string;
 }) => {
+  const router = useRouter();
+
   return (
     <ReuseableCard
       boxShadow="xs"
@@ -289,6 +293,7 @@ export const ActiveSavingsCard = ({
       px={{ base: 3, md: 6 }}
       py={6}
       bg={bg}
+      onClick={() => router.push("/savings/saving-goals/123")}
     >
       <VStack align="stretch" spaceY={3}>
         <HStack justify="space-between" align="stretch">

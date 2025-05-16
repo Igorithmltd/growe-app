@@ -5,8 +5,8 @@ export const metadata: Metadata = {
   title: "Growe | Savings Goals",
 };
 
-const SavingsPage = () => {
+const SavingsGoalPage = () => {
   return <SavingGoalList />;
 };
 
-export default SavingsPage;
+export default SavingsGoalPage;
