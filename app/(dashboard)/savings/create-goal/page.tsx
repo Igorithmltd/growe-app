@@ -3,7 +3,7 @@ import SavingGoalLayout from "@/src/layouts/dashboard/savings/personal/savings-g
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Growe | Savings | Add Saving Goal",
+  title: "Growe | Add Saving Goal",
 };
 
 const SavingGoalPage = () => {

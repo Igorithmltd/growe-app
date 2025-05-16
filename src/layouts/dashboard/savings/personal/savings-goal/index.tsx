@@ -64,7 +64,7 @@ const SavingGoalLayout = () => {
     if (isCompleted) {
       setIsCompleted(false);
     } else {
-      () => router.back();
+      router.back();
     }
   };
 

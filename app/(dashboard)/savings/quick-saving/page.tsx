@@ -2,7 +2,7 @@ import QuickSavingLayout from "@/src/layouts/dashboard/savings/personal/quick-sa
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Growe | Savings | Quick Savings",
+  title: "Growe | Quick Savings",
 };
 
 const QuickSavingsPage = () => {
