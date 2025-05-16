@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { BackIcon } from "@/public/svgs";
 import { StyledText } from "@/src/components";
