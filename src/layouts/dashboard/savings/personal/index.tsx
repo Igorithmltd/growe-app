@@ -30,7 +30,13 @@ const PersonalSavings = () => {
           }}
         />
 
-        <StyledButton type="button" alignSelf={{ lg: "start" }}>
+        <StyledButton
+          type="button"
+          alignSelf={{ lg: "start" }}
+          onClick={() => {
+            router.push("/savings/create-goal");
+          }}
+        >
           <FaPlus size="18px" /> Create New Savings Goal
         </StyledButton>
       </VStack>
