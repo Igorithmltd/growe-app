@@ -1,4 +1,4 @@
-import SavingsLayout from "@/src/layouts/dashboard/savings";
+import SavingGoalList from "@/src/layouts/dashboard/savings/personal/saving-goals-list";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const SavingsPage = () => {
-  return <SavingsLayout />;
+  return <SavingGoalList />;
 };
 
 export default SavingsPage;
