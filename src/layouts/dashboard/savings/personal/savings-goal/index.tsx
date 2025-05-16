@@ -63,16 +63,11 @@ const SavingGoalLayout = () => {
   };
 
   return (
-    <Box px={6} py={10} mt={{ base: 6, lg: "unset" }}>
-      <Box
-        display="flex"
-        gap={4}
-        alignItems="center"
-        mt={{ base: 6, lg: "unset" }}
-        cursor="pointer"
-        onClick={() => router.back()}
-      >
-        <BackIcon />
+    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+      <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
+        <Box cursor="pointer" onClick={() => router.back()}>
+          <BackIcon />
+        </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
           Saving Goal
@@ -88,7 +83,7 @@ const SavingGoalLayout = () => {
         Create a goal, set a deadline, and start saving easily!{" "}
       </StyledText>
 
-      <Box w={{ lg: "65%" }} mx="auto" mt={14}>
+      <Box mt={14}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spaceY={4} align="stretch">
             <StyledField
