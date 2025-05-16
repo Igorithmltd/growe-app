@@ -76,7 +76,7 @@ const SavingGoalLayout = () => {
         </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          Saving Goal
+          {isCompleted ? "Summary" : "Saving Goal"}
         </StyledText>
       </Box>
 
