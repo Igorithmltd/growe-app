@@ -4,6 +4,7 @@ import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
 import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 
@@ -280,6 +281,8 @@ export const ActiveSavingsCard = ({
   plan: string;
   amount: string;
 }) => {
+  const router = useRouter();
+
   return (
     <ReuseableCard
       boxShadow="xs"
@@ -289,6 +292,7 @@ export const ActiveSavingsCard = ({
       px={{ base: 3, md: 6 }}
       py={6}
       bg={bg}
+      onClick={() => router.push("/savings/saving-goals/123")}
     >
       <VStack align="stretch" spaceY={3}>
         <HStack justify="space-between" align="stretch">
@@ -435,13 +439,7 @@ export const DetailsCard = ({
   value: string;
 }) => {
   return (
-    <ReuseableCard
-      boxShadow="xs"
-      borderRadius="15px"
-      px={{ base: 3, md: 6 }}
-      py={{ base: 3, md: 6 }}
-      bg={bg}
-    >
+    <ReuseableCard boxShadow="xs" borderRadius="15px" p={{ base: 3, md: 6 }} bg={bg}>
       <VStack align="stretch" spaceY={1}>
         <StyledText
           fontSize={{ base: "xs", md: "sm", lg: "md" }}
@@ -451,10 +449,70 @@ export const DetailsCard = ({
           {title}
         </StyledText>
 
-        <StyledText fontSize={{ base: "sm", md: "md", lg: "lg" }} fontWeight="normal" color="secondary">
+        <StyledText
+          fontSize={{ base: "sm", md: "md", lg: "lg" }}
+          fontWeight="normal"
+          color="secondary"
+        >
           {value}
         </StyledText>
       </VStack>
+    </ReuseableCard>
+  );
+};
+
+export const ActivityCard = ({
+  title,
+  timeAgo,
+  icon,
+  status,
+}: {
+  bg?: string;
+  title: string;
+  timeAgo: string;
+  icon: ReactNode;
+  status?: string;
+}) => {
+  return (
+    <ReuseableCard boxShadow="none" borderRadius="15px" p={{ base: 3, md: 6 }} bg="transparent">
+      <HStack align="center" justify="space-between">
+        <HStack spaceX={4}>
+          <Grid boxSize="32px" bg="#F8FBEB" borderRadius="full" color="primary" placeItems="center">
+            {icon}
+          </Grid>
+
+          <VStack align="stretch">
+            <StyledText
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
+              fontWeight="normal"
+              color="secondary"
+            >
+              {title}
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {timeAgo} ago
+            </StyledText>
+          </VStack>
+        </HStack>
+
+        {status && (
+          <StyledText
+            fontSize={{ base: "xs", md: "sm", lg: "md" }}
+            fontWeight="normal"
+            color="primary"
+            py={2}
+            px={5}
+            bg="#F8FBEBA8"
+            borderRadius="full"
+          >
+            {status}
+          </StyledText>
+        )}
+      </HStack>
     </ReuseableCard>
   );
 };

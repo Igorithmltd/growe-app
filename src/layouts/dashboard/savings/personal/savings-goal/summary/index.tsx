@@ -17,11 +17,7 @@ const SummaryLayout = () => {
   const { setIsInfoOpen } = useModal();
 
   return (
-    <Box w={{ lg: "65%" }} mx="auto">
-      <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-        Summary
-      </StyledText>
-
+    <Box>
       <VStack align="stretch" spaceY="2" mt={12}>
         {data.map(({ label, value }, index) => (
           <HStack justify="space-between" key={label}>
