@@ -1,3 +1,5 @@
+"use client"
+
 import { BackIcon } from "@/public/svgs";
 import { StyledText } from "@/src/components";
 import { Box, VStack } from "@chakra-ui/react";
