@@ -18,10 +18,6 @@ const SummaryLayout = () => {
 
   return (
     <Box>
-      <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-        Summary
-      </StyledText>
-
       <VStack align="stretch" spaceY="2" mt={12}>
         {data.map(({ label, value }, index) => (
           <HStack justify="space-between" key={label}>
