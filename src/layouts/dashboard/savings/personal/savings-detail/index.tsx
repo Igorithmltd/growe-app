@@ -5,7 +5,7 @@ import { StyledButton, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActiveSavingsCard, ActivityCard, DetailsCard } from "../../../cards";
 import { FaUser } from "react-icons/fa6";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const data = [
   { label: "Target Amount", value: "₦800,000" },
@@ -20,7 +20,7 @@ const SavingDetailsLayout = () => {
   const router = useRouter();
 
   return (
-    <VStack w={{ lg: "65%" }} align="stretch" mx="auto">
+    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
         <Box onClick={() => router.back()}>
           <BackIcon />
@@ -30,48 +30,51 @@ const SavingDetailsLayout = () => {
         </StyledText>
       </HStack>
 
-      <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
+      <VStack align="stretch" spaceY={8} mt={14}>
+        <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
 
-      <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
-        {data.map(({ label, value }) => (
-          <DetailsCard title={label} value={value} key={label} />
-        ))}
-      </Grid>
+        <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
+          {data.map(({ label, value }) => (
+            <DetailsCard title={label} value={value} key={label} />
+          ))}
+        </Grid>
 
-      <HStack alignSelf={{ lg: "start" }} spaceX={6}>
-        <StyledButton type="button" color="secondary" flex={1} bg="white">
-          Top Up
-        </StyledButton>
-        <StyledButton type="button" color="secondary" flex={1} bg="white">
-          Break Savings
-        </StyledButton>
-      </HStack>
+        <HStack alignSelf={{ lg: "start" }} spaceX={6}>
+          <StyledButton type="button" color="secondary" flex={1} bg="white">
+            Top Up
+          </StyledButton>
+          <StyledButton type="button" color="secondary" flex={1} bg="white">
+            Break Savings
+          </StyledButton>
+        </HStack>
 
-      <Box>
-        <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="medium" color="secondary">
-          Latest Activities
-        </StyledText>
+        <Box>
+          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="medium" color="secondary">
+            Latest Activities
+          </StyledText>
 
-        <VStack
-          align="stretch"
-          bg="white"
-          borderRadius="2xl"
-          separator={<StackSeparator color="border" />}
-        >
-          <ActivityCard
-            icon={<FaUser size={20} />}
-            title="Rent Personal Savings Goal created"
-            timeAgo="15 hours"
-            status="Started"
-          />
-          <ActivityCard
-            icon={<FaUser size={20} />}
-            title="Deposited ₦133,000 for Rent savings goal"
-            timeAgo="18 hours"
-          />
-        </VStack>
-      </Box>
-    </VStack>
+          <VStack
+            align="stretch"
+            bg="white"
+            borderRadius="2xl"
+            separator={<StackSeparator color="border" />}
+            mt={3}
+          >
+            <ActivityCard
+              icon={<FaUser size={20} />}
+              title="Rent Personal Savings Goal created"
+              timeAgo="15 hours"
+              status="Started"
+            />
+            <ActivityCard
+              icon={<FaUser size={20} />}
+              title="Deposited ₦133,000 for Rent savings goal"
+              timeAgo="18 hours"
+            />
+          </VStack>
+        </Box>
+      </VStack>
+    </Box>
   );
 };
 
