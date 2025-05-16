@@ -7,9 +7,6 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { GroupIcon, SavingsIcon } from "@/public/svgs";
 import GroupSavings from "./group";
-import QuickSavingLayout from "./personal/quick-saving";
-import SavingGoalLayout from "./personal/savings-goal";
-import SummaryLayout from "./personal/savings-goal/summary";
 import SavingDetailsLayout from "./personal/savings-detail";
 
 const MotionBox = motion.create(Box);
