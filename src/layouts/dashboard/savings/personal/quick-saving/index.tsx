@@ -4,8 +4,7 @@ import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
-import { StyledField, StyledButton, StyledText } from "@/src/components";
-// import { ROUTES } from "@/src/utils/constants";
+import { StyledButton, StyledText } from "@/src/components";
 import { useRouter } from "next/navigation";
 import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
@@ -25,12 +24,6 @@ const QuickSavingLayout = () => {
   });
 
   const onSubmit = (data: QuickSavingValues) => {
-    // login(data, {
-    //   onSuccess: () => {
-    //     reset();
-    //     router.push(ROUTES.DASHBOARD.HOME);
-    //   },
-    // });
     console.log(data);
   };
 
@@ -45,7 +38,7 @@ const QuickSavingLayout = () => {
   };
 
   return (
-    <Box px={6} py={10} mt={{ base: 6, lg: "unset" }}>
+    <Box px={6} py={10} w={{ lg: "65%" }} mx="auto" mt={{ base: 6, lg: "unset" }}>
       <Box
         display="flex"
         gap={4}
@@ -70,22 +63,12 @@ const QuickSavingLayout = () => {
         Add money to your savings and watch your goals grow instantly!
       </StyledText>
 
-      <Box w={{ lg: "65%" }} mx="auto" mt={14}>
+      <Box mt={14}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spaceY={4} align="stretch">
-            <StyledField
+          <VStack spaceY={8} align="stretch">
+            <AmountInput
               label="Amount"
               placeholder="Enter amount to save (Min: 1000)"
-              labelColor="secondary"
-              type="text"
-              fieldProps={register("amount")}
-              error={errors?.amount?.message}
-              {...commonProps}
-            />
-
-            <AmountInput
-              label="Password"
-              placeholder="Enter your password"
               labelColor="secondary"
               field={register("amount")}
               error={errors?.amount?.message}

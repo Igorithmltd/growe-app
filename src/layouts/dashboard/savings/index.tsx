@@ -87,8 +87,6 @@ const SavingsLayout = () => {
           {isPersonal ? <PersonalSavings /> : <GroupSavings />}
         </MotionBox>
       </Box>
-
-      <QuickSavingLayout />
       <SavingGoalLayout />
       <SummaryLayout />
       <SavingDetailsLayout />

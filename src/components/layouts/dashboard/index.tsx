@@ -45,7 +45,7 @@ export const MobileNavbar = () => {
       zIndex="docked"
     >
       {navItems.map(({ label, icon: Icon, href }) => {
-        const isActive = pathname === href;
+        const isActive = pathname.startsWith(href);
 
         return (
           <Link key={label} href={href}>

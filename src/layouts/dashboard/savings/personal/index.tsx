@@ -2,8 +2,10 @@ import { StyledButton, StyledText } from "@/src/components";
 import { Box, VStack } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa6";
 import { ActiveSavingsCard, EmptyCard, SavingsCard } from "../../cards";
+import { useRouter } from "next/navigation";
 
 const PersonalSavings = () => {
+  const router = useRouter();
   const isEmpty = false;
 
   return (
@@ -23,7 +25,9 @@ const PersonalSavings = () => {
               <FaPlus size="18px" /> Quick Save
             </>
           }
-          buttonAction={() => {}}
+          buttonAction={() => {
+            router.push("/savings/quick-saving");
+          }}
         />
 
         <StyledButton type="button" alignSelf={{ lg: "start" }}>
