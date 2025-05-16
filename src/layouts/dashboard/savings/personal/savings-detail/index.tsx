@@ -1,10 +1,11 @@
-"use client"
+"use client";
 
 import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActiveSavingsCard, ActivityCard, DetailsCard } from "../../../cards";
 import { FaUser } from "react-icons/fa6";
+import { useRouter } from "next/router";
 
 const data = [
   { label: "Target Amount", value: "₦800,000" },
@@ -16,12 +17,18 @@ const data = [
 ];
 
 const SavingDetailsLayout = () => {
+  const router = useRouter();
+
   return (
     <VStack w={{ lg: "65%" }} align="stretch" mx="auto">
-      <BackIcon />
-      <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-        Summary
-      </StyledText>
+      <HStack spaceX={3}>
+        <Box onClick={() => router.back()}>
+          <BackIcon />
+        </Box>
+        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
+          Goal Info
+        </StyledText>
+      </HStack>
 
       <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
 
