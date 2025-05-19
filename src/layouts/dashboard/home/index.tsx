@@ -202,8 +202,6 @@ const DashboardHome = () => {
           </HStack>
         </Box>
       </Box>
-
-      <Calender />
     </VStack>
   );
 };
