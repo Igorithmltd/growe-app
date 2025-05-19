@@ -11,7 +11,7 @@ import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon, SuccessMark } from "@/public/svgs";
 import InfoModal from "@/src/components/modals/InfoModal";
 
-const QuickSavingLayout = () => {
+const TopUpLayout = () => {
   const router = useRouter();
 
   const {
@@ -87,4 +87,4 @@ const QuickSavingLayout = () => {
   );
 };
 
-export default QuickSavingLayout;
+export default TopUpLayout;
