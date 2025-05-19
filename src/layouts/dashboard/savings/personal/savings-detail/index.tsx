@@ -5,6 +5,8 @@ import { StyledButton, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActiveSavingsCard, ActivityCard, DetailsCard } from "../../../cards";
 import { FaUser } from "react-icons/fa6";
+import { MdPayment } from "react-icons/md";
+import { CiUnlock } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 
 const data = [
@@ -41,9 +43,11 @@ const SavingDetailsLayout = () => {
 
         <HStack alignSelf={{ lg: "start" }} spaceX={6}>
           <StyledButton type="button" color="secondary" flex={1} bg="white">
+            <MdPayment />
             Top Up
           </StyledButton>
           <StyledButton type="button" color="secondary" flex={1} bg="white">
+            <CiUnlock />
             Break Savings
           </StyledButton>
         </HStack>
