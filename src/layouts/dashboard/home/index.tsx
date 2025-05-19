@@ -7,6 +7,7 @@ import { AccountCard, ActiveSavingsCard, GroupCard, MessageCard, SavingsCard } f
 import { MdChevronRight } from "react-icons/md";
 import { FaChevronRight } from "react-icons/fa6";
 import { useUserDetailsStore } from "@/src/stores/user-details";
+import { Calender } from "@/src/components/calender";
 
 const DashboardHome = () => {
   const user = useUserDetailsStore((state) => state.user);
@@ -201,6 +202,8 @@ const DashboardHome = () => {
           </HStack>
         </Box>
       </Box>
+
+      <Calender />
     </VStack>
   );
 };
