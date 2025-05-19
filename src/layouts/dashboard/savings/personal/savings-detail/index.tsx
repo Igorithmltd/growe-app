@@ -2,7 +2,7 @@
 
 import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
-import { Box, Flex, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
+import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActiveSavingsCard, ActivityCard, DetailsCard } from "../../../cards";
 import { FaUser } from "react-icons/fa6";
 import { MdPayment } from "react-icons/md";
