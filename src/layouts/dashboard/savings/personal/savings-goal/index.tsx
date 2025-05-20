@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, Checkbox, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 // import { yupResolver } from "@hookform/resolvers/yup";
 //
@@ -125,6 +125,12 @@ const SavingGoalLayout = () => {
                   error={errors?.frequentAmount?.message}
                   {...commonProps}
                 />
+
+                <Checkbox.Root>
+                  <Checkbox.HiddenInput />
+                  <Checkbox.Control />
+                  <Checkbox.Label>Accept terms and conditions</Checkbox.Label>
+                </Checkbox.Root>
 
                 <SelectButtonGroup
                   label="Every"
