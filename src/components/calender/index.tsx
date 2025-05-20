@@ -1,7 +1,7 @@
 // components/SingleDatePicker.tsx
 "use client";
 
-import { Box, Button, HStack, Text, VStack, useDisclosure } from "@chakra-ui/react";
+import { Box, HStack, VStack,  } from "@chakra-ui/react";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
@@ -9,9 +9,8 @@ import { useState } from "react";
 import { StyledText } from "../text";
 import { StyledButton } from "../button";
 
-export function Calender() {
+export function Calender({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const { onOpen, onClose } = useDisclosure();
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
