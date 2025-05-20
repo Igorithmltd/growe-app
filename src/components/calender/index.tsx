@@ -40,8 +40,8 @@ export function Calender({ selectedDate, onSelect, onClose, onClear, minDate }: 
           classNames={{
             nav_button: "text-green-700 hover:text-green-500 transition-colors duration-200",
             nav_icon: "w-6 h-6 text-[red]",
-            today: `border-[#9BAB69]`,
-            selected: `bg-[#9BAB69] border-[#9BAB69] text-white rounded-full`,
+            today: "border-[#9BAB69]",
+            selected: "bg-[#9BAB69] border-[#9BAB69] text-white rounded-full",
           }}
         />
 
