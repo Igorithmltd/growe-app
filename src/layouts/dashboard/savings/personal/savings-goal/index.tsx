@@ -4,7 +4,13 @@ import { Box, Checkbox, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 // import { yupResolver } from "@hookform/resolvers/yup";
 //
-import { StyledField, StyledButton, StyledText, SelectButtonGroup } from "@/src/components";
+import {
+  StyledField,
+  StyledButton,
+  StyledText,
+  SelectButtonGroup,
+  StyledCheckbox,
+} from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
 import { AmountInput } from "@/src/components/amount-input";
@@ -36,6 +42,7 @@ const SavingGoalLayout = () => {
   const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
 
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  const [isOnce, setIsOnce] = useState<boolean>(false);
 
   const {
     register,
@@ -126,29 +133,30 @@ const SavingGoalLayout = () => {
                   {...commonProps}
                 />
 
-                <Checkbox.Root>
-                  <Checkbox.HiddenInput />
-                  <Checkbox.Control />
-                  <Checkbox.Label>Accept terms and conditions</Checkbox.Label>
-                </Checkbox.Root>
-
-                <SelectButtonGroup
-                  label="Every"
-                  labelColor="secondary"
-                  options={["Day", "Week", "Month"]}
-                  value={frequency}
-                  error={errors?.frequency?.message}
-                  onChange={(val) => {
-                    setFrequency(val);
-                    setValue("frequency", val);
-                    if (val === "Week") {
-                      setIsWeekOpen(true);
-                    } else if (val === "Month") {
-                      setIsMonthOpen(true);
-                    }
-                  }}
+                <StyledCheckbox
+                  label="Just this once"
+                  checked={isOnce}
+                  onChange={() => setIsOnce((prev) => !prev)}
                 />
 
+                {!isOnce && (
+                  <SelectButtonGroup
+                    label="Every"
+                    labelColor="secondary"
+                    options={["Day", "Week", "Month"]}
+                    value={frequency}
+                    error={errors?.frequency?.message}
+                    onChange={(val) => {
+                      setFrequency(val);
+                      setValue("frequency", val);
+                      if (val === "Week") {
+                        setIsWeekOpen(true);
+                      } else if (val === "Month") {
+                        setIsMonthOpen(true);
+                      }
+                    }}
+                  />
+                )}
                 <SelectButtonGroup
                   isGrid
                   label="For"

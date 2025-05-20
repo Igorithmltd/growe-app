@@ -6,6 +6,7 @@ import { useState } from "react";
 interface StyledCheckboxProps {
   label?: string;
   checked?: boolean;
+  color?: string;
   defaultChecked?: boolean;
   onChange?: (checked: boolean) => void;
 }
@@ -14,6 +15,7 @@ export const StyledCheckbox = ({
   label,
   checked,
   defaultChecked,
+  color = "bfgrey",
   onChange,
 }: StyledCheckboxProps) => {
   const [internalChecked, setInternalChecked] = useState(defaultChecked ?? false);
@@ -32,7 +34,9 @@ export const StyledCheckbox = ({
     <Checkbox.Root checked={currentChecked} size="lg" onCheckedChange={handleCheckedChange}>
       <Checkbox.HiddenInput />
       <Checkbox.Control />
-      <Checkbox.Label fontSize={{ base: "sm", md: "md", lg: "lg" }}>{label}</Checkbox.Label>
+      <Checkbox.Label color={color} fontSize={{ base: "sm", md: "md", lg: "lg" }}>
+        {label}
+      </Checkbox.Label>
     </Checkbox.Root>
   );
 };
