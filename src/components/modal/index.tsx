@@ -12,6 +12,7 @@ interface ModalProps extends BoxProps {
   children: ReactNode;
   closeOnOverlayClick?: boolean;
   hasCloseButton?: boolean;
+  isCalender?: boolean;
 }
 
 export const Modal = ({
@@ -20,11 +21,14 @@ export const Modal = ({
   children,
   closeOnOverlayClick = true,
   hasCloseButton = true,
+  isCalender = false,
   ...boxProps
 }: ModalProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
 
   if (!isOpen) return null;
+
+  const shouldCenter = isCalender || !isMobile;
 
   return (
     <>
@@ -43,44 +47,44 @@ export const Modal = ({
       {/* Modal Content */}
       <MotionBox
         initial={{
-          y: isMobile ? "100%" : "-50%",
+          y: shouldCenter ? "-50%" : "100%",
           opacity: 0,
           x: "-50%",
         }}
         animate={{
-          y: isMobile ? 0 : "-50%",
+          y: shouldCenter ? "-50%" : 0,
           opacity: 1,
           x: "-50%",
         }}
         exit={{
-          y: isMobile ? "100%" : "-50%",
+          y: shouldCenter ? "-50%" : "100%",
           opacity: 0,
           x: "-50%",
         }}
         transition={{ duration: 0.3 }}
         position="fixed"
         left="50%"
-        top={isMobile ? undefined : "50%"}
-        bottom={isMobile ? 0 : undefined}
+        top={shouldCenter ? "50%" : undefined}
+        bottom={!shouldCenter ? 0 : undefined}
         zIndex={1001}
         onClick={(e) => e.stopPropagation()}
         width={isMobile ? "100vw" : "auto"}
         style={{
-          transform: isMobile ? "none" : "translate(-50%, -50%)",
+          transform: shouldCenter ? "translate(-50%, -50%)" : "none",
         }}
       >
         <Box
           bg="white"
           position="relative"
-          borderTopRadius={isMobile ? "30px" : undefined}
-          borderRadius={isMobile ? undefined : "xl"}
+          borderTopRadius={!shouldCenter ? "30px" : undefined}
+          borderRadius={shouldCenter ? "xl" : undefined}
           boxShadow="lg"
           width={isMobile ? "100vw" : "400px"}
           maxW={isMobile ? "100vw" : "90vw"}
           p={6}
           {...boxProps}
         >
-          {!isMobile && hasCloseButton && (
+          {hasCloseButton && (
             <CloseButton
               position="absolute"
               top={2}

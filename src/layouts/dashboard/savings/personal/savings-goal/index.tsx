@@ -4,7 +4,13 @@ import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 // import { yupResolver } from "@hookform/resolvers/yup";
 //
-import { StyledField, StyledButton, StyledText, SelectButtonGroup } from "@/src/components";
+import {
+  StyledField,
+  StyledButton,
+  StyledText,
+  SelectButtonGroup,
+  StyledCheckbox,
+} from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
 import { AmountInput } from "@/src/components/amount-input";
@@ -14,6 +20,7 @@ import WeekModal from "../../modals/WeekModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import MonthModal from "../../modals/MonthModal";
 import SummaryLayout from "./summary";
+import CalendarModal from "../../modals/CalenderModal";
 
 export interface QuickSavingValues {
   purpose: string;
@@ -27,13 +34,15 @@ export interface QuickSavingValues {
 const SavingGoalLayout = () => {
   const router = useRouter();
 
-  const { setIsWeekOpen, setIsMonthOpen } = useModal();
+  const { setIsWeekOpen, setIsMonthOpen, setIsCalendarOpen } = useModal();
 
   const [frequency, setFrequency] = useState("");
   const [weekDay, setWeekDay] = useState("");
   const [monthDay, setMonthDay] = useState("");
+  const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
 
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  const [isOnce, setIsOnce] = useState<boolean>(false);
 
   const {
     register,
@@ -124,23 +133,30 @@ const SavingGoalLayout = () => {
                   {...commonProps}
                 />
 
-                <SelectButtonGroup
-                  label="Every"
-                  labelColor="secondary"
-                  options={["Day", "Week", "Month"]}
-                  value={frequency}
-                  error={errors?.frequency?.message}
-                  onChange={(val) => {
-                    setFrequency(val);
-                    setValue("frequency", val);
-                    if (val === "Week") {
-                      setIsWeekOpen(true);
-                    } else if (val === "Month") {
-                      setIsMonthOpen(true);
-                    }
-                  }}
+                <StyledCheckbox
+                  label="Just this once"
+                  checked={isOnce}
+                  onChange={() => setIsOnce((prev) => !prev)}
                 />
 
+                {!isOnce && (
+                  <SelectButtonGroup
+                    label="Every"
+                    labelColor="secondary"
+                    options={["Day", "Week", "Month"]}
+                    value={frequency}
+                    error={errors?.frequency?.message}
+                    onChange={(val) => {
+                      setFrequency(val);
+                      setValue("frequency", val);
+                      if (val === "Week") {
+                        setIsWeekOpen(true);
+                      } else if (val === "Month") {
+                        setIsMonthOpen(true);
+                      }
+                    }}
+                  />
+                )}
                 <SelectButtonGroup
                   isGrid
                   label="For"
@@ -151,6 +167,9 @@ const SavingGoalLayout = () => {
                   onChange={(val) => {
                     setFrequency(val);
                     setValue("frequency", val);
+                    if (val === "Let me choose") {
+                      setIsCalendarOpen(true);
+                    }
                   }}
                 />
 
@@ -161,6 +180,11 @@ const SavingGoalLayout = () => {
 
               <WeekModal value={weekDay} onChange={(val) => setWeekDay(val)} />
               <MonthModal value={monthDay} onChange={(val) => setMonthDay(val)} />
+              <CalendarModal
+                selectedDate={calendarDate}
+                onSelect={(date) => setCalendarDate(date)}
+                onClear={() => setCalendarDate(undefined)}
+              />
             </form>
           </Box>
         </>

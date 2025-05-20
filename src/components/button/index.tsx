@@ -11,7 +11,7 @@ type GlobalButtonProps = {
   disabled?: boolean;
   color?: string;
   onClick?: () => void;
-  type: "button" | "submit" | "reset";
+  type?: "button" | "submit" | "reset";
   icon?: React.ReactElement;
   className?: string;
   children: ReactNode;
