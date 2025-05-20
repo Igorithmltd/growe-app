@@ -18,7 +18,7 @@ interface CalenderProps {
 
 export function Calender({ selectedDate, onSelect, onClose, onClear, minDate }: CalenderProps) {
   return (
-    <VStack spaceY={0} w="333px">
+    <VStack spaceY={0} >
       {/* Header */}
       <Box w="full" bg="primary" p={4} color="white" borderTopRadius="md">
         <StyledText fontSize="sm" color="white">

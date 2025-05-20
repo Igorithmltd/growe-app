@@ -14,6 +14,7 @@ import WeekModal from "../../modals/WeekModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import MonthModal from "../../modals/MonthModal";
 import SummaryLayout from "./summary";
+import CalendarModal from "../../modals/CalenderModal";
 
 export interface QuickSavingValues {
   purpose: string;
@@ -27,11 +28,12 @@ export interface QuickSavingValues {
 const SavingGoalLayout = () => {
   const router = useRouter();
 
-  const { setIsWeekOpen, setIsMonthOpen } = useModal();
+  const { setIsWeekOpen, setIsMonthOpen, setIsCalendarOpen } = useModal();
 
   const [frequency, setFrequency] = useState("");
   const [weekDay, setWeekDay] = useState("");
   const [monthDay, setMonthDay] = useState("");
+  const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
 
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
@@ -151,6 +153,9 @@ const SavingGoalLayout = () => {
                   onChange={(val) => {
                     setFrequency(val);
                     setValue("frequency", val);
+                    if (val === "Let me choose") {
+                      setIsCalendarOpen(true);
+                    }
                   }}
                 />
 
@@ -161,6 +166,11 @@ const SavingGoalLayout = () => {
 
               <WeekModal value={weekDay} onChange={(val) => setWeekDay(val)} />
               <MonthModal value={monthDay} onChange={(val) => setMonthDay(val)} />
+              <CalendarModal
+                selectedDate={calendarDate}
+                onSelect={(date) => setCalendarDate(date)}
+                onClear={() => setCalendarDate(undefined)}
+              />
             </form>
           </Box>
         </>

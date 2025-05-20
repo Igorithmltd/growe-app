@@ -27,8 +27,9 @@ const CalendarModal = ({
     <Modal
       isOpen={isCalendarOpen}
       onClose={handleClose}
-      maxWidth={{ md: "360px" }}
+      maxWidth={{ md: "335px" }}
       hasCloseButton={false}
+      p={0}
     >
       <Calender
         selectedDate={selectedDate}
