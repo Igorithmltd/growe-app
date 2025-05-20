@@ -33,7 +33,16 @@ export const StyledCheckbox = ({
   return (
     <Checkbox.Root checked={currentChecked} size="lg" onCheckedChange={handleCheckedChange}>
       <Checkbox.HiddenInput />
-      <Checkbox.Control />
+      <Checkbox.Control
+        cursor="pointer"
+        border="1px solid"
+        borderColor="secondary"
+        _checked={{
+          bg: "primary",
+          border: "1px solid",
+          borderColor: "white",
+        }}
+      />
       <Checkbox.Label color={color} fontSize={{ base: "sm", md: "md", lg: "lg" }}>
         {label}
       </Checkbox.Label>
