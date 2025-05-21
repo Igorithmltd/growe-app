@@ -25,6 +25,7 @@ import InfoMark from "./info-mark.svg";
 import EmptyFolder from "./empty-folder.svg";
 import GroupIcon from "./group.svg";
 import TargetMark from "./target-mark.svg";
+import GroupMark from "./group-mark.svg";
 
 export {
   Hamburger,
@@ -52,4 +53,5 @@ export {
   EmptyFolder,
   GroupIcon,
   TargetMark,
+  GroupMark
 };
