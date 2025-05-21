@@ -54,7 +54,7 @@ const SavingGoalLayout = () => {
 
   const onSubmit = (data: QuickSavingValues) => {
     console.log(data);
-    setIsInfoOpen(true)
+    setIsInfoOpen(true);
   };
 
   const commonProps = {
@@ -189,11 +189,11 @@ const SavingGoalLayout = () => {
         </form>
       </Box>
       <InfoModal
-              message="Congratulations! 🎉 Your Goal is Set and Funded!"
-              hasButton={true}
-              buttonText={"Go back to Quick Save"}
-              icon={<GroupMark />}
-            />
+        message="Congratulations! 🎉 Your Goal is Set and Funded!"
+        hasButton={true}
+        buttonText={"Go back to Quick Save"}
+        icon={<GroupMark />}
+      />
     </Box>
   );
 };
