@@ -31,7 +31,7 @@ export interface QuickSavingValues {
   interestRate: number;
 }
 
-const SavingGoalLayout = () => {
+const CreateGroupLayout = () => {
   const router = useRouter();
 
   const { setIsWeekOpen, setIsMonthOpen, setIsCalendarOpen, setIsInfoOpen } = useModal();
@@ -189,13 +189,13 @@ const SavingGoalLayout = () => {
         </form>
       </Box>
       <InfoModal
-        message="Congratulations! 🎉 Your Goal is Set and Funded!"
+        message="Congratulations! 🎉 Your Group Savings Has Been Created!"
         hasButton={true}
-        buttonText={"Go back to Quick Save"}
+        buttonText={"Go back to savings"}
         icon={<GroupMark />}
       />
     </Box>
   );
 };
 
-export default SavingGoalLayout;
+export default CreateGroupLayout;
