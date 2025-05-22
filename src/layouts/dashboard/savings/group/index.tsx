@@ -3,9 +3,12 @@ import { Box, HStack, VStack } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa6";
 import { ActiveSavingsCard, EmptyCard, SavingsCard } from "../../cards";
 import { GroupIcon } from "@/public/svgs";
+import { useRouter } from "next/navigation";
 
 const GroupSavings = () => {
   const isEmpty = true;
+
+  const router = useRouter();
 
   return (
     <Box>
@@ -22,7 +25,7 @@ const GroupSavings = () => {
         />
 
         <HStack alignSelf={{ lg: "start" }}>
-          <StyledButton type="button" flex={1}>
+          <StyledButton type="button" flex={1} onClick={() => router.push("/savings/create-group")}>
             <FaPlus size="18px" /> Create Group
           </StyledButton>
 
