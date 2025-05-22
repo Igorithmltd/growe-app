@@ -1,5 +1,3 @@
-"use client";
-
 import { Box, Input, VStack, Icon, Text, Image } from "@chakra-ui/react";
 import { Field } from "@chakra-ui/react";
 import { StyledText } from "@/src/components";
@@ -41,8 +39,6 @@ const ImageUploadField = ({ label, fieldProps, error }: ImageUploadFieldProps) =
       )}
 
       <Box
-        as="label"
-        htmlFor="image-upload"
         border="2px dashed #E2E8F0"
         borderRadius="lg"
         cursor="pointer"
@@ -50,10 +46,17 @@ const ImageUploadField = ({ label, fieldProps, error }: ImageUploadFieldProps) =
         textAlign="center"
         bg="white"
         _hover={{ bg: "gray.50" }}
+        onClick={() => document.getElementById("image-upload")?.click()}
       >
-        <VStack spacing={2}>
+        <VStack spaceY={2}>
           {preview ? (
-            <Image src={preview} alt="preview" boxSize="100px" objectFit="cover" borderRadius="md" />
+            <Image
+              src={preview}
+              alt="Uploaded preview"
+              boxSize="100px"
+              objectFit="cover"
+              borderRadius="md"
+            />
           ) : (
             <>
               <Icon as={FiImage} boxSize={6} color="green.500" />
