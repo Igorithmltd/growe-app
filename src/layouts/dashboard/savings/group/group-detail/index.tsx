@@ -4,10 +4,12 @@ import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActiveSavingsCard, ActivityCard, DetailsCard, GroupInfoCard } from "../../../cards";
-import { FaUser } from "react-icons/fa6";
-import { MdPayment } from "react-icons/md";
+import { FaGear, FaUser } from "react-icons/fa6";
+import { MdContentCopy, MdPayment } from "react-icons/md";
 import { CiUnlock } from "react-icons/ci";
 import { useRouter } from "next/navigation";
+import { copyToClipboard } from "@/src/utils/helpers";
+import useShowToast from "@/src/hooks/useShowToast";
 
 const data = [
   { label: "Start Date", value: "10th Jan 2025" },
@@ -22,6 +24,17 @@ const data = [
 
 const GroupDetailsLayout = () => {
   const router = useRouter();
+  const toast = useShowToast();
+
+  const handleCopy = async () => {
+    const success = await copyToClipboard("hgvhgv");
+    toast({
+      title: success ? "Copied!" : "Copy failed",
+      status: success ? "success" : "error",
+    });
+  };
+
+  const hasJoined = true;
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -57,47 +70,50 @@ const GroupDetailsLayout = () => {
           </StyledText>
         </Box>
 
-        <StyledButton>Join</StyledButton>
-
-        <HStack alignSelf={{ lg: "start" }} spaceX={6}>
-          <StyledButton
-            type="button"
-            color="primary"
-            bg="border"
-            flex={{ base: 1, lg: "unset" }}
-            onClick={() => router.push("/savings/saving-goals/123/top-up")}
-          >
-            <Grid
-              boxSize="30px"
-              bg="transparent"
+        {hasJoined ? (
+          <HStack alignSelf={{ lg: "start" }} spaceX={6}>
+            <StyledButton
+              type="button"
               color="primary"
-              placeItems="center"
-              borderRadius="full"
+              bg="border"
+              flex={{ base: 1, lg: "unset" }}
+              onClick={handleCopy}
             >
-              <MdPayment fontSize="14px" />
-            </Grid>
-            Copy invite link
-          </StyledButton>
-          <StyledButton
-            type="button"
-            color="primary"
-            bg="border"
-            flex={{ base: 1, lg: "unset" }}
-            px={8}
-          >
-            <Grid
-              h="30px"
-              w="30px"
-              bg="#F8FBEB"
+              <Grid
+                boxSize="30px"
+                bg="transparent"
+                color="primary"
+                placeItems="center"
+                borderRadius="full"
+              >
+                <MdContentCopy />
+              </Grid>
+              Copy invite link
+            </StyledButton>
+            <StyledButton
+              type="button"
               color="primary"
-              placeItems="center"
-              borderRadius="full"
+              bg="border"
+              flex={{ base: 1, lg: "unset" }}
+              px={8}
+              fontSize={{ base: "sm", md: "md" }}
             >
-              <CiUnlock />
-            </Grid>
-            Settings
-          </StyledButton>
-        </HStack>
+              <Grid
+                h="30px"
+                w="30px"
+                bg="#F8FBEB"
+                color="primary"
+                placeItems="center"
+                borderRadius="full"
+              >
+                <FaGear />
+              </Grid>
+              Settings
+            </StyledButton>
+          </HStack>
+        ) : (
+          <StyledButton fontSize={{ base: "sm", md: "md" }}>Join</StyledButton>
+        )}
 
         <Box>
           <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
@@ -121,7 +137,8 @@ const GroupDetailsLayout = () => {
             color="secondary"
             flex={{ base: 1, lg: "unset" }}
             bg="white"
-            onClick={() => router.push("/savings/saving-goals/123/top-up")}
+            onClick={() => router.push("/savings/saving-groups/123/top-up")}
+            fontSize={{ base: "sm", md: "md" }}
           >
             <Grid
               boxSize="30px"
@@ -140,6 +157,7 @@ const GroupDetailsLayout = () => {
             flex={{ base: 1, lg: "unset" }}
             bg="white"
             px={8}
+            fontSize={{ base: "sm", md: "md" }}
           >
             <Grid
               h="30px"
