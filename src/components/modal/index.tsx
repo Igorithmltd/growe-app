@@ -84,7 +84,7 @@ export const Modal = ({
           p={6}
           {...boxProps}
         >
-          {hasCloseButton && (
+          {hasCloseButton && !isMobile && (
             <CloseButton
               position="absolute"
               top={2}

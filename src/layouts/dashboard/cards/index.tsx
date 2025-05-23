@@ -516,3 +516,117 @@ export const ActivityCard = ({
     </ReuseableCard>
   );
 };
+
+export const GroupInfoCard = ({
+  bg = "white",
+  title,
+  image,
+  members,
+  totalSavings,
+  savingsPerMember,
+  interest,
+  percentageCompletion,
+  daysLeft,
+  isJoin = true,
+  canClick = true,
+}: {
+  bg?: string;
+  title: string;
+  image: string;
+  members: number;
+  totalSavings: string;
+  savingsPerMember: string;
+  interest: number;
+  percentageCompletion: number;
+  daysLeft: number;
+  isJoin?: boolean;
+  canClick?: boolean;
+}) => {
+  const router = useRouter();
+
+  const infoItems = [
+    { value: members, label: "Members" },
+    { value: totalSavings, label: "Total Savings" },
+    { value: savingsPerMember, label: "Per member" },
+    { value: `${interest}%`, label: "Interest" },
+  ];
+  const handleClick = () => {
+    if (canClick) {
+      if (isJoin) {
+        router.push("/savings/join-group/123");
+      } else {
+        router.push("/savings/saving-groups/123");
+      }
+    }
+  };
+
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      border="none"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      p={{ base: 3, md: 6 }}
+      bg={bg}
+    >
+      <HStack spaceX={4} align="stretch" onClick={handleClick}>
+        <Box
+          position="relative"
+          w={{ base: "96px", md: "128px", lg: "160px" }}
+          h={{ base: "90px", md: "120px", lg: "150px" }}
+          flex={1}
+        >
+          <Image src={image} alt={title} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
+        </Box>
+
+        <VStack align="stretch" justify="space-between" flex={3}>
+          <StyledText
+            fontSize={{ base: "sm", md: "md", lg: "lg" }}
+            fontWeight="normal"
+            color="secondary"
+          >
+            {title}
+          </StyledText>
+
+          <HStack justify="space-between">
+            {infoItems.map(({ value, label }) => (
+              <Box textAlign="center" key={label}>
+                <StyledText
+                  fontSize={{ base: "xs", md: "sm", lg: "md" }}
+                  fontWeight="normal"
+                  color="primary"
+                >
+                  {value}
+                </StyledText>
+                <StyledText
+                  fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+                  fontWeight="normal"
+                  color="bfgrey"
+                >
+                  {label}
+                </StyledText>
+              </Box>
+            ))}
+          </HStack>
+          <StyledProgress value={percentageCompletion} />
+          <HStack justify="space-between">
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {percentageCompletion}% completed
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {daysLeft} days left
+            </StyledText>
+          </HStack>
+        </VStack>
+      </HStack>
+    </ReuseableCard>
+  );
+};
