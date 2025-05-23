@@ -53,7 +53,12 @@ const GroupSavings = () => {
               Active Savings Group
             </StyledText>
 
-            <Flex align="center" color="primary" cursor="pointer">
+            <Flex
+              align="center"
+              color="primary"
+              cursor="pointer"
+              onClick={() => router.push("/savings/saving-groups")}
+            >
               <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="medium" color="inherit">
                 Find more
               </StyledText>
