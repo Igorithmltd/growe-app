@@ -2,12 +2,10 @@ import { Modal, StyledButton, StyledText, StyledField } from "@/src/components";
 import { useModal } from "@/src/contexts/ModalContext";
 import { QuickSavingValues } from "@/src/schema/savings.schema";
 import { VStack } from "@chakra-ui/react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-const JoinGroupModal = () => {
-  const { isJoinSavingsOpen, setIsJoinSavingsOpen } = useModal();
-  const [isCorrect, setIsCorrect] = useState<boolean>(false);
+const GroupSettingsModal = () => {
+  const { isGroupSettingsOpen, setIsGroupSettingsOpen } = useModal();
 
   const {
     register,
@@ -20,7 +18,7 @@ const JoinGroupModal = () => {
 
   const onSubmit = (data: QuickSavingValues) => {
     console.log(data);
-    setIsCorrect(true);
+    setIsGroupSettingsOpen(false);
   };
 
   const commonProps = {
@@ -35,8 +33,8 @@ const JoinGroupModal = () => {
 
   return (
     <Modal
-      isOpen={isJoinSavingsOpen}
-      onClose={() => setIsJoinSavingsOpen(false)}
+      isOpen={isGroupSettingsOpen}
+      onClose={() => setIsGroupSettingsOpen(false)}
       maxWidth={{ md: "395px" }}
     >
       <VStack align="stretch" spaceY={6}>
@@ -74,4 +72,4 @@ const JoinGroupModal = () => {
   );
 };
 
-export default JoinGroupModal;
+export default GroupSettingsModal;

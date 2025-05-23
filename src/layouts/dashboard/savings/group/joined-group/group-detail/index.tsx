@@ -10,6 +10,8 @@ import { CiUnlock } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { copyToClipboard } from "@/src/utils/helpers";
 import useShowToast from "@/src/hooks/useShowToast";
+import { useModal } from "@/src/contexts/ModalContext";
+import GroupSettingsModal from "../../../modals/GroupSettingsModal";
 
 const data = [
   { label: "Start Date", value: "10th Jan 2025" },
@@ -25,6 +27,8 @@ const data = [
 const GroupDetailsLayout = () => {
   const router = useRouter();
   const toast = useShowToast();
+
+  const {setIsGroupSettingsOpen} = useModal()
 
   const handleCopy = async () => {
     const success = await copyToClipboard("hgvhgv");
@@ -94,6 +98,7 @@ const GroupDetailsLayout = () => {
             flex={{ base: 1, lg: "unset" }}
             px={8}
             fontSize={{ base: "sm", md: "md" }}
+            onClick={() => setIsGroupSettingsOpen(true)}
           >
             <Grid
               h="30px"
@@ -192,6 +197,8 @@ const GroupDetailsLayout = () => {
           </VStack>
         </Box>
       </VStack>
+
+      <GroupSettingsModal />
     </Box>
   );
 };
