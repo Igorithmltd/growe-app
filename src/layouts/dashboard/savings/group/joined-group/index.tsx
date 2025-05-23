@@ -25,7 +25,7 @@ const JoinedGroupsLayout = () => {
   };
 
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
         <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
@@ -46,6 +46,7 @@ const JoinedGroupsLayout = () => {
           totalSavings="₦700K"
           interest={10}
           image="/images/group/3.jpg"
+          isJoin={false}
         />
         <GroupInfoCard
           title="Valentine’s Day Celebration"
@@ -56,6 +57,7 @@ const JoinedGroupsLayout = () => {
           totalSavings="₦700K"
           interest={10}
           image="/images/group/2.jpg"
+          isJoin={false}
         />
         <GroupInfoCard
           title="Travel Savings Group"
@@ -66,6 +68,7 @@ const JoinedGroupsLayout = () => {
           totalSavings="₦700K"
           interest={10}
           image="/images/group/1.jpg"
+          isJoin={false}
         />
       </VStack>
     </Box>
