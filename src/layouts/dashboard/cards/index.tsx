@@ -516,3 +516,98 @@ export const ActivityCard = ({
     </ReuseableCard>
   );
 };
+
+export const GroupInfoCard = ({
+  bg = "white",
+  title,
+  image,
+  members,
+  totalSavings,
+  savingsPerMember,
+  interest,
+}: {
+  bg?: string;
+  title: string;
+  image: string;
+  members: number;
+  totalSavings: string;
+  savingsPerMember: string;
+  interest: string;
+}) => {
+  const infoItems = [
+    { value: members, label: "Members" },
+    { value: totalSavings, label: "Total Savings" },
+    { value: savingsPerMember, label: "Per member" },
+    { value: interest, label: "Interest" },
+  ];
+
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      border="1px solid"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      px={{ base: 3, md: 6 }}
+      py={10}
+      bg={bg}
+    >
+      <HStack>
+        <Box
+          position="relative"
+          w={{ base: "96px", md: "128px", lg: "160px" }}
+          h={{ base: "90px", md: "120px", lg: "150px" }}
+        >
+          <Image src={image} alt={title} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
+        </Box>
+
+        <VStack>
+          <StyledText
+            fontSize={{ base: "sm", md: "md", lg: "lg" }}
+            fontWeight="normal"
+            color="secondary"
+          >
+            {title}
+          </StyledText>
+
+          <HStack>
+            {infoItems.map(({ value, label }) => (
+              <Box>
+                <StyledText
+                  fontSize={{ base: "xs", md: "sm", lg: "md" }}
+                  fontWeight="normal"
+                  color="primary"
+                >
+                  {value}
+                </StyledText>
+                <StyledText
+                  fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+                  fontWeight="normal"
+                  color="bfgrey"
+                >
+                  {label}
+                </StyledText>
+              </Box>
+            ))}
+          </HStack>
+          <StyledProgress value={30} />
+          <HStack>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {title}
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {title}
+            </StyledText>
+          </HStack>
+        </VStack>
+      </HStack>
+    </ReuseableCard>
+  );
+};
