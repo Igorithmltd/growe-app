@@ -525,6 +525,8 @@ export const GroupInfoCard = ({
   totalSavings,
   savingsPerMember,
   interest,
+  percentageCompletion,
+  daysLeft,
 }: {
   bg?: string;
   title: string;
@@ -533,6 +535,8 @@ export const GroupInfoCard = ({
   totalSavings: string;
   savingsPerMember: string;
   interest: string;
+  percentageCompletion: number;
+  daysLeft: number;
 }) => {
   const infoItems = [
     { value: members, label: "Members" },
@@ -589,21 +593,21 @@ export const GroupInfoCard = ({
               </Box>
             ))}
           </HStack>
-          <StyledProgress value={30} />
+          <StyledProgress value={percentageCompletion} />
           <HStack>
             <StyledText
               fontSize={{ base: "xs", md: "sm", lg: "md" }}
               fontWeight="normal"
               color="bfgrey"
             >
-              {title}
+              {percentageCompletion}% completed
             </StyledText>
             <StyledText
               fontSize={{ base: "xs", md: "sm", lg: "md" }}
               fontWeight="normal"
               color="bfgrey"
             >
-              {title}
+              {daysLeft} days left
             </StyledText>
           </HStack>
         </VStack>
