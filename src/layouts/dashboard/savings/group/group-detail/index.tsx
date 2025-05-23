@@ -10,12 +10,14 @@ import { CiUnlock } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 
 const data = [
-  { label: "Target Amount", value: "₦800,000" },
-  { label: "Frequent Amount", value: "₦800,000" },
-  { label: "Interest Rate", value: "10% p.a" },
-  { label: "Maturity Date", value: "Apr 15, 2025" },
-  { label: "Automation", value: "Every Sunday" },
-  { label: "Estimated Future Amount", value: "₦808,000" },
+  { label: "Start Date", value: "10th Jan 2025" },
+  { label: "Withdrwal Date", value: "10th June 2025" },
+  { label: "Target Group savings amount", value: "₦2Million" },
+  { label: "Target per member", value: "₦200,000" },
+  { label: "Frequency amount", value: "₦25,000 Monthly" },
+  { label: "Interest Rate", value: "10%" },
+  { label: "Savings duration", value: "6 months" },
+  { label: "Days left", value: "160" },
 ];
 
 const GroupDetailsLayout = () => {
@@ -33,8 +35,6 @@ const GroupDetailsLayout = () => {
       </HStack>
 
       <VStack align="stretch" spaceY={8} mt={14}>
-        <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
-
         <GroupInfoCard
           title="Education Savings Group"
           daysLeft={28}
@@ -45,6 +45,69 @@ const GroupDetailsLayout = () => {
           interest={10}
           image="/images/group/3.jpg"
         />
+
+        <Box>
+          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
+            About Group
+          </StyledText>
+          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
+            Education Savings Group helps you and others save collectively for tuition,
+            certifications, and educational goals. Together, make learning affordable and achievable
+            for everyone!
+          </StyledText>
+        </Box>
+
+        <StyledButton>Join</StyledButton>
+
+        <HStack alignSelf={{ lg: "start" }} spaceX={6}>
+          <StyledButton
+            type="button"
+            color="primary"
+            bg="border"
+            flex={{ base: 1, lg: "unset" }}
+            onClick={() => router.push("/savings/saving-goals/123/top-up")}
+          >
+            <Grid
+              boxSize="30px"
+              bg="transparent"
+              color="primary"
+              placeItems="center"
+              borderRadius="full"
+            >
+              <MdPayment fontSize="14px" />
+            </Grid>
+            Copy invite link
+          </StyledButton>
+          <StyledButton
+            type="button"
+            color="primary"
+            bg="border"
+            flex={{ base: 1, lg: "unset" }}
+            px={8}
+          >
+            <Grid
+              h="30px"
+              w="30px"
+              bg="#F8FBEB"
+              color="primary"
+              placeItems="center"
+              borderRadius="full"
+            >
+              <CiUnlock />
+            </Grid>
+            Settings
+          </StyledButton>
+        </HStack>
+
+        <Box>
+          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
+            Payout Rule
+          </StyledText>
+          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
+            Your savings are completely yours. Only you can access them, ensuring your money stays
+            safe and secure.
+          </StyledText>
+        </Box>
 
         <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
           {data.map(({ label, value }) => (
@@ -88,7 +151,7 @@ const GroupDetailsLayout = () => {
             >
               <CiUnlock />
             </Grid>
-            Break Savings
+            Disbursement
           </StyledButton>
         </HStack>
 
@@ -106,13 +169,13 @@ const GroupDetailsLayout = () => {
           >
             <ActivityCard
               icon={<FaUser size={20} />}
-              title="Rent Personal Savings Goal created"
+              title="Joined target"
               timeAgo="15 hours"
               status="Started"
             />
             <ActivityCard
               icon={<FaUser size={20} />}
-              title="Deposited ₦133,000 for Rent savings goal"
+              title="Education Savings Group created"
               timeAgo="18 hours"
             />
           </VStack>
