@@ -6,8 +6,8 @@ import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActivityCard, DetailsCard, GroupInfoCard } from "../../../../cards";
 import { FaUser } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
-import useShowToast from "@/src/hooks/useShowToast";
 import { useModal } from "@/src/contexts/ModalContext";
+import JoinGroupModal from "../../../modals/JoinGroupModal";
 
 const data = [
   { label: "Start Date", value: "10th Jan 2025" },
@@ -108,6 +108,8 @@ const GroupPreviewLayout = () => {
           </VStack>
         </Box>
       </VStack>
+
+      <JoinGroupModal />
     </Box>
   );
 };

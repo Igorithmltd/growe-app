@@ -559,7 +559,7 @@ export const GroupInfoCard = ({
   return (
     <ReuseableCard
       boxShadow="xs"
-      border="1px solid"
+      border="none"
       borderColor="#F8FBEB"
       borderRadius="15px"
       p={{ base: 3, md: 6 }}
