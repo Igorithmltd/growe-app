@@ -528,6 +528,7 @@ export const GroupInfoCard = ({
   percentageCompletion,
   daysLeft,
   isJoin = true,
+  canClick = true,
 }: {
   bg?: string;
   title: string;
@@ -539,6 +540,7 @@ export const GroupInfoCard = ({
   percentageCompletion: number;
   daysLeft: number;
   isJoin?: boolean;
+  canClick?: boolean;
 }) => {
   const router = useRouter();
 
@@ -549,10 +551,12 @@ export const GroupInfoCard = ({
     { value: `${interest}%`, label: "Interest" },
   ];
   const handleClick = () => {
-    if (isJoin) {
-      router.push("/savings/join-group/123");
-    } else {
-      router.push("/savings/saving-groups/123");
+    if (canClick) {
+      if (isJoin) {
+        router.push("/savings/join-group/123");
+      } else {
+        router.push("/savings/saving-groups/123");
+      }
     }
   };
 
@@ -586,7 +590,7 @@ export const GroupInfoCard = ({
 
           <HStack justify="space-between">
             {infoItems.map(({ value, label }) => (
-              <Box textAlign="center">
+              <Box textAlign="center" key={label}>
                 <StyledText
                   fontSize={{ base: "xs", md: "sm", lg: "md" }}
                   fontWeight="normal"
