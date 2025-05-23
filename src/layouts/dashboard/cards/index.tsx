@@ -527,6 +527,7 @@ export const GroupInfoCard = ({
   interest,
   percentageCompletion,
   daysLeft,
+  isJoin = true,
 }: {
   bg?: string;
   title: string;
@@ -537,13 +538,23 @@ export const GroupInfoCard = ({
   interest: number;
   percentageCompletion: number;
   daysLeft: number;
+  isJoin?: boolean;
 }) => {
+  const router = useRouter();
+
   const infoItems = [
     { value: members, label: "Members" },
     { value: totalSavings, label: "Total Savings" },
     { value: savingsPerMember, label: "Per member" },
     { value: `${interest}%`, label: "Interest" },
   ];
+  const handleClick = () => {
+    if (isJoin) {
+      router.push("/savings/join-group/123");
+    } else {
+      router.push("/savings/saving-groups/123");
+    }
+  };
 
   return (
     <ReuseableCard
@@ -554,7 +565,7 @@ export const GroupInfoCard = ({
       p={{ base: 3, md: 6 }}
       bg={bg}
     >
-      <HStack spaceX={4} align="stretch">
+      <HStack spaceX={4} align="stretch" onClick={handleClick}>
         <Box
           position="relative"
           w={{ base: "96px", md: "128px", lg: "160px" }}

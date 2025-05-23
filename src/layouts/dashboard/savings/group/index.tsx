@@ -30,7 +30,13 @@ const GroupSavings = () => {
             <FaPlus size="18px" /> Create Group
           </StyledButton>
 
-          <StyledButton type="button" bg="#EDF5CE" color="primary" flex={1}>
+          <StyledButton
+            type="button"
+            bg="#EDF5CE"
+            color="primary"
+            flex={1}
+            onClick={() => router.push("/savings/join-group")}
+          >
             <GroupIcon /> Join Group
           </StyledButton>
         </HStack>

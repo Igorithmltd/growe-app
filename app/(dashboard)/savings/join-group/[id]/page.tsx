@@ -2,7 +2,7 @@ import GroupDetailsLayout from "@/src/layouts/dashboard/savings/group/joined-gro
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Growe | Savings Group",
+  title: "Growe | Join Savings Group",
 };
 
 const SavingsGroupPage = () => {
