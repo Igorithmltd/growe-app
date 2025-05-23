@@ -5,8 +5,8 @@ export const metadata: Metadata = {
   title: "Growe | Savings Group",
 };
 
-const SavingsPage = () => {
+const SavingsGroupPage = () => {
   return <GroupDetailsLayout />;
 };
 
-export default SavingsPage;
+export default SavingsGroupPage;
