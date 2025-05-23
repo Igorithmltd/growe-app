@@ -534,7 +534,7 @@ export const GroupInfoCard = ({
   members: number;
   totalSavings: string;
   savingsPerMember: string;
-  interest: string;
+  interest: number;
   percentageCompletion: number;
   daysLeft: number;
 }) => {
@@ -542,7 +542,7 @@ export const GroupInfoCard = ({
     { value: members, label: "Members" },
     { value: totalSavings, label: "Total Savings" },
     { value: savingsPerMember, label: "Per member" },
-    { value: interest, label: "Interest" },
+    { value: `${interest}%`, label: "Interest" },
   ];
 
   return (
@@ -551,20 +551,20 @@ export const GroupInfoCard = ({
       border="1px solid"
       borderColor="#F8FBEB"
       borderRadius="15px"
-      px={{ base: 3, md: 6 }}
-      py={10}
+      p={{ base: 3, md: 6 }}
       bg={bg}
     >
-      <HStack>
+      <HStack spaceX={4} align="stretch">
         <Box
           position="relative"
           w={{ base: "96px", md: "128px", lg: "160px" }}
           h={{ base: "90px", md: "120px", lg: "150px" }}
+          flex={1}
         >
           <Image src={image} alt={title} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
         </Box>
 
-        <VStack>
+        <VStack align="stretch" justify="space-between" flex={3}>
           <StyledText
             fontSize={{ base: "sm", md: "md", lg: "lg" }}
             fontWeight="normal"
@@ -573,9 +573,9 @@ export const GroupInfoCard = ({
             {title}
           </StyledText>
 
-          <HStack>
+          <HStack justify="space-between">
             {infoItems.map(({ value, label }) => (
-              <Box>
+              <Box textAlign="center">
                 <StyledText
                   fontSize={{ base: "xs", md: "sm", lg: "md" }}
                   fontWeight="normal"
@@ -594,7 +594,7 @@ export const GroupInfoCard = ({
             ))}
           </HStack>
           <StyledProgress value={percentageCompletion} />
-          <HStack>
+          <HStack justify="space-between">
             <StyledText
               fontSize={{ base: "xs", md: "sm", lg: "md" }}
               fontWeight="normal"

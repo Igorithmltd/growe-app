@@ -3,7 +3,7 @@
 import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
-import { ActiveSavingsCard, ActivityCard, DetailsCard } from "../../../cards";
+import { ActiveSavingsCard, ActivityCard, DetailsCard, GroupInfoCard } from "../../../cards";
 import { FaUser } from "react-icons/fa6";
 import { MdPayment } from "react-icons/md";
 import { CiUnlock } from "react-icons/ci";
@@ -22,7 +22,7 @@ const GroupDetailsLayout = () => {
   const router = useRouter();
 
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
         <Box onClick={() => router.back()}>
           <BackIcon />
@@ -34,6 +34,17 @@ const GroupDetailsLayout = () => {
 
       <VStack align="stretch" spaceY={8} mt={14}>
         <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
+
+        <GroupInfoCard
+          title="Education Savings Group"
+          daysLeft={28}
+          members={30}
+          percentageCompletion={65}
+          savingsPerMember="₦200K"
+          totalSavings="₦700K"
+          interest={10}
+          image="/images/group/3.jpg"
+        />
 
         <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
           {data.map(({ label, value }) => (
