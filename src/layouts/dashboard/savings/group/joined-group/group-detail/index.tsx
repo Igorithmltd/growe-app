@@ -28,7 +28,7 @@ const GroupDetailsLayout = () => {
   const router = useRouter();
   const toast = useShowToast();
 
-  const {setIsGroupSettingsOpen} = useModal()
+  const {setIsGroupSettingsOpen} = useModal();
 
   const handleCopy = async () => {
     const success = await copyToClipboard("hgvhgv");
