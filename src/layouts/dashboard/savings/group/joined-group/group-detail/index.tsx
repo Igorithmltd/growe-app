@@ -34,8 +34,6 @@ const GroupDetailsLayout = () => {
     });
   };
 
-  const hasJoined = true;
-
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
@@ -100,7 +98,6 @@ const GroupDetailsLayout = () => {
             <Grid
               h="30px"
               w="30px"
-              bg="#F8FBEB"
               color="primary"
               placeItems="center"
               borderRadius="full"
