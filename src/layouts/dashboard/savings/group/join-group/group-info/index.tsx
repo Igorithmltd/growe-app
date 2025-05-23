@@ -7,6 +7,7 @@ import { ActivityCard, DetailsCard, GroupInfoCard } from "../../../../cards";
 import { FaUser } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import useShowToast from "@/src/hooks/useShowToast";
+import { useModal } from "@/src/contexts/ModalContext";
 
 const data = [
   { label: "Start Date", value: "10th Jan 2025" },
@@ -21,6 +22,8 @@ const data = [
 
 const GroupPreviewLayout = () => {
   const router = useRouter();
+
+  const { setIsJoinSavingsOpen } = useModal();
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -56,7 +59,12 @@ const GroupPreviewLayout = () => {
           </StyledText>
         </Box>
 
-        <StyledButton fontSize={{ base: "sm", md: "md" }}>Join</StyledButton>
+        <StyledButton
+          fontSize={{ base: "sm", md: "md" }}
+          onClick={() => setIsJoinSavingsOpen(true)}
+        >
+          Join
+        </StyledButton>
 
         <Box>
           <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
