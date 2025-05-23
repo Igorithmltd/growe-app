@@ -1,4 +1,4 @@
-import GroupDetailsLayout from "@/src/layouts/dashboard/savings/group/joined-group/group-detail";
+import GroupPreviewLayout from "@/src/layouts/dashboard/savings/group/join-group/group-info";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const SavingsGroupPage = () => {
-  return <GroupDetailsLayout />;
+  return <GroupPreviewLayout />;
 };
 
 export default SavingsGroupPage;
