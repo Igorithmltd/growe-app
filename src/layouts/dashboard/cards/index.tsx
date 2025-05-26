@@ -631,7 +631,7 @@ export const GroupInfoCard = ({
   );
 };
 
-export const InestmentCard = ({
+export const InvestmentCard = ({
   name,
   image,
   annualReturn,
@@ -642,14 +642,20 @@ export const InestmentCard = ({
   annualReturn: number;
 }) => {
   return (
-    <ReuseableCard boxShadow="none" borderRadius="15px" p={{ base: 3, md: 6 }} bg="white">
-      <VStack align="stretch">
+    <ReuseableCard
+      flexShrink={0}
+      boxShadow="none"
+      borderRadius="10px"
+      py={{ base: 3, md: 6 }}
+      bg="white"
+      w={{ base: "160px", md: "200px", lg: "240px" }}
+    >
+      <VStack align="stretch" spaceY={4}>
         <HStack align="center" justify="space-between" w="full">
           <Box
             position="relative"
             w={{ base: "35px", md: "45px", lg: "55px" }}
             h={{ base: "35px", md: "45px", lg: "55px" }}
-            flex={1}
           >
             <Image
               src={image}
@@ -659,15 +665,23 @@ export const InestmentCard = ({
             />
           </Box>
           <Box textAlign="center">
-            <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="#A5D846">
+            <StyledText
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
+              fontWeight="normal"
+              color="#A5D846"
+            >
               {annualReturn}%
             </StyledText>
-            <StyledText fontSize={{ base: "2xs", md: "xs" }} fontWeight="normal" color="bfgrey">
+            <StyledText fontSize={{ base: "xs", md: "sm" }} fontWeight="normal" color="bfgrey">
               Annual Return
             </StyledText>
           </Box>
         </HStack>
-        <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="secondary">
+        <StyledText
+          fontSize={{ base: "sm", md: "md", lg: "lg" }}
+          fontWeight="normal"
+          color="secondary"
+        >
           {name}
         </StyledText>
       </VStack>
