@@ -340,15 +340,7 @@ export const ActiveSavingsCard = ({
 
 export const EmptyCard = ({ bg = "white", title }: { bg?: string; title: string }) => {
   return (
-    <ReuseableCard
-      boxShadow="xs"
-      border="1px solid"
-      borderColor="#F8FBEB"
-      borderRadius="15px"
-      px={{ base: 3, md: 6 }}
-      py={10}
-      bg={bg}
-    >
+    <ReuseableCard boxShadow="xs" borderRadius="15px" px={{ base: 3, md: 6 }} py={10} bg={bg}>
       <VStack align="center" spaceY={5}>
         <EmptyFolder />
 
