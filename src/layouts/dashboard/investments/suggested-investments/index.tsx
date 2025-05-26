@@ -31,7 +31,27 @@ const JoinGroupLayout = () => {
         <InvestmentInfoCard
           name="Enviable Transport"
           investors={30}
-          percentageCompletion={85}
+          amountPerUnit="₦1M"
+          annualReturn={10}
+          image="/images/investments/1.png"
+        />
+        <InvestmentInfoCard
+          name="Enviable Transport"
+          investors={30}
+          amountPerUnit="₦1M"
+          annualReturn={10}
+          image="/images/investments/1.png"
+        />
+        <InvestmentInfoCard
+          name="Enviable Transport"
+          investors={30}
+          amountPerUnit="₦1M"
+          annualReturn={10}
+          image="/images/investments/1.png"
+        />
+        <InvestmentInfoCard
+          name="Enviable Transport"
+          investors={30}
           amountPerUnit="₦1M"
           annualReturn={10}
           image="/images/investments/1.png"
