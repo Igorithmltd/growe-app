@@ -7,10 +7,13 @@ import { useState } from "react";
 import PersonalInvestments from "./personal";
 import { InvestmentCard, PromoCard } from "../cards";
 import { MdChevronRight } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const MotionBox = motion.create(Box);
 
 const InvestmentLayout = () => {
+  const router = useRouter();
+
   const [isPersonal, setIsPersonal] = useState(true);
 
   return (
@@ -88,7 +91,12 @@ const InvestmentLayout = () => {
             Suggested Investments
           </StyledText>
 
-          <Flex align="center" color="primary" cursor="pointer">
+          <Flex
+            align="center"
+            color="primary"
+            cursor="pointer"
+            onClick={() => router.push("/investments/suggested-investments")}
+          >
             <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="medium" color="inherit">
               Find more
             </StyledText>
