@@ -11,7 +11,7 @@ import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon, SuccessMark } from "@/public/svgs";
 import InfoModal from "@/src/components/modals/InfoModal";
 
-const TopUpLayout = () => {
+const InvestForm = () => {
   const router = useRouter();
 
   const {
@@ -45,7 +45,7 @@ const TopUpLayout = () => {
         </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          Top Up Savings
+          Invest Now
         </StyledText>
       </Box>
 
@@ -55,7 +55,8 @@ const TopUpLayout = () => {
         fontWeight="normal"
         color="bfgrey"
       >
-        Add money to your savings and watch your goals grow instantly!
+        Enter the amount you want to invest and take the next step toward growing your wealth. Start
+        small or go big
       </StyledText>
 
       <Box mt={14}>
@@ -63,7 +64,7 @@ const TopUpLayout = () => {
           <VStack spaceY={8} align="stretch">
             <AmountInput
               label="Amount"
-              placeholder="Enter amount to save (Min: 1000)"
+              placeholder="Enter amount to invest"
               labelColor="secondary"
               field={register("amount")}
               error={errors?.amount?.message}
@@ -87,4 +88,4 @@ const TopUpLayout = () => {
   );
 };
 
-export default TopUpLayout;
+export default InvestForm;
