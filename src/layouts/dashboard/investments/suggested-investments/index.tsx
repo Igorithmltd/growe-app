@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
 import { InvestmentInfoCard } from "../../cards";
 
-const JoinGroupLayout = () => {
+const SuggestedInvestmentsLayout = () => {
   const router = useRouter();
 
   const handleBack = () => {
@@ -61,4 +61,4 @@ const JoinGroupLayout = () => {
   );
 };
 
-export default JoinGroupLayout;
+export default SuggestedInvestmentsLayout;
