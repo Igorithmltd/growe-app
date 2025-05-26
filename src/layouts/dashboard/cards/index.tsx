@@ -680,3 +680,52 @@ export const InvestmentCard = ({
     </ReuseableCard>
   );
 };
+
+export const PromoCard = () => {
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      borderRadius="15px"
+      px={{ base: 0, md: 6 }}
+      h={{ base: "120px", md: "150px", lg: "180px" }}
+      bg="#5555FF"
+      position="relative"
+      mt={6}
+    >
+      <HStack h="full">
+        <Box width={{ base: "60%", md: "60%", lg: "70%" }} p={2} position="relative">
+          <StyledText color="white" fontSize={{ base: "4xl", md: "5xl" }}>
+            Growe
+          </StyledText>
+          <StyledText
+            color="white"
+            fontSize={{ base: "xs", md: "md", lg: "lg" }}
+            fontWeight="normal"
+          >
+            your wealth effortlessly with tailored investments, and bigger opportunities
+          </StyledText>
+        </Box>
+
+        <Box position="absolute" right={0} top={0}>
+          <Box
+            position="relative"
+            borderRadius="15px"
+            bgImage="url('/images/promo/bg.png')"
+            bgSize="cover"
+            bgRepeat="no-repeat"
+            w={{ base: "180px", md: "220px", lg: "260px" }}
+            h={{ base: "120px", md: "150px", lg: "180px" }}
+            flexShrink={0}
+          >
+            <Image
+              src="/images/promo/lady.png"
+              alt="Promo Image"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </Box>
+        </Box>
+      </HStack>
+    </ReuseableCard>
+  );
+};

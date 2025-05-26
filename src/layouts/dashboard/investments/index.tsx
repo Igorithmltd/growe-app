@@ -5,7 +5,7 @@ import { Box, Flex, HStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import PersonalInvestments from "./personal";
-import { InvestmentCard } from "../cards";
+import { InvestmentCard, PromoCard } from "../cards";
 import { MdChevronRight } from "react-icons/md";
 
 const MotionBox = motion.create(Box);
@@ -135,6 +135,8 @@ const InvestmentLayout = () => {
           />
         </HStack>
       </Box>
+
+      <PromoCard />
     </Box>
   );
 };
