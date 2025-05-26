@@ -630,3 +630,49 @@ export const GroupInfoCard = ({
     </ReuseableCard>
   );
 };
+
+export const InestmentCard = ({
+  name,
+  image,
+  annualReturn,
+  status,
+}: {
+  bg?: string;
+  name: string;
+  image: string;
+  annualReturn: number;
+  status?: string;
+}) => {
+  return (
+    <ReuseableCard boxShadow="none" borderRadius="15px" p={{ base: 3, md: 6 }} bg="transparent">
+      <VStack>
+        <HStack align="center" justify="space-between" w="full">
+          <Box
+            position="relative"
+            w={{ base: "35px", md: "45px", lg: "55px" }}
+            h={{ base: "35px", md: "45px", lg: "55px" }}
+            flex={1}
+          >
+            <Image
+              src={image}
+              alt={name}
+              fill
+              style={{ borderRadius: "8px", objectFit: "cover" }}
+            />
+          </Box>
+          <Box textAlign="center">
+            <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="#A5D846">
+              {annualReturn}%
+            </StyledText>
+            <StyledText fontSize={{ base: "2xs", md: "xs" }} fontWeight="normal" color="bfgrey">
+              Annual Return
+            </StyledText>
+          </Box>
+        </HStack>
+        <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="secondary">
+          {name}
+        </StyledText>
+      </VStack>
+    </ReuseableCard>
+  );
+};
