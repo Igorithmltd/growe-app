@@ -635,17 +635,15 @@ export const InestmentCard = ({
   name,
   image,
   annualReturn,
-  status,
 }: {
   bg?: string;
   name: string;
   image: string;
   annualReturn: number;
-  status?: string;
 }) => {
   return (
-    <ReuseableCard boxShadow="none" borderRadius="15px" p={{ base: 3, md: 6 }} bg="transparent">
-      <VStack>
+    <ReuseableCard boxShadow="none" borderRadius="15px" p={{ base: 3, md: 6 }} bg="white">
+      <VStack align="stretch">
         <HStack align="center" justify="space-between" w="full">
           <Box
             position="relative"
