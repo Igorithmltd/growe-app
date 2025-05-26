@@ -36,7 +36,7 @@ const InvestmentLayout = () => {
       >
         {["Personal Ivestments", "Group Investments", ,].map((item) => {
           const isSelected =
-            (item === "Personal Ivestments" && isPersonal) ||
+            (item === "Personal Investments" && isPersonal) ||
             (item === "Group Investments" && !isPersonal);
           return (
             <MotionBox
@@ -71,7 +71,7 @@ const InvestmentLayout = () => {
 
       <Box>
         <MotionBox
-          key={isPersonal ? "personal" : "proup"}
+          key={isPersonal ? "personal" : "group"}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 50 }}
