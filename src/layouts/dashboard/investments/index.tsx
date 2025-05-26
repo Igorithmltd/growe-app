@@ -1,10 +1,12 @@
 "use client";
 
 import { StyledText } from "@/src/components";
-import { Box, HStack } from "@chakra-ui/react";
+import { Box, Flex, HStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import PersonalInvestments from "./personal";
+import { InvestmentCard } from "../cards";
+import { MdChevronRight } from "react-icons/md";
 
 const MotionBox = motion.create(Box);
 
@@ -74,6 +76,64 @@ const InvestmentLayout = () => {
         >
           {isPersonal ? <PersonalInvestments /> : "<GroupSavings />}"}
         </MotionBox>
+      </Box>
+
+      <Box mt={6}>
+        <HStack justify="space-between">
+          <StyledText
+            fontSize={{ base: "md", md: "lg", lg: "xl" }}
+            fontWeight="medium"
+            color="secondary"
+          >
+            Suggested Investments
+          </StyledText>
+
+          <Flex align="center" color="primary" cursor="pointer">
+            <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="medium" color="inherit">
+              Find more
+            </StyledText>
+            <MdChevronRight size={30} fontWeight={400} cursor="pointer" color="secondary" />
+          </Flex>
+        </HStack>
+
+        <HStack
+          spaceX={{ base: 2, md: 4 }}
+          mt={6}
+          overflowX="auto"
+          css={{
+            // "@media (min-width: 62em)": {
+            //   // 62em = 992px = lg breakpoint
+            //   "&::-webkit-scrollbar": {
+            //     display: "initial",
+            //   },
+            //   scrollbarWidth: "auto",
+            //   msOverflowStyle: "auto",
+            // },
+            "@media (max-width: 61.99em)": {
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+              scrollbarWidth: "none", // Firefox
+              msOverflowStyle: "none", // IE 10+
+            },
+          }}
+        >
+          <InvestmentCard
+            name="Enviable Transport"
+            annualReturn={20}
+            image="/images/investments/1.png"
+          />
+          <InvestmentCard
+            name="Enviable Transport"
+            annualReturn={20}
+            image="/images/investments/2.png"
+          />
+          <InvestmentCard
+            name="Enviable Transport"
+            annualReturn={20}
+            image="/images/investments/3.png"
+          />
+        </HStack>
       </Box>
     </Box>
   );
