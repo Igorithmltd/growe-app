@@ -37,19 +37,55 @@ const SuggestedDetailsLayout = () => {
       </HStack>
 
       <VStack align="stretch" spaceY={8} mt={14}>
-        <Box>
-          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
-            About Group
-          </StyledText>
-          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
-            Education Savings Group helps you and others save collectively for tuition,
-            certifications, and educational goals. Together, make learning affordable and achievable
-            for everyone!
-          </StyledText>
-        </Box>
+        <HStack justify="space-between" align="center">
+          <Box>
+            <StyledText
+              fontSize={{ base: "lg", md: "xl" }}
+              mb={2}
+              fontWeight="normal"
+              color="secondary"
+            >
+              Farmcrowdy Maize Farming
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "sm", md: "md" }}
+              mb={2}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              By Taiwo Faith & CO
+            </StyledText>
+          </Box>
+
+          <Box textAlign="center">
+            <StyledText
+              fontSize={{ base: "lg", md: "xl" }}
+              mb={2}
+              fontWeight="normal"
+              color="primary"
+            >
+              ₦2,000,000
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "sm", md: "md" }}
+              mb={2}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              Per Unit
+            </StyledText>
+          </Box>
+        </HStack>
+
+        <StyledButton>Invest</StyledButton>
 
         <Box>
-          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
+          <StyledText
+            fontSize={{ base: "md", md: "lg" }}
+            mb={2}
+            fontWeight="normal"
+            color="secondary"
+          >
             Investment Information
           </StyledText>
           <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
@@ -60,7 +96,12 @@ const SuggestedDetailsLayout = () => {
         </Box>
 
         <Box>
-          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
+          <StyledText
+            fontSize={{ base: "md", md: "lg" }}
+            mb={2}
+            fontWeight="normal"
+            color="secondary"
+          >
             Investment Overview
           </StyledText>
           <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
