@@ -4,7 +4,7 @@ import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { DetailsCard } from "../../../cards";
+import { DetailsCard, InvestmentImageCard } from "../../../cards";
 
 const data = [
   { label: "Investment type", value: "Full Equity" },
@@ -37,6 +37,12 @@ const SuggestedDetailsLayout = () => {
       </HStack>
 
       <VStack align="stretch" spaceY={8} mt={14}>
+        <InvestmentImageCard
+          name="Farmcrowdy Maize Farming"
+          bgImage={"url('/images/investments/cover.jpg')"}
+          image="/images/investments/2.png"
+        />
+
         <HStack justify="space-between" align="center">
           <Box>
             <StyledText

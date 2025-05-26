@@ -782,6 +782,33 @@ export const InvestmentInfoCard = ({
   );
 };
 
+export const InvestmentImageCard = ({
+  image,
+  bgImage,
+  name,
+}: {
+  image: string;
+  bgImage: string;
+  name: string;
+}) => {
+  return (
+    <ReuseableCard
+      borderRadius="15px"
+      px={{ base: 0, md: 6 }}
+      h={{ base: "170px", md: "200px", lg: "230px" }}
+      backgroundImage={bgImage}
+      bgSize="cover"
+      bgRepeat="no-repeat"
+    >
+      <Grid placeItems="center" h="full">
+        <Box position="relative" w="100px" h="100px" flex={1}>
+          <Image src={image} alt={name} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
+        </Box>
+      </Grid>
+    </ReuseableCard>
+  );
+};
+
 export const PromoCard = () => {
   return (
     <ReuseableCard
