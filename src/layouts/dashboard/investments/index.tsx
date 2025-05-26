@@ -10,13 +10,13 @@ import GroupSavings from "./group";
 
 const MotionBox = motion.create(Box);
 
-const SavingsLayout = () => {
+const InvestmentLayout = () => {
   const [isPersonal, setIsPersonal] = useState(true);
 
   return (
     <Box p={2}>
       <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-        My Savings
+        My Investments
       </StyledText>
 
       <HStack
@@ -31,16 +31,13 @@ const SavingsLayout = () => {
         mx="auto"
         justifyContent="space-between"
       >
-        {[
-          { name: "Personal Savings", icon: <SavingsIcon /> },
-          { name: "Group Savings", icon: <GroupIcon /> },
-        ].map((item) => {
+        {["Personal Ivestments", "Group Investments", ,].map((item) => {
           const isSelected =
-            (item.name === "Personal Savings" && isPersonal) ||
-            (item.name === "Group Savings" && !isPersonal);
+            (item === "Personal Ivestments" && isPersonal) ||
+            (item === "Group Investments" && !isPersonal);
           return (
             <MotionBox
-              key={item.name}
+              key={item}
               whileTap={{ scale: 0.95 }}
               whileHover={{ scale: 1.05 }}
               bg={isSelected ? "bluelight" : "transparent"}
@@ -51,7 +48,7 @@ const SavingsLayout = () => {
               border={isSelected ? "1px solid" : "unset"}
               borderColor="#F8F8F8"
               cursor="pointer"
-              onClick={() => setIsPersonal(item.name === "Personal Savings")}
+              onClick={() => setIsPersonal(item === "Personal Ivestments")}
             >
               <StyledText
                 color={isSelected ? "primary" : "#8F8F8F"}
@@ -62,10 +59,7 @@ const SavingsLayout = () => {
                 alignItems="center"
                 justifyContent="center"
               >
-                <Box as="span" fontSize="20px">
-                  {item.icon}
-                </Box>
-                {item.name}
+                {item}
               </StyledText>
             </MotionBox>
           );
@@ -87,4 +81,4 @@ const SavingsLayout = () => {
   );
 };
 
-export default SavingsLayout;
+export default InvestmentLayout;
