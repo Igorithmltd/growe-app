@@ -83,7 +83,7 @@ export const ROUTES = {
   DASHBOARD: {
     HOME: "/home",
     SAVINGS: "/savings",
-    INVEST: "/invest",
+    INVESTMENTS: "/investments",
     CHAT: "/chat",
     ME: "/me",
   },
