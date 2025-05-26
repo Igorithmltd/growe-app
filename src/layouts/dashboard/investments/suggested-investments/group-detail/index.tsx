@@ -1,0 +1,109 @@
+"use client";
+
+import { BackIcon } from "@/public/svgs";
+import { StyledButton, StyledText } from "@/src/components";
+import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
+import { DetailsCard } from "../../../cards";
+
+const data = [
+  { label: "Investment type", value: "Full Equity" },
+  { label: "Withdrawal Date", value: "₦2,000.00 per share" },
+  { label: "Start Date", value: "30th of November" },
+  { label: "Payout Type", value: "Profit paid by unit shares" },
+  { label: "Annual Return", value: "20%" },
+  { label: "Investors", value: "30" },
+];
+
+const performanceData = [
+  { year: 2025, performance: 20 },
+  { year: 2024, performance: 18.5 },
+  { year: 2023, performance: 12.7 },
+  { year: 2022, performance: 9.2 },
+];
+
+const SuggestedDetailsLayout = () => {
+  const router = useRouter();
+
+  return (
+    <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+      <HStack spaceX={3}>
+        <Box onClick={() => router.back()}>
+          <BackIcon />
+        </Box>
+        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
+          {""}
+        </StyledText>
+      </HStack>
+
+      <VStack align="stretch" spaceY={8} mt={14}>
+        <Box>
+          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
+            About Group
+          </StyledText>
+          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
+            Education Savings Group helps you and others save collectively for tuition,
+            certifications, and educational goals. Together, make learning affordable and achievable
+            for everyone!
+          </StyledText>
+        </Box>
+
+        <Box>
+          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
+            Investment Information
+          </StyledText>
+          <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
+            {data.map(({ label, value }) => (
+              <DetailsCard title={label} value={value} key={label} />
+            ))}
+          </Grid>
+        </Box>
+
+        <Box>
+          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="normal" color="secondary">
+            Investment Overview
+          </StyledText>
+          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
+            Farmcrowdy is Nigeria’s first digital agriculture platform that connects investors with
+            small-scale farmers. Invest in crops like maize, cassava, and rice, or poultry farming,
+            and enjoy high-impact returns while supporting local agriculture. With flexible options
+            starting from ₦90,000 per unit, Farmcrowdy offers returns of up to 25% per farming
+            cycle. Each unit represents a share in a farm project, covering all essential costs from
+            seeds to harvest. Take part in transforming Nigeria’s agriculture, one farm at a time.
+          </StyledText>
+        </Box>
+
+        <Box>
+          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="medium" color="secondary">
+            Historical Performance
+          </StyledText>
+
+          <VStack
+            align="stretch"
+            bg="white"
+            borderRadius="2xl"
+            separator={<StackSeparator color="border" />}
+            mt={3}
+          >
+            {performanceData.map(({ year, performance }) => (
+              <HStack justify="space-between" key={year} px={4} py={3}>
+                <StyledText
+                  fontSize={{ base: "sm", md: "md" }}
+                  fontWeight="medium"
+                  color="secondary"
+                >
+                  {year}
+                </StyledText>
+                <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="medium" color="primary">
+                  {performance}%
+                </StyledText>
+              </HStack>
+            ))}
+          </VStack>
+        </Box>
+      </VStack>
+    </Box>
+  );
+};
+
+export default SuggestedDetailsLayout;
