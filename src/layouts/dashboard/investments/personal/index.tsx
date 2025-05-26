@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 const PersonalInvestments = () => {
   const router = useRouter();
-  const isEmpty = false;
+  const isEmpty = !false;
 
   return (
     <Box>
@@ -13,7 +13,7 @@ const PersonalInvestments = () => {
         <SavingsCard
           title="Total Personal Investments"
           amount="0.00"
-          amountColor="secondary"
+          amountColor="#285100"
           interest="0%"
           bg="#F6EDD9"
           color="primary"
