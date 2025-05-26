@@ -21,6 +21,7 @@ import { useModal } from "@/src/contexts/ModalContext";
 import MonthModal from "../../modals/MonthModal";
 import CalendarModal from "../../modals/CalenderModal";
 import InfoModal from "@/src/components/modals/InfoModal";
+import ImageUploadField from "@/src/components/image-upload";
 
 export interface QuickSavingValues {
   purpose: string;
@@ -173,6 +174,8 @@ const CreateGroupLayout = () => {
               error={errors?.purpose?.message}
               {...commonProps}
             />
+
+            <ImageUploadField fieldProps={register("purpose")} label="Group savings photo" />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
               Create Group
