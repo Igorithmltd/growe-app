@@ -765,7 +765,15 @@ export const InvestmentInfoCard = ({
               </Box>
             ))}
           </HStack>
-          <StyledButton fontSize={{ base: "2xs", md: "xs", lg: "sm " }} onClick={handleClick}>
+          <StyledButton
+            bg="#F8FBEB"
+            color="primary"
+            alignSelf="start"
+            py="7px"
+            borderRadius="full"
+            fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+            onClick={handleClick}
+          >
             Invest Now
           </StyledButton>
         </VStack>
