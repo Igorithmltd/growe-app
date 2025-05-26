@@ -681,6 +681,99 @@ export const InvestmentCard = ({
   );
 };
 
+export const InvestmentInfoCard = ({
+  bg = "white",
+  name,
+  image,
+  investors,
+  amountPerUnit,
+  annualReturn,
+  isSuggested = true,
+  canClick = true,
+}: {
+  bg?: string;
+  name: string;
+  image: string;
+  investors: number;
+  amountPerUnit: string;
+  annualReturn: number;
+  isSuggested?: boolean;
+  canClick?: boolean;
+}) => {
+  const router = useRouter();
+
+  const infoItems = [
+    { value: investors, label: "Investors" },
+    { value: amountPerUnit, label: "Per Unit" },
+    { value: `${annualReturn}%`, label: "Annual Return" },
+  ];
+  const handleClick = () => {
+    if (canClick) {
+      if (isSuggested) {
+        router.push("/savings/join-group/123");
+      } else {
+        router.push("/savings/saving-groups/123");
+      }
+    }
+  };
+
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      border="none"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      p={{ base: 3, md: 6 }}
+      bg={bg}
+    >
+      <HStack spaceX={4} align="stretch">
+        <Box
+          position="relative"
+          w={{ base: "96px", md: "128px", lg: "160px" }}
+          h={{ base: "90px", md: "120px", lg: "150px" }}
+          flex={1}
+        >
+          <Image src={image} alt={name} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
+        </Box>
+
+        <VStack align="stretch" justify="space-between" flex={3}>
+          <StyledText
+            fontSize={{ base: "sm", md: "md", lg: "lg" }}
+            fontWeight="normal"
+            color="secondary"
+          >
+            {name}
+          </StyledText>
+
+          <HStack justify="space-between">
+            {infoItems.map(({ value, label }) => (
+              <Box textAlign="center" key={label}>
+                <StyledText
+                  fontSize={{ base: "xs", md: "sm", lg: "md" }}
+                  fontWeight="normal"
+                  color="primary"
+                >
+                  {value}
+                </StyledText>
+                <StyledText
+                  fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+                  fontWeight="normal"
+                  color="bfgrey"
+                >
+                  {label}
+                </StyledText>
+              </Box>
+            ))}
+          </HStack>
+          <StyledButton fontSize={{ base: "2xs", md: "xs", lg: "sm " }} onClick={handleClick}>
+            Invest Now
+          </StyledButton>
+        </VStack>
+      </HStack>
+    </ReuseableCard>
+  );
+};
+
 export const PromoCard = () => {
   return (
     <ReuseableCard
