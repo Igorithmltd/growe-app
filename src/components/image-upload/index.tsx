@@ -26,7 +26,6 @@ const ImageUploadField = ({
       const url = URL.createObjectURL(file);
       setPreview(url);
     }
-    fieldProps?.onChange?.(e);
   };
 
   return (
@@ -67,7 +66,7 @@ const ImageUploadField = ({
           ) : (
             <>
               <Icon as={FiImage} boxSize={6} color="primary" />
-              <StyledText color="gray.500" fontSize={{ base: "md", lg: "lg" }}>
+              <StyledText color="bfgrey" fontSize={{ base: "md", lg: "lg" }}>
                 Upload photo
               </StyledText>
             </>
@@ -78,8 +77,12 @@ const ImageUploadField = ({
           id="image-upload"
           accept="image/*"
           display="none"
-          onChange={handleImageChange}
-          {...fieldProps}
+          ref={fieldProps?.ref}
+          name={fieldProps?.name}
+          onChange={(e) => {
+            handleImageChange(e);
+            fieldProps?.onChange?.(e);
+          }}
         />
       </Box>
 
