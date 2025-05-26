@@ -14,7 +14,7 @@ const InvestmentLayout = () => {
   const [isPersonal, setIsPersonal] = useState(true);
 
   return (
-    <Box p={2}>
+    <Box p={2} px={{ xl: 50 }}>
       <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
         My Investments
       </StyledText>
@@ -66,7 +66,7 @@ const InvestmentLayout = () => {
         })}
       </HStack>
 
-      <Box px={{ xl: 50 }}>
+      <Box>
         <MotionBox
           key={isPersonal ? "personal" : "proup"}
           initial={{ opacity: 0, x: -50 }}
