@@ -5,7 +5,6 @@ import { Box, HStack } from "@chakra-ui/react";
 import PersonalSavings from "./personal";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { GroupIcon, SavingsIcon } from "@/public/svgs";
 import GroupSavings from "./group";
 
 const MotionBox = motion.create(Box);
