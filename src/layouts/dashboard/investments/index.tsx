@@ -2,10 +2,9 @@
 
 import { StyledText } from "@/src/components";
 import { Box, HStack } from "@chakra-ui/react";
-import PersonalSavings from "./personal";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import GroupSavings from "./group";
+import PersonalInvestments from "./personal";
 
 const MotionBox = motion.create(Box);
 
@@ -73,7 +72,7 @@ const InvestmentLayout = () => {
           exit={{ opacity: 0, x: 50 }}
           transition={{ duration: 0.5 }}
         >
-          {isPersonal ? <PersonalSavings /> : <GroupSavings />}
+          {isPersonal ? <PersonalInvestments /> : "<GroupSavings />}"}
         </MotionBox>
       </Box>
     </Box>
