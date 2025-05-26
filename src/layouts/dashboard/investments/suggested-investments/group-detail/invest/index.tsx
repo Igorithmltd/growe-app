@@ -72,7 +72,7 @@ const InvestForm = () => {
             />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
-              Top up
+              Next
             </StyledButton>
           </VStack>
         </form>

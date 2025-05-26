@@ -793,7 +793,7 @@ export const InvestmentImageCard = ({
 }) => {
   return (
     <ReuseableCard
-      borderRadius="15px"
+      borderRadius="20px"
       px={{ base: 0, md: 6 }}
       h={{ base: "170px", md: "200px", lg: "230px" }}
       backgroundImage={bgImage}
