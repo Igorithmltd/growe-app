@@ -8,6 +8,7 @@ import PersonalInvestments from "./personal";
 import { InvestmentCard, PromoCard } from "../cards";
 import { MdChevronRight } from "react-icons/md";
 import { useRouter } from "next/navigation";
+import GroupInvestments from "./group";
 
 const MotionBox = motion.create(Box);
 
@@ -77,7 +78,7 @@ const InvestmentLayout = () => {
           exit={{ opacity: 0, x: 50 }}
           transition={{ duration: 0.5 }}
         >
-          {isPersonal ? <PersonalInvestments /> : "<GroupSavings />}"}
+          {isPersonal ? <PersonalInvestments /> : <GroupInvestments />}
         </MotionBox>
       </Box>
 
