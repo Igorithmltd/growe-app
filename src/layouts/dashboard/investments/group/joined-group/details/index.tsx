@@ -9,6 +9,7 @@ import { IoIosInformationCircleOutline } from "react-icons/io";
 import { MdContentCopy } from "react-icons/md";
 import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const data = [
   { label: "Investment type", value: "Full Equity" },
@@ -56,6 +57,17 @@ const SuggestedDetailsLayout = () => {
           bgImage={"url('/images/investments/cover.jpg')"}
           image="/images/investments/2.png"
         />
+
+        <StyledText
+          fontSize={{ base: "xs", md: "sm" }}
+          fontWeight="normal"
+          color="primary"
+          display="flex"
+          alignItems="center"
+          spaceX={1}
+        >
+          Verified investment <RiVerifiedBadgeFill />
+        </StyledText>
 
         <HStack justify="space-between" align="center">
           <Box>
