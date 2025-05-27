@@ -5,6 +5,7 @@ import { StyledButton, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DetailsCard, InvestmentImageCard } from "../../../cards";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 const data = [
   { label: "Investment type", value: "Full Equity" },
@@ -150,6 +151,20 @@ const SuggestedDetailsLayout = () => {
             ))}
           </VStack>
         </Box>
+
+        <StyledText
+          fontSize={{ base: "sm", md: "md" }}
+          fontWeight="normal"
+          color="secondary"
+          borderRadius="10px"
+          textAlign="center"
+          py="12px"
+          px="6px"
+          bg="#FFF4EB"
+        >
+          <IoIosInformationCircleOutline />
+          Past performance is not indicative of future returns
+        </StyledText>
       </VStack>
     </Box>
   );
