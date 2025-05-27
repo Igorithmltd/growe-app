@@ -1,4 +1,4 @@
-import InvestForm from "@/src/layouts/dashboard/investments/suggested-investments/group-detail/invest";
+import InvestForm from "@/src/layouts/dashboard/investments/suggested-investments/details/invest";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

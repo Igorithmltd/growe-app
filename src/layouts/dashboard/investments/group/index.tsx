@@ -33,7 +33,7 @@ const GroupInvestments = () => {
           fontWeight="medium"
           color="secondary"
         >
-          Active Group Investments
+          My Investments Group
         </StyledText>
 
         {!isEmpty && (
