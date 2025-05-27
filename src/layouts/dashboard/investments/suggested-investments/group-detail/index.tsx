@@ -28,7 +28,7 @@ const SuggestedDetailsLayout = () => {
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
-        <Box onClick={() => router.back()}>
+        <Box onClick={() => router.back()} cursor="pointer">
           <BackIcon />
         </Box>
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
@@ -83,7 +83,9 @@ const SuggestedDetailsLayout = () => {
           </Box>
         </HStack>
 
-        <StyledButton>Invest</StyledButton>
+        <StyledButton onClick={() => router.push("/investments/suggested/invest")}>
+          Invest
+        </StyledButton>
 
         <Box>
           <StyledText
