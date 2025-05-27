@@ -8,7 +8,7 @@ import { StyledButton, StyledText } from "@/src/components";
 import { useRouter } from "next/navigation";
 import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
-import { BackIcon, SuccessMark } from "@/public/svgs";
+import { BackIcon, PendingMark, SuccessMark } from "@/public/svgs";
 import InfoModal from "@/src/components/modals/InfoModal";
 
 const InvestForm = () => {
@@ -79,10 +79,10 @@ const InvestForm = () => {
       </Box>
 
       <InfoModal
-        message="Woohoo! 🎉 Your Transaction Was a Success!"
+        message="We’re reviewing your transaction, and it will be confirmed within 1-2 days. Thank you!"
         hasButton={true}
-        buttonText={"Go back to Quick Save"}
-        icon={<SuccessMark />}
+        buttonText={"Back to Investments"}
+        icon={<PendingMark />}
       />
     </Box>
   );
