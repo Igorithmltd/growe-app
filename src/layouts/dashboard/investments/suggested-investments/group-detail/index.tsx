@@ -83,7 +83,7 @@ const SuggestedDetailsLayout = () => {
           </Box>
         </HStack>
 
-        <StyledButton onClick={() => router.push("/investments/suggested/invest")}>
+        <StyledButton onClick={() => router.push("/investments/suggested-investments/123/invest")}>
           Invest
         </StyledButton>
 

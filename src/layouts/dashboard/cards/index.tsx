@@ -710,7 +710,7 @@ export const InvestmentInfoCard = ({
   const handleClick = () => {
     if (canClick) {
       if (isSuggested) {
-        router.push("/investments/suggested/123");
+        router.push("/investments/suggested-investments/123");
       } else {
         router.push("/savings/saving-groups/123");
       }
