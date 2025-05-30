@@ -35,7 +35,7 @@ const InvestmentLayout = () => {
         mx="auto"
         justifyContent="space-between"
       >
-        {["Personal Investments", "Group Investments", ,].map((item) => {
+        {["Personal Investments", "Group Investments"].map((item) => {
           const isSelected =
             (item === "Personal Investments" && isPersonal) ||
             (item === "Group Investments" && !isPersonal);

@@ -81,12 +81,7 @@ interface SelectInputBoxProps {
   onClick: () => void;
 }
 
-export const SelectInputBox: React.FC<SelectInputBoxProps> = ({
-  label,
-  value,
-  placeholder,
-  onClick,
-}) => {
+export const SelectInputBox = ({ label, value, placeholder, onClick }: SelectInputBoxProps) => {
   return (
     <Box>
       <StyledText

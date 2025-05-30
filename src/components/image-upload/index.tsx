@@ -1,4 +1,4 @@
-import { Box, Input, VStack, Icon, Text, Image } from "@chakra-ui/react";
+import { Box, Input, VStack, Icon, Image } from "@chakra-ui/react";
 import { Field } from "@chakra-ui/react";
 import { StyledText } from "@/src/components";
 import { UseFormRegisterReturn } from "react-hook-form";
