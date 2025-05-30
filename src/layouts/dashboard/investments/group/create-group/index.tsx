@@ -2,7 +2,13 @@
 
 import { Box, VStack, HStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { StyledField, StyledButton, StyledText, SelectOptionModal } from "@/src/components";
+import {
+  StyledField,
+  StyledButton,
+  StyledText,
+  SelectOptionModal,
+  SelectInputBox,
+} from "@/src/components";
 import { AmountInput } from "@/src/components/amount-input";
 import { useRouter } from "next/navigation";
 import { BackIcon, GroupMark } from "@/public/svgs";
@@ -39,7 +45,7 @@ const CreateInvestmentGroupLayout = () => {
   } = useForm<CreateInvestmentGroupValues>();
 
   const selectedInvestment = watch("investment");
-  const targetAmount = watch("targetAmount");
+  // const targetAmount = watch("targetAmount");
 
   const onSubmit = (data: CreateInvestmentGroupValues) => {
     console.log(data);
@@ -99,31 +105,12 @@ const CreateInvestmentGroupLayout = () => {
               {...commonProps}
             />
 
-            <Box>
-              <StyledText
-                fontWeight="medium"
-                color="secondary"
-                smVariant="p14-medium"
-                mdVariant="p16-medium"
-                variant="p16-medium"
-                mb={1}
-              >
-                Select Investment
-              </StyledText>
-              <Box
-                onClick={() => setIsSelectOpen(true)}
-                cursor="pointer"
-                py="10px"
-                px={4}
-                bg="#F8F8F8"
-                border="2px solid #9BAB69"
-                borderRadius="10px"
-              >
-                <StyledText fontSize="14px" color={selectedInvestment ? "secondary" : "#B8BCC4"}>
-                  {selectedInvestment || "Choose an investment"}
-                </StyledText>
-              </Box>
-            </Box>
+            <SelectInputBox
+              label="Select Investment"
+              value={selectedInvestment}
+              placeholder="Choose an investment"
+              onClick={() => setIsSelectOpen(true)}
+            />
 
             <AmountInput
               label="Investment Target"
@@ -159,6 +146,7 @@ const CreateInvestmentGroupLayout = () => {
               labelColor="secondary"
               type="text"
               isTextarea
+              bgColor="#F8F8F8"
               fieldProps={register("description")}
               error={errors?.description?.message}
               {...commonProps}

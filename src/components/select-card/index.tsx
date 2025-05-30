@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Modal } from "../modal";
 import { useModal } from "@/src/contexts/ModalContext";
 import { StyledText } from "../text";
+import { IoChevronDown } from "react-icons/io5";
 
 interface SelectCardProps<T> {
   option: T;
@@ -45,7 +46,6 @@ export function SelectOptionModal<T>({
   defaultSelected,
 }: SelectOptionModalProps<T>) {
   const { isSelectOpen, setIsSelectOpen } = useModal();
-
   const [selected, setSelected] = useState<T | undefined>(defaultSelected);
 
   const handleSelect = (option: T) => {
@@ -107,10 +107,15 @@ export const SelectInputBox: React.FC<SelectInputBoxProps> = ({
         bg="#F8F8F8"
         border="2px solid #9BAB69"
         borderRadius="10px"
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
       >
         <StyledText fontSize="14px" color={value ? "secondary" : "#B8BCC4"}>
           {value || placeholder}
         </StyledText>
+
+        <IoChevronDown size={20} />
       </Box>
     </Box>
   );
