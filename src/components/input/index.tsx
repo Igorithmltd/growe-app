@@ -59,8 +59,14 @@ export const StyledField = ({
           {...fieldProps}
           bg={bgColor}
           borderColor="grey"
-          size="lg"
+          h="100px"
+          fontSize="14px"
           borderRadius={borderRadius}
+          border="2px solid #9BAB69"
+          _focus={{
+            outlineWidth: "2px",
+            border: "none",
+          }}
         />
       ) : (
         <InputGroup startElement={currency} endElement={icon}>

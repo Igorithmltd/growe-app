@@ -1,12 +1,12 @@
-import CreateGroupLayout from "@/src/layouts/dashboard/savings/group/create-group";
+import CreateInvestmentGroupLayout from "@/src/layouts/dashboard/investments/group/create-group";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Growe | Create Saving Group",
+  title: "Growe | Create Investment Group",
 };
 
 const CreateGroupPage = () => {
-  return <CreateGroupLayout />;
+  return <CreateInvestmentGroupLayout />;
 };
 
 export default CreateGroupPage;
