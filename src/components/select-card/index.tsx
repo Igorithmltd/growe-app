@@ -4,6 +4,7 @@ import { VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { Modal } from "../modal";
 import { useModal } from "@/src/contexts/ModalContext";
+import { StyledText } from "../text";
 
 interface SelectCardProps<T> {
   option: T;
@@ -72,3 +73,45 @@ export function SelectOptionModal<T>({
     </Modal>
   );
 }
+
+interface SelectInputBoxProps {
+  label: string;
+  value?: string;
+  placeholder?: string;
+  onClick: () => void;
+}
+
+export const SelectInputBox: React.FC<SelectInputBoxProps> = ({
+  label,
+  value,
+  placeholder,
+  onClick,
+}) => {
+  return (
+    <Box>
+      <StyledText
+        fontWeight="medium"
+        color="secondary"
+        smVariant="p14-medium"
+        mdVariant="p16-medium"
+        variant="p16-medium"
+        mb={1}
+      >
+        {label}
+      </StyledText>
+      <Box
+        onClick={onClick}
+        cursor="pointer"
+        py="10px"
+        px={4}
+        bg="#F8F8F8"
+        border="2px solid #9BAB69"
+        borderRadius="10px"
+      >
+        <StyledText fontSize="14px" color={value ? "secondary" : "#B8BCC4"}>
+          {value || placeholder}
+        </StyledText>
+      </Box>
+    </Box>
+  );
+};

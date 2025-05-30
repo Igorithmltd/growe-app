@@ -11,4 +11,4 @@ export { Loader, Spinner } from "./loader";
 export { SelectButtonGroup } from "./select-button";
 export { Calender } from "./calender";
 export { StyledCheckbox } from "./checkbox";
-export { SelectOptionModal } from "./select-card";
+export { SelectOptionModal, SelectInputBox } from "./select-card";
