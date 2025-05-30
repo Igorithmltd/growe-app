@@ -17,10 +17,8 @@ function SelectCard<T>({ option, isSelected, onSelect, render }: SelectCardProps
     <Box
       p={4}
       w="100%"
-      border="1px solid"
-      borderColor={isSelected ? "primary" : "gray.200"}
       borderRadius="lg"
-      bg={isSelected ? "primary.50" : "white"}
+      bg={"white"}
       cursor="pointer"
       onClick={() => onSelect(option)}
       _hover={{ borderColor: "primary" }}
@@ -31,8 +29,6 @@ function SelectCard<T>({ option, isSelected, onSelect, render }: SelectCardProps
 }
 
 interface SelectOptionModalProps<T> {
-  isOpen: boolean;
-  onClose: () => void;
   options: T[];
   render: (option: T, isSelected: boolean) => React.ReactNode;
   onSelect: (option: T) => void;
@@ -58,8 +54,8 @@ export function SelectOptionModal<T>({
   };
 
   return (
-    <Modal isOpen={isSelectOpen} onClose={() => setIsSelectOpen(false)} hasCloseButton>
-      <VStack spaceY={4}>
+    <Modal isOpen={isSelectOpen} onClose={() => setIsSelectOpen(false)} bg="#FDFDFD" hasCloseButton>
+      <VStack spaceY={4} py={5}>
         {options.map((option) => {
           const key = getKey(option);
           return (

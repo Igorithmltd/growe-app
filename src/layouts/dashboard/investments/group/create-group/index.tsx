@@ -1,43 +1,55 @@
 "use client";
 
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, VStack, HStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
-//
-import { StyledField, StyledButton, StyledText } from "@/src/components";
-// import { ROUTES } from "@/src/utils/constants";
-import { useRouter } from "next/navigation";
+import { StyledField, StyledButton, StyledText, SelectOptionModal } from "@/src/components";
 import { AmountInput } from "@/src/components/amount-input";
+import { useRouter } from "next/navigation";
 import { BackIcon, GroupMark } from "@/public/svgs";
 import { useModal } from "@/src/contexts/ModalContext";
 import InfoModal from "@/src/components/modals/InfoModal";
+import { formatAmount } from "@/src/utils/helpers";
 
-export interface QuickSavingValues {
-  purpose: string;
+export interface CreateInvestmentGroupValues {
+  groupName: string;
+  investment: string;
   targetAmount: number;
-  frequentAmount: number;
-  frequency: string;
-  duration: string;
-  interestRate: number;
+  minContribution: number;
+  membersLimit: number;
+  description: string;
 }
+
+const investmentOptions = [
+  { name: "Enviable Transport", target: 1000000 },
+  { name: "Farmcrowdy Maize Farming", target: 5000000 },
+  { name: "Nigeria Commodity Exchange (NCX)", target: 3000000 },
+  { name: "Stanbic IBTC Money Market Fund", target: 1000000 },
+];
 
 const CreateInvestmentGroupLayout = () => {
   const router = useRouter();
-
-  const { setIsInfoOpen } = useModal();
+  const { setIsInfoOpen, setIsSelectOpen } = useModal();
 
   const {
     register,
     handleSubmit,
-    // reset,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
-  } = useForm<QuickSavingValues>({
-    // resolver: yupResolver(quickSavingSchema),
-  });
+  } = useForm<CreateInvestmentGroupValues>();
 
-  const onSubmit = (data: QuickSavingValues) => {
+  const selectedInvestment = watch("investment");
+  const targetAmount = watch("targetAmount");
+
+  const onSubmit = (data: CreateInvestmentGroupValues) => {
     console.log(data);
     setIsInfoOpen(true);
+  };
+
+  const handleInvestmentSelect = (investment: { name: string; target: number }) => {
+    setValue("investment", investment.name);
+    setValue("targetAmount", investment.target);
+    setIsSelectOpen(false);
   };
 
   const commonProps = {
@@ -50,9 +62,7 @@ const CreateInvestmentGroupLayout = () => {
     },
   };
 
-  const handleBack = () => {
-    router.back();
-  };
+  const handleBack = () => router.back();
 
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -73,7 +83,7 @@ const CreateInvestmentGroupLayout = () => {
         color="bfgrey"
       >
         Create a group investment with like-minded individuals to achieve bigger goals and grow
-        wealth together!{" "}
+        wealth together!
       </StyledText>
 
       <Box mt={14}>
@@ -84,17 +94,43 @@ const CreateInvestmentGroupLayout = () => {
               placeholder="Enter name for investment group"
               labelColor="secondary"
               type="text"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("groupName")}
+              error={errors?.groupName?.message}
               {...commonProps}
             />
 
+            <Box>
+              <StyledText
+                fontWeight="medium"
+                color="secondary"
+                smVariant="p14-medium"
+                mdVariant="p16-medium"
+                variant="p16-medium"
+                mb={1}
+              >
+                Select Investment
+              </StyledText>
+              <Box
+                onClick={() => setIsSelectOpen(true)}
+                cursor="pointer"
+                py="10px"
+                px={4}
+                bg="#F8F8F8"
+                border="2px solid #9BAB69"
+                borderRadius="10px"
+              >
+                <StyledText fontSize="14px" color={selectedInvestment ? "secondary" : "#B8BCC4"}>
+                  {selectedInvestment || "Choose an investment"}
+                </StyledText>
+              </Box>
+            </Box>
+
             <AmountInput
-              label="Investment target"
-              placeholder="Enter investment target"
+              label="Investment Target"
               labelColor="secondary"
+              placeholder="Enter target amount"
               field={register("targetAmount")}
-              error={errors?.targetAmount?.message}
+              readOnly
               {...commonProps}
             />
 
@@ -102,8 +138,8 @@ const CreateInvestmentGroupLayout = () => {
               label="Minimum Contribution per Member"
               placeholder="Enter minimum contribution per member"
               labelColor="secondary"
-              field={register("targetAmount")}
-              error={errors?.targetAmount?.message}
+              field={register("minContribution")}
+              error={errors?.minContribution?.message}
               {...commonProps}
             />
 
@@ -112,19 +148,19 @@ const CreateInvestmentGroupLayout = () => {
               placeholder="e.g 2, 3, 50..."
               labelColor="secondary"
               type="number"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("membersLimit")}
+              error={errors?.membersLimit?.message}
               {...commonProps}
             />
 
             <StyledField
-              label="What'sthis group about?"
+              label="What's this group about?"
               placeholder="Enter description"
               labelColor="secondary"
               type="text"
               isTextarea
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("description")}
+              error={errors?.description?.message}
               {...commonProps}
             />
 
@@ -134,11 +170,37 @@ const CreateInvestmentGroupLayout = () => {
           </VStack>
         </form>
       </Box>
+
       <InfoModal
         message="Congratulations! 🎉 Your Investment Group Has Been Created!"
         hasButton={true}
-        buttonText={"Go back to savings"}
+        buttonText={"Go back to investments"}
         icon={<GroupMark />}
+      />
+
+      <SelectOptionModal
+        options={investmentOptions}
+        onSelect={handleInvestmentSelect}
+        getKey={(option) => option.name}
+        render={(option, isSelected) => (
+          <HStack align="center" justify="space-between">
+            <StyledText
+              fontWeight={isSelected ? "bold" : "normal"}
+              fontSize={{ base: "sm", md: "md" }}
+              color={isSelected ? "primary" : "secondary"}
+            >
+              {option.name}
+            </StyledText>
+
+            <StyledText
+              fontWeight={isSelected ? "bold" : "medium"}
+              fontSize={{ base: "sm", md: "md" }}
+              color={isSelected ? "primary" : "secondary"}
+            >
+              {formatAmount(option.target)}
+            </StyledText>
+          </HStack>
+        )}
       />
     </Box>
   );
