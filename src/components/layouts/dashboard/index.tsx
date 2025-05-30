@@ -9,7 +9,7 @@ import { ChatIcon, HomeIcon, InvestIcon, ProfileIcon, SavingsIcon } from "@/publ
 const navItems = [
   { label: "Home", icon: HomeIcon, href: "/home" },
   { label: "Savings", icon: SavingsIcon, href: "/savings" },
-  { label: "Invest", icon: InvestIcon, href: "/invest" },
+  { label: "Investments", icon: InvestIcon, href: "/investments" },
   { label: "Chat", icon: ChatIcon, href: "/chat" },
   { label: "Me", icon: ProfileIcon, href: "/me" },
 ];

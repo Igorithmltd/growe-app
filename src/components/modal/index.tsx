@@ -13,6 +13,7 @@ interface ModalProps extends BoxProps {
   closeOnOverlayClick?: boolean;
   hasCloseButton?: boolean;
   isCalender?: boolean;
+  bg?: string;
 }
 
 export const Modal = ({
@@ -22,6 +23,7 @@ export const Modal = ({
   closeOnOverlayClick = true,
   hasCloseButton = true,
   isCalender = false,
+  bg = "white",
   ...boxProps
 }: ModalProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -74,7 +76,7 @@ export const Modal = ({
         }}
       >
         <Box
-          bg="white"
+          bg={bg}
           position="relative"
           borderTopRadius={!shouldCenter ? "30px" : undefined}
           borderRadius={shouldCenter ? "xl" : undefined}

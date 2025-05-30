@@ -28,7 +28,7 @@ const GroupDetailsLayout = () => {
   const router = useRouter();
   const toast = useShowToast();
 
-  const {setIsGroupSettingsOpen} = useModal();
+  const { setIsGroupSettingsOpen } = useModal();
 
   const handleCopy = async () => {
     const success = await copyToClipboard("hgvhgv");
@@ -100,13 +100,7 @@ const GroupDetailsLayout = () => {
             fontSize={{ base: "sm", md: "md" }}
             onClick={() => setIsGroupSettingsOpen(true)}
           >
-            <Grid
-              h="30px"
-              w="30px"
-              color="primary"
-              placeItems="center"
-              borderRadius="full"
-            >
+            <Grid h="30px" w="30px" color="primary" placeItems="center" borderRadius="full">
               <FaGear />
             </Grid>
             Settings

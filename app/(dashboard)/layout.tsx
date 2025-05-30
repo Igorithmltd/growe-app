@@ -3,7 +3,7 @@
 import { Box, useMediaQuery } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { DesktopSidebar, MobileNavbar } from "@/src/components/layouts/dashboard";
-import { RouteGuard } from "@/src/guard/auth";
+// import { RouteGuard } from "@/src/guard/auth";
 
 interface LayoutProps {
   children: ReactNode;
@@ -20,7 +20,8 @@ const Layout = ({ children }: LayoutProps) => {
   if (!isClient) return null;
 
   return (
-    <RouteGuard>
+    // <RouteGuard>
+    <>
       {isDesktop ? (
         <Box display="flex" height="100vh">
           <DesktopSidebar />
@@ -36,7 +37,8 @@ const Layout = ({ children }: LayoutProps) => {
           <MobileNavbar />
         </Box>
       )}
-    </RouteGuard>
+      </>
+    // </RouteGuard>
   );
 };
 

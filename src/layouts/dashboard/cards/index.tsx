@@ -340,15 +340,7 @@ export const ActiveSavingsCard = ({
 
 export const EmptyCard = ({ bg = "white", title }: { bg?: string; title: string }) => {
   return (
-    <ReuseableCard
-      boxShadow="xs"
-      border="1px solid"
-      borderColor="#F8FBEB"
-      borderRadius="15px"
-      px={{ base: 3, md: 6 }}
-      py={10}
-      bg={bg}
-    >
+    <ReuseableCard boxShadow="xs" borderRadius="15px" px={{ base: 3, md: 6 }} py={10} bg={bg}>
       <VStack align="center" spaceY={5}>
         <EmptyFolder />
 
@@ -626,6 +618,241 @@ export const GroupInfoCard = ({
             </StyledText>
           </HStack>
         </VStack>
+      </HStack>
+    </ReuseableCard>
+  );
+};
+
+export const InvestmentCard = ({
+  name,
+  image,
+  annualReturn,
+}: {
+  bg?: string;
+  name: string;
+  image: string;
+  annualReturn: number;
+}) => {
+  return (
+    <ReuseableCard
+      flexShrink={0}
+      boxShadow="none"
+      borderRadius="10px"
+      py={{ base: 3, md: 6 }}
+      bg="white"
+      w={{ base: "160px", md: "200px", lg: "240px" }}
+    >
+      <VStack align="stretch" spaceY={4}>
+        <HStack align="center" justify="space-between" w="full">
+          <Box
+            position="relative"
+            w={{ base: "35px", md: "45px", lg: "55px" }}
+            h={{ base: "35px", md: "45px", lg: "55px" }}
+          >
+            <Image
+              src={image}
+              alt={name}
+              fill
+              style={{ borderRadius: "8px", objectFit: "cover" }}
+            />
+          </Box>
+          <Box textAlign="center">
+            <StyledText
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
+              fontWeight="normal"
+              color="#A5D846"
+            >
+              {annualReturn}%
+            </StyledText>
+            <StyledText fontSize={{ base: "xs", md: "sm" }} fontWeight="normal" color="bfgrey">
+              Annual Return
+            </StyledText>
+          </Box>
+        </HStack>
+        <StyledText
+          fontSize={{ base: "sm", md: "md", lg: "lg" }}
+          fontWeight="normal"
+          color="secondary"
+        >
+          {name}
+        </StyledText>
+      </VStack>
+    </ReuseableCard>
+  );
+};
+
+export const InvestmentInfoCard = ({
+  bg = "white",
+  name,
+  image,
+  investors,
+  amountPerUnit,
+  annualReturn,
+  isSuggested = true,
+  canClick = true,
+}: {
+  bg?: string;
+  name: string;
+  image: string;
+  investors: number;
+  amountPerUnit: string;
+  annualReturn: number;
+  isSuggested?: boolean;
+  canClick?: boolean;
+}) => {
+  const router = useRouter();
+
+  const infoItems = [
+    { value: investors, label: "Investors" },
+    { value: amountPerUnit, label: "Per Unit" },
+    { value: `${annualReturn}%`, label: "Annual Return" },
+  ];
+  const handleClick = () => {
+    if (canClick) {
+      if (isSuggested) {
+        router.push("/investments/suggested-investments/123");
+      } else {
+        router.push("/savings/saving-groups/123");
+      }
+    }
+  };
+
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      border="none"
+      borderColor="#F8FBEB"
+      borderRadius="15px"
+      p={{ base: 3, md: 6 }}
+      bg={bg}
+    >
+      <HStack spaceX={4} align="stretch">
+        <Box
+          position="relative"
+          w={{ base: "96px", md: "128px", lg: "160px" }}
+          h={{ base: "90px", md: "120px", lg: "150px" }}
+          flex={1}
+        >
+          <Image src={image} alt={name} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
+        </Box>
+
+        <VStack align="stretch" justify="space-between" flex={3}>
+          <StyledText
+            fontSize={{ base: "sm", md: "md", lg: "lg" }}
+            fontWeight="normal"
+            color="secondary"
+          >
+            {name}
+          </StyledText>
+
+          <HStack justify="space-between">
+            {infoItems.map(({ value, label }) => (
+              <Box textAlign="center" key={label}>
+                <StyledText
+                  fontSize={{ base: "xs", md: "sm", lg: "md" }}
+                  fontWeight="normal"
+                  color="primary"
+                >
+                  {value}
+                </StyledText>
+                <StyledText
+                  fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+                  fontWeight="normal"
+                  color="bfgrey"
+                >
+                  {label}
+                </StyledText>
+              </Box>
+            ))}
+          </HStack>
+          <StyledButton
+            bg="#F8FBEB"
+            color="primary"
+            alignSelf="start"
+            py="7px"
+            borderRadius="full"
+            fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+            onClick={handleClick}
+          >
+            Invest Now
+          </StyledButton>
+        </VStack>
+      </HStack>
+    </ReuseableCard>
+  );
+};
+
+export const InvestmentImageCard = ({
+  image,
+  bgImage,
+  name,
+}: {
+  image: string;
+  bgImage: string;
+  name: string;
+}) => {
+  return (
+    <ReuseableCard
+      borderRadius="20px"
+      px={{ base: 0, md: 6 }}
+      h={{ base: "170px", md: "200px", lg: "230px" }}
+      backgroundImage={bgImage}
+      bgSize="cover"
+      bgRepeat="no-repeat"
+    >
+      <Grid placeItems="center" h="full">
+        <Box position="relative" w="100px" h="100px" flex={1}>
+          <Image src={image} alt={name} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
+        </Box>
+      </Grid>
+    </ReuseableCard>
+  );
+};
+
+export const PromoCard = () => {
+  return (
+    <ReuseableCard
+      boxShadow="xs"
+      borderRadius="15px"
+      px={{ base: 0, md: 6 }}
+      h={{ base: "120px", md: "150px", lg: "180px" }}
+      bg="#5555FF"
+      position="relative"
+      mt={6}
+    >
+      <HStack h="full">
+        <Box width={{ base: "60%", md: "60%", lg: "70%" }} p={2} position="relative">
+          <StyledText color="white" fontSize={{ base: "4xl", md: "5xl" }}>
+            Growe
+          </StyledText>
+          <StyledText
+            color="white"
+            fontSize={{ base: "xs", md: "md", lg: "lg" }}
+            fontWeight="normal"
+          >
+            your wealth effortlessly with tailored investments, and bigger opportunities
+          </StyledText>
+        </Box>
+
+        <Box position="absolute" right={0} top={0}>
+          <Box
+            position="relative"
+            borderRadius="15px"
+            bgImage="url('/images/promo/bg.png')"
+            bgSize="cover"
+            bgRepeat="no-repeat"
+            w={{ base: "180px", md: "220px", lg: "260px" }}
+            h={{ base: "120px", md: "150px", lg: "180px" }}
+            flexShrink={0}
+          >
+            <Image
+              src="/images/promo/lady.png"
+              alt="Promo Image"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          </Box>
+        </Box>
       </HStack>
     </ReuseableCard>
   );

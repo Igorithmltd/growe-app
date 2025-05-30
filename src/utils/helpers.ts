@@ -93,3 +93,13 @@ export const copyToClipboard = async (text: string): Promise<boolean> => {
     return false;
   }
 };
+
+export const formatAmount = (amount: number | string): string => {
+  const numericAmount = typeof amount === "string" ? parseFloat(amount) : amount;
+
+  if (isNaN(numericAmount)) return "₦0";
+
+  return `₦${numericAmount.toLocaleString("en-NG", {
+    maximumFractionDigits: 0,
+  })}`;
+};

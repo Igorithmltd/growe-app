@@ -1,4 +1,4 @@
-import { Box, Input, VStack, Icon, Text, Image } from "@chakra-ui/react";
+import { Box, Input, VStack, Icon, Image } from "@chakra-ui/react";
 import { Field } from "@chakra-ui/react";
 import { StyledText } from "@/src/components";
 import { UseFormRegisterReturn } from "react-hook-form";
@@ -7,11 +7,17 @@ import { FiImage } from "react-icons/fi";
 
 interface ImageUploadFieldProps {
   label?: string;
+  labelColor?: string;
   fieldProps?: UseFormRegisterReturn;
   error?: string;
 }
 
-const ImageUploadField = ({ label, fieldProps, error }: ImageUploadFieldProps) => {
+const ImageUploadField = ({
+  label,
+  labelColor = "secondary",
+  fieldProps,
+  error,
+}: ImageUploadFieldProps) => {
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +26,6 @@ const ImageUploadField = ({ label, fieldProps, error }: ImageUploadFieldProps) =
       const url = URL.createObjectURL(file);
       setPreview(url);
     }
-    fieldProps?.onChange?.(e);
   };
 
   return (
@@ -31,7 +36,7 @@ const ImageUploadField = ({ label, fieldProps, error }: ImageUploadFieldProps) =
             smVariant="p14-medium"
             mdVariant="p16-medium"
             variant="p16-medium"
-            color="grey"
+            color={labelColor}
           >
             {label}
           </StyledText>
@@ -39,10 +44,11 @@ const ImageUploadField = ({ label, fieldProps, error }: ImageUploadFieldProps) =
       )}
 
       <Box
-        border="2px dashed #E2E8F0"
-        borderRadius="lg"
+        borderRadius="10px"
         cursor="pointer"
-        p={6}
+        w="full"
+        px={6}
+        py={{ base: 12, md: 16 }}
         textAlign="center"
         bg="white"
         _hover={{ bg: "gray.50" }}
@@ -59,10 +65,10 @@ const ImageUploadField = ({ label, fieldProps, error }: ImageUploadFieldProps) =
             />
           ) : (
             <>
-              <Icon as={FiImage} boxSize={6} color="green.500" />
-              <Text color="gray.500" fontSize="sm">
+              <Icon as={FiImage} boxSize={6} color="primary" />
+              <StyledText color="bfgrey" fontSize={{ base: "md", lg: "lg" }}>
                 Upload photo
-              </Text>
+              </StyledText>
             </>
           )}
         </VStack>
@@ -71,8 +77,12 @@ const ImageUploadField = ({ label, fieldProps, error }: ImageUploadFieldProps) =
           id="image-upload"
           accept="image/*"
           display="none"
-          onChange={handleImageChange}
-          {...fieldProps}
+          ref={fieldProps?.ref}
+          name={fieldProps?.name}
+          onChange={(e) => {
+            handleImageChange(e);
+            fieldProps?.onChange?.(e);
+          }}
         />
       </Box>
 
