@@ -1,8 +1,10 @@
-import { StyledText } from "@/src/components";
+import { StyledButton, StyledText } from "@/src/components";
 import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import { EmptyCard, InvestmentCard, SavingsCard } from "../../cards";
 import { useRouter } from "next/navigation";
 import { MdChevronRight } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
+import { GroupIcon } from "@/public/svgs";
 
 const GroupInvestments = () => {
   const router = useRouter();
@@ -26,6 +28,26 @@ const GroupInvestments = () => {
             router.push("/savings/quick-saving");
           }}
         />
+
+        <HStack alignSelf={{ lg: "start" }}>
+          <StyledButton
+            type="button"
+            flex={1}
+            onClick={() => router.push("/investments/create-group")}
+          >
+            <FaPlus size="18px" /> Create Group
+          </StyledButton>
+
+          <StyledButton
+            type="button"
+            bg="#EDF5CE"
+            color="primary"
+            flex={1}
+            onClick={() => router.push("/investments/join-group")}
+          >
+            <GroupIcon /> Join Group
+          </StyledButton>
+        </HStack>
       </VStack>
       <HStack justify="space-between" mt={12}>
         <StyledText
