@@ -20,7 +20,8 @@ const Layout = ({ children }: LayoutProps) => {
   if (!isClient) return null;
 
   return (
-    <RouteGuard>
+    // <RouteGuard>
+    <>
       {isDesktop ? (
         <Box display="flex" height="100vh">
           <DesktopSidebar />
@@ -36,7 +37,8 @@ const Layout = ({ children }: LayoutProps) => {
           <MobileNavbar />
         </Box>
       )}
-    </RouteGuard>
+      </>
+    // </RouteGuard>
   );
 };
 

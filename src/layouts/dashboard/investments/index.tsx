@@ -35,7 +35,7 @@ const InvestmentLayout = () => {
         mx="auto"
         justifyContent="space-between"
       >
-        {["Personal Ivestments", "Group Investments", ,].map((item) => {
+        {["Personal Investments", "Group Investments", ,].map((item) => {
           const isSelected =
             (item === "Personal Investments" && isPersonal) ||
             (item === "Group Investments" && !isPersonal);
@@ -52,7 +52,7 @@ const InvestmentLayout = () => {
               border={isSelected ? "1px solid" : "unset"}
               borderColor="#F8F8F8"
               cursor="pointer"
-              onClick={() => setIsPersonal(item === "Personal Ivestments")}
+              onClick={() => setIsPersonal(item === "Personal Investments")}
             >
               <StyledText
                 color={isSelected ? "primary" : "#8F8F8F"}

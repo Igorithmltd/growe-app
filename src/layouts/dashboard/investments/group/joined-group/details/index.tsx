@@ -59,6 +59,7 @@ const SuggestedDetailsLayout = () => {
         />
 
         <StyledText
+          alignSelf="flex-end"
           fontSize={{ base: "xs", md: "sm" }}
           fontWeight="normal"
           color="primary"

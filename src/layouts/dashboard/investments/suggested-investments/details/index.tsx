@@ -6,6 +6,7 @@ import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DetailsCard, InvestmentImageCard } from "../../../cards";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const data = [
   { label: "Investment type", value: "Full Equity" },
@@ -43,6 +44,18 @@ const SuggestedDetailsLayout = () => {
           bgImage={"url('/images/investments/cover.jpg')"}
           image="/images/investments/2.png"
         />
+
+        <StyledText
+          alignSelf="flex-end"
+          fontSize={{ base: "xs", md: "sm", lg: "md" }}
+          fontWeight="normal"
+          color="primary"
+          display="flex"
+          alignItems="center"
+          spaceX={1}
+        >
+          Verified investment <RiVerifiedBadgeFill size={20} style={{ marginLeft: "6px" }} />
+        </StyledText>
 
         <HStack justify="space-between" align="center">
           <Box>
@@ -152,19 +165,12 @@ const SuggestedDetailsLayout = () => {
           </VStack>
         </Box>
 
-        <StyledText
-          fontSize={{ base: "sm", md: "md" }}
-          fontWeight="normal"
-          color="secondary"
-          borderRadius="10px"
-          textAlign="center"
-          py="12px"
-          px="6px"
-          bg="#FFF4EB"
-        >
-          <IoIosInformationCircleOutline />
-          Past performance is not indicative of future returns
-        </StyledText>
+        <HStack py="12px" px="6px" bg="#FFF4EB" borderRadius="10px" justify="center" align="center">
+          <IoIosInformationCircleOutline size={20} color="#FFCA99" />
+          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="#D4A880">
+            Past performance is not indicative of future returns
+          </StyledText>
+        </HStack>
       </VStack>
     </Box>
   );
