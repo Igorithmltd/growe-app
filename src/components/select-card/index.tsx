@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { Modal } from "../modal";
+import { useModal } from "@/src/contexts/ModalContext";
 
 interface SelectCardProps<T> {
   option: T;
@@ -11,7 +12,7 @@ interface SelectCardProps<T> {
   render: (option: T, isSelected: boolean) => ReactNode;
 }
 
-export function SelectCard<T>({ option, isSelected, onSelect, render }: SelectCardProps<T>) {
+function SelectCard<T>({ option, isSelected, onSelect, render }: SelectCardProps<T>) {
   return (
     <Box
       p={4}
@@ -40,24 +41,24 @@ interface SelectOptionModalProps<T> {
 }
 
 export function SelectOptionModal<T>({
-  isOpen,
-  onClose,
   options,
   render,
   onSelect,
   getKey,
   defaultSelected,
 }: SelectOptionModalProps<T>) {
+  const { isSelectOpen, setIsSelectOpen } = useModal();
+
   const [selected, setSelected] = useState<T | undefined>(defaultSelected);
 
   const handleSelect = (option: T) => {
     setSelected(option);
     onSelect(option);
-    onClose();
+    setIsSelectOpen(false);
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} hasCloseButton>
+    <Modal isOpen={isSelectOpen} onClose={() => setIsSelectOpen(false)} hasCloseButton>
       <VStack spaceY={4}>
         {options.map((option) => {
           const key = getKey(option);
