@@ -828,7 +828,7 @@ export const InvestmentGroupCard = ({
           <Image src={image} alt={title} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
         </Box>
 
-        <VStack align="stretch" spaceY={4} flex={3}>
+        <VStack align="stretch" spaceY={{ base: 2, md: 4 }} flex={3}>
           <StyledText
             fontSize={{ base: "sm", md: "md", lg: "lg" }}
             fontWeight="normal"
