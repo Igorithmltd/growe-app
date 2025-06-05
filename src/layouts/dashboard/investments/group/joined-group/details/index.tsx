@@ -1,7 +1,7 @@
 "use client";
 
 import { BackIcon } from "@/public/svgs";
-import { StyledButton, StyledText } from "@/src/components";
+import { StyledButton, StyledProgress, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DetailsCard, InvestmentImageCard } from "../../../../cards";
@@ -27,7 +27,7 @@ const performanceData = [
   { year: 2022, performance: 9.2 },
 ];
 
-const JoinInvestmentDetailsLayout = () => {
+const JoinedInvestmentDetailsLayout = () => {
   const router = useRouter();
 
   const toast = useShowToast();
@@ -40,6 +40,8 @@ const JoinInvestmentDetailsLayout = () => {
     });
   };
 
+  const isOwner = true;
+
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
@@ -47,7 +49,7 @@ const JoinInvestmentDetailsLayout = () => {
           <BackIcon />
         </Box>
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          {""}
+          Enviable Transport Investment Group
         </StyledText>
       </HStack>
 
@@ -60,14 +62,14 @@ const JoinInvestmentDetailsLayout = () => {
 
         <StyledText
           alignSelf="flex-end"
-          fontSize={{ base: "xs", md: "sm" }}
+          fontSize={{ base: "xs", md: "sm", lg: "md" }}
           fontWeight="normal"
           color="primary"
           display="flex"
           alignItems="center"
           spaceX={1}
         >
-          Verified investment <RiVerifiedBadgeFill />
+          Verified investment <RiVerifiedBadgeFill size={20} style={{ marginLeft: "6px" }} />
         </StyledText>
 
         <HStack justify="space-between" align="center">
@@ -110,6 +112,25 @@ const JoinInvestmentDetailsLayout = () => {
           </Box>
         </HStack>
 
+        <StyledProgress max={100} value={30} />
+
+        <HStack justify="space-between">
+          <StyledText
+            fontSize={{ base: "xs", md: "sm", lg: "md" }}
+            fontWeight="normal"
+            color="bfgrey"
+          >
+            30% completed
+          </StyledText>
+          <StyledText
+            fontSize={{ base: "xs", md: "sm", lg: "md" }}
+            fontWeight="normal"
+            color="bfgrey"
+          >
+            28 days left
+          </StyledText>
+        </HStack>
+
         <HStack justify="space-between" align="center" spaceX={4}>
           <StyledButton
             type="button"
@@ -129,9 +150,7 @@ const JoinInvestmentDetailsLayout = () => {
             </Grid>
             Copy invite link
           </StyledButton>
-          <StyledButton
-            onClick={() => router.push("/investments/suggested-investments/123/invest")}
-          >
+          <StyledButton onClick={() => router.push("/investments/investment-groups/123/invest")}>
             Invest
           </StyledButton>
         </HStack>
@@ -200,22 +219,15 @@ const JoinInvestmentDetailsLayout = () => {
           </VStack>
         </Box>
 
-        <StyledText
-          fontSize={{ base: "sm", md: "md" }}
-          fontWeight="normal"
-          color="secondary"
-          borderRadius="10px"
-          textAlign="center"
-          py="12px"
-          px="6px"
-          bg="#FFF4EB"
-        >
-          <IoIosInformationCircleOutline />
-          Past performance is not indicative of future returns
-        </StyledText>
+        <HStack py="12px" px="6px" bg="#FFF4EB" borderRadius="10px" justify="center" align="center">
+          <IoIosInformationCircleOutline size={20} color="#FFCA99" />
+          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="#D4A880">
+            Past performance is not indicative of future returns
+          </StyledText>
+        </HStack>
       </VStack>
     </Box>
   );
 };
 
-export default JoinInvestmentDetailsLayout;
+export default JoinedInvestmentDetailsLayout;

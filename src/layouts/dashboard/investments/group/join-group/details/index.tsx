@@ -6,7 +6,6 @@ import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DetailsCard, InvestmentImageCard } from "../../../../cards";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { MdContentCopy } from "react-icons/md";
 import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
@@ -32,14 +31,6 @@ const JoinPreviewDetailsLayout = () => {
 
   const toast = useShowToast();
 
-  const handleCopy = async () => {
-    const success = await copyToClipboard("hgvhgv");
-    toast({
-      title: success ? "Copied!" : "Copy failed",
-      status: success ? "success" : "error",
-    });
-  };
-
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
@@ -47,7 +38,7 @@ const JoinPreviewDetailsLayout = () => {
           <BackIcon />
         </Box>
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          {""}
+          Enviable Transport Investment Group
         </StyledText>
       </HStack>
 
