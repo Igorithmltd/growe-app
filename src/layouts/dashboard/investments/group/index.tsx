@@ -59,7 +59,12 @@ const GroupInvestments = () => {
         </StyledText>
 
         {!isEmpty && (
-          <Flex align="center" color="primary" cursor="pointer">
+          <Flex
+            align="center"
+            color="primary"
+            cursor="pointer"
+            onClick={() => router.push("/investments/active-groups")}
+          >
             <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="medium" color="inherit">
               Find more
             </StyledText>
@@ -95,17 +100,17 @@ const GroupInvestments = () => {
             }}
           >
             <InvestmentCard
-              name="Enviable Transport"
+              name="Enviable Transport Group"
               annualReturn={20}
               image="/images/investments/1.png"
             />
             <InvestmentCard
-              name="Enviable Transport"
+              name="Enviable Transport Group"
               annualReturn={20}
               image="/images/investments/2.png"
             />
             <InvestmentCard
-              name="Enviable Transport"
+              name="Enviable Transport Group"
               annualReturn={20}
               image="/images/investments/3.png"
             />
