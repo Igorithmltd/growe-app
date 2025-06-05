@@ -131,26 +131,25 @@ const JoinedInvestmentDetailsLayout = () => {
           </StyledText>
         </HStack>
 
-        <HStack justify="space-between" align="center" spaceX={4}>
+        <HStack align="center" spaceX={4}>
+          {isOwner && (
+            <StyledButton type="button" color="primary" bg="border" flex={1} onClick={handleCopy}>
+              <Grid
+                boxSize="30px"
+                bg="transparent"
+                color="primary"
+                placeItems="center"
+                borderRadius="full"
+              >
+                <MdContentCopy />
+              </Grid>
+              Copy invite link
+            </StyledButton>
+          )}
           <StyledButton
-            type="button"
-            color="primary"
-            bg="border"
-            flex={{ base: 1, lg: "unset" }}
-            onClick={handleCopy}
+            flex={1}
+            onClick={() => router.push("/investments/active-groups/123/invest")}
           >
-            <Grid
-              boxSize="30px"
-              bg="transparent"
-              color="primary"
-              placeItems="center"
-              borderRadius="full"
-            >
-              <MdContentCopy />
-            </Grid>
-            Copy invite link
-          </StyledButton>
-          <StyledButton onClick={() => router.push("/investments/investment-groups/123/invest")}>
             Invest
           </StyledButton>
         </HStack>
