@@ -792,6 +792,7 @@ export const InvestmentGroupCard = ({
   returnRate,
   progress,
   daysLeft,
+  link,
 }: {
   title: string;
   image: string;
@@ -801,6 +802,7 @@ export const InvestmentGroupCard = ({
   returnRate: string;
   progress: number;
   daysLeft: number;
+  link: string;
 }) => {
   const infoItems = [
     { value: members, label: "Members" },
@@ -808,6 +810,8 @@ export const InvestmentGroupCard = ({
     { value: `₦${contribution}`, label: "Member Contribution" },
     { value: `${returnRate}%`, label: "Annual Return" },
   ];
+
+  const router = useRouter();
 
   return (
     <ReuseableCard
@@ -817,6 +821,8 @@ export const InvestmentGroupCard = ({
       py={0}
       bg="transparent"
       flex="0 0 auto"
+      onClick={() => router.push(link)}
+      cursor="pointer"
     >
       <HStack spaceX={4} align="start">
         <Box

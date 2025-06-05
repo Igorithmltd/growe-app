@@ -37,6 +37,7 @@ const JoinInvestmentsGroupsLayout = () => {
           returnRate="10"
           progress={30}
           daysLeft={20}
+          link="/investments/join-group/123"
         />
         <InvestmentGroupCard
           title="Enviable Transport Invest Group"
@@ -47,6 +48,7 @@ const JoinInvestmentsGroupsLayout = () => {
           returnRate="10"
           progress={30}
           daysLeft={20}
+          link="/investments/join-group/123"
         />
         <InvestmentGroupCard
           title="Enviable Transport Invest Group"
@@ -57,6 +59,7 @@ const JoinInvestmentsGroupsLayout = () => {
           returnRate="10"
           progress={30}
           daysLeft={20}
+          link="/investments/join-group/123"
         />
         <InvestmentGroupCard
           title="Enviable Transport Invest Group"
@@ -67,6 +70,7 @@ const JoinInvestmentsGroupsLayout = () => {
           returnRate="10"
           progress={30}
           daysLeft={20}
+          link="/investments/join-group/123"
         />
       </VStack>
     </Box>
