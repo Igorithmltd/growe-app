@@ -765,6 +765,7 @@ export const InvestmentInfoCard = ({
               </Box>
             ))}
           </HStack>
+
           <StyledButton
             bg="#F8FBEB"
             color="primary"
@@ -778,6 +779,118 @@ export const InvestmentInfoCard = ({
           </StyledButton>
         </VStack>
       </HStack>
+    </ReuseableCard>
+  );
+};
+
+export const InvestmentGroupCard = ({
+  title,
+  image,
+  members,
+  target,
+  contribution,
+  returnRate,
+  progress,
+  daysLeft,
+}: {
+  title: string;
+  image: string;
+  members: number;
+  target: string;
+  contribution: string;
+  returnRate: string;
+  progress: number; // e.g., 30
+  daysLeft: number;
+}) => {
+  const infoItems = [
+    { value: members, label: "Members" },
+    { value: target, label: "Investment Target" },
+    { value: contribution, label: "Member Contribution" },
+    { value: `${returnRate}%`, label: "Annual Return" },
+  ];
+
+  return (
+    <ReuseableCard
+      boxShadow="none"
+      borderRadius="12px"
+      px={0}
+      py={0}
+      bg="transparent"
+      flex="0 0 auto"
+      width={{ base: "143px", md: "190px", lg: "240px", xl: "280px" }}
+    >
+      <VStack align="stretch" spaceY={4}>
+        <Box
+          position="relative"
+          w="full"
+          height={{ base: "109px", md: "145px", lg: "183px", xl: "214px" }}
+        >
+          <Image
+            src={image}
+            alt={title}
+            fill
+            style={{ borderRadius: "14px", objectFit: "cover" }}
+          />
+
+          <StyledText
+            fontSize={{ base: "2xs", md: "sm", lg: "lg" }}
+            fontWeight="normal"
+            color="primary"
+            position="absolute"
+            bg="#F8FBEBA8"
+            p={2}
+            borderRadius="full"
+            right={2}
+            top={2}
+          >
+            {`₦${contribution}`}
+          </StyledText>
+        </Box>
+
+        <StyledText fontSize={{ base: "sm", md: "md", lg: "lg" }} fontWeight="normal" color="black">
+          {title}
+        </StyledText>
+
+        <HStack justify="space-between">
+          {infoItems.map(({ value, label }) => (
+            <Box textAlign="center" key={label}>
+              <StyledText
+                fontSize={{ base: "xs", md: "sm", lg: "md" }}
+                fontWeight="normal"
+                color="primary"
+              >
+                {value}
+              </StyledText>
+              <StyledText
+                fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+                fontWeight="normal"
+                color="bfgrey"
+              >
+                {label}
+              </StyledText>
+            </Box>
+          ))}
+        </HStack>
+
+        <StyledProgress max={100} value={progress} />
+
+        <HStack justify="space-between">
+          <StyledText
+            fontSize={{ base: "xs", md: "sm", lg: "md" }}
+            fontWeight="normal"
+            color="bfgrey"
+          >
+            {progress}% completed
+          </StyledText>
+          <StyledText
+            fontSize={{ base: "xs", md: "sm", lg: "md" }}
+            fontWeight="normal"
+            color="bfgrey"
+          >
+            {daysLeft} days left
+          </StyledText>
+        </HStack>
+      </VStack>
     </ReuseableCard>
   );
 };
