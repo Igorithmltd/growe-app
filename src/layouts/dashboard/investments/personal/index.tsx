@@ -37,7 +37,12 @@ const PersonalInvestments = () => {
         </StyledText>
 
         {!isEmpty && (
-          <Flex align="center" color="primary" cursor="pointer">
+          <Flex
+            align="center"
+            color="primary"
+            cursor="pointer"
+            onClick={() => router.push("/investments/my-investments")}
+          >
             <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="medium" color="inherit">
               Find more
             </StyledText>

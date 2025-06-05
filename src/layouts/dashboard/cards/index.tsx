@@ -712,7 +712,7 @@ export const InvestmentInfoCard = ({
       if (isSuggested) {
         router.push("/investments/suggested-investments/123");
       } else {
-        router.push("/savings/saving-groups/123");
+        router.push("/investments/my-investments/123");
       }
     }
   };
@@ -775,7 +775,7 @@ export const InvestmentInfoCard = ({
             fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
             onClick={handleClick}
           >
-            Invest Now
+            {isSuggested ? "Invest Now" : "View"}
           </StyledButton>
         </VStack>
       </HStack>
