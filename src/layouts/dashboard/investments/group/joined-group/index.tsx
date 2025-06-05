@@ -6,7 +6,7 @@ import { StyledText } from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
-import { InvestmentInfoCard } from "../../../cards";
+import { InvestmentGroupCard } from "../../../cards";
 
 const JoinedInvestmentsGroupsLayout = () => {
   const router = useRouter();
@@ -27,34 +27,46 @@ const JoinedInvestmentsGroupsLayout = () => {
         </StyledText>
       </Box>
 
-      <VStack align="stretch" spaceY={8} mt={14}>
-        <InvestmentInfoCard
-          name="Enviable Transport"
-          investors={30}
-          amountPerUnit="₦1M"
-          annualReturn={10}
+      <VStack align="stretch" spaceY={8} mt={14} >
+        <InvestmentGroupCard
+          title="Enviable Transport Invest Group"
           image="/images/investments/1.png"
+          members={30}
+          target="1M"
+          contribution="100K"
+          returnRate="10"
+          progress={30}
+          daysLeft={20}
         />
-        <InvestmentInfoCard
-          name="Enviable Transport"
-          investors={30}
-          amountPerUnit="₦1M"
-          annualReturn={10}
+        <InvestmentGroupCard
+          title="Enviable Transport Invest Group"
           image="/images/investments/1.png"
+          members={30}
+          target="1M"
+          contribution="100K"
+          returnRate="10"
+          progress={30}
+          daysLeft={20}
         />
-        <InvestmentInfoCard
-          name="Enviable Transport"
-          investors={30}
-          amountPerUnit="₦1M"
-          annualReturn={10}
+        <InvestmentGroupCard
+          title="Enviable Transport Invest Group"
           image="/images/investments/1.png"
+          members={30}
+          target="1M"
+          contribution="100K"
+          returnRate="10"
+          progress={30}
+          daysLeft={20}
         />
-        <InvestmentInfoCard
-          name="Enviable Transport"
-          investors={30}
-          amountPerUnit="₦1M"
-          annualReturn={10}
+        <InvestmentGroupCard
+          title="Enviable Transport Invest Group"
           image="/images/investments/1.png"
+          members={30}
+          target="1M"
+          contribution="100K"
+          returnRate="10"
+          progress={30}
+          daysLeft={20}
         />
       </VStack>
     </Box>
