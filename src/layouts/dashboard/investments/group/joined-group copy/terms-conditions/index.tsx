@@ -1,3 +1,5 @@
+"use client";
+
 import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText, StyledField, StyledCheckbox } from "@/src/components";
 import { QuickSavingValues } from "@/src/schema/savings.schema";
@@ -70,14 +72,14 @@ const InvestmentGroupTerms = () => {
 
             {/* Terms and Conditions */}
             <Box>
-              <StyledText fontWeight="medium" fontSize="md" mb={2}>
+              <StyledText color="secondary" fontSize={{ base: "sm", md: "md", lg: "lg" }} mb={2}>
                 Agreement for Participation in Group Investment
               </StyledText>
-              <Text fontSize="sm" mb={2}>
+              <StyledText fontSize={{ base: "sm", md: "md", lg: "lg" }} color="bfgrey" mb={2}>
                 By joining this group investment, you agree to the following terms and conditions:
-              </Text>
+              </StyledText>
 
-              <List.Root as="ol" gap="3" fontSize="sm" color="gray.700">
+              <List.Root as="ol" gap="3" mt={4} color="secondary" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
                 <List.Item>
                   <Text fontWeight="semibold" mb={1}>
                     Contribution Commitment:

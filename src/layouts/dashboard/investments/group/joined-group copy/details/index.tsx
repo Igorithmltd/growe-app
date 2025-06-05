@@ -129,7 +129,7 @@ const JoinPreviewDetailsLayout = () => {
           </StyledText>
         </HStack>
 
-        <StyledButton onClick={() => router.push("/investments/suggested-investments/123/invest")}>
+        <StyledButton onClick={() => router.push("/investments/join-group/123/terms")}>
           Join Investment
         </StyledButton>
 

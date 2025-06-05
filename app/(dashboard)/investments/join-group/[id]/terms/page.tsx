@@ -5,8 +5,8 @@ export const metadata: Metadata = {
   title: "Growe | Investment Terms & Conditions",
 };
 
-const SavingsGroupPage = () => {
+const InvestmentTermsPage = () => {
   return <InvestmentGroupTerms />;
 };
 
-export default SavingsGroupPage;
+export default InvestmentTermsPage;
