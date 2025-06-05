@@ -1,4 +1,4 @@
-import JoinedInvestmentsGroupsLayout from "@/src/layouts/dashboard/investments/group/joined-group";
+import JoinedInvestmentsGroupsLayout from "@/src/layouts/dashboard/investments/group/active-groups";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
