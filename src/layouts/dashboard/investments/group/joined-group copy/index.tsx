@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
 import { InvestmentInfoCard } from "../../../cards";
 
-const JoinedInvestmentsGroupsLayout = () => {
+const JoinInvestmentsGroupsLayout = () => {
   const router = useRouter();
 
   const handleBack = () => {
@@ -23,7 +23,7 @@ const JoinedInvestmentsGroupsLayout = () => {
         </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          Investment Groups
+          Join Group
         </StyledText>
       </Box>
 
@@ -61,4 +61,4 @@ const JoinedInvestmentsGroupsLayout = () => {
   );
 };
 
-export default JoinedInvestmentsGroupsLayout;
+export default JoinInvestmentsGroupsLayout;

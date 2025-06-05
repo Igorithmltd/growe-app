@@ -27,7 +27,7 @@ const performanceData = [
   { year: 2022, performance: 9.2 },
 ];
 
-const JoinInvestmentDetailsLayout = () => {
+const JoinPreviewDetailsLayout = () => {
   const router = useRouter();
 
   const toast = useShowToast();
@@ -218,4 +218,4 @@ const JoinInvestmentDetailsLayout = () => {
   );
 };
 
-export default JoinInvestmentDetailsLayout;
+export default JoinPreviewDetailsLayout;
