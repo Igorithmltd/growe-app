@@ -11,6 +11,7 @@ import CalendarModal from "../../savings/modals/CalenderModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import PerformanceOverview from "./performance-overview";
 import PortfolioAllocation from "./portfolio-allocation";
+import TransactionHistory from "./transaction-history";
 
 const MotionBox = motion(Box);
 
@@ -28,6 +29,27 @@ const pieData = [
   { name: "Enviable Transport", value: 40, color: "#FF8A80" },
 ];
 
+const transactionData = [
+  {
+    name: "Farmcrowdy Maize Farming",
+    type: "Investment",
+    date: "Jan 12th, 2025",
+    value: 2000000,
+  },
+  {
+    name: "Farmcrowdy Maize Farming",
+    type: "Return",
+    date: "Feb 1st, 2025",
+    value: 400000,
+  },
+  {
+    name: "Enviable Transport",
+    type: "Investment",
+    date: "Feb 1st, 2025",
+    value: 100000,
+  },
+];
+
 const tabs = ["Performance overview", "Portfolio Allocation", "Transaction History"];
 
 export default function InvestmentPerformance() {
@@ -38,6 +60,8 @@ export default function InvestmentPerformance() {
     start: null,
     end: null,
   });
+
+  const [selecting, setSelecting] = useState<"start" | "end" | null>(null);
 
   const { setIsCalendarOpen } = useModal();
 
@@ -56,20 +80,41 @@ export default function InvestmentPerformance() {
       </Box>
 
       {/* Date Range */}
-      <Box
-        onClick={() => setIsCalendarOpen(true)}
-        cursor="pointer"
-        bg="#F8F8F8"
-        p={4}
-        borderRadius="md"
-        border="1px solid #9BAB69"
-      >
-        <Text color="secondary" fontWeight="medium">
-          {dateRange.start && dateRange.end
-            ? `${dateRange.start.toLocaleDateString()} - ${dateRange.end.toLocaleDateString()}`
-            : "Select custom date range"}
-        </Text>
-      </Box>
+      <HStack spaceX={4} my={6}>
+        <Box
+          onClick={() => {
+            setSelecting("start");
+            setIsCalendarOpen(true);
+          }}
+          cursor="pointer"
+          bg="#F8F8F8"
+          p={4}
+          borderRadius="md"
+          border="1px solid #9BAB69"
+          flex={1}
+        >
+          <Text color="secondary" fontWeight="medium">
+            {dateRange.start ? dateRange.start.toLocaleDateString() : "Start date"}
+          </Text>
+        </Box>
+
+        <Box
+          onClick={() => {
+            setSelecting("end");
+            setIsCalendarOpen(true);
+          }}
+          cursor="pointer"
+          bg="#F8F8F8"
+          p={4}
+          borderRadius="md"
+          border="1px solid #9BAB69"
+          flex={1}
+        >
+          <Text color="secondary" fontWeight="medium">
+            {dateRange.end ? dateRange.end.toLocaleDateString() : "End date"}
+          </Text>
+        </Box>
+      </HStack>
 
       {/* Summary Cards */}
       <Grid templateColumns="repeat(2, 1fr)" gap={4} mb={4}>
@@ -134,16 +179,28 @@ export default function InvestmentPerformance() {
 
       {selectedTab === "Portfolio Allocation" && <PortfolioAllocation data={pieData} />}
 
-      {selectedTab === "Transaction History" && (
-        <Text textAlign="center" mt={10} color="gray.500">
-          Transaction History content goes here.
-        </Text>
-      )}
+      {selectedTab === "Transaction History" && <TransactionHistory data={transactionData} />}
 
       <CalendarModal
-        selectedDate={dateRange?.start} // or handle this in your modal
-        onSelect={(start, end) => setDateRange({ start, end })} // Update signature in modal
-        onClear={() => setDateRange({ start: null, end: null })}
+        selectedDate={(selecting === "start" ? dateRange.start : dateRange.end) ?? undefined}
+        onSelect={(date) => {
+          if (!date) return;
+
+          setDateRange((prev) => {
+            if (selecting === "start") {
+              return { ...prev, start: date };
+            } else if (selecting === "end") {
+              return { ...prev, end: date };
+            }
+            return prev;
+          });
+
+          setSelecting(null);
+        }}
+        onClear={() => {
+          setDateRange({ start: null, end: null });
+          setSelecting(null);
+        }}
       />
     </Box>
   );
