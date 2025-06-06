@@ -2,7 +2,7 @@ import { ChatIcon, EmptyFolder } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
-import { Box, Flex, Grid, GridItem, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";

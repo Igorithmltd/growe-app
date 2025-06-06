@@ -1,14 +1,11 @@
 "use client";
 
 import { BackIcon } from "@/public/svgs";
-import { StyledButton, StyledProgress, StyledText } from "@/src/components";
+import { StyledButton, StyledText } from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DetailsCard, InvestmentImageCard } from "../../../../cards";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { MdContentCopy } from "react-icons/md";
-import useShowToast from "@/src/hooks/useShowToast";
-import { copyToClipboard } from "@/src/utils/helpers";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const data = [

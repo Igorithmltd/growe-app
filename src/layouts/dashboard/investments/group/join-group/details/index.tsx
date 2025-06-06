@@ -6,8 +6,6 @@ import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DetailsCard, InvestmentImageCard } from "../../../../cards";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import useShowToast from "@/src/hooks/useShowToast";
-import { copyToClipboard } from "@/src/utils/helpers";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const data = [
@@ -29,7 +27,6 @@ const performanceData = [
 const JoinPreviewDetailsLayout = () => {
   const router = useRouter();
 
-  const toast = useShowToast();
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
