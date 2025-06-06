@@ -2,18 +2,18 @@
 
 import { BackIcon } from "@/public/svgs";
 import { StyledText } from "@/src/components";
-import { Box, Text, Flex, Select, Grid, HStack } from "@chakra-ui/react";
+import { Box, Text, Grid, HStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { SummaryCard } from "../../cards";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import CalendarModal from "../../savings/modals/CalenderModal";
 import { useModal } from "@/src/contexts/ModalContext";
+import PerformanceOverview from "./performance-overview";
 
 const MotionBox = motion(Box);
 
-const data = [
+export const data = [
   { name: "Jan", value: 45000 },
   { name: "Feb", value: 30000 },
   { name: "Mar", value: 60000 },
@@ -124,27 +124,7 @@ export default function InvestmentPerformance() {
       </HStack>
 
       {/* Tab Content */}
-      {selectedTab === "Performance overview" && (
-        <Box height="300px">
-          <Text mb={2} fontWeight="semibold">
-            Performance Trend
-          </Text>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="value"
-                stroke="#7AC74F"
-                strokeWidth={2}
-                dot={{ r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </Box>
-      )}
+      {selectedTab === "Performance overview" && <PerformanceOverview data={data} />}
 
       {selectedTab === "Portfolio Allocation" && (
         <Text textAlign="center" mt={10} color="gray.500">
