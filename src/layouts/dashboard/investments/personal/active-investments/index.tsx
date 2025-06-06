@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
 import { InvestmentInfoCard } from "../../../cards";
 
-const SuggestedInvestmentsLayout = () => {
+const PersonalInvestmentsLayout = () => {
   const router = useRouter();
 
   const handleBack = () => {
@@ -23,7 +23,7 @@ const SuggestedInvestmentsLayout = () => {
         </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          Investment Groups
+          Personal Investments
         </StyledText>
       </Box>
 
@@ -34,6 +34,7 @@ const SuggestedInvestmentsLayout = () => {
           amountPerUnit="₦1M"
           annualReturn={10}
           image="/images/investments/1.png"
+          isSuggested={false}
         />
         <InvestmentInfoCard
           name="Enviable Transport"
@@ -41,6 +42,7 @@ const SuggestedInvestmentsLayout = () => {
           amountPerUnit="₦1M"
           annualReturn={10}
           image="/images/investments/1.png"
+          isSuggested={false}
         />
         <InvestmentInfoCard
           name="Enviable Transport"
@@ -48,6 +50,7 @@ const SuggestedInvestmentsLayout = () => {
           amountPerUnit="₦1M"
           annualReturn={10}
           image="/images/investments/1.png"
+          isSuggested={false}
         />
         <InvestmentInfoCard
           name="Enviable Transport"
@@ -55,10 +58,11 @@ const SuggestedInvestmentsLayout = () => {
           amountPerUnit="₦1M"
           annualReturn={10}
           image="/images/investments/1.png"
+          isSuggested={false}
         />
       </VStack>
     </Box>
   );
 };
 
-export default SuggestedInvestmentsLayout;
+export default PersonalInvestmentsLayout;

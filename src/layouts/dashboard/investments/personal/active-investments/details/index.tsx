@@ -6,9 +6,6 @@ import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DetailsCard, InvestmentImageCard } from "../../../../cards";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { MdContentCopy } from "react-icons/md";
-import useShowToast from "@/src/hooks/useShowToast";
-import { copyToClipboard } from "@/src/utils/helpers";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const data = [
@@ -27,18 +24,8 @@ const performanceData = [
   { year: 2022, performance: 9.2 },
 ];
 
-const SuggestedDetailsLayout = () => {
+const JoinedInvestmentDetailsLayout = () => {
   const router = useRouter();
-
-  const toast = useShowToast();
-
-  const handleCopy = async () => {
-    const success = await copyToClipboard("hgvhgv");
-    toast({
-      title: success ? "Copied!" : "Copy failed",
-      status: success ? "success" : "error",
-    });
-  };
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -47,7 +34,7 @@ const SuggestedDetailsLayout = () => {
           <BackIcon />
         </Box>
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          {""}
+          Enviable Transport Investment Group
         </StyledText>
       </HStack>
 
@@ -60,14 +47,14 @@ const SuggestedDetailsLayout = () => {
 
         <StyledText
           alignSelf="flex-end"
-          fontSize={{ base: "xs", md: "sm" }}
+          fontSize={{ base: "xs", md: "sm", lg: "md" }}
           fontWeight="normal"
           color="primary"
           display="flex"
           alignItems="center"
           spaceX={1}
         >
-          Verified investment <RiVerifiedBadgeFill />
+          Verified investment <RiVerifiedBadgeFill size={20} style={{ marginLeft: "6px" }} />
         </StyledText>
 
         <HStack justify="space-between" align="center">
@@ -110,31 +97,9 @@ const SuggestedDetailsLayout = () => {
           </Box>
         </HStack>
 
-        <HStack justify="space-between" align="center" spaceX={4}>
-          <StyledButton
-            type="button"
-            color="primary"
-            bg="border"
-            flex={{ base: 1, lg: "unset" }}
-            onClick={handleCopy}
-          >
-            <Grid
-              boxSize="30px"
-              bg="transparent"
-              color="primary"
-              placeItems="center"
-              borderRadius="full"
-            >
-              <MdContentCopy />
-            </Grid>
-            Copy invite link
-          </StyledButton>
-          <StyledButton
-            onClick={() => router.push("/investments/suggested-investments/123/invest")}
-          >
-            Invest
-          </StyledButton>
-        </HStack>
+        <StyledButton onClick={() => router.push("/investments/my-investments/123/invest")}>
+          Invest
+        </StyledButton>
 
         <Box>
           <StyledText
@@ -200,22 +165,15 @@ const SuggestedDetailsLayout = () => {
           </VStack>
         </Box>
 
-        <StyledText
-          fontSize={{ base: "sm", md: "md" }}
-          fontWeight="normal"
-          color="secondary"
-          borderRadius="10px"
-          textAlign="center"
-          py="12px"
-          px="6px"
-          bg="#FFF4EB"
-        >
-          <IoIosInformationCircleOutline />
-          Past performance is not indicative of future returns
-        </StyledText>
+        <HStack py="12px" px="6px" bg="#FFF4EB" borderRadius="10px" justify="center" align="center">
+          <IoIosInformationCircleOutline size={20} color="#FFCA99" />
+          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="#D4A880">
+            Past performance is not indicative of future returns
+          </StyledText>
+        </HStack>
       </VStack>
     </Box>
   );
 };
 
-export default SuggestedDetailsLayout;
+export default JoinedInvestmentDetailsLayout;

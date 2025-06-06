@@ -712,7 +712,7 @@ export const InvestmentInfoCard = ({
       if (isSuggested) {
         router.push("/investments/suggested-investments/123");
       } else {
-        router.push("/savings/saving-groups/123");
+        router.push("/investments/my-investments/123");
       }
     }
   };
@@ -745,6 +745,104 @@ export const InvestmentInfoCard = ({
             {name}
           </StyledText>
 
+          <HStack justify="space-between" align="start">
+            {infoItems.map(({ value, label }) => (
+              <Box textAlign="center" key={label}>
+                <StyledText
+                  fontSize={{ base: "xs", md: "sm", lg: "md" }}
+                  fontWeight="normal"
+                  color="primary"
+                >
+                  {value}
+                </StyledText>
+                <StyledText
+                  fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+                  fontWeight="normal"
+                  color="bfgrey"
+                >
+                  {label}
+                </StyledText>
+              </Box>
+            ))}
+          </HStack>
+
+          <StyledButton
+            bg="#F8FBEB"
+            color="primary"
+            alignSelf="start"
+            py="7px"
+            borderRadius="full"
+            fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+            onClick={handleClick}
+          >
+            {isSuggested ? "Invest Now" : "View"}
+          </StyledButton>
+        </VStack>
+      </HStack>
+    </ReuseableCard>
+  );
+};
+
+export const InvestmentGroupCard = ({
+  title,
+  image,
+  members,
+  target,
+  contribution,
+  returnRate,
+  progress,
+  daysLeft,
+  link,
+}: {
+  title: string;
+  image: string;
+  members: number;
+  target: string;
+  contribution: string;
+  returnRate: string;
+  progress: number;
+  daysLeft: number;
+  link: string;
+}) => {
+  const infoItems = [
+    { value: members, label: "Members" },
+    { value: `₦${target}`, label: "Investment Target" },
+    { value: `₦${contribution}`, label: "Member Contribution" },
+    { value: `${returnRate}%`, label: "Annual Return" },
+  ];
+
+  const router = useRouter();
+
+  return (
+    <ReuseableCard
+      boxShadow="none"
+      borderRadius="12px"
+      px={0}
+      py={0}
+      bg="transparent"
+      flex="0 0 auto"
+      onClick={() => router.push(link)}
+      cursor="pointer"
+    >
+      <HStack spaceX={4} align="start">
+        <Box
+          position="relative"
+          w={{ base: "96px", md: "128px", lg: "160px" }}
+          h={{ base: "90px", md: "120px", lg: "150px" }}
+          flex={1}
+        >
+          <Image src={image} alt={title} fill style={{ borderRadius: "8px", objectFit: "cover" }} />
+        </Box>
+
+        <VStack align="stretch" spaceY={{ base: 2, md: 4 }} flex={3}>
+          <StyledText
+            fontSize={{ base: "sm", md: "md", lg: "lg" }}
+            fontWeight="normal"
+            color="black"
+          >
+            {title}
+          </StyledText>
+
           <HStack justify="space-between">
             {infoItems.map(({ value, label }) => (
               <Box textAlign="center" key={label}>
@@ -765,17 +863,25 @@ export const InvestmentInfoCard = ({
               </Box>
             ))}
           </HStack>
-          <StyledButton
-            bg="#F8FBEB"
-            color="primary"
-            alignSelf="start"
-            py="7px"
-            borderRadius="full"
-            fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
-            onClick={handleClick}
-          >
-            Invest Now
-          </StyledButton>
+
+          <StyledProgress max={100} value={progress} />
+
+          <HStack justify="space-between">
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {progress}% completed
+            </StyledText>
+            <StyledText
+              fontSize={{ base: "xs", md: "sm", lg: "md" }}
+              fontWeight="normal"
+              color="bfgrey"
+            >
+              {daysLeft} days left
+            </StyledText>
+          </HStack>
         </VStack>
       </HStack>
     </ReuseableCard>
@@ -854,6 +960,45 @@ export const PromoCard = () => {
           </Box>
         </Box>
       </HStack>
+    </ReuseableCard>
+  );
+};
+
+export const SummaryCard = ({ title, value, change, subtitle }: any) => {
+  return (
+    <ReuseableCard
+      boxShadow="none"
+      borderRadius="15px"
+      px={{ base: 1, md: 4 }}
+      bg="white"
+      position="relative"
+      minH="105px"
+    >
+      <VStack align="stretch" spaceY={1}>
+        <HStack justify="space-between" align="center">
+          <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color="bfgrey">
+            {title}
+          </StyledText>
+          {change && (
+            <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color="#91C147">
+              {change}
+            </StyledText>
+          )}
+        </HStack>
+        <StyledText
+          fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}
+          fontWeight="bold"
+          color="#285100"
+        >
+          {value}
+        </StyledText>
+
+        {subtitle && (
+          <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color="#285100">
+            {subtitle}
+          </StyledText>
+        )}
+      </VStack>
     </ReuseableCard>
   );
 };
