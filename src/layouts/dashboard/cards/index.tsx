@@ -966,25 +966,34 @@ export const PromoCard = () => {
 
 export const SummaryCard = ({ title, value, change, subtitle }: any) => {
   return (
-    <GridItem bg="gray.50" p={4} borderRadius="md" boxShadow="sm">
+    <ReuseableCard
+      boxShadow="none"
+      borderRadius="15px"
+      px={{ base: 3, md: 6 }}
+      bg="white"
+      position="relative"
+    >
       <VStack align="start" spaceY={1}>
-        <Text fontSize="sm" color="gray.500">
-          {title}
-        </Text>
-        <Text fontSize="xl" fontWeight="bold" color="green.700">
+        <HStack justify="space-between" align="center">
+          <StyledText fontSize={{ base: "xs", md: "sm" }} color="bfgrey">
+            {title}
+          </StyledText>
+          {change && (
+            <StyledText fontSize={{ base: "xs", md: "sm" }} color="#91C147">
+              {change}
+            </StyledText>
+          )}
+        </HStack>
+        <StyledText fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" color="#285100">
           {value}
-        </Text>
-        {change && (
-          <Text fontSize="xs" color="green.500">
-            {change}
-          </Text>
-        )}
+        </StyledText>
+
         {subtitle && (
-          <Text fontSize="xs" color="gray.600">
+          <StyledText fontSize={{ base: "xs", md: "sm" }} color="#285100">
             {subtitle}
-          </Text>
+          </StyledText>
         )}
       </VStack>
-    </GridItem>
+    </ReuseableCard>
   );
 };
