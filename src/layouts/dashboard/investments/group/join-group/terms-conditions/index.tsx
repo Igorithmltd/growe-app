@@ -9,6 +9,47 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 
 const InvestmentGroupTerms = () => {
+  const terms = [
+    {
+      title: "Contribution Commitment",
+      bullets: [
+        "You commit to contributing the agreed-upon amount as specified by the group.",
+        "Late or missed contributions may result in penalties or removal from the group.",
+      ],
+    },
+    {
+      title: "Non-Refundable Contributions",
+      bullets: [
+        "Contributions are non-refundable once the group target is met and the investment is initiated.",
+      ],
+    },
+    {
+      title: "Shared Ownership and Returns",
+      bullets: [
+        "Your ownership in the group investment is proportional to your contribution.",
+        "Returns will be distributed based on the percentage of your contribution.",
+      ],
+    },
+    {
+      title: "Disbursement and Investment Rules",
+      bullets: [
+        "Funds will be disbursed according to the group's agreed timeline and purpose.",
+        "Any changes to the investment plan require approval from the group admin and majority members.",
+      ],
+    },
+    {
+      title: "Transparency and Accountability",
+      bullets: [
+        "All transactions will be logged and accessible to members for review.",
+        "Group members are expected to act in good faith and maintain confidentiality.",
+      ],
+    },
+    {
+      title: "Dispute Resolution",
+      bullets: ["Any disputes will be resolved through a group meeting facilitated by the admin."],
+    },
+  ];
+
   const {
     register,
     handleSubmit,
@@ -79,88 +120,25 @@ const InvestmentGroupTerms = () => {
                 By joining this group investment, you agree to the following terms and conditions:
               </StyledText>
 
-              <List.Root as="ol" gap="3" mt={4} color="secondary" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
-                <List.Item>
-                  <Text fontWeight="semibold" mb={1}>
-                    Contribution Commitment:
-                  </Text>
-                  <List.Root as="ul" pl={5} gap="1.5">
-                    <List.Item>
-                      You commit to contributing the agreed-upon amount as specified by the group.
-                    </List.Item>
-                    <List.Item>
-                      Late or missed contributions may result in penalties or removal from the
-                      group.
-                    </List.Item>
-                  </List.Root>
-                </List.Item>
-
-                <List.Item>
-                  <Text fontWeight="semibold" mb={1}>
-                    Non-Refundable Contributions:
-                  </Text>
-                  <List.Root as="ul" pl={5} gap="1.5">
-                    <List.Item>
-                      Contributions are non-refundable once the group target is met and the
-                      investment is initiated.
-                    </List.Item>
-                  </List.Root>
-                </List.Item>
-
-                <List.Item>
-                  <Text fontWeight="semibold" mb={1}>
-                    Shared Ownership and Returns:
-                  </Text>
-                  <List.Root as="ul" pl={5} gap="1.5">
-                    <List.Item>
-                      Your ownership in the group investment is proportional to your contribution.
-                    </List.Item>
-                    <List.Item>
-                      Returns will be distributed based on the percentage of your contribution.
-                    </List.Item>
-                  </List.Root>
-                </List.Item>
-
-                <List.Item>
-                  <Text fontWeight="semibold" mb={1}>
-                    Disbursement and Investment Rules:
-                  </Text>
-                  <List.Root as="ul" pl={5} gap="1.5">
-                    <List.Item>
-                      Funds will be disbursed according to the group's agreed timeline and purpose.
-                    </List.Item>
-                    <List.Item>
-                      Any changes to the investment plan require approval from the group admin and
-                      majority members.
-                    </List.Item>
-                  </List.Root>
-                </List.Item>
-
-                <List.Item>
-                  <Text fontWeight="semibold" mb={1}>
-                    Transparency and Accountability:
-                  </Text>
-                  <List.Root as="ul" pl={5} gap="1.5">
-                    <List.Item>
-                      All transactions will be logged and accessible to members for review.
-                    </List.Item>
-                    <List.Item>
-                      Group members are expected to act in good faith and maintain confidentiality.
-                    </List.Item>
-                  </List.Root>
-                </List.Item>
-
-                <List.Item>
-                  <Text fontWeight="semibold" mb={1}>
-                    Dispute Resolution:
-                  </Text>
-                  <List.Root as="ul" pl={5} gap="1.5">
-                    <List.Item>
-                      Any disputes will be resolved through a group meeting facilitated by the
-                      admin.
-                    </List.Item>
-                  </List.Root>
-                </List.Item>
+              <List.Root
+                as="ol"
+                gap="3"
+                mt={4}
+                color="secondary"
+                fontSize={{ base: "sm", md: "md", lg: "lg" }}
+              >
+                {terms.map((term, index) => (
+                  <List.Item key={index}>
+                    <Text fontWeight="semibold" mb={1}>
+                      {term.title}:
+                    </Text>
+                    <List.Root as="ul" pl={5} gap="1.5" color="bfgrey">
+                      {term.bullets.map((bullet, i) => (
+                        <List.Item key={i}>{bullet}</List.Item>
+                      ))}
+                    </List.Root>
+                  </List.Item>
+                ))}
               </List.Root>
             </Box>
 
