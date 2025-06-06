@@ -2,7 +2,7 @@ import { ChatIcon, EmptyFolder } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
-import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, HStack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
@@ -961,5 +961,30 @@ export const PromoCard = () => {
         </Box>
       </HStack>
     </ReuseableCard>
+  );
+};
+
+export const SummaryCard = ({ title, value, change, subtitle }: any) => {
+  return (
+    <GridItem bg="gray.50" p={4} borderRadius="md" boxShadow="sm">
+      <VStack align="start" spaceY={1}>
+        <Text fontSize="sm" color="gray.500">
+          {title}
+        </Text>
+        <Text fontSize="xl" fontWeight="bold" color="green.700">
+          {value}
+        </Text>
+        {change && (
+          <Text fontSize="xs" color="green.500">
+            {change}
+          </Text>
+        )}
+        {subtitle && (
+          <Text fontSize="xs" color="gray.600">
+            {subtitle}
+          </Text>
+        )}
+      </VStack>
+    </GridItem>
   );
 };
