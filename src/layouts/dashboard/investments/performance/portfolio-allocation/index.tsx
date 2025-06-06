@@ -16,7 +16,7 @@ const PortfolioAllocation = ({
         <StyledText color="#285100" fontSize={{ base: "xs", md: "sm", lg: "md" }}>
           Current Allocation
         </StyledText>
-        <Icon as={FaChartPie} color="primary" boxSize={10} />
+        <Icon as={FaChartPie} color="primary" boxSize={7} />
       </Flex>
 
       <Box h="200px">
@@ -39,7 +39,7 @@ const PortfolioAllocation = ({
         </ResponsiveContainer>
       </Box>
 
-      <StyledText mt={6} mb={2} color="#285100" fontSize={{ base: "xs", md: "sm", lg: "sm" }}>
+      <StyledText mt={6} mb={4} color="#285100" fontSize={{ base: "xs", md: "sm", lg: "sm" }}>
         Investment Details
       </StyledText>
 
