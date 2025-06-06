@@ -969,27 +969,32 @@ export const SummaryCard = ({ title, value, change, subtitle }: any) => {
     <ReuseableCard
       boxShadow="none"
       borderRadius="15px"
-      px={{ base: 3, md: 6 }}
+      px={{ base: 1, md: 4 }}
       bg="white"
       position="relative"
+      minH="105px"
     >
-      <VStack align="start" spaceY={1}>
+      <VStack align="stretch" spaceY={1}>
         <HStack justify="space-between" align="center">
-          <StyledText fontSize={{ base: "xs", md: "sm" }} color="bfgrey">
+          <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color="bfgrey">
             {title}
           </StyledText>
           {change && (
-            <StyledText fontSize={{ base: "xs", md: "sm" }} color="#91C147">
+            <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color="#91C147">
               {change}
             </StyledText>
           )}
         </HStack>
-        <StyledText fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold" color="#285100">
+        <StyledText
+          fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}
+          fontWeight="bold"
+          color="#285100"
+        >
           {value}
         </StyledText>
 
         {subtitle && (
-          <StyledText fontSize={{ base: "xs", md: "sm" }} color="#285100">
+          <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color="#285100">
             {subtitle}
           </StyledText>
         )}
