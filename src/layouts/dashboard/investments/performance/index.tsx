@@ -10,16 +10,22 @@ import { useState } from "react";
 import CalendarModal from "../../savings/modals/CalenderModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import PerformanceOverview from "./performance-overview";
+import PortfolioAllocation from "./portfolio-allocation";
 
 const MotionBox = motion(Box);
 
-export const data = [
+const data = [
   { name: "Jan", value: 45000 },
   { name: "Feb", value: 30000 },
   { name: "Mar", value: 60000 },
   { name: "Apr", value: 72000 },
   { name: "May", value: 65000 },
   { name: "Jun", value: 70000 },
+];
+
+const pieData = [
+  { name: "Farmcrowdy Maize Farming investment", value: 60, color: "#3DBBFF" },
+  { name: "Enviable Transport", value: 40, color: "#FF8A80" },
 ];
 
 const tabs = ["Performance overview", "Portfolio Allocation", "Transaction History"];
@@ -126,11 +132,7 @@ export default function InvestmentPerformance() {
       {/* Tab Content */}
       {selectedTab === "Performance overview" && <PerformanceOverview data={data} />}
 
-      {selectedTab === "Portfolio Allocation" && (
-        <Text textAlign="center" mt={10} color="gray.500">
-          Portfolio Allocation content goes here.
-        </Text>
-      )}
+      {selectedTab === "Portfolio Allocation" && <PortfolioAllocation data={pieData} />}
 
       {selectedTab === "Transaction History" && (
         <Text textAlign="center" mt={10} color="gray.500">

@@ -2,7 +2,14 @@ import { StyledText } from "@/src/components";
 import { Box } from "@chakra-ui/react";
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from "recharts";
 
-const PerformanceOverview = ({ data }: { data: any }) => {
+const PerformanceOverview = ({
+  data,
+}: {
+  data: {
+    name: string;
+    value: number;
+  }[];
+}) => {
   return (
     <Box h="350px" bg="white" borderRadius="10px" p={4} py={8}>
       <StyledText mb={4} color="#285100" fontSize={{ base: "xs", md: "sm", lg: "md" }}>
