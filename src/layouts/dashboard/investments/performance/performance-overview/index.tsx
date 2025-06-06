@@ -4,11 +4,11 @@ import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from "rec
 
 const PerformanceOverview = ({ data }: { data: any }) => {
   return (
-    <Box height="300px">
+    <Box h="350px" bg="white" borderRadius="10px" p={4} py={8}>
       <StyledText mb={4} color="#285100" fontSize={{ base: "xs", md: "sm", lg: "md" }}>
         Performance Trend
       </StyledText>
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="95%">
         <AreaChart data={data}>
           <defs>
             <radialGradient
