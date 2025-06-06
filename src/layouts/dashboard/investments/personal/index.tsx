@@ -23,7 +23,7 @@ const PersonalInvestments = () => {
           boxShadow="sm"
           buttonText="Performance"
           buttonAction={() => {
-            router.push("/savings/quick-saving");
+            router.push("/investments/performance");
           }}
         />
       </VStack>
