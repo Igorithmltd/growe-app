@@ -129,9 +129,7 @@ const InvestmentGroupTerms = () => {
               >
                 {terms.map((term, index) => (
                   <List.Item key={index}>
-                    <Text fontWeight="semibold" mb={1}>
-                      {term.title}:
-                    </Text>
+                    <Text mb={1}>{term.title}:</Text>
                     <List.Root as="ul" pl={5} gap="1.5" color="bfgrey">
                       {term.bullets.map((bullet, i) => (
                         <List.Item key={i}>{bullet}</List.Item>
