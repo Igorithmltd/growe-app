@@ -2,11 +2,14 @@ import { ChatIcon, EmptyFolder } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import useShowToast from "@/src/hooks/useShowToast";
 import { copyToClipboard } from "@/src/utils/helpers";
-import { Box, Flex, Grid, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Grid, HStack,Icon, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
+import { IconType } from "react-icons";
+import { FaChevronRight } from "react-icons/fa6";
+// import { ChevronRightIcon } from "@chakra-ui/icons";
 
 interface SavingsCardProps {
   bg?: string;
@@ -22,6 +25,15 @@ interface SavingsCardProps {
   color?: string;
   notesAction?: VoidFunction;
   buttonAction?: VoidFunction;
+}
+
+interface ProfileIconCardProps {
+  label: string;
+  icon: IconType;
+  bg?: string;
+  iconBg?: string;
+  iconColor?: string;
+  onClick?: () => void;
 }
 
 export const SavingsCard = ({
@@ -999,6 +1011,47 @@ export const SummaryCard = ({ title, value, change, subtitle }: any) => {
           </StyledText>
         )}
       </VStack>
+    </ReuseableCard>
+  );
+};
+
+export const ProfileIconCard = ({
+  label,
+  icon,
+  bg = "white",
+  iconBg = "#F4FCE5",
+  iconColor = "#8DBE5E",
+  onClick,
+}: ProfileIconCardProps) => {
+  return (
+    <ReuseableCard
+      onClick={onClick}
+      cursor="pointer"
+      boxShadow="none"
+      borderRadius="15px"
+      px={4}
+      py={4}
+      bg={bg}
+      _hover={{ bg: "#f9f9f9" }}
+    >
+      <HStack justify="space-between" align="center">
+        <HStack>
+          <Box
+            bg={iconBg}
+            p={2}
+            borderRadius="full"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Icon as={icon} boxSize={6} color={iconColor} />
+          </Box>
+          <Text fontSize="md" color="gray.700" fontWeight="medium">
+            {label}
+          </Text>
+        </HStack>
+        <FaChevronRight color="gray.500" />
+      </HStack>
     </ReuseableCard>
   );
 };
