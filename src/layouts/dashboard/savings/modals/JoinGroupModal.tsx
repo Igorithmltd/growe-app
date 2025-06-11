@@ -1,7 +1,13 @@
 import { Modal, StyledButton, StyledText, StyledField } from "@/src/components";
 import { useModal } from "@/src/contexts/ModalContext";
-import { QuickSavingValues } from "@/src/schema/savings.schema";
+import {
+  joinGroupStepOneSchema,
+  JoinGroupStepOneValues,
+  joinGroupStepTwoSchema,
+  JoinGroupStepTwoValues,
+} from "@/src/schema/savings.schema";
 import { VStack } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -14,16 +20,25 @@ const JoinGroupModal = () => {
     handleSubmit,
     // reset,
     formState: { errors, isSubmitting },
-  } = useForm<QuickSavingValues>({
-    //   resolver: yupResolver(quickSavingSchema),
+  } = useForm<JoinGroupStepOneValues>({
+    resolver: yupResolver(joinGroupStepOneSchema),
   });
 
-  const onSubmit = (data: QuickSavingValues) => {
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    // reset,
+    formState: { errors: errors2, isSubmitting: isSubmitting2 },
+  } = useForm<JoinGroupStepTwoValues>({
+    resolver: yupResolver(joinGroupStepTwoSchema),
+  });
+
+  const onSubmit = (data: JoinGroupStepOneValues) => {
     console.log(data);
     setIsCorrect(true);
   };
 
-  const onSubmit2 = (data: QuickSavingValues) => {
+  const onSubmit2 = (data: JoinGroupStepTwoValues) => {
     console.log(data);
     setIsCorrect(true);
     setIsJoinSavingsOpen(false);
@@ -56,14 +71,14 @@ const JoinGroupModal = () => {
             transactions.
           </StyledText>
 
-          <form onSubmit={handleSubmit(onSubmit2)}>
+          <form onSubmit={handleSubmit2(onSubmit2)}>
             <VStack spaceY={8} align="stretch">
               <StyledField
                 label="Account Name"
                 placeholder="Enter account name"
                 labelColor="secondary"
-                fieldProps={register("amount")}
-                error={errors?.amount?.message}
+                fieldProps={register2("accountName")}
+                error={errors2?.accountName?.message}
                 {...commonProps}
               />
 
@@ -71,8 +86,8 @@ const JoinGroupModal = () => {
                 label="Account Number"
                 placeholder="Enter account number"
                 labelColor="secondary"
-                fieldProps={register("amount")}
-                error={errors?.amount?.message}
+                fieldProps={register2("accountNumber")}
+                error={errors2?.accountNumber?.message}
                 {...commonProps}
               />
 
@@ -80,8 +95,8 @@ const JoinGroupModal = () => {
                 label="Bank"
                 placeholder="Select bank"
                 labelColor="secondary"
-                fieldProps={register("amount")}
-                error={errors?.amount?.message}
+                fieldProps={register2("bank")}
+                error={errors2?.bank?.message}
                 {...commonProps}
               />
 
@@ -109,8 +124,8 @@ const JoinGroupModal = () => {
                 label="Enter Referral / invite code"
                 placeholder="eg. Ref/2098Bvk"
                 labelColor="secondary"
-                fieldProps={register("amount")}
-                error={errors?.amount?.message}
+                fieldProps={register("inviteCode")}
+                error={errors?.inviteCode?.message}
                 {...commonProps}
               />
 

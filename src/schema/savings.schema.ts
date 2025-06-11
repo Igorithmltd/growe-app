@@ -27,6 +27,16 @@ export interface EditGroupValues {
   description?: string;
 }
 
+export interface JoinGroupStepOneValues {
+  inviteCode: string;
+}
+
+export interface JoinGroupStepTwoValues {
+  accountName: string;
+  accountNumber: string;
+  bank: string;
+}
+
 export const quickSavingSchema = Yup.object().shape({
   amount: Yup.number().required("Amount is required").min(1000, "Minimum ammount is ₦1000"),
 });
@@ -69,6 +79,18 @@ export const createGroupSchema: Yup.ObjectSchema<CreateGroupValues> = Yup.object
 export const editGroupSchema: Yup.ObjectSchema<EditGroupValues> = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().optional(),
+});
+
+export const joinGroupStepOneSchema = Yup.object({
+  inviteCode: Yup.string().required("Referral or invite code is required"),
+});
+
+export const joinGroupStepTwoSchema = Yup.object({
+  accountName: Yup.string().required("Account name is required"),
+  accountNumber: Yup.string()
+    .required("Account number is required")
+    .matches(/^\d{10}$/, "Account number must be 10 digits"),
+  bank: Yup.string().required("Bank is required"),
 });
 
 export type QuickSavingValues = Yup.InferType<typeof quickSavingSchema>;
