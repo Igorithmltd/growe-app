@@ -5,7 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { handleError } from "@/src/utils/helpers";
 import { useFetcher } from "../../../useFetcher";
 import useShowToast from "../../../useShowToast";
-import { CreateGroupValues, SavingsGoalValues } from "@/src/schema/savings.schema";
+import { CreateGroupValues, EditGroupValues, SavingsGoalValues } from "@/src/schema/savings.schema";
 
 export const useSavings = () => {
   const showToast = useShowToast();
@@ -24,6 +24,19 @@ export const useSavings = () => {
   };
 
   const createGroup = async (data: CreateGroupValues): Promise<AuthResponseData> => {
+    const response = await useFetcher({
+      url: "/auth/forgot-password",
+      requestType: "POST",
+      body: data,
+      useBaseUrl: true,
+    });
+
+    if (response.error) handleError(response.error);
+
+    return response.data;
+  };
+
+  const editGroup = async (data: EditGroupValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
       url: "/auth/forgot-password",
       requestType: "POST",
@@ -110,5 +123,49 @@ export const useSavings = () => {
     },
   });
 
-  return { createSavingsGoal, isCreatingGoal, createSavingGroup, isCreatingGroup };
+  const { mutate: editSavingGroup, isPending: isEditingGroup } = useMutation<
+    AuthResponseData,
+    AxiosError<ErrorResponseData>,
+    EditGroupValues
+  >({
+    mutationFn: editGroup,
+    onError: (error) => {
+      if (error.response) {
+        const errorData = error.response.data;
+        showToast({
+          title: "Error",
+          description: errorData.message || "Something went wrong on the server",
+          status: "error",
+        });
+      } else if (error.request) {
+        showToast({
+          title: "Network Error",
+          description: "No response received from the server, try again",
+          status: "warning",
+        });
+      } else {
+        showToast({
+          title: "Error",
+          description: error.message || "An unknown error occurred",
+          status: "error",
+        });
+      }
+    },
+    onSuccess: () => {
+      showToast({
+        title: "Success",
+        description: "Savings Group created successfully",
+        status: "success",
+      });
+    },
+  });
+
+  return {
+    createSavingsGoal,
+    isCreatingGoal,
+    createSavingGroup,
+    isCreatingGroup,
+    editSavingGroup,
+    isEditingGroup,
+  };
 };
