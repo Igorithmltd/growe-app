@@ -27,11 +27,11 @@ export interface EditGroupValues {
   description?: string;
 }
 
-export interface JoinGroupStepOneValues {
+export interface VerifyInviteValues {
   inviteCode: string;
 }
 
-export interface JoinGroupStepTwoValues {
+export interface JoinGroupValues {
   accountName: string;
   accountNumber: string;
   bank: string;
@@ -81,11 +81,11 @@ export const editGroupSchema: Yup.ObjectSchema<EditGroupValues> = Yup.object().s
   description: Yup.string().optional(),
 });
 
-export const joinGroupStepOneSchema = Yup.object({
+export const verifyInviteSchema = Yup.object({
   inviteCode: Yup.string().required("Referral or invite code is required"),
 });
 
-export const joinGroupStepTwoSchema = Yup.object({
+export const joinGroupSchema = Yup.object({
   accountName: Yup.string().required("Account name is required"),
   accountNumber: Yup.string()
     .required("Account number is required")

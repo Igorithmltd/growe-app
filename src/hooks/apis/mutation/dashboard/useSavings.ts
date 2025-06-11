@@ -49,6 +49,19 @@ export const useSavings = () => {
     return response.data;
   };
 
+  const verifyInvite = async (data: EditGroupValues): Promise<AuthResponseData> => {
+    const response = await useFetcher({
+      url: "/auth/forgot-password",
+      requestType: "POST",
+      body: data,
+      useBaseUrl: true,
+    });
+
+    if (response.error) handleError(response.error);
+
+    return response.data;
+  };
+
   const { mutate: createSavingsGoal, isPending: isCreatingGoal } = useMutation<
     AuthResponseData,
     AxiosError<ErrorResponseData>,

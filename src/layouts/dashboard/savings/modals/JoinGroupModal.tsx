@@ -1,10 +1,10 @@
 import { Modal, StyledButton, StyledText, StyledField } from "@/src/components";
 import { useModal } from "@/src/contexts/ModalContext";
 import {
-  joinGroupStepOneSchema,
-  JoinGroupStepOneValues,
-  joinGroupStepTwoSchema,
-  JoinGroupStepTwoValues,
+  joinGroupSchema,
+  JoinGroupValues,
+  verifyInviteSchema,
+  VerifyInviteValues,
 } from "@/src/schema/savings.schema";
 import { VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,29 +16,29 @@ const JoinGroupModal = () => {
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
 
   const {
+    register: verify,
+    handleSubmit: handleVerify,
+    // reset,
+    formState: { errors: verifyErrors, isSubmitting: isVerifying },
+  } = useForm<VerifyInviteValues>({
+    resolver: yupResolver(verifyInviteSchema),
+  });
+
+  const {
     register,
     handleSubmit,
     // reset,
     formState: { errors, isSubmitting },
-  } = useForm<JoinGroupStepOneValues>({
-    resolver: yupResolver(joinGroupStepOneSchema),
+  } = useForm<JoinGroupValues>({
+    resolver: yupResolver(joinGroupSchema),
   });
 
-  const {
-    register: register2,
-    handleSubmit: handleSubmit2,
-    // reset,
-    formState: { errors: errors2, isSubmitting: isSubmitting2 },
-  } = useForm<JoinGroupStepTwoValues>({
-    resolver: yupResolver(joinGroupStepTwoSchema),
-  });
-
-  const onSubmit = (data: JoinGroupStepOneValues) => {
+  const onVerify = (data: VerifyInviteValues) => {
     console.log(data);
     setIsCorrect(true);
   };
 
-  const onSubmit2 = (data: JoinGroupStepTwoValues) => {
+  const onSubmit = (data: JoinGroupValues) => {
     console.log(data);
     setIsCorrect(true);
     setIsJoinSavingsOpen(false);
@@ -71,14 +71,14 @@ const JoinGroupModal = () => {
             transactions.
           </StyledText>
 
-          <form onSubmit={handleSubmit2(onSubmit2)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spaceY={8} align="stretch">
               <StyledField
                 label="Account Name"
                 placeholder="Enter account name"
                 labelColor="secondary"
-                fieldProps={register2("accountName")}
-                error={errors2?.accountName?.message}
+                fieldProps={register("accountName")}
+                error={errors?.accountName?.message}
                 {...commonProps}
               />
 
@@ -86,8 +86,8 @@ const JoinGroupModal = () => {
                 label="Account Number"
                 placeholder="Enter account number"
                 labelColor="secondary"
-                fieldProps={register2("accountNumber")}
-                error={errors2?.accountNumber?.message}
+                fieldProps={register("accountNumber")}
+                error={errors?.accountNumber?.message}
                 {...commonProps}
               />
 
@@ -95,8 +95,8 @@ const JoinGroupModal = () => {
                 label="Bank"
                 placeholder="Select bank"
                 labelColor="secondary"
-                fieldProps={register2("bank")}
-                error={errors2?.bank?.message}
+                fieldProps={register("bank")}
+                error={errors?.bank?.message}
                 {...commonProps}
               />
 
@@ -118,18 +118,18 @@ const JoinGroupModal = () => {
             you complete the savings duration.
           </StyledText>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleVerify(onVerify)}>
             <VStack spaceY={8} align="stretch">
               <StyledField
                 label="Enter Referral / invite code"
                 placeholder="eg. Ref/2098Bvk"
                 labelColor="secondary"
-                fieldProps={register("inviteCode")}
-                error={errors?.inviteCode?.message}
+                fieldProps={verify("inviteCode")}
+                error={verifyErrors?.inviteCode?.message}
                 {...commonProps}
               />
 
-              <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+              <StyledButton type="submit" w="full" mt={2} loading={isVerifying}>
                 Next
               </StyledButton>
             </VStack>
