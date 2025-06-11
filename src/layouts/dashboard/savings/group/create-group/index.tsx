@@ -2,7 +2,7 @@
 
 import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 //
 import {
   StyledField,
@@ -23,7 +23,6 @@ import CalendarModal from "../../modals/CalenderModal";
 import InfoModal from "@/src/components/modals/InfoModal";
 import ImageUploadField from "@/src/components/image-upload";
 import { createGroupSchema, CreateGroupValues } from "@/src/schema/savings.schema";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const CreateGroupLayout = () => {
   const router = useRouter();

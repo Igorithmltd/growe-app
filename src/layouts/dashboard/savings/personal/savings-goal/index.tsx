@@ -2,7 +2,7 @@
 
 import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 //
 import {
   StyledField,
@@ -22,7 +22,6 @@ import MonthModal from "../../modals/MonthModal";
 import SummaryLayout from "./summary";
 import CalendarModal from "../../modals/CalenderModal";
 import { savingsGoalSchema, SavingsGoalValues } from "@/src/schema/savings.schema";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const SavingGoalLayout = () => {
   const router = useRouter();
