@@ -78,7 +78,7 @@ export const useSavings = () => {
     AxiosError<ErrorResponseData>,
     CreateGroupValues
   >({
-    mutationFn: createGoal,
+    mutationFn: createGroup,
     onError: (error) => {
       if (error.response) {
         const errorData = error.response.data;
