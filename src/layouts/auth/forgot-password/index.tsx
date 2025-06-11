@@ -8,7 +8,7 @@ import { OtpFormValues, otpSchema, VerifyFormValue, verifySchema } from "@/src/s
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
-import { useForgotPassword } from "@/src/hooks/apis/mutation/useForgotPassword";
+import { useForgotPassword } from "@/src/hooks/apis/mutation/auth/useForgotPassword";
 import { ROUTES } from "@/src/utils/constants";
 
 export const ForgotPasswordForm = () => {

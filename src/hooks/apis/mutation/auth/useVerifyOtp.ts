@@ -3,16 +3,15 @@ import { useMutation } from "@tanstack/react-query";
 //
 
 import { handleError } from "@/src/utils/helpers";
-import { useFetcher } from "../../useFetcher";
-import { VerifyFormValue } from "@/src/schema/auth.schema";
-import useShowToast from "../../useShowToast";
+import { useFetcher } from "../../../useFetcher";
+import useShowToast from "../../../useShowToast";
 
-export const useSendOtp = () => {
+export const useVerifyOtp = () => {
   const showToast = useShowToast();
 
-  const sendOtp = async (data: VerifyFormValue): Promise<AuthResponseData> => {
+  const verifyOtp = async (data: { email: string; otp: string }): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/auth/send-otp",
+      url: "/auth/verify-otp",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
@@ -23,8 +22,12 @@ export const useSendOtp = () => {
     return response.data;
   };
 
-  return useMutation<AuthResponseData, AxiosError<ErrorResponseData>, VerifyFormValue>({
-    mutationFn: sendOtp,
+  return useMutation<
+    AuthResponseData,
+    AxiosError<ErrorResponseData>,
+    { email: string; otp: string }
+  >({
+    mutationFn: verifyOtp,
     onError: (error) => {
       if (error.response) {
         const errorData = error.response.data;
@@ -46,6 +49,13 @@ export const useSendOtp = () => {
           status: "error",
         });
       }
+    },
+    onSuccess: () => {
+      showToast({
+        title: "Success",
+        description: "Verification successfully.",
+        status: "success",
+      });
     },
   });
 };

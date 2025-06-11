@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { SignupFormValues, signupSchema } from "@/src/schema/auth.schema";
 import { ROUTES } from "@/src/utils/constants";
-import { useRegister } from "@/src/hooks/apis/mutation/useRegister";
+import { useRegister } from "@/src/hooks/apis/mutation/auth/useRegister";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import InfoModal from "@/src/components/modals/InfoModal";

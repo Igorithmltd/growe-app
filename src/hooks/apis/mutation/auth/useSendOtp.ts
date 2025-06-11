@@ -3,16 +3,16 @@ import { useMutation } from "@tanstack/react-query";
 //
 
 import { handleError } from "@/src/utils/helpers";
-import { useFetcher } from "../../useFetcher";
-import { LoginFormValues } from "@/src/schema/auth.schema";
-import useShowToast from "../../useShowToast";
+import { useFetcher } from "../../../useFetcher";
+import { VerifyFormValue } from "@/src/schema/auth.schema";
+import useShowToast from "../../../useShowToast";
 
-export const useLogin = () => {
+export const useSendOtp = () => {
   const showToast = useShowToast();
 
-  const login = async (data: LoginFormValues): Promise<AuthResponseData> => {
+  const sendOtp = async (data: VerifyFormValue): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/auth/login",
+      url: "/auth/send-otp",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
@@ -23,8 +23,8 @@ export const useLogin = () => {
     return response.data;
   };
 
-  return useMutation<AuthResponseData, AxiosError<ErrorResponseData>, LoginFormValues>({
-    mutationFn: login,
+  return useMutation<AuthResponseData, AxiosError<ErrorResponseData>, VerifyFormValue>({
+    mutationFn: sendOtp,
     onError: (error) => {
       if (error.response) {
         const errorData = error.response.data;
@@ -46,13 +46,6 @@ export const useLogin = () => {
           status: "error",
         });
       }
-    },
-    onSuccess: () => {
-      showToast({
-        title: "Success",
-        description: "Logged in successfully.",
-        status: "success",
-      });
     },
   });
 };
