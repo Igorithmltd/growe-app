@@ -22,15 +22,8 @@ import MonthModal from "../../modals/MonthModal";
 import CalendarModal from "../../modals/CalenderModal";
 import InfoModal from "@/src/components/modals/InfoModal";
 import ImageUploadField from "@/src/components/image-upload";
-
-export interface QuickSavingValues {
-  purpose: string;
-  targetAmount: number;
-  frequentAmount: number;
-  frequency: string;
-  duration: string;
-  interestRate: number;
-}
+import { createGroupSchema, CreateGroupValues } from "@/src/schema/savings.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const CreateGroupLayout = () => {
   const router = useRouter();
@@ -49,11 +42,11 @@ const CreateGroupLayout = () => {
     setValue,
     // reset,
     formState: { errors, isSubmitting },
-  } = useForm<QuickSavingValues>({
-    // resolver: yupResolver(quickSavingSchema),
+  } = useForm<CreateGroupValues>({
+    resolver: yupResolver(createGroupSchema),
   });
 
-  const onSubmit = (data: QuickSavingValues) => {
+  const onSubmit = (data: CreateGroupValues) => {
     console.log(data);
     setIsInfoOpen(true);
   };
