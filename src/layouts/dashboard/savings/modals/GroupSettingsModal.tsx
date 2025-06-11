@@ -1,7 +1,8 @@
 import { Modal, StyledButton, StyledText, StyledField } from "@/src/components";
 import { useModal } from "@/src/contexts/ModalContext";
-import { QuickSavingValues } from "@/src/schema/savings.schema";
+import { editGroupSchema, EditGroupValues } from "@/src/schema/savings.schema";
 import { VStack } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
 const GroupSettingsModal = () => {
@@ -12,11 +13,11 @@ const GroupSettingsModal = () => {
     handleSubmit,
     // reset,
     formState: { errors, isSubmitting },
-  } = useForm<QuickSavingValues>({
-    //   resolver: yupResolver(quickSavingSchema),
+  } = useForm<EditGroupValues>({
+    resolver: yupResolver(editGroupSchema),
   });
 
-  const onSubmit = (data: QuickSavingValues) => {
+  const onSubmit = (data: EditGroupValues) => {
     console.log(data);
     setIsGroupSettingsOpen(false);
   };
@@ -48,8 +49,8 @@ const GroupSettingsModal = () => {
               label="Title"
               placeholder="Educational Savings Group"
               labelColor="secondary"
-              fieldProps={register("amount")}
-              error={errors?.amount?.message}
+              fieldProps={register("title")} // <-- changed from "amount"
+              error={errors?.title?.message}
               {...commonProps}
             />
 
@@ -57,8 +58,8 @@ const GroupSettingsModal = () => {
               label="Description (optional)"
               placeholder="Enter few Words about the savings"
               labelColor="secondary"
-              fieldProps={register("amount")}
-              error={errors?.amount?.message}
+              fieldProps={register("description")} // <-- changed from "amount"
+              error={errors?.description?.message}
               {...commonProps}
             />
 

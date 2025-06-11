@@ -22,6 +22,11 @@ export interface CreateGroupValues {
   // isOnce?: boolean | null;
 }
 
+export interface EditGroupValues {
+  title?: string;
+  description?: string;
+}
+
 export const quickSavingSchema = Yup.object().shape({
   amount: Yup.number().required("Amount is required").min(1000, "Minimum ammount is ₦1000"),
 });
@@ -59,6 +64,11 @@ export const createGroupSchema: Yup.ObjectSchema<CreateGroupValues> = Yup.object
   membersLimit: Yup.number().nullable().notRequired(),
   groupPhoto: Yup.mixed<File>().nullable().notRequired(),
   // isOnce: Yup.boolean().notRequired(),
+});
+
+export const editGroupSchema: Yup.ObjectSchema<EditGroupValues> = Yup.object().shape({
+  title: Yup.string().required("Title is required"),
+  description: Yup.string().optional(),
 });
 
 export type QuickSavingValues = Yup.InferType<typeof quickSavingSchema>;
