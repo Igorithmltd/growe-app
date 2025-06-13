@@ -7,6 +7,11 @@ import { Box, VStack, Text, List } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import {
+  joinInvestmentGroupSchema,
+  JoinInvestmentGroupValues,
+} from "@/src/schema/investments.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const InvestmentGroupTerms = () => {
   const terms = [
@@ -54,7 +59,9 @@ const InvestmentGroupTerms = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<QuickSavingValues>();
+  } = useForm<JoinInvestmentGroupValues>({
+    resolver: yupResolver(joinInvestmentGroupSchema),
+  });
 
   const [agreed, setAgreed] = useState(true);
   const router = useRouter();
@@ -69,7 +76,7 @@ const InvestmentGroupTerms = () => {
     },
   };
 
-  const onSubmit = (data: QuickSavingValues) => {
+  const onSubmit = (data: JoinInvestmentGroupValues) => {
     // if (!agreed) {
     //   toast({
     //     title: "Agreement required",
@@ -106,8 +113,8 @@ const InvestmentGroupTerms = () => {
               label="Enter Referral / invite code"
               placeholder="eg. Ref/2098Bvk"
               labelColor="secondary"
-              fieldProps={register("amount")}
-              error={errors?.amount?.message}
+              fieldProps={register("inviteCode")}
+              error={errors?.inviteCode?.message}
               {...commonProps}
             />
 
