@@ -2,7 +2,6 @@
 
 import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText, StyledField, StyledCheckbox } from "@/src/components";
-import { QuickSavingValues } from "@/src/schema/savings.schema";
 import { Box, VStack, Text, List } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
