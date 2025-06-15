@@ -14,7 +14,7 @@ interface InfoModalProps {
   isLoading?: boolean;
   icon?: ReactNode;
 }
-
+  
 const InfoModal = ({
   title,
   message,

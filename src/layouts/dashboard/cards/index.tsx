@@ -1020,7 +1020,7 @@ export const ProfileIconCard = ({
   icon,
   bg = "white",
   iconBg = "#F4FCE5",
-  iconColor = "#8DBE5E",
+  iconColor = "primary",
   onClick,
 }: ProfileIconCardProps) => {
   return (
@@ -1050,7 +1050,7 @@ export const ProfileIconCard = ({
             {label}
           </Text>
         </HStack>
-        <FaChevronRight color="gray.500" />
+        <FaChevronRight color="secondary" />
       </HStack>
     </ReuseableCard>
   );

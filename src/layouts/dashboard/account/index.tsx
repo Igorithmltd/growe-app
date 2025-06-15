@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { StyledText } from "@/src/components";
 import { Box, VStack, Heading, Text, Badge, Image } from "@chakra-ui/react";
 import { GoBell } from "react-icons/go";
@@ -8,10 +9,13 @@ import {  MdLogout, MdSettings, MdPersonOutline, } from "react-icons/md";
 import { MdChevronRight } from "react-icons/md";
 import { FaChevronRight, FaMoneyBillWave, FaGift, FaLock,FaBell, FaPhone} from "react-icons/fa6";
 import { useUserDetailsStore } from "@/src/stores/user-details";
+import { Router } from "next/router";
+import { ro } from "date-fns/locale";
 
 
 const Account = () => {
   const user = useUserDetailsStore((state) => state.user);
+  const router = useRouter();
 
   return (
     <Box>
@@ -27,7 +31,7 @@ const Account = () => {
           <ProfileIconCard
               label="Profile"
               icon={MdPersonOutline}
-              onClick={() =>  console.log("Go to profile")}
+              onClick={() =>  router.push("/me/profile")}
           />
           <ProfileIconCard
               label="Withdraw funds"
