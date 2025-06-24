@@ -80,10 +80,17 @@ interface SelectInputBoxProps {
   label: string;
   value?: string;
   placeholder?: string;
+  error?: string;
   onClick: () => void;
 }
 
-export const SelectInputBox = ({ label, value, placeholder, onClick }: SelectInputBoxProps) => {
+export const SelectInputBox = ({
+  label,
+  value,
+  placeholder,
+  error,
+  onClick,
+}: SelectInputBoxProps) => {
   return (
     <Box>
       <StyledText
@@ -114,6 +121,10 @@ export const SelectInputBox = ({ label, value, placeholder, onClick }: SelectInp
 
         <IoChevronDown size={20} />
       </Box>
+
+      <StyledText fontSize="12px" fontWeight="normal" color="red.500">
+        {error}
+      </StyledText>
     </Box>
   );
 };

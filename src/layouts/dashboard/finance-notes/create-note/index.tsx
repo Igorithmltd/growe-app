@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, HStack, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
@@ -9,7 +9,8 @@ import {
   StyledButton,
   StyledText,
   SelectButtonGroup,
-  StyledCheckbox,
+  SelectInputBox,
+  SelectOptionModal,
 } from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
@@ -19,13 +20,17 @@ import { useState } from "react";
 import { useModal } from "@/src/contexts/ModalContext";
 
 import InfoModal from "@/src/components/modals/InfoModal";
-import { createGroupSchema, CreateGroupValues } from "@/src/schema/savings.schema";
 import CalendarModal from "../../savings/modals/CalenderModal";
+import { createNoteSchema, CreateNoteValues } from "@/src/schema/finance-notes.schema";
+import { BsTag } from "react-icons/bs";
+import { LiaCalendarWeekSolid } from "react-icons/lia";
+
+const categoryOptions = ["Personal Savings", "Group Savings", "Goals", "Investments"];
 
 const CreateNoteLayout = () => {
   const router = useRouter();
 
-  const { setIsCalendarOpen, setIsInfoOpen } = useModal();
+  const { setIsCalendarOpen, setIsInfoOpen, setIsSelectOpen } = useModal();
 
   const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
 
@@ -33,16 +38,24 @@ const CreateNoteLayout = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     // reset,
     formState: { errors, isSubmitting },
-  } = useForm<CreateGroupValues>({
-    resolver: yupResolver(createGroupSchema),
+  } = useForm<CreateNoteValues>({
+    resolver: yupResolver(createNoteSchema),
   });
 
-  const onSubmit = (data: CreateGroupValues) => {
+  const onSubmit = (data: CreateNoteValues) => {
     console.log(data);
     setIsInfoOpen(true);
   };
+
+  const handleCategorySelect = (category: string) => {
+    setValue("category", category);
+    setIsSelectOpen(false);
+  };
+
+  const selectedCategory = watch("category");
 
   const commonProps = {
     py: "20px",
@@ -78,27 +91,36 @@ const CreateNoteLayout = () => {
               placeholder="Enter your note title"
               labelColor="secondary"
               type="text"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("title")}
+              error={errors?.title?.message}
               {...commonProps}
+            />
+
+            <SelectInputBox
+              label="What is the category?"
+              value={selectedCategory}
+              placeholder="Choose an category"
+              error={errors?.category?.message}
+              onClick={() => setIsSelectOpen(true)}
             />
 
             <AmountInput
               label="Amount (optional)"
               placeholder="Enter amount"
               labelColor="secondary"
-              field={register("targetAmount")}
-              error={errors?.targetAmount?.message}
+              field={register("amount")}
+              error={errors?.amount?.message}
               {...commonProps}
             />
 
             <StyledField
-              label="Description (optional)"
-              placeholder="e.g Rent, Vacation..."
+              label="Description"
+              placeholder="Enter Description"
               labelColor="secondary"
               type="text"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("description")}
+              error={errors?.description?.message}
+              isTextarea
               {...commonProps}
             />
 
@@ -118,6 +140,30 @@ const CreateNoteLayout = () => {
               }}
             /> */}
 
+            <HStack spaceX={4} mt={2} justify="space-between" align="center">
+              <StyledButton
+                variant="ghost"
+                borderRadius="lg"
+                border="1px solid #F0F0F0"
+                fontWeight="normal"
+                color="secondary"
+                bg="#F4F4F4"
+              >
+                <BsTag size="18px" color="#9BAB69" /> Add Tags
+              </StyledButton>
+              <StyledButton
+                variant="ghost"
+                borderRadius="lg"
+                border="1px solid #F0F0F0"
+                fontWeight="normal"
+                color="secondary"
+                onClick={() => setIsCalendarOpen(true)}
+                bg="#F4F4F4"
+              >
+                <LiaCalendarWeekSolid size="18px" color="#9BAB69" /> Set Reminder
+              </StyledButton>
+            </HStack>
+
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
               Save Note
             </StyledButton>
@@ -127,6 +173,23 @@ const CreateNoteLayout = () => {
             selectedDate={calendarDate}
             onSelect={(date) => setCalendarDate(date)}
             onClear={() => setCalendarDate(undefined)}
+          />
+
+          <SelectOptionModal
+            options={categoryOptions}
+            onSelect={handleCategorySelect}
+            getKey={(option) => option}
+            render={(option, isSelected) => (
+              <HStack align="center" justify="space-between">
+                <StyledText
+                  fontWeight={isSelected ? "bold" : "normal"}
+                  fontSize={{ base: "sm", md: "md" }}
+                  color={isSelected ? "primary" : "secondary"}
+                >
+                  {option}
+                </StyledText>
+              </HStack>
+            )}
           />
         </form>
       </Box>
