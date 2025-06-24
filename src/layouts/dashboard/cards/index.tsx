@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 import { IconType } from "react-icons";
+import { HiOutlineChevronRight } from "react-icons/hi";
 import { FaChevronRight } from "react-icons/fa6";
 // import { ChevronRightIcon } from "@chakra-ui/icons";
 
@@ -1046,11 +1047,11 @@ export const ProfileIconCard = ({
           >
             <Icon as={icon} boxSize={6} color={iconColor} />
           </Box>
-          <Text fontSize="md" color="gray.700" fontWeight="medium">
+          <Text fontSize="md" color="gray.700">
             {label}
           </Text>
         </HStack>
-        <FaChevronRight color="secondary" />
+        <HiOutlineChevronRight />
       </HStack>
     </ReuseableCard>
   );

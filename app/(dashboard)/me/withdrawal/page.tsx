@@ -2,121 +2,93 @@
 
 import {
   Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
   Text,
+  Input,
+  Button,
   VStack,
-  useToast,
+  Flex,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { Select } from "chakra-react-select";
+import { HiChevronLeft } from "react-icons/hi2";
+import { useRouter } from "next/navigation";
 
 export default function WithdrawFundsPage() {
-  const [bank, setBank] = useState("");
-  const [accountNumber, setAccountNumber] = useState("1234567891");
-  const [accountName, setAccountName] = useState("John Doe");
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
-  const toast = useToast();
-
-  const handleGenerateOtp = () => {
-    setOtpSent(true);
-    toast({
-      title: "OTP Sent",
-      description: "An OTP code has been sent to your phone.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-  };
-
-  const handleSave = () => {
-    toast({
-      title: "Bank Details Saved",
-      description: "Your withdrawal bank details were saved successfully.",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-  };
+  const router = useRouter()
 
   return (
-    <Box p={6}>
-      <Text fontSize="lg" fontWeight="bold" mb={2}>
-        Withdraw Funds
-      </Text>
+    <Box p={2}>
+      {/* Back & Title */}
+      <Flex align={"center"} mb={6} gap={3} >
+        <HiChevronLeft size={21} onClick={() => router.push("/me/profile")} cursor="pointer" />
+        <Text fontSize={"md"} color={"secondary"}>
+          Withdraw Funds
+        </Text>
+      </Flex>
       <Text fontSize="sm" color="gray.500" mb={6}>
         When you withdraw, your saved funds in the Growe app are securely sent
         to your linked bank account, quick, easy, and reliable!
       </Text>
 
-      <VStack spacing={5} align="stretch">
-        <FormControl>
-          <FormLabel fontSize="sm">What’s your bank</FormLabel>
-          <Select
-            placeholder="Select Bank"
-            bg="gray.50"
-            value={bank}
-            onChange={(e) => setBank(e.target.value)}
-          >
-            <option value="firstbank">First Bank</option>
-            <option value="gtbank">GTBank</option>
-            <option value="access">Access Bank</option>
-            {/* Add more banks as needed */}
-          </Select>
-        </FormControl>
+      <VStack align="stretch">
+        {/* Bank Selection */}
+        <Box>
+          <Text fontSize="sm" mb={1}>
+            What’s your bank
+          </Text>
+          <Select placeholder="Select Bank" />
+        </Box>
 
-        <FormControl>
-          <FormLabel fontSize="sm">What’s your account number</FormLabel>
+        {/* Account Number */}
+        <Box>
+          <Text fontSize="sm" mb={1}>
+            What’s your account number
+          </Text>
           <Input
-            type="text"
+            placeholder="1234567891"
             bg="gray.50"
-            value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
+            border="none"
+            type="number"
           />
-        </FormControl>
+        </Box>
 
-        <FormControl>
-          <FormLabel fontSize="sm">Account name</FormLabel>
-          <Input
-            type="text"
-            bg="gray.50"
-            value={accountName}
-            onChange={(e) => setAccountName(e.target.value)}
-          />
-        </FormControl>
+        {/* Account Name */}
+        <Box>
+          <Text fontSize="sm" mb={1}>
+            Account name
+          </Text>
+          <Input placeholder="John Doe" bg="gray.50" border="none" />
+        </Box>
 
-        <FormControl>
-          <FormLabel fontSize="sm">
+        {/* OTP */}
+        <Box>
+          <Text fontSize="sm" mb={1}>
             Enter OTP. Tap action below to generate code
-          </FormLabel>
-          <Input
-            type="text"
-            bg="gray.50"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-          />
-        </FormControl>
+          </Text>
+          <Input placeholder="" bg="gray.50" border="none" />
+          <Flex justify="flex-end" mt={2}>
+            <Text
+              fontSize="xs"
+              bg="#ecfeeb"
+              color="#99db99"
+              px={4}
+              py={1}
+              borderRadius="full"
+              cursor="pointer"
+              _hover={{ bg: "green.100" }}
+            >
+              Tap to generate OTP
+            </Text>
+          </Flex>
+        </Box>
 
+        {/* Submit Button */}
         <Button
-          variant="ghost"
+          mt={6}
           colorScheme="green"
-          size="sm"
-          onClick={handleGenerateOtp}
-          alignSelf="flex-end"
-        >
-          Tap to generate OTP
-        </Button>
-
-        <Button
-          bg="green.400"
-          color="white"
+          bg="primary"
+          // _hover={{ bg: "green.500" }}
           size="lg"
-          _hover={{ bg: "green.500" }}
-          onClick={handleSave}
-          mt={4}
+          borderRadius="xl"
         >
           Save Bank Details
         </Button>
