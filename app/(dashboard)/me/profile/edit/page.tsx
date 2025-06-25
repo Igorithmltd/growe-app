@@ -32,7 +32,7 @@ export default function EditProfilePage() {
   return (
     <Box>
       <Flex align={"center"} mb={6} gap={3} >
-        <HiOutlineChevronLeft size={"lg"} onClick={() => router.push("/me/profile")} cursor="pointer" />
+        <HiOutlineChevronLeft size={"20px"} onClick={() => router.push("/me/profile")} cursor="pointer" />
         <Text fontSize={"md"} color={"secondary"}>
           Edit Profile
         </Text>

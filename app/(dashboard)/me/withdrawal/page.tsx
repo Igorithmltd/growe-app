@@ -19,7 +19,7 @@ export default function WithdrawFundsPage() {
     <Box p={2}>
       {/* Back & Title */}
       <Flex align={"center"} mb={6} gap={3} >
-        <HiChevronLeft size={21} onClick={() => router.push("/me/profile")} cursor="pointer" />
+        <HiChevronLeft size={21} onClick={() => router.push("/me")} cursor="pointer" />
         <Text fontSize={"md"} color={"secondary"}>
           Withdraw Funds
         </Text>
