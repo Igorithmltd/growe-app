@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { HiChevronRight } from "react-icons/hi2";
 import { RiLockPasswordFill, RiFingerprintFill } from "react-icons/ri";
 import { IoMdArrowBack } from "react-icons/io";
+import { HiOutlineChevronLeft } from "react-icons/hi";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -26,14 +27,14 @@ export default function SecuritySettingsPage() {
 
   return (
     <Box px={6} py={6} mx="auto">
-      <Flex align="center" mb={4} onClick={() => router.back()} cursor="pointer">
-        <Icon as={IoMdArrowBack} boxSize={5} mr={2} />
-        <Text fontSize="xl" fontWeight="semibold">
+      <HStack mb={6}>
+        <HiOutlineChevronLeft size={"20px"} onClick={() => router.push("/me")} cursor="pointer" />
+        <Text>
           Security
         </Text>
-      </Flex>
+      </HStack>
 
-      <VStack spaceX={4} spaceY={4} align="stretch">
+      <VStack spaceY={4} align="stretch">
         <Flex
           align="center"
           justify="space-between"
@@ -44,18 +45,18 @@ export default function SecuritySettingsPage() {
           cursor="pointer"
         >
           <HStack>
-            <Flex bg="green.100" rounded="full" p={2} align="center" justify="center">
-              <Icon as={RiLockPasswordFill} boxSize={5} color="green.600" />
+            <Flex bg="#F4FCE5" rounded="full" p={2} align="center" justify="center">
+              <Icon as={RiLockPasswordFill} boxSize={5} color="primary" />
             </Flex>
             <Text>Change Password</Text>
           </HStack>
           <Icon as={HiChevronRight} boxSize={5} color="gray.500" />
         </Flex>
 
-        <Flex align="center" justify="space-between" bg="gray.50" rounded="lg" p={4}>
+        <Flex align="center" justify="space-between" bg="gray.50" rounded="lg" p={4} onClick={() => router.push("/security/biometric")} cursor="pointer">
           <HStack>
-            <Flex bg="green.100" rounded="full" p={2} align="center" justify="center">
-              <Icon as={RiFingerprintFill} boxSize={5} color="green.600" />
+            <Flex bg="#F4FCE5" rounded="full" p={2} align="center" justify="center">
+              <Icon as={RiFingerprintFill} boxSize={5} color="primary" />
             </Flex>
             <Text>Biometric Login</Text>
           </HStack>

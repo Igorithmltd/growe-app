@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { FaCamera } from "react-icons/fa";
 import InfoModal from "@/src/components/modals/InfoModal";
-import { useModal } from "@/src/contexts/ModalContext"; // make sure this is correctly imported
+import { useModal } from "@/src/contexts/ModalContext";
 import { Label } from "recharts";
 import { useRouter } from "next/navigation";
 import { HiOutlineChevronLeft } from "react-icons/hi";
@@ -25,7 +25,7 @@ export default function EditProfilePage() {
   const router = useRouter();
 
   const handleSave = () => {
-    // Perform save logic here, then open the modal
+    //save logic to be handled there
     setIsInfoOpen(true);
   };
 
@@ -112,7 +112,7 @@ export default function EditProfilePage() {
         buttonText="Back"
         onButtonClick={() => { router.push("/me/profile"), setIsInfoOpen(false) }}
         message="Hooray! Your profile has been updated successfully! 🎉    "
-      />
+      />  
     </Box>
   );
 }

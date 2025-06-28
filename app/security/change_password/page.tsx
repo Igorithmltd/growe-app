@@ -10,13 +10,17 @@ import {
   VStack,
   //   useDisclosure,
 } from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon, } from "@chakra-ui/icons";
-
+// import { ViewIcon, ViewOffIcon, } from "@chakra-ui/icons";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { TbLockPassword } from "react-icons/tb";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HiChevronLeft, } from "react-icons/hi2";
+import InfoModal from "@/src/components/modals/InfoModal";
+import { useModal } from "@/src/contexts/ModalContext";
 
 export default function ChangePasswordPage() {
+  const { setIsInfoOpen } = useModal();
   const router = useRouter();
   const [showOld, setShowOld] = useState(false);
   const [showNew, setShowNew] = useState(false);
@@ -26,6 +30,11 @@ export default function ChangePasswordPage() {
   const toggleNew = () => setShowNew(!showNew);
   const toggleConfirm = () => setShowConfirm(!showConfirm);
 
+  const handleConfirm = () => {
+    //save logic to be handled there
+    setIsInfoOpen(true);
+  };
+
   return (
     <Box px={6} py={6} mx="auto">
       <Flex align="center" mb={4}>
@@ -34,7 +43,7 @@ export default function ChangePasswordPage() {
           boxSize={5}
           cursor="pointer"
           aria-label="Go back"
-          onClick={() => router.back()}
+          onClick={() => router.push("/security")}
         />
         <Text ml={2} fontSize="lg" fontWeight="semibold">
           Change Password
@@ -53,15 +62,19 @@ export default function ChangePasswordPage() {
           <Box>
             <Input
               type={showOld ? "text" : "password"}
-              placeholder="Enter your Current Password"
+              placeholder="..........."
               bg="gray.50"
               border={"none"}
+              fontSize={"xl"}
+              color={"bfgrey"}
+              letterSpacing={"7px"}
+              fontWeight="extrabold"
               outline={"none"}
               py={6}
-              // pr="3rem"
+            // pr="3rem"
             />
             <Icon
-              as={showOld ? ViewOffIcon : ViewIcon}
+              as={showOld ? AiOutlineEyeInvisible : AiOutlineEye}
               boxSize={5}
               position="absolute"
               top="50%"
@@ -78,26 +91,30 @@ export default function ChangePasswordPage() {
         <Box position="relative">
           <Text as="label" fontSize={"sm"} fontWeight={"semi-bold"} mb={1} display="block">Enter your new password</Text>
           <Box>
-          <Input
-            type={showNew ? "text" : "password"}
-            placeholder="......"
-            bg="gray.50"
-            border={"none"}
-            outline={"none"}
-            py={6}
+            <Input
+              type={showNew ? "text" : "password"}
+              placeholder="..........."
+              bg="gray.50"
+              border={"none"}
+              fontSize={"xl"}
+              color={"bfgrey"}
+              letterSpacing={"7px"}
+              fontWeight="extrabold"
+              outline={"none"}
+              py={6}
             // pr="3rem"
-          />
-          <Icon
-            as={showNew ? ViewOffIcon : ViewIcon}
-            boxSize={5}
-            position="absolute"
-            top="50%"
-            right="0.5rem"
-            // transform="translateY(-50%)"
-            aria-label="Toggle new password visibility"
-            cursor="pointer"
-            onClick={toggleNew}
-          />
+            />
+            <Icon
+              as={showNew ? AiOutlineEyeInvisible : AiOutlineEye}
+              boxSize={5}
+              position="absolute"
+              top="50%"
+              right="0.5rem"
+              // transform="translateY(-50%)"
+              aria-label="Toggle new password visibility"
+              cursor="pointer"
+              onClick={toggleNew}
+            />
           </Box>
         </Box>
 
@@ -106,34 +123,46 @@ export default function ChangePasswordPage() {
           <Text as="label" fontSize={"sm"} fontWeight={"semi-bold"} mb={1} display="block" color={"text"}>Confirm your new password</Text>
           <Box>
 
-          <Input
-            type={showConfirm ? "text" : "password"}
-            placeholder="Confirm New Password"
-            bg="gray.50"
-            border={"none"}
-            outline={"none"}
-            py={6}
+            <Input
+              type={showConfirm ? "text" : "password"}
+              placeholder="..........."
+              bg="gray.50"
+              border={"none"}
+              fontSize={"xl"}
+              color={"bfgrey"}
+              letterSpacing={"7px"}
+              fontWeight="extrabold"
+              outline={"none"}
+              py={6}
             // pr="3rem"
-          />
-          <Icon
-            as={showConfirm ? ViewOffIcon : ViewIcon}
-            boxSize={5}
-            position="absolute"
-            top="50%"
-            right="0.5rem"
-            // transform="translateY(-50%)"
-            aria-label="Toggle confirm password visibility"
-            cursor="pointer"
-            onClick={toggleConfirm}
-          />
+            />
+            <Icon
+              as={showConfirm ? AiOutlineEyeInvisible : AiOutlineEye}
+              boxSize={5}
+              position="absolute"
+              top="50%"
+              right="0.5rem"
+              // transform="translateY(-50%)"
+              aria-label="Toggle confirm password visibility"
+              cursor="pointer"
+              onClick={toggleConfirm}
+            />
           </Box>
         </Box>
 
         {/* Update Button */}
-        <Button colorScheme="green" bg={"primary"} py={6} size="lg" rounded="lg">
+        <Button colorScheme="green" bg={"primary"} py={6} size="lg" rounded="lg" onClick={handleConfirm} cursor={"pointer"}>
           Update Password
         </Button>
       </VStack>
+      <InfoModal
+              // title="Success"
+              icon={<TbLockPassword size={100} color="#9BAB69" />}
+              hasButton={true}
+              buttonText="Back"
+              onButtonClick={() => { router.push("/security/biometric"), setIsInfoOpen(false) }}
+              message="Success!🎉 Your password has been updated securely "
+            />
     </Box>
   );
 }
