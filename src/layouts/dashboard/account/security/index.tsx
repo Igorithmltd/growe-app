@@ -36,7 +36,7 @@ export default function SecurityLayout() {
         <ProfileIconCard
           label="Biometric Login"
           icon={RiFingerprintFill}
-          onClick={() => router.push("me//security/biometric")}
+          onClick={() => router.push("me/security/biometric")}
         />
       </VStack>
     </Box>
