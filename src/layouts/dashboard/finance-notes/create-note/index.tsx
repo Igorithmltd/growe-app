@@ -24,15 +24,17 @@ import CalendarModal from "../../savings/modals/CalenderModal";
 import { createNoteSchema, CreateNoteValues } from "@/src/schema/finance-notes.schema";
 import { BsTag } from "react-icons/bs";
 import { LiaCalendarWeekSolid } from "react-icons/lia";
+import TagsModal from "../modal/TagsModal";
 
 const categoryOptions = ["Personal Savings", "Group Savings", "Goals", "Investments"];
 
 const CreateNoteLayout = () => {
   const router = useRouter();
 
-  const { setIsCalendarOpen, setIsInfoOpen, setIsSelectOpen } = useModal();
+  const { setIsCalendarOpen, setIsInfoOpen, setIsSelectOpen, setIsTagsOpen } = useModal();
 
   const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
+  const [selectedTag, setSelectedTag] = useState<string>("");
 
   const {
     register,
@@ -124,22 +126,6 @@ const CreateNoteLayout = () => {
               {...commonProps}
             />
 
-            {/* <SelectButtonGroup
-              isGrid
-              label="For"
-              labelColor="secondary"
-              options={["6 months", "9 months", "1 year", "Let me choose"]}
-              value={frequency}
-              error={errors?.frequency?.message}
-              onChange={(val) => {
-                setFrequency(val);
-                setValue("frequency", val);
-                if (val === "Let me choose") {
-                  setIsCalendarOpen(true);
-                }
-              }}
-            /> */}
-
             <HStack spaceX={4} mt={2} justify="space-between" align="center">
               <StyledButton
                 variant="ghost"
@@ -148,6 +134,7 @@ const CreateNoteLayout = () => {
                 fontWeight="normal"
                 color="secondary"
                 bg="#F4F4F4"
+                onClick={() => setIsTagsOpen(true)}
               >
                 <BsTag size="18px" color="#9BAB69" /> Add Tags
               </StyledButton>
@@ -174,6 +161,8 @@ const CreateNoteLayout = () => {
             onSelect={(date) => setCalendarDate(date)}
             onClear={() => setCalendarDate(undefined)}
           />
+
+          <TagsModal value={selectedTag} onChange={(val) => setSelectedTag(val)} />
 
           <SelectOptionModal
             options={categoryOptions}

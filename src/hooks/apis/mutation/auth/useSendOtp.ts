@@ -28,6 +28,10 @@ export const useSendOtp = () => {
     onError: (error) => {
       if (error.response) {
         const errorData = error.response.data;
+
+        console.log(errorData);
+        
+
         showToast({
           title: "Error",
           description: errorData.message || "Something went wrong on the server",
