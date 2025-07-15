@@ -57,7 +57,14 @@ export function SelectOptionModal<T>({
   };
 
   return (
-    <Modal isOpen={isSelectOpen} onClose={() => setIsSelectOpen(false)} bg="#FDFDFD" hasCloseButton>
+    <Modal
+      isOpen={isSelectOpen}
+      onClose={() => setIsSelectOpen(false)}
+      bg="#FDFDFD"
+      hasCloseButton
+      maxH={{ base: "70%", md: "500px" }}
+      overflowY="auto"
+    >
       <VStack spaceY={4} py={5}>
         {options.map((option) => {
           const key = getKey(option);
