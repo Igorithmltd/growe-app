@@ -31,12 +31,12 @@ export default function SecurityLayout() {
         <ProfileIconCard
           label="Change Password"
           icon={RiLockPasswordFill}
-          onClick={() => router.push("/security/change-password")}
+          onClick={() => router.push("/me/security/change-password")}
         />
         <ProfileIconCard
           label="Biometric Login"
           icon={RiFingerprintFill}
-          onClick={() => router.push("/security/biometric")}
+          onClick={() => router.push("me//security/biometric")}
         />
       </VStack>
     </Box>
