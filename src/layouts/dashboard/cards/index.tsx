@@ -1047,11 +1047,11 @@ export const ProfileIconCard = ({
           >
             <Icon as={icon} boxSize={6} color={iconColor} />
           </Box>
-          <Text fontSize="md" color="gray.700">
+          <Text fontSize="md" color="secondary">
             {label}
           </Text>
         </HStack>
-        <HiOutlineChevronRight />
+        <HiOutlineChevronRight size={16} color="#454839" />
       </HStack>
     </ReuseableCard>
   );
