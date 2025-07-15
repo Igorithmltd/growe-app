@@ -11,16 +11,12 @@ import { IoGiftOutline } from "react-icons/io5";
 import { HiOutlineBell } from "react-icons/hi2";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { useUserDetailsStore } from "@/src/stores/user-details";
-import { Router } from "next/router";
-import { ro } from "date-fns/locale";
 
 const Account = () => {
   const user = useUserDetailsStore((state) => state.user);
   const router = useRouter();
 
   const fullName = `${user?.firstName} ${user?.lastName}`;
-
-  console.log(user)
 
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">

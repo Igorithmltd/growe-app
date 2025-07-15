@@ -2,7 +2,7 @@ import Account from "@/src/layouts/dashboard/account/index";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Growe | Account Settings",
+  title: "Growe | My Account",
 };
 
 const AccountPage = () => {
