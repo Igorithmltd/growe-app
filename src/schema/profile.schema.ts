@@ -12,6 +12,7 @@ export interface WithdrawalInfoValues {
   bank: string;
   accountNumber: string;
   accountName: string;
+  otp: string
 }
 
 export const updateProfileSchema: Yup.ObjectSchema<UpdateProfileValues> = Yup.object().shape({
@@ -27,4 +28,5 @@ export const withdrawalInfoSchema: Yup.ObjectSchema<WithdrawalInfoValues> = Yup.
     .required("Account number is required")
     .matches(/^\d{10}$/, "Account number must be exactly 10 digits"),
   accountName: Yup.string().required("Account name is required"),
+  otp: Yup.string().required("OTP is required"),
 });

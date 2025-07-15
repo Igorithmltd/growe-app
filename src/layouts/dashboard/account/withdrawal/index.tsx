@@ -113,6 +113,29 @@ export default function WithdrawFundsLayout() {
             {...commonProps}
           />
 
+          <StyledField
+            label="Enter OTP. Tap action bellow to generate code"
+            placeholder="e.g John Doe"
+            labelColor="secondary"
+            type="text"
+            fieldProps={register("otp")}
+            error={errors?.otp?.message}
+            {...commonProps}
+          />
+
+          <StyledText
+            bg="#ECFAEAE5"
+            color="#89C184"
+            fontSize="sm"
+            borderRadius="20px"
+            py="4px"
+            px="8px"
+            textAlign="center"
+            justifySelf="flex-end"
+          >
+            Tap to generate code
+          </StyledText>
+
           <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
             Save Changes
           </StyledButton>
