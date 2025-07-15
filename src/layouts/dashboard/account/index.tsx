@@ -56,37 +56,27 @@ const Account = () => {
         <ProfileIconCard
           label="Withdraw funds"
           icon={PiHandWithdraw}
-          // iconBg="#EDF2F7"
-          // iconColor="#4A5568"
           onClick={() => router.push("/me/withdrawal")}
         />
         <ProfileIconCard
           label="Security"
           icon={GoLock}
-          // iconBg="#EDF2F7"
-          // iconColor="#4A5568"
           onClick={() => router.push("/me/security")}
         />
         <ProfileIconCard
           label="Referral Program"
           icon={IoGiftOutline}
-          // iconBg="#EDF2F7"
-          // iconColor="#4A5568"
           onClick={() => router.push("/me/referral")}
         />
         <ProfileIconCard
           label="Notification and Preferences"
           icon={HiOutlineBell}
-          // iconBg="#EDF2F7"
-          // iconColor="#4A5568"
           onClick={() => router.push("/me/notification-preferences")}
         />
         <ProfileIconCard
           label="Help and Support"
           icon={PiPhoneLight}
-          // iconBg="#EDF2F7"
-          // iconColor="#4A5568"
-          onClick={() => router.push("/me/help_and_support")}
+          onClick={() => router.push("/me/help-and-support")}
         />
         <ProfileIconCard
           label="Logout"
