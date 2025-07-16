@@ -79,7 +79,7 @@ export default function WithdrawFundsLayout() {
         </StyledText>
       </Box>
 
-      <StyledText fontSize="sm" color="bfgrey" mt={2}>
+      <StyledText fontSize={{base: "sm", md:"md"}} color="bfgrey" mt={2}>
         When you withdraw, your saved funds in the Growe app are securely sent to your linked bank
         account — quick, easy, and reliable!
       </StyledText>
