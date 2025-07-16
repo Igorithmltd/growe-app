@@ -17,6 +17,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
+import { IconType } from "react-icons";
+import { HiOutlineChevronRight } from "react-icons/hi";
 import { FiMoreVertical } from "react-icons/fi";
 
 interface SavingsCardProps {
@@ -33,6 +35,15 @@ interface SavingsCardProps {
   color?: string;
   notesAction?: VoidFunction;
   buttonAction?: VoidFunction;
+}
+
+interface ProfileIconCardProps {
+  label: string;
+  icon: IconType;
+  bg?: string;
+  iconBg?: string;
+  iconColor?: string;
+  onClick?: () => void;
 }
 
 export const SavingsCard = ({
@@ -1113,6 +1124,47 @@ export const FinanceCard = ({
           </VStack>
         </HStack>
       </VStack>
+    </ReuseableCard>
+  );
+};
+
+export const ProfileIconCard = ({
+  label,
+  icon,
+  bg = "white",
+  iconBg = "#F4FCE5",
+  iconColor = "primary",
+  onClick,
+}: ProfileIconCardProps) => {
+  return (
+    <ReuseableCard
+      onClick={onClick}
+      cursor="pointer"
+      boxShadow="none"
+      borderRadius="15px"
+      px={4}
+      py={4}
+      bg={bg}
+      _hover={{ bg: "#f9f9f9" }}
+    >
+      <HStack justify="space-between" align="center">
+        <HStack>
+          <Box
+            bg={iconBg}
+            p={2}
+            borderRadius="full"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Icon as={icon} boxSize={6} color={iconColor} />
+          </Box>
+          <Text fontSize="md" color="secondary">
+            {label}
+          </Text>
+        </HStack>
+        <HiOutlineChevronRight size={16} color="#454839" />
+      </HStack>
     </ReuseableCard>
   );
 };
