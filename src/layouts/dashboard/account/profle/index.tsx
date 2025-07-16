@@ -4,7 +4,6 @@ import {
   Box,
   Avatar,
   Text,
-  Button,
   VStack,
   Icon,
   Float,

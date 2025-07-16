@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { StyledText } from "@/src/components";
-import { Box, HStack, VStack, Image, Avatar } from "@chakra-ui/react";
+import { Box, HStack, VStack, Avatar } from "@chakra-ui/react";
 import { ProfileIconCard } from "../cards";
 import { MdOutlinePersonOutline } from "react-icons/md";
 import { PiHandWithdraw, PiPhoneLight } from "react-icons/pi";

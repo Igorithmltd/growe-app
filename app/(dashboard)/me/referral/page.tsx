@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import {
@@ -8,13 +9,9 @@ import {
   Input,
   Image,
   Badge,
-  IconButton,
   Icon,
   Button,
-  Avatar,
 } from "@chakra-ui/react";
-import { CopyIcon } from "@chakra-ui/icons";
-import { FaCopy, FaCheckCircle } from "react-icons/fa";
 import { HiOutlineChevronLeft } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 import { IoCopyOutline } from "react-icons/io5";

@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
 
-import { Box, Text, Flex, Switch, VStack, Button } from "@chakra-ui/react";
+import { Box, Text, Flex, VStack, Button } from "@chakra-ui/react";
 import { useState } from "react";
 
 export default function NotificationPreferencesPage() {
@@ -15,12 +17,12 @@ export default function NotificationPreferencesPage() {
 
   type PreferenceKey = keyof typeof preferences;
 
-  const togglePreference = (key: PreferenceKey) => {
-    setPreferences((prev) => ({
-      ...prev,
-      [key]: !prev[key],
-    }));
-  };
+  // const togglePreference = (key: PreferenceKey) => {
+  //   setPreferences((prev) => ({
+  //     ...prev,
+  //     [key]: !prev[key],
+  //   }));
+  // };
 
   const renderToggle = (label: string, description: string, stateKey: keyof typeof preferences) => (
     <Flex justify="space-between" align="center" py={4}>

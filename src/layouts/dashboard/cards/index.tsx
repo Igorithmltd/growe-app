@@ -9,8 +9,6 @@ import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 import { IconType } from "react-icons";
 import { HiOutlineChevronRight } from "react-icons/hi";
-import { FaChevronRight } from "react-icons/fa6";
-// import { ChevronRightIcon } from "@chakra-ui/icons";
 
 interface SavingsCardProps {
   bg?: string;
