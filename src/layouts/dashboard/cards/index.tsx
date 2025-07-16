@@ -9,7 +9,6 @@ import {
   HStack,
   Text,
   VStack,
-  Badge,
   IconButton,
   useToken,
   Icon,

@@ -2,7 +2,7 @@
 
 import { BackIcon } from "@/public/svgs";
 import { StyledText } from "@/src/components";
-import { Box, VStack, Text, Icon, HStack, LinkBox, LinkOverlay } from "@chakra-ui/react";
+import { Box, VStack, Text, Icon, HStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { FiPhone, FiHelpCircle, FiStar } from "react-icons/fi";
 import { ProfileIconCard } from "../../cards";

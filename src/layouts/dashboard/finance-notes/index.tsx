@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, HStack, VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 //
 import { StyledButton, StyledText } from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
