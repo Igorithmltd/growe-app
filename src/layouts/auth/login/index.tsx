@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { LoginFormValues, loginSchema } from "@/src/schema/auth.schema";
 import { ROUTES } from "@/src/utils/constants";
-import { useLogin } from "@/src/hooks/apis/mutation/useLogin";
+import { useLogin } from "@/src/hooks/apis/mutation/auth/useLogin";
 import { useRouter } from "next/navigation";
 
 const LoginLayout = () => {

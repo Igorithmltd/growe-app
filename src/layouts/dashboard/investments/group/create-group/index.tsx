@@ -15,15 +15,11 @@ import { BackIcon, GroupMark } from "@/public/svgs";
 import { useModal } from "@/src/contexts/ModalContext";
 import InfoModal from "@/src/components/modals/InfoModal";
 import { formatAmount } from "@/src/utils/helpers";
-
-export interface CreateInvestmentGroupValues {
-  groupName: string;
-  investment: string;
-  targetAmount: number;
-  minContribution: number;
-  membersLimit: number;
-  description: string;
-}
+import {
+  createInvestmentGroupSchema,
+  CreateInvestmentGroupValues,
+} from "@/src/schema/investments.schema";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const investmentOptions = [
   { name: "Enviable Transport", target: 1000000 },
@@ -42,7 +38,9 @@ const CreateInvestmentGroupLayout = () => {
     setValue,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<CreateInvestmentGroupValues>();
+  } = useForm<CreateInvestmentGroupValues>({
+    resolver: yupResolver(createInvestmentGroupSchema),
+  });
 
   const selectedInvestment = watch("investment");
   // const targetAmount = watch("targetAmount");

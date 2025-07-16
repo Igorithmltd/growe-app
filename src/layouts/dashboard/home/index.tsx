@@ -7,8 +7,10 @@ import { AccountCard, ActiveSavingsCard, GroupCard, MessageCard, SavingsCard } f
 import { MdChevronRight } from "react-icons/md";
 import { FaChevronRight } from "react-icons/fa6";
 import { useUserDetailsStore } from "@/src/stores/user-details";
+import { useRouter } from "next/navigation";
 
 const DashboardHome = () => {
+  const router = useRouter();
   const user = useUserDetailsStore((state) => state.user);
 
   return (
@@ -43,7 +45,7 @@ const DashboardHome = () => {
           }
           buttonText="View Savings"
           buttonAction={() => {}}
-          notesAction={() => {}}
+          notesAction={() => router.push("/finance-notes")}
         />
 
         {/* Account info */}

@@ -3,9 +3,9 @@ import { useMutation } from "@tanstack/react-query";
 //
 
 import { handleError } from "@/src/utils/helpers";
-import { useFetcher } from "../../useFetcher";
+import { useFetcher } from "../../../useFetcher";
 import { VerifyFormValue } from "@/src/schema/auth.schema";
-import useShowToast from "../../useShowToast";
+import useShowToast from "../../../useShowToast";
 
 export const useSendOtp = () => {
   const showToast = useShowToast();
@@ -28,6 +28,10 @@ export const useSendOtp = () => {
     onError: (error) => {
       if (error.response) {
         const errorData = error.response.data;
+
+        console.log(errorData);
+        
+
         showToast({
           title: "Error",
           description: errorData.message || "Something went wrong on the server",

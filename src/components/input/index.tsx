@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 
 export interface StyledFieldProps extends Field.RootProps {
   label?: string;
-  placeholder: string;
+  placeholder?: string;
   type?: string;
   fieldProps?: UseFormRegisterReturn;
   error?: string;

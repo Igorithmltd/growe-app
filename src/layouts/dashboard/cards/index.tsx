@@ -1,14 +1,25 @@
 import { ChatIcon, EmptyFolder } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import useShowToast from "@/src/hooks/useShowToast";
-import { copyToClipboard } from "@/src/utils/helpers";
-import { Box, Flex, Grid, HStack,Icon, Text, VStack } from "@chakra-ui/react";
+import { copyToClipboard, hexToRgba } from "@/src/utils/helpers";
+import {
+  Box,
+  Flex,
+  Grid,
+  HStack,
+  Text,
+  VStack,
+  IconButton,
+  useToken,
+  Icon,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ReactNode, useState } from "react";
 import { MdContentCopy, MdOutlineVisibility, MdOutlineVisibilityOff } from "react-icons/md";
 import { IconType } from "react-icons";
 import { HiOutlineChevronRight } from "react-icons/hi";
+import { FiMoreVertical } from "react-icons/fi";
 
 interface SavingsCardProps {
   bg?: string;
@@ -1009,6 +1020,109 @@ export const SummaryCard = ({ title, value, change, subtitle }: any) => {
             {subtitle}
           </StyledText>
         )}
+      </VStack>
+    </ReuseableCard>
+  );
+};
+
+export const FinanceCard = ({
+  title,
+  description,
+  amount,
+  date,
+  tag = "Goal",
+  bg = "purple.50",
+  accentColor = "purple.300",
+}: {
+  title: string;
+  description: string;
+  amount: number;
+  date: string;
+  tag?: string;
+  bg?: string;
+  accentColor?: string;
+}) => {
+  const [hexColor] = useToken("colors", [accentColor]);
+  const bgColor = hexToRgba(hexColor, 0.3);
+
+  return (
+    <ReuseableCard
+      position="relative"
+      px={5}
+      py={6}
+      bg={bg}
+      borderRadius="xl"
+      boxShadow="none"
+      overflow="hidden"
+    >
+      {/* Accent Border */}
+      <Box
+        bg={accentColor}
+        w="10px"
+        borderTopLeftRadius="xl"
+        borderBottomLeftRadius="xl"
+        position="absolute"
+        top={0}
+        left={0}
+        bottom={0}
+      />
+
+      <VStack align="stretch" spaceY={4} pl={4}>
+        <HStack justify="space-between" align="stretch">
+          <VStack spaceY={1} align="start" flex={1} justify="space-between">
+            <Box spaceY={2}>
+              <StyledText
+                fontSize={{ base: "sm", md: "md", lg: "lg" }}
+                fontWeight="medium"
+                color="secondary"
+              >
+                {title}
+              </StyledText>
+              <StyledText
+                fontSize={{ base: "xs", md: "sm", lg: "md" }}
+                fontWeight="normal"
+                color="bfgrey"
+              >
+                {description}
+              </StyledText>
+            </Box>
+
+            <StyledText
+              borderRadius="full"
+              px={3}
+              py={1}
+              bg={bgColor}
+              color={accentColor}
+              justifySelf="flex-end"
+              fontSize={{ base: "xs", md: "sm" }}
+            >
+              {tag}
+            </StyledText>
+          </VStack>
+
+          <VStack justify="space-between" spaceY={8} align="end" flex={0.5}>
+            <IconButton aria-label="More options" variant="ghost" size="sm" color="gray.400">
+              <FiMoreVertical size={50} />
+            </IconButton>
+
+            <VStack justify="space-between">
+              <StyledText
+                fontSize={{ base: "sm", md: "md", lg: "lg" }}
+                fontWeight="medium"
+                color="secondary"
+              >
+                ₦{amount.toLocaleString()}
+              </StyledText>
+              <StyledText
+                fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
+                color="bfgrey"
+                fontWeight="normal"
+              >
+                {date}
+              </StyledText>
+            </VStack>
+          </VStack>
+        </HStack>
       </VStack>
     </ReuseableCard>
   );

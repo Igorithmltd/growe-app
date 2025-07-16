@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 //
 
 import { handleError } from "@/src/utils/helpers";
-import { useFetcher } from "../../useFetcher";
+import { useFetcher } from "../../../useFetcher";
 import { VerifyFormValue } from "@/src/schema/auth.schema";
 
 export const useVerifyEmail = () => {

@@ -17,6 +17,8 @@ interface ModalContextType {
   setIsGroupSettingsOpen: (value: boolean) => void;
   isSelectOpen: boolean;
   setIsSelectOpen: (value: boolean) => void;
+  isTagsOpen: boolean;
+  setIsTagsOpen: (value: boolean) => void;
 }
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -29,6 +31,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isJoinSavingsOpen, setIsJoinSavingsOpen] = useState<boolean>(false);
   const [isGroupSettingsOpen, setIsGroupSettingsOpen] = useState<boolean>(false);
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
+  const [isTagsOpen, setIsTagsOpen] = useState<boolean>(false);
 
   return (
     <ModalContext.Provider
@@ -47,6 +50,8 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
         setIsGroupSettingsOpen,
         isSelectOpen,
         setIsSelectOpen,
+        isTagsOpen,
+        setIsTagsOpen,
       }}
     >
       {children}

@@ -8,11 +8,11 @@ import { OtpFormValues, otpSchema, VerifyFormValue, verifySchema } from "@/src/s
 import { usePathname, useRouter } from "next/navigation";
 import { useQueryString } from "@/src/hooks/useQueryString";
 import { useQueryParams } from "@/src/hooks/useQueryParams";
-import { useVerifyEmail } from "@/src/hooks/apis/mutation/useVerifyEmail";
-import { useVerifyOtp } from "@/src/hooks/apis/mutation/useVerifyOtp";
+import { useVerifyEmail } from "@/src/hooks/apis/mutation/auth/useVerifyEmail";
+import { useVerifyOtp } from "@/src/hooks/apis/mutation/auth/useVerifyOtp";
 import { ROUTES } from "@/src/utils/constants";
 import { useState, useEffect } from "react";
-import { useSendOtp } from "@/src/hooks/apis/mutation/useSendOtp";
+import { useSendOtp } from "@/src/hooks/apis/mutation/auth/useSendOtp";
 import useShowToast from "@/src/hooks/useShowToast";
 import { useModal } from "@/src/contexts/ModalContext";
 import { InfoMark } from "@/public/svgs";

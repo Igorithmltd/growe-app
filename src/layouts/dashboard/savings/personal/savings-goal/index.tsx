@@ -2,7 +2,7 @@
 
 import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-// import { yupResolver } from "@hookform/resolvers/yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 //
 import {
   StyledField,
@@ -21,15 +21,7 @@ import { useModal } from "@/src/contexts/ModalContext";
 import MonthModal from "../../modals/MonthModal";
 import SummaryLayout from "./summary";
 import CalendarModal from "../../modals/CalenderModal";
-
-export interface QuickSavingValues {
-  purpose: string;
-  targetAmount: number;
-  frequentAmount: number;
-  frequency: string;
-  duration: string;
-  interestRate: number;
-}
+import { savingsGoalSchema, SavingsGoalValues } from "@/src/schema/savings.schema";
 
 const SavingGoalLayout = () => {
   const router = useRouter();
@@ -50,11 +42,11 @@ const SavingGoalLayout = () => {
     setValue,
     // reset,
     formState: { errors, isSubmitting },
-  } = useForm<QuickSavingValues>({
-    // resolver: yupResolver(quickSavingSchema),
+  } = useForm<SavingsGoalValues>({
+    resolver: yupResolver(savingsGoalSchema),
   });
 
-  const onSubmit = (data: QuickSavingValues) => {
+  const onSubmit = (data: SavingsGoalValues) => {
     console.log(data);
     setIsCompleted(true);
   };
@@ -171,6 +163,16 @@ const SavingGoalLayout = () => {
                       setIsCalendarOpen(true);
                     }
                   }}
+                />
+
+                <StyledField
+                  label="Interest Rate"
+                  labelColor="secondary"
+                  type="text"
+                  fieldProps={register("interestRate")}
+                  error={errors?.interestRate?.message}
+                  readOnly
+                  {...commonProps}
                 />
 
                 <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>

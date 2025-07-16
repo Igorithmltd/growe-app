@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledButton, StyledText, PasswordInput } from "@/src/components";
 import { ResetFormValues, resetSchema } from "@/src/schema/auth.schema";
-import { useResetPassword } from "@/src/hooks/apis/mutation/useResetPassword";
+import { useResetPassword } from "@/src/hooks/apis/mutation/auth/useResetPassword";
 import { useEffect } from "react";
 import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
