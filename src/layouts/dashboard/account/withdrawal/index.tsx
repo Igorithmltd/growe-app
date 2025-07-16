@@ -74,7 +74,7 @@ export default function WithdrawFundsLayout() {
           <BackIcon />
         </Box>
 
-        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="bfgrey">
+        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
           Withdraw Funds
         </StyledText>
       </Box>

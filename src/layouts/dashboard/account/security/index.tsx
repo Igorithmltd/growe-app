@@ -22,7 +22,7 @@ export default function SecurityLayout() {
           <BackIcon />
         </Box>
 
-        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="bfgrey">
+        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
           Security
         </StyledText>
       </Box>

@@ -21,6 +21,10 @@ export interface ChangePasswordValues {
   confirmPassword: string;
 }
 
+export interface BiometricValues {
+  currentPassword: string;
+}
+
 export const updateProfileSchema: Yup.ObjectSchema<UpdateProfileValues> = Yup.object().shape({
   firstName: Yup.string().optional(),
   lastName: Yup.string().optional(),
@@ -48,4 +52,8 @@ export const changePasswordSchema: Yup.ObjectSchema<ChangePasswordValues> = Yup.
   confirmPassword: Yup.string()
     .required("Please confirm your password")
     .oneOf([Yup.ref("newPassword")], "Passwords must match"),
+});
+
+export const biometricSchema: Yup.ObjectSchema<BiometricValues> = Yup.object().shape({
+  currentPassword: Yup.string().required("Password is required"),
 });
