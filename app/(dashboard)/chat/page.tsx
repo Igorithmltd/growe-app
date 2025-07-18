@@ -12,24 +12,25 @@ import {
 import { Avatar } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/navigation";
+import { IoSettingsOutline } from "react-icons/io5";
 
 export default function MyChatsPage() {
   const router = useRouter();
   const id = "education"; // Replace with actual group ID or data
 
   return (
-    <Box p={4}>
+    <Box p={1}>
       {/* Header */}
       <Flex justify="space-between" align="center" mb={6}>
-        <Text fontSize="lg" fontWeight="semibold" color="green.700">
+        <Text fontSize="lg" fontWeight="semibold" color="gray.600">
           My Chats
         </Text>
         <IconButton
           aria-label="Settings"
-          size="sm"
+          size="md"
           variant="ghost"
         >
-          <SettingsIcon />
+          <IoSettingsOutline color="gray.100" fontWeight={"bold"} />
         </IconButton>
       </Flex>
 
@@ -38,17 +39,22 @@ export default function MyChatsPage() {
         bg="white"
         borderRadius="lg"
         p={3}
-        shadow="sm"
+        // shadow="sm"
         _hover={{ shadow: "md", cursor: "pointer" }}
         onClick={() => router.push(`/chat/${id}`)} // Replace with actual group ID
       >
         <Flex align="center">
-          {/* <Avatar
-            src="/icons/education.png" // Replace with your actual icon path
-            name="Education"
-            size="md"
-            mr={3}
-          /> */}
+          <img
+            src="/images/group/3.jpg" // Replace with your actual icon path
+            alt="Education"
+            style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "25%",
+              objectFit: "cover",
+              marginRight: "12px"
+            }}
+          />
 
           <VStack align="start" spaceX={0} spaceY={0} flex="1">
             <Text fontWeight="medium">Education Savings Group</Text>
@@ -61,7 +67,7 @@ export default function MyChatsPage() {
             <Text fontSize="xs" color="gray.500">
               11:31 AM
             </Text>
-            <Badge colorScheme="red" borderRadius="full" px={2}>
+            <Badge bg="red" fontSize="xs" borderRadius="full" px={"5px"}>
               1
             </Badge>
           </VStack>

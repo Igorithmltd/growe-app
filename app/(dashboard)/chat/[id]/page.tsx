@@ -10,19 +10,47 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
 import { FiSend } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-import {useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { useEffect } from "react";
-// import { useOutsideClick } from "@chakra-ui/react";
+import { BackIcon } from "@/public/svgs";
+import { BiSolidSend } from "react-icons/bi";
+
+type ChatMessage = {
+  sender: string;
+  text: string;
+  timestamp: string;
+};
 
 export default function EducationGroupChatPage() {
   const router = useRouter();
   const [message, setMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showSearchInput, setShowSearchInput] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      sender: "Me",
+      text: `Hello Guys, Welcome to Educational Savings Group.
+The goal of this group is creating savings where we all save for educational purpose...`,
+      timestamp: "2 minutes ago",
+    },
+    {
+      sender: "Goodluck Ben",
+      text:
+        "Thank you for this group. I'm looking forward to saving to meet the goal. Thanks once again.",
+      timestamp: "1 minute ago",
+    },
+    {
+      sender: "Uche Mark",
+      text:
+        "Thank you for this group. I'm looking forward to saving to meet the goal. Thanks once again.",
+      timestamp: "2 minutes ago",
+    },
+  ]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -43,148 +71,150 @@ export default function EducationGroupChatPage() {
     };
   }, [isMenuOpen]);
 
-  
-
   const handleSend = () => {
     if (!message.trim()) return;
-    // Send logic here
+
+    const newMsg: ChatMessage = {
+      sender: "Me",
+      text: message,
+      timestamp: "Just now",
+    };
+
+    setMessages((prev) => [...prev, newMsg]);
     setMessage("");
   };
 
   return (
-    <Flex direction="column" h="100vh">
-      {/* Header */}
+    <Flex direction="column" h="full" bg="white">
+      {/* Header or Search Input */}
       <Flex
         justify="space-between"
         align="center"
-        p={4}
-        borderBottom="1px solid #eee"
-        bg="white"
+        py={4}
+        px={4}
+        background={"white"}
       >
-        <HStack spaceX={3}>
-          <IconButton
-            aria-label="Go Back"
-            variant="ghost"
-            onClick={() => router.back()}
-          >
-            <ChevronLeftIcon />
-          </IconButton>
-          <Box
-            w="30px"
-            h="30px"
-            borderRadius="md"
-            bg="gray.300"
-            bgImage="url('/icons/education.png')" // Replace with correct path
-            bgSize="cover"
-            backgroundPosition="center"
-          />
-          <Box>
-            <Text fontWeight="semibold" fontSize="sm">
-              Educational Savings Group
-            </Text>
-            <Text fontSize="xs" color="gray.500" truncate>
-              Me, Ben Victor, Goodluck Ben...
-            </Text>
-          </Box>
-        </HStack>
+        {showSearchInput ? (
+          <HStack gap={3} width="100%">
+            <BackIcon
+              aria-label="Back"
+              cursor="pointer"
+              onClick={() => {
+                setShowSearchInput(false);
+                setSearchQuery("");
+              }}
+            />
+            <Input
+              placeholder="Search messages..."
+              outline="none"
+              border="none"
+              bg={"bluelight"}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              width="full"
+              borderRadius="full"
+            />
+          </HStack>
+        ) : (
+          <>
+            <HStack gap={3}>
+              <IconButton
+                aria-label="Go Back"
+                variant="ghost"
+                onClick={() => router.back()}
+              >
+                <BackIcon />
+              </IconButton>
+              <Box
+                w="30px"
+                h="30px"
+                borderRadius="md"
+                bg="gray.300"
+                bgImage="url('/images/group/3.jpg')"
+                bgSize="cover"
+                backgroundPosition="center"
+              />
+              <Box>
+                <Text fontWeight="semibold" fontSize="sm">
+                  Educational Savings Group
+                </Text>
+                <Text fontSize="xs" color="gray.500" truncate>
+                  Me, Ben Victor, Goodluck Ben...
+                </Text>
+              </Box>
+            </HStack>
 
-        {/* Menu Icon Only */}
-        <IconButton
-          aria-label="Options"
-          variant="ghost"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <BsThreeDotsVertical />
-        </IconButton>
+            <IconButton
+              aria-label="Options"
+              variant="ghost"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <BsThreeDotsVertical />
+            </IconButton>
+          </>
+        )}
       </Flex>
 
-      {/* Chat Area */}
+      {/* Chat List */}
       <VStack
-        spaceX={4}
         align="stretch"
+        spaceY={4}
         p={4}
         overflowY="auto"
         flex="1"
-        bg="gray.50"
       >
-        {/* Me */}
-        <Box alignSelf="flex-end" bg="green.100" p={3} borderRadius="xl" maxW="80%">
-          <Text fontSize="sm" fontWeight="bold" mb={1}>
-            Me
-          </Text>
-          <Text fontSize="sm">
-            Hello Guys, Welcome to Educational Savings Group.
-            <br />
-            The goal of this group is creating savings where we all save for educational purpose...
-          </Text>
-        </Box>
-
-        {/* Goodluck Ben */}
-        <Box alignSelf="flex-start" maxW="80%">
-          <Text fontSize="sm" fontWeight="bold" mb={1}>
-            Goodluck Ben{" "}
-            <Text as="span" fontSize="xs" color="gray.400">
-              1 minute ago
+        {messages.map((msg, idx) => (
+          <Box key={idx} alignSelf="flex-start" w="full">
+            <Text fontSize="sm" fontWeight="bold" mb={1}>
+              {msg.sender}{" "}
+              <Text as="span" fontSize="xs" color="gray.400">
+                {msg.timestamp}
+              </Text>
             </Text>
-          </Text>
-          <Box bg="green.100" p={3} borderRadius="xl">
-            <Text fontSize="sm">
-              Thank you for this group. I'm looking forward to saving to meet the goal. Thanks once again.
-            </Text>
+            <Box bg="#f6ffe8" p={3} borderRadius="xl">
+              <Text fontSize="sm" whiteSpace="pre-line">
+                {msg.text}
+              </Text>
+            </Box>
           </Box>
-        </Box>
-
-        {/* Uche Mark */}
-        <Box alignSelf="flex-start" maxW="80%">
-          <Text fontSize="sm" fontWeight="bold" mb={1}>
-            Uche Mark{" "}
-            <Text as="span" fontSize="xs" color="gray.400">
-              2 minutes ago
-            </Text>
-          </Text>
-          <Box bg="green.100" p={3} borderRadius="xl">
-            <Text fontSize="sm">
-              Thank you for this group. I'm looking forward to saving to meet the goal. Thanks once again.
-            </Text>
-          </Box>
-        </Box>
+        ))}
       </VStack>
 
-      {/* Message Input */}
-      <Flex p={4} borderTop="1px solid #eee" align="center" bg="white">
+      {/* Input Box */}
+      <Flex bg={"bluelight"}>
         <Input
           placeholder="Write message"
           borderRadius="full"
           mr={2}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          outline={"none"}
+          border={"none"}
         />
         <IconButton
           aria-label="Send"
           colorScheme="green"
           borderRadius="full"
           onClick={handleSend}
+          bg="primary"
         >
-          <FiSend />
+          <BiSolidSend />
         </IconButton>
       </Flex>
 
-       {/* Bottom Sheet Dropdown */}
+      {/* Dropdown */}
       {isMenuOpen && (
         <Box
-        ref={menuRef} 
+          ref={menuRef}
           position="fixed"
-          // left={0}
           top={20}
           right={2}
-          // bottom={0}
           zIndex={10}
-          bg="white"  
+          bg="white"
           py={2}
           px={1}
           shadow="md"
           width="200px"
-          maxHeight="300px"
           borderRadius="2xl"
           borderTop="1px solid #ddd"
         >
@@ -194,17 +224,17 @@ export default function EducationGroupChatPage() {
               justifyContent="flex-start"
               onClick={() => {
                 setIsMenuOpen(false);
-                // Navigate to group details
+                router.push("/chat/education/group-details");
               }}
             >
-               View Group Details
+              View Group Details
             </Button>
             <Button
               variant="ghost"
               justifyContent="flex-start"
               onClick={() => {
                 setIsMenuOpen(false);
-                // Trigger search messages
+                setShowSearchInput(true);
               }}
             >
               Search Messages
@@ -214,17 +244,17 @@ export default function EducationGroupChatPage() {
               justifyContent="flex-start"
               onClick={() => {
                 setIsMenuOpen(false);
-                // Logic to leave group
+                router.push("/chat");
               }}
             >
-               Leave Group
+              Leave Group
             </Button>
             <Button
               variant="ghost"
               justifyContent="flex-start"
               onClick={() => {
                 setIsMenuOpen(false);
-                // Logic to open settings
+                router.push("/me");
               }}
             >
               Settings
@@ -232,11 +262,6 @@ export default function EducationGroupChatPage() {
           </VStack>
         </Box>
       )}
-
-
-
     </Flex>
   );
 }
-
-
