@@ -1168,3 +1168,49 @@ export const ProfileIconCard = ({
     </ReuseableCard>
   );
 };
+
+export const BreakSavingsCard = ({
+  title,
+  value,
+  subtitle,
+  titleColor = "bfgrey",
+  valueColor = "#285100",
+}: {
+  title: string;
+  value: string;
+  subtitle?: string;
+  titleColor?: string;
+  valueColor?: string;
+}) => {
+  return (
+    <ReuseableCard
+      boxShadow="0px 0px 8px rgba(0, 255, 0, 0.15)" // green glow
+      borderRadius="15px"
+      px={{ base: 1, md: 4 }}
+      py={4}
+      bg="white"
+      position="relative"
+      minH="105px"
+    >
+      <VStack align="stretch" spaceY={1}>
+        <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color={titleColor}>
+          {title}
+        </StyledText>
+
+        <StyledText
+          fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}
+          fontWeight="bold"
+          color={valueColor}
+        >
+          {value}
+        </StyledText>
+
+        {subtitle && (
+          <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color="#285100">
+            {subtitle}
+          </StyledText>
+        )}
+      </VStack>
+    </ReuseableCard>
+  );
+};
