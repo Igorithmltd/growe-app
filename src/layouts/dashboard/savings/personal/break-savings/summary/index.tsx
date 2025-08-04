@@ -11,7 +11,7 @@ export default function SavingsSummarySection({ onClick }: { onClick?: () => voi
     {
       title: "Break Fee (5%)",
       value: "₦6,650",
-      titleColor: "red.400",
+      titleColor: "#FF8080",
     },
     {
       title: "Amount You’ll Receive",
