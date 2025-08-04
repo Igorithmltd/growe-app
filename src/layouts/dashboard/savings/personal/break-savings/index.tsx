@@ -86,7 +86,7 @@ export default function BreakSavingsLayout() {
         <SavingsSummarySection onClick={() => setIsFirstStep(false)} />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <VStack spaceY={4} align="stretch" mt={6}>
+          <VStack spaceY={4} align="stretch" mt={10}>
             {/* Amount */}
             <StyledField
               label="Amount you’ll recieve"
