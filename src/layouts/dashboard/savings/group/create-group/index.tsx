@@ -50,6 +50,13 @@ const CreateGroupLayout = () => {
   const onSubmit = (data: CreateGroupValues) => {
     const payload = {
       ...data,
+      savingType: "group",
+      frequentAmount: 20000,
+      groupImage: {
+        imageUrl:
+          "https://png.pngtree.com/png-vector/20230126/ourmid/pngtree-halftone-gradient-background-vector-pattern-grunge-texture-futuristic-half-banner-vector-png-image_46057032.jpg",
+        publicId: "group-image",
+      },
     };
 
     createSavingGroup(payload, {
@@ -73,6 +80,8 @@ const CreateGroupLayout = () => {
   const handleBack = () => {
     router.back();
   };
+
+  console.log("errors", errors);
 
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -177,7 +186,11 @@ const CreateGroupLayout = () => {
               {...commonProps}
             />
 
-            <ImageUploadField fieldProps={register("groupImage")} label="Group savings photo" />
+            <ImageUploadField
+              fieldProps={register("image")}
+              error={errors.image?.message}
+              label="Group savings photo"
+            />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
               Create Group

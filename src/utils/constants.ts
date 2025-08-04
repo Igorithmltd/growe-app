@@ -90,3 +90,5 @@ export const ROUTES = {
 };
 
 export const BASE_URL = process.env.NEXT_PUBLIC_REST_API as string;
+
+export const MAX_FILE_SIZE = 3 * 1024 * 1024;

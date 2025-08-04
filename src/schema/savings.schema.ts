@@ -1,11 +1,19 @@
 import * as Yup from "yup";
+import { MAX_FILE_SIZE } from "../utils/constants";
+
+const SUPPORTED_FORMATS = ["image/jpeg", "image/png", "image/webp"];
+
+type GroupImage = {
+  imageUrl: string;
+  publicId: string;
+};
 
 export interface SavingsGoalValues {
   title: string;
   targetAmount: number;
   frequentAmount?: number;
   frequentTime?: string;
-  savingType: "group" | "individual";
+  savingType: string;
   frequencyDuration?: string;
   groupDescription: string;
   dayToBePaid?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
@@ -18,11 +26,12 @@ export interface CreateGroupValues {
   targetAmount: number;
   frequentAmount?: number;
   frequentTime?: string;
-  savingType: "group" | "individual";
+  savingType: string;
   frequencyDuration?: string;
-  groupDescription: string;
+  groupDescription?: string;
   memberLimit: number;
-  groupImage: File;
+  groupImage: GroupImage;
+  image: File;
 }
 
 export interface EditGroupValues {
@@ -44,25 +53,25 @@ const schemaWithoutType = Yup.object({
   title: Yup.string().required("Title is required"),
   targetAmount: Yup.number().required("Target amount is required"),
 
-  frequentAmount: Yup.number().when("frequentTime", {
-    is: (val: string | undefined) => !!val,
-    then: () =>
-      Yup.number().required("Frequent amount is required").min(1000, "Minimum amount is ₦1000"),
-    otherwise: () => Yup.number().notRequired(),
-  }),
+
 
   frequentTime: Yup.string().notRequired(),
 
   frequencyDuration: Yup.string().notRequired(),
-  groupDescription: Yup.string().required("Group description is required"),
+  groupDescription: Yup.string().notRequired(),
 
   memberLimit: Yup.number().notRequired(),
 
-  groupImage: Yup.mixed<File>()
+   image: Yup.mixed()
     .required("Group image is required")
-    .test("fileType", "Only image files are allowed", (file) =>
-      file instanceof File ? file.type.startsWith("image/") : false
-    ),
+    .test("fileType", "Only image files are allowed", (value) => {
+      if (!value || !(value instanceof File)) return false;
+      return SUPPORTED_FORMATS.includes(value.type);
+    })
+    .test("fileSize", "Image must be less than 2MB", (value) => {
+      if (!value || !(value instanceof File)) return false;
+      return value.size <= MAX_FILE_SIZE;
+    }),
 });
 
 export const quickSavingSchema = Yup.object().shape({
