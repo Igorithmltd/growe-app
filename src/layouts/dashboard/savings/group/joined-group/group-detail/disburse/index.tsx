@@ -4,15 +4,10 @@ import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
 import { Badge, Avatar, Box, Checkbox, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import useShowToast from "@/src/hooks/useShowToast";
-import { useModal } from "@/src/contexts/ModalContext";
 import { GroupInfoCard } from "@/src/layouts/dashboard/cards";
 
 const DisbursementLayout = () => {
   const router = useRouter();
-  const toast = useShowToast();
-
-  const { setIsGroupSettingsOpen } = useModal();
 
   const members = [
     { name: "Ben Victor", image: "/avatars/ben-victor.jpg", amount: "₦200K" },
