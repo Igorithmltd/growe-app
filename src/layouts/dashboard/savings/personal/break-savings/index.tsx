@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, VStack, HStack, Input } from "@chakra-ui/react";
+import { Box, VStack, HStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
 import {
@@ -128,7 +128,7 @@ export default function BreakSavingsLayout() {
             />
 
             {/* OTP and Generate Button */}
-            <Box>
+            <VStack align="stretch" spaceY={4}>
               <StyledField
                 label="Enter OTP. Tap action below to generate code"
                 placeholder="Enter OTP"
@@ -148,10 +148,11 @@ export default function BreakSavingsLayout() {
                 textAlign="center"
                 alignSelf="flex-end"
                 mt={2}
+                cursor="pointer"
               >
                 Tap to generate OTP
               </StyledText>
-            </Box>
+            </VStack>
 
             {/* Save Button */}
             <StyledButton type="submit" w="full" mt={4} loading={isSubmitting} bg="#9BAB69">
