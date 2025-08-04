@@ -1,13 +1,16 @@
 import * as Yup from "yup";
 
 export interface SavingsGoalValues {
-  purpose: string;
+  title: string;
   targetAmount: number;
   frequentAmount?: number;
-  frequency?: string;
-  duration: string;
-  interestRate: string;
-  // isOnce?: boolean | null;
+  frequentTime?: string;
+  savingType: "group" | "individual";
+  frequencyDuration?: string;
+  groupDescription: string;
+  dayToBePaid?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+  memberLimit?: number;
+  groupImage: File;
 }
 
 export interface CreateGroupValues {
@@ -16,10 +19,9 @@ export interface CreateGroupValues {
   frequentAmount?: number;
   frequentTime?: string;
   savingType: "group" | "individual";
-  frequencyDuration: string;
+  frequencyDuration?: string;
   groupDescription: string;
-  dayToBePaid: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
-  memberLimit?: number;
+  memberLimit: number;
   groupImage: File;
 }
 
@@ -51,14 +53,8 @@ const schemaWithoutType = Yup.object({
 
   frequentTime: Yup.string().notRequired(),
 
-  savingType: Yup.string().oneOf(["group", "individual"]).required("Saving type is required"),
-
-  frequencyDuration: Yup.string().required("Frequency duration is required"),
+  frequencyDuration: Yup.string().notRequired(),
   groupDescription: Yup.string().required("Group description is required"),
-
-  dayToBePaid: Yup.string()
-    .oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
-    .required("Day to be paid is required"),
 
   memberLimit: Yup.number().notRequired(),
 

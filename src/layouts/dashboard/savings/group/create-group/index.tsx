@@ -23,9 +23,11 @@ import CalendarModal from "../../modals/CalenderModal";
 import InfoModal from "@/src/components/modals/InfoModal";
 import ImageUploadField from "@/src/components/image-upload";
 import { createGroupSchema, CreateGroupValues } from "@/src/schema/savings.schema";
+import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
 
 const CreateGroupLayout = () => {
   const router = useRouter();
+  const { createSavingGroup } = useSavings();
 
   const { setIsWeekOpen, setIsMonthOpen, setIsCalendarOpen, setIsInfoOpen } = useModal();
 
@@ -39,15 +41,23 @@ const CreateGroupLayout = () => {
     register,
     handleSubmit,
     setValue,
-    // reset,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<CreateGroupValues>({
     resolver: yupResolver(createGroupSchema),
   });
 
   const onSubmit = (data: CreateGroupValues) => {
-    console.log(data);
-    setIsInfoOpen(true);
+    const payload = {
+      ...data,
+    };
+
+    createSavingGroup(payload, {
+      onSuccess: () => {
+        setIsInfoOpen(true);
+        reset();
+      },
+    });
   };
 
   const commonProps = {

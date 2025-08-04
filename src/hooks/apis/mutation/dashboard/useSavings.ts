@@ -31,7 +31,7 @@ export const useSavings = () => {
 
   const createGroup = async (data: CreateGroupValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/auth/forgot-password",
+      url: "/savings/create-savings",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
