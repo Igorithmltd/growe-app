@@ -1174,7 +1174,7 @@ export const BreakSavingsCard = ({
   value,
   subtitle,
   titleColor = "bfgrey",
-  valueColor = "#285100",
+  valueColor = "secondary",
 }: {
   title: string;
   value: string;
@@ -1184,9 +1184,9 @@ export const BreakSavingsCard = ({
 }) => {
   return (
     <ReuseableCard
-      boxShadow="0px 0px 8px rgba(0, 255, 0, 0.15)" // green glow
+      boxShadow="none"
       borderRadius="15px"
-      px={{ base: 1, md: 4 }}
+      px={{ base: 2, md: 6 }}
       py={4}
       bg="white"
       position="relative"

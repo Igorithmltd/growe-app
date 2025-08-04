@@ -1,7 +1,8 @@
+import { StyledButton } from "@/src/components";
 import { BreakSavingsCard } from "@/src/layouts/dashboard/cards";
-import { SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid } from "@chakra-ui/react";
 
-export default function SavingsSummarySection() {
+export default function SavingsSummarySection({ onClick }: { onClick?: () => void }) {
   const summaryCards = [
     {
       title: "Total Personal Savings",
@@ -19,10 +20,16 @@ export default function SavingsSummarySection() {
   ];
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} gap={4} mb={6}>
-      {summaryCards.map((card, index) => (
-        <BreakSavingsCard key={index} {...card} />
-      ))}
-    </SimpleGrid>
+    <Box>
+      <SimpleGrid columns={{ base: 1, md: 2 }} gap={6} mb={6} mt={10}>
+        {summaryCards.map((card, index) => (
+          <BreakSavingsCard key={index} {...card} />
+        ))}
+      </SimpleGrid>
+
+      <StyledButton type="button" w="full" bg="#9BAB69" onClick={onClick} mt={8}>
+        Confirm & Withdraw
+      </StyledButton>
+    </Box>
   );
 }

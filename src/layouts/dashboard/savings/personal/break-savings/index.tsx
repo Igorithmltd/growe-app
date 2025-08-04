@@ -43,6 +43,7 @@ export default function BreakSavingsLayout() {
   } = useForm<WithdrawalInfoValues>({
     resolver: yupResolver(withdrawalInfoSchema),
   });
+  const [isFirstStep, setIsFirstStep] = useState(true);
 
   const onSubmit = (data: WithdrawalInfoValues) => {
     console.log(data);
@@ -58,8 +59,6 @@ export default function BreakSavingsLayout() {
   const handleBack = () => {
     router.back();
   };
-
-  const [isFirstStep, setIsFirstStep] = useState(true);
 
   const commonProps = {
     py: "20px",
@@ -84,7 +83,7 @@ export default function BreakSavingsLayout() {
       </Box>
 
       {isFirstStep ? (
-        <SavingsSummarySection />
+        <SavingsSummarySection onClick={() => setIsFirstStep(false)} />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spaceY={4} align="stretch" mt={6}>
@@ -156,7 +155,7 @@ export default function BreakSavingsLayout() {
 
             {/* Save Button */}
             <StyledButton type="submit" w="full" mt={4} loading={isSubmitting} bg="#9BAB69">
-              Save Bank Details
+              Continue
             </StyledButton>
           </VStack>
         </form>
