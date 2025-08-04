@@ -74,14 +74,7 @@ const GroupSavings = () => {
               mt={6}
               overflowX="auto"
               css={{
-                // "@media (min-width: 62em)": {
-                //   // 62em = 992px = lg breakpoint
-                //   "&::-webkit-scrollbar": {
-                //     display: "initial",
-                //   },
-                //   scrollbarWidth: "auto",
-                //   msOverflowStyle: "auto",
-                // },
+                
                 "@media (max-width: 61.99em)": {
                   "&::-webkit-scrollbar": {
                     display: "none",
