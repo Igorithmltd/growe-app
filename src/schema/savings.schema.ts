@@ -11,15 +11,16 @@ export interface SavingsGoalValues {
 }
 
 export interface CreateGroupValues {
-  purpose: string;
+  title: string;
   targetAmount: number;
   frequentAmount?: number;
-  frequency?: string;
-  duration: string;
-  interestRate: string;
-  membersLimit?: number | null;
-  groupPhoto?: File | null;
-  // isOnce?: boolean | null;
+  frequentTime?: string;
+  savingType: "group" | "individual";
+  frequencyDuration: string;
+  groupDescription: string;
+  dayToBePaid: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+  memberLimit?: number;
+  groupImage: File;
 }
 
 export interface EditGroupValues {
@@ -36,6 +37,37 @@ export interface JoinGroupValues {
   accountNumber: string;
   bank: string;
 }
+
+const schemaWithoutType = Yup.object({
+  title: Yup.string().required("Title is required"),
+  targetAmount: Yup.number().required("Target amount is required"),
+
+  frequentAmount: Yup.number().when("frequentTime", {
+    is: (val: string | undefined) => !!val,
+    then: () =>
+      Yup.number().required("Frequent amount is required").min(1000, "Minimum amount is ₦1000"),
+    otherwise: () => Yup.number().notRequired(),
+  }),
+
+  frequentTime: Yup.string().notRequired(),
+
+  savingType: Yup.string().oneOf(["group", "individual"]).required("Saving type is required"),
+
+  frequencyDuration: Yup.string().required("Frequency duration is required"),
+  groupDescription: Yup.string().required("Group description is required"),
+
+  dayToBePaid: Yup.string()
+    .oneOf(["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"])
+    .required("Day to be paid is required"),
+
+  memberLimit: Yup.number().notRequired(),
+
+  groupImage: Yup.mixed<File>()
+    .required("Group image is required")
+    .test("fileType", "Only image files are allowed", (file) =>
+      file instanceof File ? file.type.startsWith("image/") : false
+    ),
+});
 
 export const quickSavingSchema = Yup.object().shape({
   amount: Yup.number().required("Amount is required").min(1000, "Minimum ammount is ₦1000"),
@@ -55,26 +87,8 @@ export const savingsGoalSchema: Yup.ObjectSchema<SavingsGoalValues> = Yup.object
   interestRate: Yup.string().required("Interest Rate must be generated"),
 });
 
-export const createGroupSchema: Yup.ObjectSchema<CreateGroupValues> = Yup.object().shape({
-  purpose: Yup.string().required("Purpose is required"),
-  targetAmount: Yup.number().required("Target amount is required"),
-  frequentAmount: Yup.number().when("isOnce", {
-    is: false,
-    then: (schema) =>
-      schema.required("Frequent amount is required").min(1000, "Minimum amount is ₦1000"),
-    otherwise: (schema) => schema.notRequired(),
-  }),
-  frequency: Yup.string().when("isOnce", {
-    is: false,
-    then: (schema) => schema.required("Payment frequency is required"),
-    otherwise: (schema) => schema.notRequired(),
-  }),
-  duration: Yup.string().required("Goal duration is required"),
-  interestRate: Yup.string().required("Interest rate is required"),
-  membersLimit: Yup.number().nullable().notRequired(),
-  groupPhoto: Yup.mixed<File>().nullable().notRequired(),
-  // isOnce: Yup.boolean().notRequired(),
-});
+export const createGroupSchema: Yup.ObjectSchema<CreateGroupValues> =
+  schemaWithoutType as Yup.ObjectSchema<CreateGroupValues>;
 
 export const editGroupSchema: Yup.ObjectSchema<EditGroupValues> = Yup.object().shape({
   title: Yup.string().required("Title is required"),

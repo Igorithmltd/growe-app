@@ -93,8 +93,8 @@ const CreateGroupLayout = () => {
               placeholder="e.g Rent, Vacation..."
               labelColor="secondary"
               type="text"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("title")}
+              error={errors?.title?.message}
               {...commonProps}
             />
 
@@ -112,8 +112,8 @@ const CreateGroupLayout = () => {
               placeholder="e.g Rent, Vacation..."
               labelColor="secondary"
               type="text"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("groupDescription")}
+              error={errors?.groupDescription?.message}
               {...commonProps}
             />
 
@@ -129,10 +129,10 @@ const CreateGroupLayout = () => {
                 labelColor="secondary"
                 options={["Day", "Week", "Month"]}
                 value={frequency}
-                error={errors?.frequency?.message}
+                error={errors?.frequentTime?.message}
                 onChange={(val) => {
                   setFrequency(val);
-                  setValue("frequency", val);
+                  setValue("frequentTime", val);
                   if (val === "Week") {
                     setIsWeekOpen(true);
                   } else if (val === "Month") {
@@ -147,10 +147,10 @@ const CreateGroupLayout = () => {
               labelColor="secondary"
               options={["6 months", "9 months", "1 year", "Let me choose"]}
               value={frequency}
-              error={errors?.frequency?.message}
+              error={errors?.frequencyDuration?.message}
               onChange={(val) => {
                 setFrequency(val);
-                setValue("frequency", val);
+                setValue("frequencyDuration", val);
                 if (val === "Let me choose") {
                   setIsCalendarOpen(true);
                 }
@@ -162,12 +162,12 @@ const CreateGroupLayout = () => {
               placeholder="e.g 2, 3, 50..."
               labelColor="secondary"
               type="number"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("memberLimit")}
+              error={errors?.memberLimit?.message}
               {...commonProps}
             />
 
-            <ImageUploadField fieldProps={register("purpose")} label="Group savings photo" />
+            <ImageUploadField fieldProps={register("groupImage")} label="Group savings photo" />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
               Create Group
