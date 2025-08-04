@@ -74,6 +74,7 @@ const SavingDetailsLayout = () => {
             flex={{ base: 1, lg: "unset" }}
             bg="white"
             px={8}
+            onClick={() => setIsInfoOpen(true)}
           >
             <Grid
               h="30px"
