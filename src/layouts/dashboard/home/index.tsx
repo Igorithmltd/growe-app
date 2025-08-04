@@ -44,7 +44,7 @@ const DashboardHome = () => {
             </HStack>
           }
           buttonText="View Savings"
-          buttonAction={() => {}}
+          buttonAction={() => router.push("/savings")}
           notesAction={() => router.push("/finance-notes")}
         />
 

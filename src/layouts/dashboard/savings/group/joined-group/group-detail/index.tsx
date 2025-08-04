@@ -150,6 +150,7 @@ const GroupDetailsLayout = () => {
             bg="white"
             px={8}
             fontSize={{ base: "sm", md: "md" }}
+            onClick={() => router.push("/savings/saving-groups/123/disbursement")}
           >
             <Grid
               h="30px"

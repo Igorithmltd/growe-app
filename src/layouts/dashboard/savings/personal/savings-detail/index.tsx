@@ -8,6 +8,8 @@ import { FaUser } from "react-icons/fa6";
 import { MdPayment } from "react-icons/md";
 import { CiUnlock } from "react-icons/ci";
 import { useRouter } from "next/navigation";
+import InfoModal from "@/src/components/modals/InfoModal";
+import { useModal } from "@/src/contexts/ModalContext";
 
 const data = [
   { label: "Target Amount", value: "₦800,000" },
@@ -20,6 +22,12 @@ const data = [
 
 const SavingDetailsLayout = () => {
   const router = useRouter();
+  const { setIsInfoOpen } = useModal();
+
+  const handleContinue = () => {
+    setIsInfoOpen(false);
+    router.push("/savings/saving-goals/123/break-savings");
+  };
 
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -66,6 +74,7 @@ const SavingDetailsLayout = () => {
             flex={{ base: 1, lg: "unset" }}
             bg="white"
             px={8}
+            onClick={() => setIsInfoOpen(true)}
           >
             <Grid
               h="30px"
@@ -107,6 +116,14 @@ const SavingDetailsLayout = () => {
           </VStack>
         </Box>
       </VStack>
+
+      <InfoModal
+        title="Breaking Your Savings Will Incur a 5% Fee!"
+        message="If you proceed with breaking this savings plan before the withdrawal date, you will lose 5% of your total savings. To avoid charges, we recommend completing the full savings duration."
+        hasButton
+        buttonText="Continue"
+        onButtonClick={handleContinue}
+      />
     </Box>
   );
 };
