@@ -4,12 +4,11 @@ import { BackIcon } from "@/public/svgs";
 import { StyledButton, StyledText } from "@/src/components";
 import { Badge, Avatar, Box, Checkbox, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import { copyToClipboard } from "@/src/utils/helpers";
 import useShowToast from "@/src/hooks/useShowToast";
 import { useModal } from "@/src/contexts/ModalContext";
 import { GroupInfoCard } from "@/src/layouts/dashboard/cards";
 
-const GroupDetailsLayout = () => {
+const DisbursementLayout = () => {
   const router = useRouter();
   const toast = useShowToast();
 
@@ -51,46 +50,55 @@ const GroupDetailsLayout = () => {
         <VStack
           align="stretch"
           spaceY={0}
-          w="full"
-          maxW="md"
           border="1px"
           borderColor="gray.200"
           borderRadius="md"
           overflow="hidden"
         >
+          <Text fontWeight="normal" fontSize={{ base: "sm", md: "md" }} color="secondary">
+            Members
+          </Text>
+
           {members.map((member, idx) => (
             <Flex
               key={idx}
               align="center"
               justify="space-between"
+              w="full"
               p={4}
               borderBottom="1px solid"
-              borderColor="gray.100"
-              bg="black"
-              color="white"
+              borderColor="gray.200"
+              _last={{ borderBottom: "none" }}
             >
-              <Flex align="center" gap={3}>
-                <Checkbox.Root defaultChecked>
+              <Flex align="center" gap={4} cursor="pointer">
+                <Checkbox.Root cursor="pointer">
                   <Checkbox.HiddenInput />
                   <Checkbox.Control />
                 </Checkbox.Root>
-                <Avatar.Root size="md">
+                <Avatar.Root size="lg">
                   <Avatar.Fallback name={member.name} />
                   <Avatar.Image src={member.image} />
                 </Avatar.Root>
                 <Box>
-                  <Text fontWeight="medium">{member.name}</Text>
-                  <Badge colorScheme="yellow" borderRadius="md" mt={1}>
+                  <Text
+                    fontWeight="normal"
+                    fontSize={{ base: "sm", md: "md" }}
+                    color="secondary"
+                    mb={2}
+                  >
+                    {member.name}
+                  </Text>
+                  <Badge colorPalette="orange" borderRadius="md" mt={1}>
                     Pending
                   </Badge>
                 </Box>
               </Flex>
               <Flex align="center" gap={2}>
                 <Box textAlign="right">
-                  <Text fontWeight="bold" color="green.300">
+                  <Text fontSize={{ base: "sm", md: "md" }} color="primary" mb={2}>
                     {member.amount}
                   </Text>
-                  <Text fontSize="xs" color="gray.400">
+                  <Text fontSize={{ base: "2xs", md: "xs" }} color="bfgrey">
                     Amount
                   </Text>
                 </Box>
@@ -98,9 +106,17 @@ const GroupDetailsLayout = () => {
             </Flex>
           ))}
         </VStack>
+
+        <StyledButton
+          type="button"
+          px={8}
+          fontSize={{ base: "sm", md: "md" }}
+        >
+          Initiate Payment
+        </StyledButton>
       </VStack>
     </Box>
   );
 };
 
-export default GroupDetailsLayout;
+export default DisbursementLayout;
