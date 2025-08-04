@@ -14,6 +14,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useModal } from "@/src/contexts/ModalContext";
 import { withdrawalInfoSchema, WithdrawalInfoValues } from "@/src/schema/profile.schema";
+import { useState } from "react";
+import SavingsSummarySection from "./summary";
 
 const banks = [
   "Access Bank",
@@ -57,6 +59,8 @@ export default function BreakSavingsLayout() {
     router.back();
   };
 
+  const [isFirstStep, setIsFirstStep] = useState(true);
+
   const commonProps = {
     py: "20px",
     bg: "#F8F8F8",
@@ -79,80 +83,84 @@ export default function BreakSavingsLayout() {
         </StyledText>
       </Box>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <VStack spaceY={4} align="stretch" mt={6}>
-          {/* Amount */}
-          <StyledField
-            label="Amount you’ll recieve"
-            placeholder="₦126,350"
-            labelColor="secondary"
-            type="text"
-            readOnly
-            {...commonProps}
-          />
-
-          {/* Bank */}
-          <SelectInputBox
-            label="What’s your bank"
-            value={selectedBank}
-            placeholder="Select bank"
-            onClick={() => setIsSelectOpen(true)}
-          />
-
-          {/* Account Number */}
-          <StyledField
-            label="What’s your account number"
-            placeholder="e.g 0123456789"
-            labelColor="secondary"
-            type="text"
-            fieldProps={register("accountNumber")}
-            error={errors?.accountNumber?.message}
-            {...commonProps}
-          />
-
-          {/* Account Name */}
-          <StyledField
-            label="Account name"
-            placeholder="e.g John Doe"
-            labelColor="secondary"
-            type="text"
-            fieldProps={register("accountName")}
-            error={errors?.accountName?.message}
-            {...commonProps}
-          />
-
-          {/* OTP and Generate Button */}
-          <Box>
+      {isFirstStep ? (
+        <SavingsSummarySection />
+      ) : (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <VStack spaceY={4} align="stretch" mt={6}>
+            {/* Amount */}
             <StyledField
-              label="Enter OTP. Tap action below to generate code"
-              placeholder="Enter OTP"
+              label="Amount you’ll recieve"
+              placeholder="₦126,350"
               labelColor="secondary"
               type="text"
-              fieldProps={register("otp")}
-              error={errors?.otp?.message}
+              readOnly
               {...commonProps}
             />
-            <StyledText
-              bg="#ECFAEAE5"
-              color="#89C184"
-              fontSize="sm"
-              borderRadius="20px"
-              py="4px"
-              px="8px"
-              textAlign="center"
-              alignSelf="flex-end"
-              mt={2}
-            >
-              Tap to generate OTP
-            </StyledText>
-          </Box>
 
-          {/* Save Button */}
-          <StyledButton type="submit" w="full" mt={4} loading={isSubmitting} bg="#9BAB69">
-            Save Bank Details
-          </StyledButton>
-        </VStack>
-      </form>
+            {/* Bank */}
+            <SelectInputBox
+              label="What’s your bank"
+              value={selectedBank}
+              placeholder="Select bank"
+              onClick={() => setIsSelectOpen(true)}
+            />
+
+            {/* Account Number */}
+            <StyledField
+              label="What’s your account number"
+              placeholder="e.g 0123456789"
+              labelColor="secondary"
+              type="text"
+              fieldProps={register("accountNumber")}
+              error={errors?.accountNumber?.message}
+              {...commonProps}
+            />
+
+            {/* Account Name */}
+            <StyledField
+              label="Account name"
+              placeholder="e.g John Doe"
+              labelColor="secondary"
+              type="text"
+              fieldProps={register("accountName")}
+              error={errors?.accountName?.message}
+              {...commonProps}
+            />
+
+            {/* OTP and Generate Button */}
+            <Box>
+              <StyledField
+                label="Enter OTP. Tap action below to generate code"
+                placeholder="Enter OTP"
+                labelColor="secondary"
+                type="text"
+                fieldProps={register("otp")}
+                error={errors?.otp?.message}
+                {...commonProps}
+              />
+              <StyledText
+                bg="#ECFAEAE5"
+                color="#89C184"
+                fontSize="sm"
+                borderRadius="20px"
+                py="4px"
+                px="8px"
+                textAlign="center"
+                alignSelf="flex-end"
+                mt={2}
+              >
+                Tap to generate OTP
+              </StyledText>
+            </Box>
+
+            {/* Save Button */}
+            <StyledButton type="submit" w="full" mt={4} loading={isSubmitting} bg="#9BAB69">
+              Save Bank Details
+            </StyledButton>
+          </VStack>
+        </form>
+      )}
 
       {/* Bank Selection Modal */}
       <SelectOptionModal
