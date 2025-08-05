@@ -15,10 +15,7 @@ export interface SavingsGoalValues {
   frequentTime?: string;
   savingType: string;
   frequencyDuration?: string;
-  groupDescription: string;
   dayToBePaid?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
-  memberLimit?: number;
-  groupImage: File;
 }
 
 export interface CreateGroupValues {
@@ -81,7 +78,6 @@ const savingsGoalSchemaWithoutType = Yup.object({
   frequencyDuration: Yup.string().notRequired(),
 
   savingType: Yup.string().required("Saving type is required"),
-  groupDescription: Yup.string().required("Group description is required"),
 
   dayToBePaid: Yup.mixed<
     "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
@@ -91,19 +87,6 @@ const savingsGoalSchemaWithoutType = Yup.object({
       "Invalid day"
     )
     .notRequired(),
-
-  memberLimit: Yup.number().notRequired(),
-
-  groupImage: Yup.mixed()
-    .required("Group image is required")
-    .test("fileType", "Only image files are allowed", (value) => {
-      if (!value || !(value instanceof File)) return false;
-      return SUPPORTED_FORMATS.includes(value.type);
-    })
-    .test("fileSize", "Image must be less than 2MB", (value) => {
-      if (!value || !(value instanceof File)) return false;
-      return value.size <= MAX_FILE_SIZE;
-    }),
 });
 
 export const savingsGoalSchema: Yup.ObjectSchema<SavingsGoalValues> =

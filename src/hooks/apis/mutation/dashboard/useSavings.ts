@@ -18,7 +18,7 @@ export const useSavings = () => {
 
   const createGoal = async (data: SavingsGoalValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/auth/forgot-password",
+      url: "/savings/create-saving",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
