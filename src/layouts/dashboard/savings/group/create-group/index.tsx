@@ -23,9 +23,11 @@ import CalendarModal from "../../modals/CalenderModal";
 import InfoModal from "@/src/components/modals/InfoModal";
 import ImageUploadField from "@/src/components/image-upload";
 import { createGroupSchema, CreateGroupValues } from "@/src/schema/savings.schema";
+import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
 
 const CreateGroupLayout = () => {
   const router = useRouter();
+  const { createSavingGroup } = useSavings();
 
   const { setIsWeekOpen, setIsMonthOpen, setIsCalendarOpen, setIsInfoOpen } = useModal();
 
@@ -39,15 +41,30 @@ const CreateGroupLayout = () => {
     register,
     handleSubmit,
     setValue,
-    // reset,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<CreateGroupValues>({
     resolver: yupResolver(createGroupSchema),
   });
 
   const onSubmit = (data: CreateGroupValues) => {
-    console.log(data);
-    setIsInfoOpen(true);
+    const payload = {
+      ...data,
+      savingType: "group",
+      frequentAmount: 20000,
+      groupImage: {
+        imageUrl:
+          "https://png.pngtree.com/png-vector/20230126/ourmid/pngtree-halftone-gradient-background-vector-pattern-grunge-texture-futuristic-half-banner-vector-png-image_46057032.jpg",
+        publicId: "group-image",
+      },
+    };
+
+    createSavingGroup(payload, {
+      onSuccess: () => {
+        setIsInfoOpen(true);
+        reset();
+      },
+    });
   };
 
   const commonProps = {
@@ -63,6 +80,8 @@ const CreateGroupLayout = () => {
   const handleBack = () => {
     router.back();
   };
+
+  console.log("errors", errors);
 
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -93,8 +112,8 @@ const CreateGroupLayout = () => {
               placeholder="e.g Rent, Vacation..."
               labelColor="secondary"
               type="text"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("title")}
+              error={errors?.title?.message}
               {...commonProps}
             />
 
@@ -112,8 +131,8 @@ const CreateGroupLayout = () => {
               placeholder="e.g Rent, Vacation..."
               labelColor="secondary"
               type="text"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("groupDescription")}
+              error={errors?.groupDescription?.message}
               {...commonProps}
             />
 
@@ -129,10 +148,10 @@ const CreateGroupLayout = () => {
                 labelColor="secondary"
                 options={["Day", "Week", "Month"]}
                 value={frequency}
-                error={errors?.frequency?.message}
+                error={errors?.frequentTime?.message}
                 onChange={(val) => {
                   setFrequency(val);
-                  setValue("frequency", val);
+                  setValue("frequentTime", val);
                   if (val === "Week") {
                     setIsWeekOpen(true);
                   } else if (val === "Month") {
@@ -147,10 +166,10 @@ const CreateGroupLayout = () => {
               labelColor="secondary"
               options={["6 months", "9 months", "1 year", "Let me choose"]}
               value={frequency}
-              error={errors?.frequency?.message}
+              error={errors?.frequencyDuration?.message}
               onChange={(val) => {
                 setFrequency(val);
-                setValue("frequency", val);
+                setValue("frequencyDuration", val);
                 if (val === "Let me choose") {
                   setIsCalendarOpen(true);
                 }
@@ -162,12 +181,16 @@ const CreateGroupLayout = () => {
               placeholder="e.g 2, 3, 50..."
               labelColor="secondary"
               type="number"
-              fieldProps={register("purpose")}
-              error={errors?.purpose?.message}
+              fieldProps={register("memberLimit")}
+              error={errors?.memberLimit?.message}
               {...commonProps}
             />
 
-            <ImageUploadField fieldProps={register("purpose")} label="Group savings photo" />
+            <ImageUploadField
+              fieldProps={register("image")}
+              error={errors.image?.message}
+              label="Group savings photo"
+            />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
               Create Group

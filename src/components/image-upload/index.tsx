@@ -80,8 +80,14 @@ const ImageUploadField = ({
           ref={fieldProps?.ref}
           name={fieldProps?.name}
           onChange={(e) => {
+            const file = e.target.files?.[0];
             handleImageChange(e);
-            fieldProps?.onChange?.(e);
+            fieldProps?.onChange?.({
+              target: {
+                name: fieldProps.name,
+                value: file,
+              },
+            });
           }}
         />
       </Box>

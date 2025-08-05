@@ -47,3 +47,21 @@ type UserDetails = {
     isRegistrationComplete: boolean;
   };
 };
+
+type Savings = {
+  _id: string;
+  title: string;
+  targetAmount: number;
+  frequentAmount: number;
+  savingType: "goal" | "group"; // add union type if you have more variants
+  frequencyDuration: string;
+  interestRate: string;
+  groupRefferalCode: string;
+  startDate: string; // or Date, if parsed
+  withdrawalDate: string; // or Date, if parsed
+  savingProgress: number;
+  isClosed: boolean;
+  groupMembers: string[];
+  memberLimit: number;
+  groupDescription: string;
+};
