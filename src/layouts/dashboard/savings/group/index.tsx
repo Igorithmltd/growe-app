@@ -1,4 +1,4 @@
-import { Loader, Spinner, StyledButton, StyledText } from "@/src/components";
+import { Spinner, StyledButton, StyledText } from "@/src/components";
 import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa6";
 import { EmptyCard, GroupCard, SavingsCard } from "../../cards";
