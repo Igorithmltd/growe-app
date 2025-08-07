@@ -92,7 +92,7 @@ const GroupSavings = () => {
             </Box>
           ) : (
             <HStack
-              spaceX={{ base: 2, md: 4 }} // ✅ Corrected from spaceX
+              spaceX={{ base: 2, md: 4 }} 
               mt={6}
               overflowX="auto"
               css={{
