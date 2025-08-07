@@ -2,7 +2,7 @@
 import { useCallback } from "react";
 import { useFetcher } from "../../useFetcher";
 
-const useFinanceNotes = () => {
+const useGetFinanceNotes = () => {
   const getAllFinanceNotes = useCallback(async (): Promise<GlobalResponseData<Note[]>> => {
     try {
       const response = await useFetcher({
@@ -39,4 +39,4 @@ const useFinanceNotes = () => {
   return { getAllFinanceNotes, getNote };
 };
 
-export default useFinanceNotes;
+export default useGetFinanceNotes;

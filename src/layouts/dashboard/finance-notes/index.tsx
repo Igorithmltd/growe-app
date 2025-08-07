@@ -7,6 +7,8 @@ import { StyledButton, StyledText } from "@/src/components";
 import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
 import { FinanceCard } from "../cards";
+import { useQuery } from "@tanstack/react-query";
+import useGetFinanceNotes from "@/src/hooks/apis/queries/useFinanceNotes";
 
 const colorSchemes = [
   { bg: "#E3F0E12B", accent: "#89C184" }, // green
@@ -50,6 +52,13 @@ const financeNotes = [
 
 const FinanceNotesLayout = () => {
   const router = useRouter();
+
+  const { getAllFinanceNotes } = useGetFinanceNotes();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["all-finance-notes"],
+    queryFn: getAllFinanceNotes,
+  });
 
   const handleBack = () => {
     router.back();
