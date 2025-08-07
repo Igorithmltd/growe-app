@@ -1,59 +1,34 @@
 "use client";
 
-import { Box, VStack } from "@chakra-ui/react";
-//
-import { StyledButton, StyledText } from "@/src/components";
-// import { ROUTES } from "@/src/utils/constants";
+import { Box, Flex, VStack } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+
+import { Loader, StyledButton, StyledText } from "@/src/components";
 import { BackIcon } from "@/public/svgs";
-import { FinanceCard } from "../cards";
+import { EmptyCard, FinanceCard } from "../cards";
+import useGetFinanceNotes from "@/src/hooks/apis/queries/useFinanceNotes";
 
 const colorSchemes = [
-  { bg: "#E3F0E12B", accent: "#89C184" }, // green
-  { bg: "#FFF3B12B", accent: "#FFEB80" }, // yellow
-  { bg: "#E7E7FB2B", accent: "#8080FF" }, // purple
-  { bg: "#FFF6F6", accent: "#FF8080" }, // red
-];
-
-const financeNotes = [
-  {
-    title: "Personal Savings",
-    description: "January budget analysis shows we're on track with savings goals.",
-    amount: 75000,
-    date: "2025-01-15",
-    tag: "Savings",
-  },
-  {
-    title: "Investment in United Capital Money Market Fund",
-    description:
-      "Invested ₦500,000 in the United Capital Money Market Fund for a duration of 1 year.",
-    amount: 500000,
-    date: "2025-01-15",
-    tag: "Investment",
-  },
-  {
-    title: "Vacation Savings Plan",
-    description: "Saving ₦100,000 for a summer vacation in June 2025.",
-    amount: 100000,
-    date: "2025-01-15",
-    tag: "Goal",
-  },
-  {
-    title: "Monthly Grocery Expenses",
-    description:
-      "Spent ₦50,000 on groceries for the month, including fruits, vegetables, snacks, and household essentials.",
-    amount: 50000,
-    date: "2025-01-15",
-    tag: "Expenses",
-  },
+  { bg: "#E3F0E12B", accent: "#89C184" },
+  { bg: "#FFF3B12B", accent: "#FFEB80" },
+  { bg: "#E7E7FB2B", accent: "#8080FF" },
+  { bg: "#FFF6F6", accent: "#FF8080" },
 ];
 
 const FinanceNotesLayout = () => {
   const router = useRouter();
+  const { getAllFinanceNotes } = useGetFinanceNotes();
 
-  const handleBack = () => {
-    router.back();
-  };
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["all-finance-notes"],
+    queryFn: getAllFinanceNotes,
+  });
+
+  const financeNotes = data?.data.message || [];
+  const loading = isPending || isFetching;
+
+  const handleBack = () => router.back();
 
   return (
     <Box
@@ -76,22 +51,36 @@ const FinanceNotesLayout = () => {
       </Box>
 
       <VStack align="stretch" spaceY={6} my={14}>
-        {financeNotes.map((note, index) => {
-          const scheme = colorSchemes[index % colorSchemes.length];
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Flex h="150px" alignItems="center" justifyContent="center">
+            <StyledText color="red.500" fontSize="md">
+              {error instanceof Error ? error.message : "Unknown error"}
+            </StyledText>
+          </Flex>
+        ) : financeNotes.length === 0 ? (
+          <Box mt={6}>
+            <EmptyCard title="You Don’t Have Finance Notes Yet!" />
+          </Box>
+        ) : (
+          financeNotes.map((note, index) => {
+            const scheme = colorSchemes[index % colorSchemes.length];
 
-          return (
-            <FinanceCard
-              key={index}
-              title={note.title}
-              description={note.description}
-              amount={note.amount}
-              date={note.date}
-              tag={note.tag}
-              bg={scheme.bg}
-              accentColor={scheme.accent} // If you use this for left border
-            />
-          );
-        })}
+            return (
+              <FinanceCard
+                key={note._id || index}
+                title={note.title}
+                description={note.description}
+                amount={note.amount}
+                date={"22-01-2025"} // Replace with actual `note.date` if available
+                tag={note.category}
+                bg={scheme.bg}
+                accentColor={scheme.accent}
+              />
+            );
+          })
+        )}
       </VStack>
 
       <Box

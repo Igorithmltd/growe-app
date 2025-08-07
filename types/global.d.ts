@@ -65,3 +65,11 @@ type Savings = {
   memberLimit: number;
   groupDescription: string;
 };
+
+type Note = {
+  _id: string;
+  title: string;
+  category: string;
+  amount: number;
+  description: string;
+}
