@@ -32,7 +32,7 @@ const CreateNoteLayout = () => {
   const router = useRouter();
   const { createFinanceNote, isCreatingNote } = useFinanceNotes();
 
-  const { setIsCalendarOpen, setIsInfoOpen, setIsSelectOpen, setIsTagsOpen } = useModal();
+  const { setIsInfoOpen, setIsSelectOpen } = useModal();
 
   const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
   const [selectedTag, setSelectedTag] = useState<string>("");
