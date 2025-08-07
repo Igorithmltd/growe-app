@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
 
 import { Box, HStack, VStack } from "@chakra-ui/react";
@@ -22,7 +24,7 @@ import CalendarModal from "../../savings/modals/CalenderModal";
 import InfoModal from "@/src/components/modals/InfoModal";
 import TagsModal from "../modal/TagsModal";
 import { createNoteSchema, CreateNoteValues } from "@/src/schema/finance-notes.schema";
-import { useFinanceNotes } from "@/src/hooks/mutations/finance/useFinanceNotes"; // ✅ Adjust path to your project
+import { useFinanceNotes } from "@/src/hooks/apis/mutation/dashboard/useFinanceNotes";
 
 const categoryOptions = ["Personal Savings", "Group Savings", "Goals", "Investments"];
 
