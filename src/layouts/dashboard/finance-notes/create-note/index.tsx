@@ -30,7 +30,7 @@ const categoryOptions = ["Personal Savings", "Group Savings", "Goals", "Investme
 
 const CreateNoteLayout = () => {
   const router = useRouter();
-  const { createFinanceNote, isCreatingNote } = useFinanceNotes(); // ✅ Mutation hook
+  const { createFinanceNote, isCreatingNote } = useFinanceNotes();
 
   const { setIsCalendarOpen, setIsInfoOpen, setIsSelectOpen, setIsTagsOpen } = useModal();
 
