@@ -1177,7 +1177,7 @@ export const BreakSavingsCard = ({
   valueColor = "secondary",
 }: {
   title: string;
-  value: string;
+  value: string | number;
   subtitle?: string;
   titleColor?: string;
   valueColor?: string;

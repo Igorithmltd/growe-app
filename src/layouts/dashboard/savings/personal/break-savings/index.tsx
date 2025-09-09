@@ -16,6 +16,8 @@ import { useModal } from "@/src/contexts/ModalContext";
 import { withdrawalInfoSchema, WithdrawalInfoValues } from "@/src/schema/profile.schema";
 import { useState } from "react";
 import SavingsSummarySection from "./summary";
+import useSavings from "@/src/hooks/apis/queries/useSavings";
+import { useQuery } from "@tanstack/react-query";
 
 const banks = [
   "Access Bank",
@@ -30,9 +32,19 @@ const banks = [
   "Wema Bank",
 ];
 
-export default function BreakSavingsLayout() {
+export default function BreakSavingsLayout({ id }: { id: string }) {
   const router = useRouter();
   const { setIsSelectOpen } = useModal();
+
+  const { getSaving } = useSavings();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["goal-details", id],
+    queryFn: () => getSaving(id),
+  });
+
+  const loading = isPending || isFetching;
+  const saving = data?.data.message as Savings;
 
   const {
     register,
@@ -83,7 +95,7 @@ export default function BreakSavingsLayout() {
       </Box>
 
       {isFirstStep ? (
-        <SavingsSummarySection onClick={() => setIsFirstStep(false)} />
+        <SavingsSummarySection saving={saving} onClick={() => setIsFirstStep(false)} />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spaceY={4} align="stretch" mt={10}>

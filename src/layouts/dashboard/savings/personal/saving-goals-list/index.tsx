@@ -29,7 +29,7 @@ const SavingGoalList = () => {
         </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          Saving Goalssss
+          Saving Goals
         </StyledText>
       </Box>
       <VStack align="stretch" spaceY={4} mt={6}>

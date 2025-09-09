@@ -1,21 +1,30 @@
 import { StyledButton } from "@/src/components";
 import { BreakSavingsCard } from "@/src/layouts/dashboard/cards";
 import { Box, SimpleGrid } from "@chakra-ui/react";
+import { calculateBreakDetails } from "@/src/utils/helpers";
 
-export default function SavingsSummarySection({ onClick }: { onClick?: () => void }) {
+export default function SavingsSummarySection({
+  saving,
+  onClick,
+}: {
+  saving: Savings;
+  onClick?: () => void;
+}) {
+  const { breakFee, amountToReceive } = calculateBreakDetails(saving.targetAmount);
+
   const summaryCards = [
     {
       title: "Total Personal Savings",
-      value: "₦133,000",
+      value: `${saving.targetAmount.toLocaleString()}`,
     },
     {
       title: "Break Fee (5%)",
-      value: "₦6,650",
+      value: `₦${breakFee.toLocaleString()}`,
       titleColor: "#FF8080",
     },
     {
       title: "Amount You’ll Receive",
-      value: "₦126,350",
+      value: `₦${amountToReceive.toLocaleString()}`,
     },
   ];
 

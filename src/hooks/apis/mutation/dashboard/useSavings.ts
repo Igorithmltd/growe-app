@@ -6,6 +6,7 @@ import { handleError } from "@/src/utils/helpers";
 import { useFetcher } from "../../../useFetcher";
 import useShowToast from "../../../useShowToast";
 import {
+  BreakSavings,
   CreateGroupValues,
   EditGroupValues,
   JoinGroupValues,
@@ -71,6 +72,19 @@ export const useSavings = () => {
   const joinGroup = async (data: JoinGroupValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
       url: "/auth/forgot-password",
+      requestType: "POST",
+      body: data,
+      useBaseUrl: true,
+    });
+
+    if (response.error) handleError(response.error);
+
+    return response.data;
+  };
+
+  const breakSaving = async (data: BreakSavings): Promise<AuthResponseData> => {
+    const response = await useFetcher({
+      url: "/savings/break-saving",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
@@ -266,6 +280,43 @@ export const useSavings = () => {
     },
   });
 
+  const { mutate: breakSavings, isPending: isBreaking } = useMutation<
+    AuthResponseData,
+    AxiosError<ErrorResponseData>,
+    BreakSavings
+  >({
+    mutationFn: breakSaving,
+    onError: (error) => {
+      if (error.response) {
+        const errorData = error.response.data;
+        showToast({
+          title: "Error",
+          description: errorData.message || "Something went wrong on the server",
+          status: "error",
+        });
+      } else if (error.request) {
+        showToast({
+          title: "Network Error",
+          description: "No response received from the server, try again",
+          status: "warning",
+        });
+      } else {
+        showToast({
+          title: "Error",
+          description: error.message || "An unknown error occurred",
+          status: "error",
+        });
+      }
+    },
+    onSuccess: () => {
+      showToast({
+        title: "Success",
+        description: "Breaking successful",
+        status: "success",
+      });
+    },
+  });
+
   return {
     createSavingsGoal,
     isCreatingGoal,
@@ -277,5 +328,7 @@ export const useSavings = () => {
     isVerifying,
     joinSavingGroup,
     isJoiningGroup,
+    breakSavings,
+    isBreaking,
   };
 };

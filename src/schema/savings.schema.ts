@@ -46,6 +46,10 @@ export interface JoinGroupValues {
   bank: string;
 }
 
+export interface BreakSavings {
+  savingId: string;
+}
+
 const schemaWithoutType = Yup.object({
   title: Yup.string().required("Title is required"),
   targetAmount: Yup.number().required("Target amount is required"),

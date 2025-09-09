@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const SavingsPage = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+  const { id } = await params;
   return <SavingDetailsLayout id={id} />;
 };
 

@@ -20,7 +20,7 @@ const SavingDetailsLayout = ({ id }: { id: string }) => {
   const { getSaving } = useSavings();
 
   const { data, isPending, isFetching, error } = useQuery({
-    queryKey: ["group-details", id],
+    queryKey: ["goal-details", id],
     queryFn: () => getSaving(id),
   });
 

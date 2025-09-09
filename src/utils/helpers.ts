@@ -114,9 +114,21 @@ export const hexToRgba = (hex: string, alpha: number) => {
 };
 
 export const getDaysLeft = (start?: string, end?: string) => {
-    if (!start || !end) return "-";
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    const diff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-    return diff > 0 ? diff : 0;
+  if (!start || !end) return "-";
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const diff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+  return diff > 0 ? diff : 0;
+};
+
+export function calculateBreakDetails(targetAmount: number) {
+  const breakFeeRate = 0.05;
+
+  const breakFee = targetAmount * breakFeeRate;
+  const amountToReceive = targetAmount - breakFee;
+
+  return {
+    breakFee,
+    amountToReceive,
   };
+}
