@@ -5,8 +5,9 @@ export const metadata: Metadata = {
   title: "Growe | Savings Goal",
 };
 
-const SavingsPage = () => {
-  return <SavingDetailsLayout />;
+const SavingsPage = async ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+  return <SavingDetailsLayout id={id} />;
 };
 
 export default SavingsPage;

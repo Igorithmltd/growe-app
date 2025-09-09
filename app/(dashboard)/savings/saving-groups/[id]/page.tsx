@@ -5,8 +5,10 @@ export const metadata: Metadata = {
   title: "Growe | Savings Group",
 };
 
-const SavingsGroupPage = () => {
-  return <GroupDetailsLayout />;
+const SavingsGroupPage = async ({ params }: { params: { id: string } }) => {
+  const { id } = await params;
+
+  return <GroupDetailsLayout id={id} />;
 };
 
 export default SavingsGroupPage;

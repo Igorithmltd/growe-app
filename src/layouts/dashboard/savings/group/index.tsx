@@ -156,7 +156,7 @@ const GroupSavings = () => {
           ) : error ? (
             <Flex h="150px" alignItems="center" justifyContent="center">
               <StyledText color="red.500" fontSize="md">
-                {error instanceof Error ? error.message : "Unknown error"}
+                {error instanceof Error ? popularError?.message : "Unknown error"}
               </StyledText>
             </Flex>
           ) : savings.length === 0 ? (

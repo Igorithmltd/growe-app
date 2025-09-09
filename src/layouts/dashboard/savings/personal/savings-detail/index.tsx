@@ -1,8 +1,8 @@
 "use client";
 
 import { BackIcon } from "@/public/svgs";
-import { StyledButton, StyledText } from "@/src/components";
-import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
+import { Loader, StyledButton, StyledText } from "@/src/components";
+import { Box, Flex, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActiveSavingsCard, ActivityCard, DetailsCard } from "../../../cards";
 import { FaUser } from "react-icons/fa6";
 import { MdPayment } from "react-icons/md";
@@ -10,24 +10,55 @@ import { CiUnlock } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import InfoModal from "@/src/components/modals/InfoModal";
 import { useModal } from "@/src/contexts/ModalContext";
+import useSavings from "@/src/hooks/apis/queries/useSavings";
+import { useQuery } from "@tanstack/react-query";
 
-const data = [
-  { label: "Target Amount", value: "₦800,000" },
-  { label: "Frequent Amount", value: "₦800,000" },
-  { label: "Interest Rate", value: "10% p.a" },
-  { label: "Maturity Date", value: "Apr 15, 2025" },
-  { label: "Automation", value: "Every Sunday" },
-  { label: "Estimated Future Amount", value: "₦808,000" },
-];
-
-const SavingDetailsLayout = () => {
+const SavingDetailsLayout = ({ id }: { id: string }) => {
   const router = useRouter();
   const { setIsInfoOpen } = useModal();
+
+  const { getSaving } = useSavings();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["group-details", id],
+    queryFn: () => getSaving(id),
+  });
+
+  const loading = isPending || isFetching;
+  const saving = data?.data.message;
 
   const handleContinue = () => {
     setIsInfoOpen(false);
     router.push("/savings/saving-goals/123/break-savings");
   };
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <Flex h="50vh" alignItems="center" justifyContent="center">
+        <StyledText color="red.500" textAlign="justify" fontSize="md">
+          {error instanceof Error ? error.message : "Unknown error"}
+        </StyledText>
+      </Flex>
+    );
+  }
+
+  if (!saving) {
+    router.push("/savings/saving-goals");
+    return null;
+  }
+
+  const savingData = [
+    { label: "Target Amount", value: saving.targetAmount },
+    { label: "Frequent Amount", value: saving.frequentAmount },
+    { label: "Interest Rate", value: `${saving.interestRate}% p.a ` },
+    { label: "Maturity Date", value: saving.withdrawalDate },
+    { label: "Automation", value: "Every Sunday" },
+    { label: "Estimated Future Amount", value: "₦808,000" },
+  ];
 
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -41,11 +72,16 @@ const SavingDetailsLayout = () => {
       </HStack>
 
       <VStack align="stretch" spaceY={8} mt={14}>
-        <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
+        <ActiveSavingsCard
+          amount={String(saving.targetAmount)}
+          name={saving.title}
+          plan={saving.duration}
+          value={saving.savingProgress}
+        />
 
         <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
-          {data.map(({ label, value }) => (
-            <DetailsCard title={label} value={value} key={label} />
+          {savingData.map(({ label, value }) => (
+            <DetailsCard title={label} value={String(value)} key={label} />
           ))}
         </Grid>
 
