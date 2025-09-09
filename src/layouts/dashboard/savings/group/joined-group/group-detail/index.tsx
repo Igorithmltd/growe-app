@@ -1,42 +1,80 @@
 "use client";
 
 import { BackIcon } from "@/public/svgs";
-import { StyledButton, StyledText } from "@/src/components";
-import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
+import { Loader, StyledButton, StyledText } from "@/src/components";
+import { Box, Flex, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActivityCard, DetailsCard, GroupInfoCard } from "../../../../cards";
 import { FaGear, FaUser } from "react-icons/fa6";
 import { MdContentCopy, MdPayment } from "react-icons/md";
 import { CiUnlock } from "react-icons/ci";
 import { useRouter } from "next/navigation";
-import { copyToClipboard } from "@/src/utils/helpers";
+import { copyToClipboard, getDaysLeft } from "@/src/utils/helpers";
 import useShowToast from "@/src/hooks/useShowToast";
 import { useModal } from "@/src/contexts/ModalContext";
 import GroupSettingsModal from "../../../modals/GroupSettingsModal";
+import useSavings from "@/src/hooks/apis/queries/useSavings";
+import { useQuery } from "@tanstack/react-query";
 
-const data = [
-  { label: "Start Date", value: "10th Jan 2025" },
-  { label: "Withdrwal Date", value: "10th June 2025" },
-  { label: "Target Group savings amount", value: "₦2Million" },
-  { label: "Target per member", value: "₦200,000" },
-  { label: "Frequency amount", value: "₦25,000 Monthly" },
-  { label: "Interest Rate", value: "10%" },
-  { label: "Savings duration", value: "6 months" },
-  { label: "Days left", value: "160" },
-];
-
-const GroupDetailsLayout = () => {
+const GroupDetailsLayout = ({ id }: { id: string }) => {
   const router = useRouter();
   const toast = useShowToast();
-
   const { setIsGroupSettingsOpen } = useModal();
 
+  const { getSaving } = useSavings();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["group-details", id],
+    queryFn: () => getSaving(id),
+  });
+
+  const loading = isPending || isFetching;
+  const saving = data?.data.message;
+
   const handleCopy = async () => {
-    const success = await copyToClipboard("hgvhgv");
+    const success = await copyToClipboard(String(saving?.groupRefferalCode));
     toast({
       title: success ? "Copied!" : "Copy failed",
       status: success ? "success" : "error",
     });
   };
+
+  const daysLeft = getDaysLeft(saving?.startDate, saving?.withdrawalDate);
+
+  const savingData = [
+    { label: "Start Date", value: saving?.startDate },
+    { label: "Withdrawal Date", value: saving?.withdrawalDate },
+    { label: "Target Group savings amount", value: saving?.targetAmount },
+    {
+      label: "Target per member",
+      value:
+        saving?.targetAmount && saving?.memberLimit
+          ? `₦${(Number(saving.targetAmount) / Number(saving?.memberLimit)).toLocaleString()}`
+          : "N/A",
+    },
+    { label: "Frequency amount", value: "₦25,000 Monthly" },
+    { label: "Interest Rate", value: saving?.interestRate ? `${saving.interestRate}%` : "N/A" },
+    { label: "Savings duration", value: saving?.duration },
+    { label: "Days left", value: daysLeft },
+  ];
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <Flex h="50vh" alignItems="center" justifyContent="center">
+        <StyledText color="red.500" textAlign="justify" fontSize="md">
+          {error instanceof Error ? error.message : "Unknown error"}
+        </StyledText>
+      </Flex>
+    );
+  }
+
+  if (!saving) {
+    router.push("/savings/saving-groups");
+    return null;
+  }
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -49,15 +87,19 @@ const GroupDetailsLayout = () => {
         </StyledText>
       </HStack>
 
-      <VStack align="stretch" spaceY={8} mt={14}>
+      <VStack align="stretch" spaceX={8} mt={14}>
         <GroupInfoCard
-          title="Education Savings Group"
-          daysLeft={28}
-          members={30}
-          percentageCompletion={65}
-          savingsPerMember="₦200K"
+          title={saving?.title}
+          daysLeft={Number(daysLeft)}
+          members={saving?.groupMembers?.length ?? 0}
+          percentageCompletion={saving?.savingProgress ?? 0}
+          savingsPerMember={
+            saving?.targetAmount && saving?.memberLimit
+              ? `₦${(Number(saving.targetAmount) / Number(saving.memberLimit)).toLocaleString()}`
+              : "N/A"
+          }
           totalSavings="₦700K"
-          interest={10}
+          interest={Number(saving?.interestRate)}
           image="/images/group/3.jpg"
         />
 
@@ -66,9 +108,7 @@ const GroupDetailsLayout = () => {
             About Group
           </StyledText>
           <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
-            Education Savings Group helps you and others save collectively for tuition,
-            certifications, and educational goals. Together, make learning affordable and achievable
-            for everyone!
+            {saving?.groupDescription}
           </StyledText>
         </Box>
 
@@ -118,8 +158,8 @@ const GroupDetailsLayout = () => {
         </Box>
 
         <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
-          {data.map(({ label, value }) => (
-            <DetailsCard title={label} value={value} key={label} />
+          {savingData.map(({ label, value }) => (
+            <DetailsCard title={label} value={String(value)} key={label} />
           ))}
         </Grid>
 
@@ -129,7 +169,7 @@ const GroupDetailsLayout = () => {
             color="secondary"
             flex={{ base: 1, lg: "unset" }}
             bg="white"
-            onClick={() => router.push("/savings/saving-groups/123/top-up")}
+            onClick={() => router.push(`/savings/saving-groups/${id}/top-up`)}
             fontSize={{ base: "sm", md: "md" }}
           >
             <Grid
@@ -150,7 +190,7 @@ const GroupDetailsLayout = () => {
             bg="white"
             px={8}
             fontSize={{ base: "sm", md: "md" }}
-            onClick={() => router.push("/savings/saving-groups/123/disbursement")}
+            onClick={() => router.push(`/savings/saving-groups/${id}/disbursement`)}
           >
             <Grid
               h="30px"
