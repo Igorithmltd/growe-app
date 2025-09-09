@@ -6,12 +6,63 @@ const useSavings = () => {
   const getSavingGroups = useCallback(async (): Promise<GlobalResponseData<Savings[]>> => {
     try {
       const response = await useFetcher({
-        url: "/savings",
+        url: "/savings/all-groups-savings",
         useBaseUrl: true,
       });
 
       if (response.error) {
         throw new Error("Error fetching savings groups: " + response.error?.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
+  const getPersonalSavings = useCallback(async (): Promise<GlobalResponseData<Savings[]>> => {
+    try {
+      const response = await useFetcher({
+        url: "/savings/all-personal-savings",
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw new Error("Error fetching personal savings: " + response.error?.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
+  const getActiveSavings = useCallback(async (): Promise<GlobalResponseData<Savings[]>> => {
+    try {
+      const response = await useFetcher({
+        url: "/savings/all-active-savings",
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw new Error("Error fetching active savings: " + response.error?.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
+  const getPopularSavings = useCallback(async (): Promise<GlobalResponseData<Savings[]>> => {
+    try {
+      const response = await useFetcher({
+        url: "/savings/popular-savings",
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw new Error("Error fetching popular savings: " + response.error?.message);
       }
 
       return response.data;
@@ -36,7 +87,8 @@ const useSavings = () => {
       throw error;
     }
   }, []);
-  return { getSavingGroups, getSaving };
+
+  return { getSavingGroups, getSaving, getPersonalSavings, getActiveSavings, getPopularSavings };
 };
 
 export default useSavings;
