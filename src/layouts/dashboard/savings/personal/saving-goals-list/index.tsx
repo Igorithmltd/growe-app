@@ -29,37 +29,36 @@ const SavingGoalList = () => {
         </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          Saving Goals
+          Saving Goalssss
         </StyledText>
-
-        <VStack align="stretch" spaceY={4} mt={6}>
-          {loading ? (
-            <Flex h="50vh" alignItems="center" justifyContent="center">
-              <Spinner />
-            </Flex>
-          ) : error ? (
-            <Flex h="50vh" alignItems="center" justifyContent="center">
-              <StyledText color="red.500" fontSize="md">
-                {error instanceof Error ? error.message : "Unknown error"}
-              </StyledText>
-            </Flex>
-          ) : savings.length === 0 ? (
-            <Box mt={6}>
-              <EmptyCard title="You Don’t Have Any Active Personal Savings Yet!" />
-            </Box>
-          ) : (
-            savings.map((saving, index) => (
-              <ActiveSavingsCard
-                key={saving._id || index}
-                name={saving.title}
-                amount={saving.targetAmount.toLocaleString()}
-                plan={`${saving.duration} months`}
-                value={saving.savingProgress}
-              />
-            ))
-          )}
-        </VStack>
       </Box>
+      <VStack align="stretch" spaceY={4} mt={6}>
+        {loading ? (
+          <Flex h="50vh" alignItems="center" justifyContent="center">
+            <Spinner />
+          </Flex>
+        ) : error ? (
+          <Flex h="50vh" alignItems="center" justifyContent="center">
+            <StyledText color="red.500" fontSize="md">
+              {error instanceof Error ? error.message : "Unknown error"}
+            </StyledText>
+          </Flex>
+        ) : savings.length === 0 ? (
+          <Box mt={6}>
+            <EmptyCard title="You Don’t Have Any Active Personal Savings Yet!" />
+          </Box>
+        ) : (
+          savings.map((saving, index) => (
+            <ActiveSavingsCard
+              key={saving._id || index}
+              name={saving.title}
+              amount={saving.targetAmount.toLocaleString()}
+              plan={`${saving.duration} months`}
+              value={saving.savingProgress}
+            />
+          ))
+        )}
+      </VStack>
     </Box>
   );
 };
