@@ -533,6 +533,7 @@ export const ActivityCard = ({
 
 export const GroupInfoCard = ({
   bg = "white",
+  id,
   title,
   image,
   members,
@@ -545,6 +546,7 @@ export const GroupInfoCard = ({
   canClick = true,
 }: {
   bg?: string;
+  id: string
   title: string;
   image: string;
   members: number;
@@ -567,9 +569,9 @@ export const GroupInfoCard = ({
   const handleClick = () => {
     if (canClick) {
       if (isJoin) {
-        router.push("/savings/join-group/123");
+        router.push(`/savings/join-group/${id}`);
       } else {
-        router.push("/savings/saving-groups/123");
+        router.push(`/savings/saving-groups/${id}`);
       }
     }
   };

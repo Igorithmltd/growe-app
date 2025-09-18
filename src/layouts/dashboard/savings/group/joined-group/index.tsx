@@ -48,6 +48,7 @@ const JoinedGroupsLayout = () => {
       return (
         <GroupInfoCard
           key={group._id}
+          id={group._id}
           title={group.title}
           daysLeft={daysLeft}
           members={group.groupMembers.length}

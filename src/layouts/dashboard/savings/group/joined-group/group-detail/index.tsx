@@ -8,7 +8,7 @@ import { FaGear, FaUser } from "react-icons/fa6";
 import { MdContentCopy, MdPayment } from "react-icons/md";
 import { CiUnlock } from "react-icons/ci";
 import { useRouter } from "next/navigation";
-import { copyToClipboard, getDaysLeft } from "@/src/utils/helpers";
+import { copyToClipboard, formatDate, getDaysLeft } from "@/src/utils/helpers";
 import useShowToast from "@/src/hooks/useShowToast";
 import { useModal } from "@/src/contexts/ModalContext";
 import GroupSettingsModal from "../../../modals/GroupSettingsModal";
@@ -41,8 +41,8 @@ const GroupDetailsLayout = ({ id }: { id: string }) => {
   const daysLeft = getDaysLeft(saving?.startDate, saving?.withdrawalDate);
 
   const savingData = [
-    { label: "Start Date", value: saving?.startDate },
-    { label: "Withdrawal Date", value: saving?.withdrawalDate },
+    { label: "Start Date", value: formatDate(saving?.startDate) },
+    { label: "Withdrawal Date", value: formatDate(saving?.withdrawalDate) },
     { label: "Target Group savings amount", value: saving?.targetAmount },
     {
       label: "Target per member",
@@ -77,7 +77,7 @@ const GroupDetailsLayout = ({ id }: { id: string }) => {
   }
 
   return (
-    <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{ base: 2, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
         <Box onClick={() => router.back()}>
           <BackIcon />
@@ -87,8 +87,9 @@ const GroupDetailsLayout = ({ id }: { id: string }) => {
         </StyledText>
       </HStack>
 
-      <VStack align="stretch" spaceX={8} mt={14}>
+      <VStack align="stretch" spaceY={8} mt={14}>
         <GroupInfoCard
+          id={saving._id}
           title={saving?.title}
           daysLeft={Number(daysLeft)}
           members={saving?.groupMembers?.length ?? 0}

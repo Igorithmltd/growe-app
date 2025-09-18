@@ -6,7 +6,7 @@ const useSavings = () => {
   const getSavingGroups = useCallback(async (): Promise<GlobalResponseData<Savings[]>> => {
     try {
       const response = await useFetcher({
-        url: "/savings/all-groups-savings",
+        url: "/savings/all-group-savings",
         useBaseUrl: true,
       });
 
@@ -57,7 +57,7 @@ const useSavings = () => {
   const getPopularSavings = useCallback(async (): Promise<GlobalResponseData<Savings[]>> => {
     try {
       const response = await useFetcher({
-        url: "/savings/popular-savings",
+        url: "/savings/promoted-savings",
         useBaseUrl: true,
       });
 
@@ -74,7 +74,7 @@ const useSavings = () => {
   const getSaving = useCallback(async (id: string): Promise<GlobalResponseData<Savings>> => {
     try {
       const response = await useFetcher({
-        url: `/product/${id}`,
+        url: `/savings/get-saving/${id}`,
         useBaseUrl: true,
       });
 

@@ -113,13 +113,21 @@ export const hexToRgba = (hex: string, alpha: number) => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-export const getDaysLeft = (start?: string, end?: string) => {
+export const getDaysLeft = (start?: string, end?: string): number | "-" => {
   if (!start || !end) return "-";
+
   const startDate = new Date(start);
   const endDate = new Date(end);
-  const diff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-  return diff > 0 ? diff : 0;
+
+  startDate.setHours(0, 0, 0, 0);
+  endDate.setHours(0, 0, 0, 0);
+
+  const diffMs = endDate.getTime() - startDate.getTime();
+  const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+  return diffDays > 0 ? diffDays : 0;
 };
+
 
 export function calculateBreakDetails(targetAmount: number) {
   const breakFeeRate = 0.05;
@@ -131,4 +139,9 @@ export function calculateBreakDetails(targetAmount: number) {
     breakFee,
     amountToReceive,
   };
+}
+
+export function formatDate(dateString?: string): string {
+  const date = new Date(String(dateString));
+  return date.toISOString().split("T")[0];
 }
