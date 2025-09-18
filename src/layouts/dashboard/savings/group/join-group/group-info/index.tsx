@@ -30,15 +30,22 @@ const GroupPreviewLayout = ({ id }: { id: string }) => {
   const savingData = [
     { label: "Start Date", value: formatDate(saving?.startDate) },
     { label: "Withdrawal Date", value: formatDate(saving?.withdrawalDate) },
-    { label: "Target Group savings amount", value: saving?.targetAmount },
+    {
+      label: "Target Group savings amount",
+      value: `₦${Number(saving?.targetAmount).toLocaleString()}`,
+    },
     {
       label: "Target per member",
       value:
-        saving?.targetAmount && saving?.memberLimit
-          ? `₦${(Number(saving.targetAmount) / Number(saving?.memberLimit)).toLocaleString()}`
+        saving?.targetAmount && saving?.memberLimit && saving.memberLimit > 0
+          ? (Number(saving.targetAmount) / Number(saving.memberLimit)).toLocaleString("en-NG", {
+              style: "currency",
+              currency: "NGN",
+              minimumFractionDigits: 0,
+            })
           : "N/A",
     },
-    { label: "Frequency amount", value: `₦${Number(saving?.frequentAmount)}` },
+    { label: "Frequency amount", value: `₦${Number(saving?.frequentAmount).toLocaleString()}` },
     { label: "Interest Rate", value: saving?.interestRate ? `${saving.interestRate}%` : "N/A" },
     { label: "Savings duration", value: saving?.duration },
     { label: "Days left", value: daysLeft },
