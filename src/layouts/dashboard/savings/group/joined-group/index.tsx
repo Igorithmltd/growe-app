@@ -10,11 +10,11 @@ import { useQuery } from "@tanstack/react-query";
 
 const JoinedGroupsLayout = () => {
   const router = useRouter();
-  const { getSavingGroups } = useSavings();
+  const { getActiveSavings } = useSavings();
 
   const { data, isPending, isFetching, error } = useQuery({
-    queryKey: ["all-savings-groups"],
-    queryFn: getSavingGroups,
+    queryKey: ["all-active-groups"],
+    queryFn: getActiveSavings,
   });
 
   const handleBack = () => {
