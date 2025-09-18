@@ -128,7 +128,6 @@ export const getDaysLeft = (start?: string, end?: string): number | "-" => {
   return diffDays > 0 ? diffDays : 0;
 };
 
-
 export function calculateBreakDetails(targetAmount: number) {
   const breakFeeRate = 0.05;
 
@@ -142,6 +141,13 @@ export function calculateBreakDetails(targetAmount: number) {
 }
 
 export function formatDate(dateString?: string): string {
-  const date = new Date(String(dateString));
-  return date.toISOString().split("T")[0];
+  if (!dateString) return "-";
+  const date = new Date(dateString);
+  return isNaN(date.getTime())
+    ? "-"
+    : date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
 }

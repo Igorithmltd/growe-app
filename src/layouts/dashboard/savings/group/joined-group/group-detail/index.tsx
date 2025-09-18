@@ -101,7 +101,7 @@ const GroupDetailsLayout = ({ id }: { id: string }) => {
           }
           totalSavings="₦700K"
           interest={Number(saving?.interestRate)}
-          image="/images/group/3.jpg"
+          image={saving.groupImage.imageUrl || "/images/group/3.jpg"}
         />
 
         <Box>
