@@ -98,9 +98,7 @@ const GroupPreviewLayout = ({ id }: { id: string }) => {
             About Group
           </StyledText>
           <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
-            Education Savings Group helps you and others save collectively for tuition,
-            certifications, and educational goals. Together, make learning affordable and achievable
-            for everyone!
+            {saving?.groupDescription}
           </StyledText>
         </Box>
 
