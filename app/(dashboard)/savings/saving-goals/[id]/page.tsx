@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Growe | Savings Goal",
 };
 
-const SavingsPage = async ({ params }: { params: { id: string } }) => {
+const SavingsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   return <SavingDetailsLayout id={id} />;
 };

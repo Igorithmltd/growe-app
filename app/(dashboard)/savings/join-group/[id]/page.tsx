@@ -5,9 +5,7 @@ export const metadata: Metadata = {
   title: "Growe | Join Savings Group",
 };
 
-const SavingsGroupPage = async ({ params }: { params: { id: string } }) => {
+export default async function SavingsGroupPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   return <GroupPreviewLayout id={id} />;
-};
-
-export default SavingsGroupPage;
+}
