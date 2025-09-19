@@ -43,13 +43,13 @@ const SummaryLayout = ({ data }: { data: SavingsGoalValues }) => {
 
   const formData = [
     { label: "Title", value: data.title },
-    { label: "Target Amount", value: `${data.targetAmount.toLocaleString()}` },
+    { label: "Target Amount", value: `₦${data.targetAmount.toLocaleString()}` },
     { label: "Interest Rate", value: `${data.interestRate}% p.a` },
     { label: "Maturity Date", value: calculateMaturityDate(data.duration) },
     { label: "Saving Frequency", value: frequency },
     {
       label: "Estimated Future Amount",
-      value: `${calculateFutureAmount(data.targetAmount, data.duration, data.interestRate).toLocaleString()}`,
+      value: `₦${calculateFutureAmount(data.targetAmount, data.duration, data.interestRate).toLocaleString()}`,
     },
   ];
 

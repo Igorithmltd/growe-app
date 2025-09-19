@@ -79,7 +79,7 @@ const useSavings = () => {
       });
 
       if (response.error) {
-        throw new Error("Error fetching product: " + response.error?.message);
+        throw new Error("Error fetching saving: " + response.error?.message);
       }
 
       return response.data;

@@ -12,6 +12,7 @@ import InfoModal from "@/src/components/modals/InfoModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import useSavings from "@/src/hooks/apis/queries/useSavings";
 import { useQuery } from "@tanstack/react-query";
+import { calculateFutureAmount, formatDate } from "@/src/utils/helpers";
 
 const SavingDetailsLayout = ({ id }: { id: string }) => {
   const router = useRouter();
@@ -29,7 +30,7 @@ const SavingDetailsLayout = ({ id }: { id: string }) => {
 
   const handleContinue = () => {
     setIsInfoOpen(false);
-    router.push("/savings/saving-goals/123/break-savings");
+    router.push(`/savings/saving-goals/${id}/break-savings`);
   };
 
   if (loading) {
@@ -52,18 +53,20 @@ const SavingDetailsLayout = ({ id }: { id: string }) => {
   }
 
   const savingData = [
-    { label: "Target Amount", value: saving.targetAmount },
-    { label: "Frequent Amount", value: saving.frequentAmount },
+    { label: "Target Amount", value: `₦${saving.targetAmount.toLocaleString()}` },
     { label: "Interest Rate", value: `${saving.interestRate}% p.a ` },
-    { label: "Maturity Date", value: saving.withdrawalDate },
-    { label: "Automation", value: "Every Sunday" },
-    { label: "Estimated Future Amount", value: "₦808,000" },
+    { label: "Maturity Date", value: formatDate(saving.withdrawalDate) },
+    // { label: "Payment Interval", value: "Every Sunday" },
+    {
+      label: "Estimated Future Amount",
+      value: `₦${calculateFutureAmount(saving.targetAmount, saving.duration, Number(saving.interestRate)).toLocaleString()}`,
+    },
   ];
 
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
-        <Box onClick={() => router.back()}>
+        <Box onClick={() => router.back()} cursor="pointer">
           <BackIcon />
         </Box>
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
@@ -73,7 +76,8 @@ const SavingDetailsLayout = ({ id }: { id: string }) => {
 
       <VStack align="stretch" spaceY={8} mt={14}>
         <ActiveSavingsCard
-          amount={String(saving.targetAmount)}
+          id={saving._id}
+          amount={String(saving.targetAmount.toLocaleString())}
           name={saving.title}
           plan={saving.duration}
           value={saving.savingProgress}

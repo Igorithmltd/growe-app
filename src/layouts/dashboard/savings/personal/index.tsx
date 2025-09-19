@@ -78,10 +78,11 @@ const PersonalSavings = () => {
           ) : (
             savings.map((saving, index) => (
               <ActiveSavingsCard
+                id={saving._id}
                 key={saving._id || index}
                 name={saving.title}
                 amount={saving.targetAmount.toLocaleString()}
-                plan={`${saving.duration} months`}
+                plan={saving.duration}
                 value={saving.savingProgress}
               />
             ))

@@ -216,3 +216,42 @@ export function capitalizeFirst(str?: string) {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+export function getFrequency(data: {
+  paymentInterval?: "daily" | "weekly" | "monthly" | "once" | null;
+  weeklyPaymentDay?: string;
+  monthlyPaymentDay?: number;
+}): string {
+  const capitalizeFirst = (str?: string) =>
+    str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase() : "";
+
+  const getOrdinalSuffix = (n?: number) => {
+    if (!n) return "";
+    const j = n % 10,
+      k = n % 100;
+    if (j === 1 && k !== 11) return "st";
+    if (j === 2 && k !== 12) return "nd";
+    if (j === 3 && k !== 13) return "rd";
+    return "th";
+  };
+
+  switch (data.paymentInterval) {
+    case "daily":
+      return "Daily";
+    case "weekly":
+      return data.weeklyPaymentDay
+        ? `Every ${capitalizeFirst(data.weeklyPaymentDay)}`
+        : "Weekly";
+    case "monthly":
+      return data.monthlyPaymentDay
+        ? `Every ${data.monthlyPaymentDay}${getOrdinalSuffix(
+            data.monthlyPaymentDay
+          )}`
+        : "Monthly";
+    case "once":
+      return "Just this once";
+    default:
+      return "N/A";
+  }
+}
+
