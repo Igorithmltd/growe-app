@@ -165,8 +165,8 @@ const SavingGoalLayout = () => {
                       setWeekDay("");
                       setMonthDay("");
                       setValue("paymentInterval", "once");
-                      setValue("weeklyPaymentDay", null);
-                      setValue("monthlyPaymentDay", null);
+                      setValue("weeklyPaymentDay", undefined);
+                      setValue("monthlyPaymentDay", undefined);
                     } else {
                       setValue("paymentInterval", null);
                     }
