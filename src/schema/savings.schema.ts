@@ -15,7 +15,7 @@ export interface SavingsGoalValues {
   paymentInterval: "daily" | "weekly" | "monthly" | "once" | null;
   duration: string; // e.g. "1month", "6months", etc.
   interestRate: number;
-  weeklyPaymentDay?: string
+  weeklyPaymentDay?: string;
   monthlyPaymentDay?: number;
 }
 
@@ -98,14 +98,7 @@ export const savingsGoalSchemaWithoutType = Yup.object({
     .min(0, "Interest rate cannot be negative")
     .required("Interest rate is required"),
 
-  weeklyPaymentDay: Yup.mixed<
-    "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday"
-  >()
-    .oneOf(
-      ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
-      "Invalid weekly payment day"
-    )
-    .notRequired(),
+  weeklyPaymentDay: Yup.string().notRequired(),
 
   monthlyPaymentDay: Yup.number()
     .min(1, "Day must be at least 1")

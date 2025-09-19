@@ -61,6 +61,7 @@ const SavingGoalLayout = () => {
     defaultValues: {
       duration: "6 months",
       interestRate: 10,
+      savingType: "personal",
     },
   });
 
@@ -105,6 +106,8 @@ const SavingGoalLayout = () => {
     setSummaryData(values);
     setIsCompleted(true);
   };
+
+  console.log(errors)
 
   return (
     <Box px={2} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -160,7 +163,6 @@ const SavingGoalLayout = () => {
                     const newVal = !isOnce;
                     setIsOnce(newVal);
                     if (newVal) {
-                      // nullify weekly + monthly when once is checked
                       setFrequency("");
                       setWeekDay("");
                       setMonthDay("");
@@ -173,7 +175,6 @@ const SavingGoalLayout = () => {
                   }}
                 />
 
-                {/* Payment interval (hidden if once) */}
                 {!isOnce && (
                   <SelectButtonGroup
                     label="Every"
@@ -240,7 +241,6 @@ const SavingGoalLayout = () => {
                 </StyledButton>
               </VStack>
 
-              {/* Week modal */}
               <WeekModal
                 value={weekDay}
                 onChange={(val) => {
@@ -249,7 +249,6 @@ const SavingGoalLayout = () => {
                 }}
               />
 
-              {/* Month modal */}
               <MonthModal
                 value={monthDay}
                 onChange={(val) => {

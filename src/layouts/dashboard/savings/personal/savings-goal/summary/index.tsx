@@ -4,7 +4,12 @@ import InfoModal from "@/src/components/modals/InfoModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
 import { SavingsGoalValues } from "@/src/schema/savings.schema";
-import { calculateFutureAmount, calculateMaturityDate } from "@/src/utils/helpers";
+import {
+  calculateFutureAmount,
+  calculateMaturityDate,
+  capitalizeFirst,
+  getOrdinalSuffix,
+} from "@/src/utils/helpers";
 import { Box, HStack, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
@@ -13,30 +18,52 @@ const SummaryLayout = ({ data }: { data: SavingsGoalValues }) => {
 
   const { setIsInfoOpen } = useModal();
 
+  let frequency: string;
+
+  switch (data.paymentInterval) {
+    case "daily":
+      frequency = "Daily";
+      break;
+    case "weekly":
+      frequency = data.weeklyPaymentDay
+        ? `Every ${capitalizeFirst(data.weeklyPaymentDay)}`
+        : "Weekly";
+      break;
+    case "monthly":
+      frequency = data.monthlyPaymentDay
+        ? `Every ${data.monthlyPaymentDay}${getOrdinalSuffix(data.monthlyPaymentDay)}`
+        : "Monthly";
+      break;
+    case "once":
+      frequency = "Just this once";
+      break;
+    default:
+      frequency = "N/A";
+  }
+
   const formData = [
-    { label: "Target Amount", value: data.title },
-    { label: "Target Amount", value: data.targetAmount },
+    { label: "Title", value: data.title },
+    { label: "Target Amount", value: `${data.targetAmount.toLocaleString()}` },
     { label: "Interest Rate", value: `${data.interestRate}% p.a` },
     { label: "Maturity Date", value: calculateMaturityDate(data.duration) },
-    { label: "Saving Frequency", value: "Every Sunday" },
+    { label: "Saving Frequency", value: frequency },
     {
       label: "Estimated Future Amount",
-      value: calculateFutureAmount(data.targetAmount, data.duration, data.interestRate),
+      value: `${calculateFutureAmount(data.targetAmount, data.duration, data.interestRate).toLocaleString()}`,
     },
   ];
 
-  const { createSavingsGoal } = useSavings();
+  const { createSavingsGoal, isCreatingGoal } = useSavings();
 
   const onSubmit = () => {
     const payload = {
       ...data,
-      savingType: "goal",
+      weeklyPaymentDay: data.weeklyPaymentDay?.toLowerCase(),
     };
 
     createSavingsGoal(payload, {
       onSuccess: () => {
-        setIsInfoOpen(true)
-        router.push("/savings");
+        setIsInfoOpen(true);
       },
     });
   };
@@ -66,14 +93,21 @@ const SummaryLayout = ({ data }: { data: SavingsGoalValues }) => {
           </HStack>
         ))}
       </VStack>
-      <StyledButton type="button" w="full" mt={14} onClick={() => {onSubmit}}>
+      <StyledButton
+        type="button"
+        w="full"
+        mt={14}
+        loading={isCreatingGoal}
+        onClick={() => onSubmit()}
+      >
         Submit
       </StyledButton>
 
       <InfoModal
         message="Congratulations! 🎉 Your Goal is Set"
         hasButton={true}
-        buttonText={"Go back to Quick Save"}
+        buttonText={"Go back to Savings"}
+        onButtonClick={() => router.push("/savings")}
         icon={<TargetMark />}
       />
     </Box>
