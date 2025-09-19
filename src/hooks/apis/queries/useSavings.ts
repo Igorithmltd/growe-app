@@ -88,7 +88,31 @@ const useSavings = () => {
     }
   }, []);
 
-  return { getSavingGroups, getSaving, getPersonalSavings, getActiveSavings, getPopularSavings };
+  const getSavingDurations = useCallback(async (): Promise<GlobalResponseData<Duration[]>> => {
+    try {
+      const response = await useFetcher({
+        url: `/savings/get-saving-durations`,
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw new Error("Error fetching durations: " + response.error?.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
+  return {
+    getSavingGroups,
+    getSaving,
+    getPersonalSavings,
+    getActiveSavings,
+    getPopularSavings,
+    getSavingDurations,
+  };
 };
 
 export default useSavings;

@@ -76,6 +76,12 @@ type Savings = {
   };
 };
 
+type Duration = {
+  _id: string;
+  duration: string;
+  interestPercentage: number;
+};
+
 
 type Note = {
   _id: string;
