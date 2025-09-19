@@ -1,6 +1,7 @@
 export { StyledText } from "./text";
 export { StyledButton } from "./button";
 export { StyledField } from "./input";
+export { StyledSelect } from "./select";
 export { PasswordInput } from "./password-input";
 export { AmountInput } from "./amount-input";
 export { StyledPinInput } from "./pin-input";

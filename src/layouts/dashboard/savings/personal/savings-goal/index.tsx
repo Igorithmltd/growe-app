@@ -10,58 +10,71 @@ import {
   StyledText,
   SelectButtonGroup,
   StyledCheckbox,
+  StyledSelect,
 } from "@/src/components";
 import { useRouter } from "next/navigation";
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon } from "@/public/svgs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WeekModal from "../../modals/WeekModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import MonthModal from "../../modals/MonthModal";
 import SummaryLayout from "./summary";
-import CalendarModal from "../../modals/CalenderModal";
 import { savingsGoalSchema, SavingsGoalValues } from "@/src/schema/savings.schema";
-import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
+import useDuration from "@/src/hooks/apis/queries/useSavings";
+import { useQuery } from "@tanstack/react-query";
 
 const SavingGoalLayout = () => {
   const router = useRouter();
-  const { createSavingsGoal } = useSavings();
-
-  const { setIsWeekOpen, setIsMonthOpen, setIsCalendarOpen } = useModal();
+  const { setIsWeekOpen, setIsMonthOpen } = useModal();
 
   const [frequency, setFrequency] = useState("");
   const [weekDay, setWeekDay] = useState("");
   const [monthDay, setMonthDay] = useState("");
-  const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [isOnce, setIsOnce] = useState<boolean>(false);
+  const [summaryData, setSummaryData] = useState<SavingsGoalValues | null>(null);
+
+  const { getSavingDurations } = useDuration();
+
+  const {
+    data: durationResponse,
+    isPending,
+    isFetching,
+    isError,
+  } = useQuery({
+    queryKey: ["saving-durations"],
+    queryFn: getSavingDurations,
+  });
+
+  const durations: Duration[] = durationResponse?.data?.message ?? [];
+  const loading = isPending || isFetching;
 
   const {
     register,
     handleSubmit,
     setValue,
-    reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<SavingsGoalValues>({
     resolver: yupResolver(savingsGoalSchema),
+    defaultValues: {
+      duration: "6 months",
+      interestRate: 10,
+    },
   });
-
-  const onSubmit = (data: SavingsGoalValues) => {
-    const payload = {
-      ...data,
-      savingType: "goal",
-      frequentAmount: 20000,
-    };
-
-    createSavingsGoal(payload, {
-      onSuccess: () => {
-        reset();
-      },
-    });
-  };
 
   const commonProps = {
     py: "20px",
+    bg: "#F8F8F8",
+    border: "2px solid #9BAB69",
+    _focus: {
+      outlineWidth: "2px",
+      border: "none",
+    },
+  };
+
+  const selectProps = {
     bg: "#F8F8F8",
     border: "2px solid #9BAB69",
     _focus: {
@@ -78,8 +91,23 @@ const SavingGoalLayout = () => {
     }
   };
 
+  const durationWatch = watch("duration");
+  useEffect(() => {
+    if (durationWatch && durations.length > 0) {
+      const selected = durations.find((d) => d._id === durationWatch);
+      if (selected) {
+        setValue("interestRate", selected.interestPercentage);
+      }
+    }
+  }, [durationWatch, durations, setValue]);
+
+  const onSubmit = (values: SavingsGoalValues) => {
+    setSummaryData(values);
+    setIsCompleted(true);
+  };
+
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={2} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
         <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
@@ -90,7 +118,7 @@ const SavingGoalLayout = () => {
       </Box>
 
       {isCompleted ? (
-        <SummaryLayout />
+        <SummaryLayout data={summaryData as SavingsGoalValues} />
       ) : (
         <>
           <StyledText
@@ -124,92 +152,110 @@ const SavingGoalLayout = () => {
                   {...commonProps}
                 />
 
-                <AmountInput
-                  label="Frequent Amount"
-                  placeholder="Enter frequent amount to add to target"
-                  labelColor="secondary"
-                  field={register("frequentAmount")}
-                  error={errors?.frequentAmount?.message}
-                  {...commonProps}
-                />
-
+                {/* Just once checkbox */}
                 <StyledCheckbox
                   label="Just this once"
                   checked={isOnce}
                   onChange={() => {
-                    setIsOnce((prev) => !prev);
-                    setValue("frequentTime", undefined);
+                    const newVal = !isOnce;
+                    setIsOnce(newVal);
+                    if (newVal) {
+                      // nullify weekly + monthly when once is checked
+                      setFrequency("");
+                      setWeekDay("");
+                      setMonthDay("");
+                      setValue("paymentInterval", "once");
+                      setValue("weeklyPaymentDay", null);
+                      setValue("monthlyPaymentDay", null);
+                    } else {
+                      setValue("paymentInterval", null);
+                    }
                   }}
                 />
 
+                {/* Payment interval (hidden if once) */}
                 {!isOnce && (
                   <SelectButtonGroup
                     label="Every"
                     labelColor="secondary"
-                    options={["Day", "Week", "Month"]}
+                    options={["daily", "weekly", "monthly"]}
                     value={frequency}
-                    error={errors?.frequentTime?.message}
+                    error={errors?.paymentInterval?.message}
                     onChange={(val) => {
                       setFrequency(val);
-                      setValue("frequentTime", val);
-                      if (val === "Week") setIsWeekOpen(true);
-                      if (val === "Month") setIsMonthOpen(true);
+                      setValue("paymentInterval", val as any);
+
+                      if (val === "weekly") {
+                        setMonthDay("");
+                        setValue("monthlyPaymentDay", undefined);
+                        setIsOnce(false);
+                        setValue("weeklyPaymentDay", undefined);
+                        setIsWeekOpen(true);
+                      }
+
+                      if (val === "monthly") {
+                        setWeekDay("");
+                        setValue("weeklyPaymentDay", undefined);
+                        setIsOnce(false);
+                        setValue("monthlyPaymentDay", undefined);
+                        setIsMonthOpen(true);
+                      }
+
+                      if (val === "daily") {
+                        setWeekDay("");
+                        setMonthDay("");
+                        setValue("weeklyPaymentDay", undefined);
+                        setValue("monthlyPaymentDay", undefined);
+                        setIsOnce(false);
+                      }
                     }}
                   />
                 )}
 
-                <SelectButtonGroup
-                  isGrid
-                  label="For"
+                <StyledSelect
+                  label="Duration"
                   labelColor="secondary"
-                  options={["6 months", "9 months", "1 year", "Let me choose"]}
-                  value={frequency}
-                  error={errors?.frequencyDuration?.message}
-                  onChange={(val) => {
-                    setFrequency(val);
-                    setValue("frequencyDuration", val);
-                    if (val === "Let me choose") setIsCalendarOpen(true);
-                  }}
+                  options={durations.map((d) => ({
+                    label: d.duration,
+                    value: d._id,
+                  }))}
+                  disabled={loading || isError}
+                  fieldProps={register("duration")}
+                  error={errors?.duration?.message}
+                  {...selectProps}
                 />
 
-                {/* <StyledField
-                  label="Interest Rate"
+                <StyledField
+                  label="Interest Rate (%)"
                   labelColor="secondary"
                   type="text"
                   readOnly
                   fieldProps={register("interestRate")}
                   error={errors?.interestRate?.message}
                   {...commonProps}
-                /> */}
+                />
 
                 <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
                   Save
                 </StyledButton>
               </VStack>
 
+              {/* Week modal */}
               <WeekModal
                 value={weekDay}
                 onChange={(val) => {
                   setWeekDay(val);
-                  setValue("dayToBePaid", val as SavingsGoalValues["dayToBePaid"]);
+                  setValue("weeklyPaymentDay", val as SavingsGoalValues["weeklyPaymentDay"]);
                 }}
               />
 
+              {/* Month modal */}
               <MonthModal
                 value={monthDay}
                 onChange={(val) => {
                   setMonthDay(val);
-                  setValue("dayToBePaid", val as SavingsGoalValues["dayToBePaid"]);
+                  setValue("monthlyPaymentDay", Number(val));
                 }}
-              />
-
-              <CalendarModal
-                selectedDate={calendarDate}
-                onSelect={(date) => {
-                  setCalendarDate(date);
-                  setValue("frequencyDuration", date?.toISOString() ?? "");
-                }}
-                onClear={() => setCalendarDate(undefined)}
               />
             </form>
           </Box>

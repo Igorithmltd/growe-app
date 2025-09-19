@@ -10,12 +10,13 @@ type GroupImage = {
 
 export interface SavingsGoalValues {
   title: string;
-  targetAmount: number;
-  frequentAmount?: number;
-  frequentTime?: string;
   savingType: string;
-  frequencyDuration?: string;
-  dayToBePaid?: "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+  targetAmount: number;
+  paymentInterval: "daily" | "weekly" | "monthly" | "once" | null;
+  duration: string; // e.g. "1month", "6months", etc.
+  interestRate: number;
+  weeklyPaymentDay?: string
+  monthlyPaymentDay?: number;
 }
 
 export interface CreateGroupValues {
@@ -73,23 +74,42 @@ const schemaWithoutType = Yup.object({
     }),
 });
 
-const savingsGoalSchemaWithoutType = Yup.object({
-  title: Yup.string().required("Title is required"),
-  targetAmount: Yup.number().required("Target amount is required"),
+export const savingsGoalSchemaWithoutType = Yup.object({
+  title: Yup.string().required("Title is required").min(3, "Title must be at least 3 characters"),
 
-  frequentAmount: Yup.number().notRequired(),
-  frequentTime: Yup.string().notRequired(),
-  frequencyDuration: Yup.string().notRequired(),
+  savingType: Yup.string()
+    .oneOf(["group", "personal"], "Invalid saving type")
+    .required("Saving type is required"),
 
-  savingType: Yup.string().required("Saving type is required"),
+  targetAmount: Yup.number()
+    .typeError("Target amount must be a number")
+    .positive("Target amount must be greater than zero")
+    .required("Target amount is required"),
 
-  dayToBePaid: Yup.mixed<
-    "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday"
+  paymentInterval: Yup.mixed<"daily" | "weekly" | "monthly" | "once">()
+    .oneOf(["daily", "weekly", "monthly", "once"], "Invalid payment interval")
+    .nullable()
+    .required("Payment interval is required"),
+
+  duration: Yup.string().required("Duration is required"),
+
+  interestRate: Yup.number()
+    .typeError("Interest rate must be a number")
+    .min(0, "Interest rate cannot be negative")
+    .required("Interest rate is required"),
+
+  weeklyPaymentDay: Yup.mixed<
+    "monday" | "tuesday" | "wednesday" | "thursday" | "friday" | "saturday" | "sunday"
   >()
     .oneOf(
-      ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      "Invalid day"
+      ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"],
+      "Invalid weekly payment day"
     )
+    .notRequired(),
+
+  monthlyPaymentDay: Yup.number()
+    .min(1, "Day must be at least 1")
+    .max(31, "Day must be at most 31")
     .notRequired(),
 });
 

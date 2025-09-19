@@ -151,3 +151,54 @@ export function formatDate(dateString?: string): string {
         day: "numeric",
       });
 }
+
+export function calculateMaturityDate(duration: string, startDate: Date = new Date()): string {
+  const date = new Date(startDate);
+
+  const lower = duration.toLowerCase().trim();
+
+  if (lower.includes("month")) {
+    const months = parseInt(lower);
+    if (!isNaN(months)) {
+      date.setMonth(date.getMonth() + months);
+    }
+  } else if (lower.includes("year")) {
+    const years = parseInt(lower);
+    if (!isNaN(years)) {
+      date.setFullYear(date.getFullYear() + years);
+    }
+  }
+
+  // Format: "Apr 15, 2025"
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+export function calculateFutureAmount(
+  principal: number,
+  duration: string,
+  interestRate: number
+): number {
+  const lower = duration.toLowerCase().trim();
+
+  let years = 0;
+
+  if (lower.includes("month")) {
+    const months = parseInt(lower);
+    if (!isNaN(months)) {
+      years = months / 12;
+    }
+  } else if (lower.includes("year")) {
+    const yearsVal = parseInt(lower);
+    if (!isNaN(yearsVal)) {
+      years = yearsVal;
+    }
+  }
+
+  const futureAmount = principal * (1 + (interestRate / 100) * years);
+
+  return Number(futureAmount.toFixed(2));
+}
