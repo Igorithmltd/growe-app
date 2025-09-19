@@ -3,13 +3,11 @@
 "use client";
 
 import { Field, Select, createListCollection } from "@chakra-ui/react";
-import { UseFormRegisterReturn } from "react-hook-form";
 import { StyledText } from "@/src/components";
 
-export interface StyledSelectProps extends Field.RootProps {
+export interface StyledSelectProps {
   label?: string;
   placeholder?: string;
-  fieldProps?: UseFormRegisterReturn;
   error?: string;
   bgColor?: string;
   borderRadius?: string;
@@ -17,12 +15,14 @@ export interface StyledSelectProps extends Field.RootProps {
   labelWeight?: string;
   disabled?: boolean;
   options: { label: string; value: string | number }[];
+  value?: string | number; // controlled value
+  onChange?: (val: string) => void; // controlled onChange
+  [key: string]: any; // allow forwarding other props
 }
 
 export const StyledSelect = ({
   label,
   placeholder,
-  fieldProps,
   error,
   bgColor = "white",
   borderRadius = "10px",
@@ -30,17 +30,23 @@ export const StyledSelect = ({
   labelWeight,
   disabled = false,
   options,
+  value,       // controlled value
+  onChange,    // controlled onChange
   ...props
 }: StyledSelectProps) => {
-  const collection = createListCollection<{ label: string; value: string }>({
+  // Convert all values to string arrays for Chakra v3
+  const collection = createListCollection<{ label: string; value: string[] }>({
     items: options.map((opt) => ({
-      value: String(opt.value),
+      value: [String(opt.value)],
       label: opt.label,
     })),
   });
 
+  // Wrap controlled value in array
+  const selectedValue = value !== undefined ? [String(value)] : undefined;
+
   return (
-    <Field.Root invalid={!!error} disabled={disabled} spaceY={1}>
+    <Field.Root invalid={!!error} disabled={disabled} spaceY={1} {...props}>
       {label && (
         <Field.Label>
           <StyledText
@@ -60,7 +66,9 @@ export const StyledSelect = ({
         borderRadius={borderRadius}
         disabled={disabled}
         collection={collection}
-        {...props}
+        defaultValue={selectedValue}
+        value={selectedValue}
+        onValueChange={(details) => onChange?.(details.value[0])} // <-- unwrap value from ValueChangeDetails
       >
         <Select.HiddenSelect />
 
