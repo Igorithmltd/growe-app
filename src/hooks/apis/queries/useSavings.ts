@@ -91,7 +91,7 @@ const useSavings = () => {
   const getSavingDurations = useCallback(async (): Promise<GlobalResponseData<Duration[]>> => {
     try {
       const response = await useFetcher({
-        url: `/savings/get-saving-durations`,
+        url: "/savings/get-saving-durations",
         useBaseUrl: true,
       });
 

@@ -107,7 +107,7 @@ const SavingGoalLayout = () => {
     setIsCompleted(true);
   };
 
-  console.log(errors)
+  console.log(errors);
 
   return (
     <Box px={2} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
