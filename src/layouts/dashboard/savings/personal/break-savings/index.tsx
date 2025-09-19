@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, VStack, HStack } from "@chakra-ui/react";
+import { Box, VStack, HStack, Spinner, Center } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
 import {
@@ -16,6 +16,8 @@ import { useModal } from "@/src/contexts/ModalContext";
 import { withdrawalInfoSchema, WithdrawalInfoValues } from "@/src/schema/profile.schema";
 import { useState } from "react";
 import SavingsSummarySection from "./summary";
+import useSavings from "@/src/hooks/apis/queries/useSavings";
+import { useQuery } from "@tanstack/react-query";
 
 const banks = [
   "Access Bank",
@@ -30,9 +32,19 @@ const banks = [
   "Wema Bank",
 ];
 
-export default function BreakSavingsLayout() {
+export default function BreakSavingsLayout({ id }: { id: string }) {
   const router = useRouter();
   const { setIsSelectOpen } = useModal();
+  const { getSaving } = useSavings();
+  const [isFirstStep, setIsFirstStep] = useState(true);
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["goal-details", id],
+    queryFn: () => getSaving(id),
+  });
+
+  const loading = isPending || isFetching;
+  const saving = data?.data?.message as Savings;
 
   const {
     register,
@@ -43,11 +55,6 @@ export default function BreakSavingsLayout() {
   } = useForm<WithdrawalInfoValues>({
     resolver: yupResolver(withdrawalInfoSchema),
   });
-  const [isFirstStep, setIsFirstStep] = useState(true);
-
-  const onSubmit = (data: WithdrawalInfoValues) => {
-    console.log(data);
-  };
 
   const selectedBank = watch("bank");
 
@@ -56,8 +63,10 @@ export default function BreakSavingsLayout() {
     setIsSelectOpen(false);
   };
 
-  const handleBack = () => {
-    router.back();
+  const handleBack = () => router.back();
+
+  const onSubmit = (formData: WithdrawalInfoValues) => {
+    console.log(formData);
   };
 
   const commonProps = {
@@ -69,6 +78,26 @@ export default function BreakSavingsLayout() {
       border: "2px solid #9BAB69",
     },
   };
+
+  // -------- Loading / Error Handling --------
+  if (loading) {
+    return (
+      <Center h="100vh">
+        <Spinner size="xl" color="primary" />
+      </Center>
+    );
+  }
+
+  if (error) {
+    return (
+      <Center h="100vh">
+        <StyledText color="red.500" fontSize="lg">
+          Failed to load savings details. Please try again.
+        </StyledText>
+      </Center>
+    );
+  }
+  // -----------------------------------------
 
   return (
     <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -83,13 +112,13 @@ export default function BreakSavingsLayout() {
       </Box>
 
       {isFirstStep ? (
-        <SavingsSummarySection onClick={() => setIsFirstStep(false)} />
+        <SavingsSummarySection saving={saving} onClick={() => setIsFirstStep(false)} />
       ) : (
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spaceY={4} align="stretch" mt={10}>
             {/* Amount */}
             <StyledField
-              label="Amount you’ll recieve"
+              label="Amount you’ll receive"
               placeholder="₦126,350"
               labelColor="secondary"
               type="text"
@@ -127,7 +156,7 @@ export default function BreakSavingsLayout() {
               {...commonProps}
             />
 
-            {/* OTP and Generate Button */}
+            {/* OTP */}
             <VStack align="stretch" spaceY={4}>
               <StyledField
                 label="Enter OTP. Tap action below to generate code"

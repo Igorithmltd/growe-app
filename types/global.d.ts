@@ -53,18 +53,35 @@ type Savings = {
   title: string;
   targetAmount: number;
   frequentAmount: number;
-  savingType: "goal" | "group"; // add union type if you have more variants
-  frequencyDuration: string;
+  savingType: "personal" | "goal" | "group";
+  duration: string;
   interestRate: string;
   groupRefferalCode: string;
-  startDate: string; // or Date, if parsed
-  withdrawalDate: string; // or Date, if parsed
+  startDate: string; // ISO date string
+  withdrawalDate: string; // ISO date string
   savingProgress: number;
   isClosed: boolean;
+  isCompleted: boolean;
+  isCancelled: boolean;
+  isWithdrawn: boolean;
+  status: "active" | "inactive" | "completed" | "cancelled"; 
   groupMembers: string[];
   memberLimit: number;
   groupDescription: string;
+  admin: string;
+  chatId: string;
+  groupImage: {
+    imageUrl: string;
+    publicId: string;
+  };
 };
+
+type Duration = {
+  _id: string;
+  duration: string;
+  interestPercentage: number;
+};
+
 
 type Note = {
   _id: string;
@@ -72,4 +89,4 @@ type Note = {
   category: string;
   amount: number;
   description: string;
-}
+};

@@ -296,12 +296,14 @@ export const ActiveSavingsCard = ({
   name,
   plan,
   amount,
+  id,
 }: {
   bg?: string;
   value: number;
   name: string;
   plan: string;
   amount: string;
+  id: string;
 }) => {
   const router = useRouter();
 
@@ -314,7 +316,7 @@ export const ActiveSavingsCard = ({
       px={{ base: 3, md: 6 }}
       py={6}
       bg={bg}
-      onClick={() => router.push("/savings/saving-goals/123")}
+      onClick={() => router.push(`/savings/saving-goals/${id}`)}
     >
       <VStack align="stretch" spaceY={3}>
         <HStack justify="space-between" align="stretch">
@@ -533,6 +535,7 @@ export const ActivityCard = ({
 
 export const GroupInfoCard = ({
   bg = "white",
+  id,
   title,
   image,
   members,
@@ -545,6 +548,7 @@ export const GroupInfoCard = ({
   canClick = true,
 }: {
   bg?: string;
+  id: string;
   title: string;
   image: string;
   members: number;
@@ -567,9 +571,9 @@ export const GroupInfoCard = ({
   const handleClick = () => {
     if (canClick) {
       if (isJoin) {
-        router.push("/savings/join-group/123");
+        router.push(`/savings/join-group/${id}`);
       } else {
-        router.push("/savings/saving-groups/123");
+        router.push(`/savings/saving-groups/${id}`);
       }
     }
   };
@@ -1177,7 +1181,7 @@ export const BreakSavingsCard = ({
   valueColor = "secondary",
 }: {
   title: string;
-  value: string;
+  value: string | number;
   subtitle?: string;
   titleColor?: string;
   valueColor?: string;

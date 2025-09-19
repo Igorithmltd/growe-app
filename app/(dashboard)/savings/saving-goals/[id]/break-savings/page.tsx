@@ -5,8 +5,9 @@ export const metadata: Metadata = {
   title: "Growe | Break Savings",
 };
 
-const TopUpPage = () => {
-  return <BreakSavingsLayout />;
+const BreakSavingsPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const { id } = await params;
+  return <BreakSavingsLayout id={id} />;
 };
 
-export default TopUpPage;
+export default BreakSavingsPage;

@@ -11,13 +11,13 @@ const WeekModal = ({ value, onChange }: WeekModalProps) => {
   const { isWeekOpen, setIsWeekOpen } = useModal();
 
   const days = [
-    "Mondays",
-    "Tuesdays",
-    "Wednesdays",
-    "Thursdays",
-    "Fridays",
-    "Saturdays",
-    "Sundays",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
   ];
 
   return (

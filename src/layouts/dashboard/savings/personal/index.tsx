@@ -1,12 +1,23 @@
-import { StyledButton, StyledText } from "@/src/components";
-import { Box, VStack } from "@chakra-ui/react";
+import { Spinner, StyledButton, StyledText } from "@/src/components";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 import { FaPlus } from "react-icons/fa6";
 import { ActiveSavingsCard, EmptyCard, SavingsCard } from "../../cards";
 import { useRouter } from "next/navigation";
+import useSavings from "@/src/hooks/apis/queries/useSavings";
+import { useQuery } from "@tanstack/react-query";
 
 const PersonalSavings = () => {
   const router = useRouter();
-  const isEmpty = false;
+
+  const { getPersonalSavings } = useSavings();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["all-personal-savings"],
+    queryFn: getPersonalSavings,
+  });
+
+  const savings = data?.data.message || [];
+  const loading = isPending || isFetching;
 
   return (
     <Box>
@@ -46,20 +57,35 @@ const PersonalSavings = () => {
           fontWeight="medium"
           color="secondary"
         >
-          Active Savings
+          Active Personal Savings
         </StyledText>
 
         <VStack align="stretch" spaceY={4} mt={6}>
-          {isEmpty ? (
-            <EmptyCard title="You Don’t Have Any Active Savings Yet!" />
+          {loading ? (
+            <Flex h="250px" alignItems="center" justifyContent="center">
+              <Spinner />
+            </Flex>
+          ) : error ? (
+            <Flex h="250px" alignItems="center" justifyContent="center">
+              <StyledText color="red.500" fontSize="md">
+                {error instanceof Error ? error.message : "Unknown error"}
+              </StyledText>
+            </Flex>
+          ) : savings.length === 0 ? (
+            <Box mt={6}>
+              <EmptyCard title="You Don’t Have Any Active Personal Savings Yet!" />
+            </Box>
           ) : (
-            <VStack align="stretch" spaceY={4}>
-              <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
-              <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={10} />
-              <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={25} />
-              <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={50} />
-              <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={75} />
-            </VStack>
+            savings.map((saving, index) => (
+              <ActiveSavingsCard
+                id={saving._id}
+                key={saving._id || index}
+                name={saving.title}
+                amount={saving.targetAmount.toLocaleString()}
+                plan={saving.duration}
+                value={saving.savingProgress}
+              />
+            ))
           )}
         </VStack>
       </Box>
