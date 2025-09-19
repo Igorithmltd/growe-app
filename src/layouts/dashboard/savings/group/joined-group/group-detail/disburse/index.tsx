@@ -32,6 +32,7 @@ const DisbursementLayout = () => {
 
       <VStack align="stretch" spaceY={8} mt={14}>
         <GroupInfoCard
+          id=""
           title="Education Savings Group"
           daysLeft={28}
           members={30}
@@ -102,11 +103,7 @@ const DisbursementLayout = () => {
           ))}
         </VStack>
 
-        <StyledButton
-          type="button"
-          px={8}
-          fontSize={{ base: "sm", md: "md" }}
-        >
+        <StyledButton type="button" px={8} fontSize={{ base: "sm", md: "md" }}>
           Initiate Payment
         </StyledButton>
       </VStack>
