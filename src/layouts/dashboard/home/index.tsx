@@ -119,7 +119,7 @@ const DashboardHome = () => {
           </HStack>
 
           <VStack align="stretch" spaceY={4} mt={6}>
-            <ActiveSavingsCard amount="800,000" name="Rent" plan="6 months" value={90} />
+            <ActiveSavingsCard id="hhh" amount="800,000" name="Rent" plan="6 months" value={90} />
           </VStack>
         </Box>
 
