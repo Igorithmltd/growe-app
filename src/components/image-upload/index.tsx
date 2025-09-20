@@ -39,7 +39,6 @@ const ImageUploadField = ({
 
       setLoading(false);
 
-      // notify react-hook-form
       fieldProps?.onChange?.({
         target: {
           name: fieldProps.name,

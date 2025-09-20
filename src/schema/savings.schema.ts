@@ -30,7 +30,7 @@ export interface CreateGroupValues {
     publicId: string;
   };
   groupDescription?: string;
-  image?: File[];
+  image?: File;
 }
 
 export interface EditGroupValues {

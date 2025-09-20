@@ -79,16 +79,17 @@ const CreateGroupLayout = () => {
     }
   }, [durationWatch, durations, setValue]);
 
-  const onSubmit = async (data: CreateGroupValues & { image?: File[] }) => {
-    if (!data.image || data.image.length === 0) {
+  const onSubmit = async (data: CreateGroupValues) => {
+    if (!data.image) {
       throw new Error("Image is required");
     }
 
-    const uploadResponse = await uploadImages({ files: data.image });
+    const uploadResponse = await uploadImages({ file: data.image });
 
     const payload = {
       ...data,
       savingType: "group" as const,
+      weeklyPaymentDay: data.weeklyPaymentDay?.toLowerCase(),
       groupImage: {
         imageUrl: uploadResponse.data.imageUrl,
         publicId: uploadResponse.data.publicId,
@@ -120,7 +121,7 @@ const CreateGroupLayout = () => {
   console.log("errors", errors);
 
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={2} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
         <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
@@ -167,6 +168,7 @@ const CreateGroupLayout = () => {
               placeholder="e.g Rent, Vacation..."
               labelColor="secondary"
               type="text"
+              isTextarea
               fieldProps={register("groupDescription")}
               error={errors?.groupDescription?.message}
               {...commonProps}
