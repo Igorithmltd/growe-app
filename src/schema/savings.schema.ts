@@ -19,7 +19,7 @@ export interface CreateGroupValues {
   savingType: "group" | "personal";
   targetAmount: number;
   paymentInterval: "daily" | "weekly" | "monthly" | "once";
-  weeklyPaymentDay?: string
+  weeklyPaymentDay?: string;
   monthlyPaymentDay?: number;
   duration: string;
   interestRate?: number;
@@ -30,6 +30,7 @@ export interface CreateGroupValues {
     publicId: string;
   };
   groupDescription?: string;
+  image?: File[];
 }
 
 export interface EditGroupValues {
@@ -104,7 +105,7 @@ const schemaWithoutType = Yup.object({
   groupRefferalCode: Yup.string().notRequired(),
   memberLimit: Yup.number().notRequired(),
 
-  groupImage: Yup.mixed()
+  image: Yup.mixed()
     .required("Group image is required")
     .test("fileType", "Only image files are allowed", (value) => {
       if (!value || !(value instanceof File)) return false;

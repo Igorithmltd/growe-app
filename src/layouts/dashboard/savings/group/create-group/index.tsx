@@ -25,10 +25,12 @@ import { createGroupSchema, CreateGroupValues } from "@/src/schema/savings.schem
 import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
 import useDuration from "@/src/hooks/apis/queries/useSavings";
 import { useQuery } from "@tanstack/react-query";
+import { useUploadImages } from "@/src/hooks/apis/mutation/dashboard/useFileUpload";
 
 const CreateGroupLayout = () => {
   const router = useRouter();
-  const { createSavingGroup } = useSavings();
+  const { createSavingGroup, isCreatingGroup } = useSavings();
+  const { mutateAsync: uploadImages, isPending: isUploading } = useUploadImages();
   const { setIsWeekOpen, setIsMonthOpen, setIsInfoOpen } = useModal();
 
   const [frequency, setFrequency] = useState("");
@@ -77,14 +79,19 @@ const CreateGroupLayout = () => {
     }
   }, [durationWatch, durations, setValue]);
 
-  const onSubmit = (data: CreateGroupValues) => {
+  const onSubmit = async (data: CreateGroupValues & { image?: File[] }) => {
+    if (!data.image || data.image.length === 0) {
+      throw new Error("Image is required");
+    }
+
+    const uploadResponse = await uploadImages({ files: data.image });
+
     const payload = {
       ...data,
       savingType: "group" as const,
       groupImage: {
-        imageUrl:
-          "https://png.pngtree.com/png-vector/20230126/ourmid/pngtree-halftone-gradient-background-vector-pattern-grunge-texture-futuristic-half-banner-vector-png-image_46057032.jpg",
-        publicId: "group-image",
+        imageUrl: uploadResponse.data.imageUrl,
+        publicId: uploadResponse.data.publicId,
       },
     };
 
@@ -98,15 +105,6 @@ const CreateGroupLayout = () => {
 
   const commonProps = {
     py: "20px",
-    bg: "#F8F8F8",
-    border: "2px solid #9BAB69",
-    _focus: {
-      outlineWidth: "2px",
-      border: "none",
-    },
-  };
-
-  const selectProps = {
     bg: "#F8F8F8",
     border: "2px solid #9BAB69",
     _focus: {
@@ -238,7 +236,6 @@ const CreateGroupLayout = () => {
               disabled={loading || isError}
               fieldProps={register("duration")}
               error={errors?.duration?.message}
-              {...selectProps}
             />
 
             <StyledField
@@ -262,12 +259,13 @@ const CreateGroupLayout = () => {
             />
 
             <ImageUploadField
-              fieldProps={register("groupImage")}
-              error={errors?.groupImage?.message as string}
+              fieldProps={register("image")}
+              error={errors?.image?.message as string}
               label="Group savings photo"
+              isUploading={isUploading}
             />
 
-            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isCreatingGroup}>
               Create Group
             </StyledButton>
           </VStack>
@@ -293,6 +291,7 @@ const CreateGroupLayout = () => {
         message="Congratulations! 🎉 Your Savings Group Has Been Created!"
         hasButton={true}
         buttonText={"Go back to savings"}
+        onButtonClick={() => router.push("/savings")}
         icon={<GroupMark />}
       />
     </Box>

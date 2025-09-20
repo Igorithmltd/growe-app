@@ -24,14 +24,14 @@ export const StyledSelect = ({
   label,
   placeholder,
   error,
-  bgColor = "white",
+  bgColor = "#F8F8F8",
   borderRadius = "10px",
   labelColor = "grey",
   labelWeight,
   disabled = false,
   options,
-  value,       // controlled value
-  onChange,    // controlled onChange
+  value, // controlled value
+  onChange, // controlled onChange
   ...props
 }: StyledSelectProps) => {
   // Convert all values to string arrays for Chakra v3
@@ -65,10 +65,15 @@ export const StyledSelect = ({
         bg={bgColor}
         borderRadius={borderRadius}
         disabled={disabled}
+        border="2px solid #9BAB69"
+        _focus={{
+          outlineWidth: "2px",
+          border: "none",
+        }}
         collection={collection}
         defaultValue={selectedValue}
         value={selectedValue}
-        onValueChange={(details) => onChange?.(details.value[0])} // <-- unwrap value from ValueChangeDetails
+        onValueChange={(details) => onChange?.(details.value[0])}
       >
         <Select.HiddenSelect />
 
