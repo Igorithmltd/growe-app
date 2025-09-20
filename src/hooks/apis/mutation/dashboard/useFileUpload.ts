@@ -4,9 +4,14 @@ import { useFetcher } from "@/src/hooks/useFetcher";
 import { handleError } from "@/src/utils/helpers";
 //
 
-interface UploadResponseData {
-  data: string[];
-}
+export type UploadResponseData = {
+  success: boolean;
+  message: string;
+  data: {
+    imageUrl: string;
+    publicId: string;
+  };
+};
 
 interface UploadImageRequest {
   files: File[];

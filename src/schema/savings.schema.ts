@@ -13,7 +13,7 @@ export interface SavingsGoalValues {
   savingType: string;
   targetAmount: number;
   paymentInterval: "daily" | "weekly" | "monthly" | "once" | null;
-  duration: string; // e.g. "1month", "6months", etc.
+  duration: string;
   interestRate: number;
   weeklyPaymentDay?: string;
   monthlyPaymentDay?: number;
