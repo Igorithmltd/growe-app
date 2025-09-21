@@ -34,7 +34,7 @@ const useBankInfo = () => {
 
       try {
         const response = await useFetcher({
-          url: `/utils/verify-bank-account`,
+          url: "/utils/verify-bank-account",
           useBaseUrl: true,
           params,
         });

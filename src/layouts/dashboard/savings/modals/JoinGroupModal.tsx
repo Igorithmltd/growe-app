@@ -1,7 +1,7 @@
 import { Modal, StyledButton, StyledText, StyledField, StyledSelect } from "@/src/components";
 import { useModal } from "@/src/contexts/ModalContext";
 import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
-import useBankInfo from "@/src/hooks/apis/queries/usebankInfo";
+import useBankInfo from "@/src/hooks/apis/queries/useBankInfo";
 import {
   joinGroupSchema,
   JoinGroupValues,
