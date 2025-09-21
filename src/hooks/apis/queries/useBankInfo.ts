@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useFetcher } from "../../useFetcher";
 
 const useBankInfo = () => {
-  const getBankList = useCallback(async (): Promise<NewResponse<Bank[]>> => {
+  const getBankList = useCallback(async (): Promise<GlobalResponseData<Bank[]>> => {
     try {
       const response = await useFetcher({
         url: "/utils/get-banks",
@@ -27,7 +27,7 @@ const useBankInfo = () => {
     }: {
       accountNumber: string;
       bankCode: string;
-    }): Promise<NewResponse<BankAccount>> => {
+    }): Promise<GlobalResponseData<BankAccount>> => {
       const params = new URLSearchParams();
       params.append("accountNumber", accountNumber);
       params.append("bankCode", bankCode);
