@@ -7,6 +7,12 @@ type GlobalResponseData<T> = {
   };
 };
 
+type NewResponse<T> = {
+  success: boolean;
+  message: string;
+  data: T;
+};
+
 type AuthResponseData = {
   success: boolean;
   message: string;
@@ -64,7 +70,7 @@ type Savings = {
   isCompleted: boolean;
   isCancelled: boolean;
   isWithdrawn: boolean;
-  status: "active" | "inactive" | "completed" | "cancelled"; 
+  status: "active" | "inactive" | "completed" | "cancelled";
   groupMembers: string[];
   memberLimit: number;
   groupDescription: string;
@@ -82,11 +88,26 @@ type Duration = {
   interestPercentage: number;
 };
 
-
 type Note = {
   _id: string;
   title: string;
   category: string;
   amount: number;
   description: string;
+};
+
+type Bank = {
+  name: string;
+  slug: string;
+  code: string;
+  longcode: string;
+  gateway: string;
+  active: boolean;
+  country: string;
+  currency: string;
+}
+
+type BankAccount = {
+  account_number: string;
+  account_name: string;
 };

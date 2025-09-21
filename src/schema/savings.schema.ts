@@ -39,7 +39,7 @@ export interface EditGroupValues {
 }
 
 export interface VerifyInviteValues {
-  inviteCode: string;
+  groupRefferalCode: string;
 }
 
 export interface JoinGroupValues {
@@ -132,7 +132,7 @@ export const editGroupSchema: Yup.ObjectSchema<EditGroupValues> = Yup.object().s
 });
 
 export const verifyInviteSchema = Yup.object({
-  inviteCode: Yup.string().required("Referral or invite code is required"),
+  groupRefferalCode: Yup.string().required("Referral or invite code is required"),
 });
 
 export const joinGroupSchema = Yup.object({
