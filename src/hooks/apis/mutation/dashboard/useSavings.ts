@@ -58,7 +58,7 @@ export const useSavings = () => {
 
   const verifyInvite = async (data: VerifyInviteValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/auth/forgot-password",
+      url: "/savings/join-saving",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
@@ -71,7 +71,7 @@ export const useSavings = () => {
 
   const joinGroup = async (data: JoinGroupValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/auth/forgot-password",
+      url: "/users/update-acount-details",
       requestType: "POST",
       body: data,
       useBaseUrl: true,
@@ -200,7 +200,7 @@ export const useSavings = () => {
     onSuccess: () => {
       showToast({
         title: "Success",
-        description: "Savings Group edited successfully",
+        description: "Invite code verified successfully",
         status: "success",
       });
     },

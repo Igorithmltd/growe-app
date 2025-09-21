@@ -1,5 +1,6 @@
 import { Modal, StyledButton, StyledText, StyledField } from "@/src/components";
 import { useModal } from "@/src/contexts/ModalContext";
+import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
 import {
   joinGroupSchema,
   JoinGroupValues,
@@ -19,7 +20,7 @@ const JoinGroupModal = () => {
     register: verify,
     handleSubmit: handleVerify,
     // reset,
-    formState: { errors: verifyErrors, isSubmitting: isVerifying },
+    formState: { errors: verifyErrors, isSubmitting: isVerifyingCode },
   } = useForm<VerifyInviteValues>({
     resolver: yupResolver(verifyInviteSchema),
   });
@@ -33,15 +34,22 @@ const JoinGroupModal = () => {
     resolver: yupResolver(joinGroupSchema),
   });
 
+  const { verifyGroupInviteCode, isVerifying, joinSavingGroup, isJoiningGroup } = useSavings();
+
   const onVerify = (data: VerifyInviteValues) => {
-    console.log(data);
-    setIsCorrect(true);
+    verifyGroupInviteCode(data, {
+      onSuccess: () => {
+        setIsCorrect(true);
+      },
+    });
   };
 
   const onSubmit = (data: JoinGroupValues) => {
-    console.log(data);
-    setIsCorrect(true);
-    setIsJoinSavingsOpen(false);
+    joinSavingGroup(data, {
+      onSuccess: () => {
+        setIsJoinSavingsOpen(false);
+      },
+    });
   };
 
   const commonProps = {
@@ -100,7 +108,7 @@ const JoinGroupModal = () => {
                 {...commonProps}
               />
 
-              <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+              <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isJoiningGroup}>
                 Join Group
               </StyledButton>
             </VStack>
@@ -124,12 +132,12 @@ const JoinGroupModal = () => {
                 label="Enter Referral / invite code"
                 placeholder="eg. Ref/2098Bvk"
                 labelColor="secondary"
-                fieldProps={verify("inviteCode")}
-                error={verifyErrors?.inviteCode?.message}
+                fieldProps={verify("groupRefferalCode")}
+                error={verifyErrors?.groupRefferalCode?.message}
                 {...commonProps}
               />
 
-              <StyledButton type="submit" w="full" mt={2} loading={isVerifying}>
+              <StyledButton type="submit" w="full" mt={2} loading={isVerifyingCode || isVerifying}>
                 Next
               </StyledButton>
             </VStack>
