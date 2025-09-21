@@ -1,6 +1,7 @@
-import { Modal, StyledButton, StyledText, StyledField } from "@/src/components";
+import { Modal, StyledButton, StyledText, StyledField, StyledSelect } from "@/src/components";
 import { useModal } from "@/src/contexts/ModalContext";
 import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
+import useBankInfo from "@/src/hooks/apis/queries/usebankInfo";
 import {
   joinGroupSchema,
   JoinGroupValues,
@@ -9,26 +10,45 @@ import {
 } from "@/src/schema/savings.schema";
 import { VStack } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 const JoinGroupModal = () => {
   const { isJoinSavingsOpen, setIsJoinSavingsOpen } = useModal();
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
 
+  const { getBankList, getAccountName } = useBankInfo();
+
+  // ✅ fetch banks
+  const {
+    data: bankResponse,
+    isPending,
+    isFetching,
+    isError,
+  } = useQuery({
+    queryKey: ["bank-list"],
+    queryFn: getBankList,
+  });
+
+  const banks: Bank[] = bankResponse?.data ?? [];
+  const loading = isPending || isFetching;
+
+  // ✅ Invite code form
   const {
     register: verify,
     handleSubmit: handleVerify,
-    // reset,
     formState: { errors: verifyErrors, isSubmitting: isVerifyingCode },
   } = useForm<VerifyInviteValues>({
     resolver: yupResolver(verifyInviteSchema),
   });
 
+  // ✅ Join group form
   const {
     register,
     handleSubmit,
-    // reset,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<JoinGroupValues>({
     resolver: yupResolver(joinGroupSchema),
@@ -51,6 +71,26 @@ const JoinGroupModal = () => {
       },
     });
   };
+
+  const accountNumber = watch("accountNumber");
+  const bankCode = watch("bank");
+
+  useEffect(() => {
+    const fetchAccountName = async () => {
+      if (accountNumber?.length === 10 && bankCode) {
+        try {
+          const response = await getAccountName({
+            accountNumber,
+            bankCode,
+          });
+          setValue("accountName", response.data.account_name);
+        } catch (err) {
+          console.error("Failed to fetch account name", err);
+        }
+      }
+    };
+    fetchAccountName();
+  }, [accountNumber, bankCode, getAccountName, setValue]);
 
   const commonProps = {
     py: "20px",
@@ -82,15 +122,6 @@ const JoinGroupModal = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <VStack spaceY={8} align="stretch">
               <StyledField
-                label="Account Name"
-                placeholder="Enter account name"
-                labelColor="secondary"
-                fieldProps={register("accountName")}
-                error={errors?.accountName?.message}
-                {...commonProps}
-              />
-
-              <StyledField
                 label="Account Number"
                 placeholder="Enter account number"
                 labelColor="secondary"
@@ -99,12 +130,24 @@ const JoinGroupModal = () => {
                 {...commonProps}
               />
 
-              <StyledField
+              <StyledSelect
                 label="Bank"
-                placeholder="Select bank"
                 labelColor="secondary"
+                options={banks.map((bank) => ({
+                  label: bank.name,
+                  value: bank.code,
+                }))}
+                disabled={loading || isError}
                 fieldProps={register("bank")}
                 error={errors?.bank?.message}
+              />
+
+              <StyledField
+                label="Account Name"
+                labelColor="secondary"
+                readOnly
+                fieldProps={register("accountName")}
+                error={errors?.accountName?.message}
                 {...commonProps}
               />
 
