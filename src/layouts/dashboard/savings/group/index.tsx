@@ -124,8 +124,8 @@ const GroupSavings = () => {
                   title={group.title}
                   maxMemberAllowed={group.memberLimit}
                   membersJoined={group.groupMembers.length}
-                  amountEach={`₦${group.frequentAmount.toLocaleString()}`}
-                  image={"/images/group/1.jpg"}
+                  amountEach={`₦${(group.targetAmount / group.memberLimit).toLocaleString()}`}
+                  image={group.groupImage.imageUrl}
                 />
               ))}
             </HStack>
@@ -184,8 +184,8 @@ const GroupSavings = () => {
                   title={group.title}
                   maxMemberAllowed={group.memberLimit}
                   membersJoined={group.groupMembers.length}
-                  amountEach={`₦${group.frequentAmount.toLocaleString()}`}
-                  image={"/images/group/1.jpg"}
+                  amountEach={`₦${(group.targetAmount / group.memberLimit).toLocaleString()}`}
+                  image={group.groupImage.imageUrl}
                 />
               ))}
             </HStack>

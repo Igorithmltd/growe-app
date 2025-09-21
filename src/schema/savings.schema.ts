@@ -3,17 +3,12 @@ import { MAX_FILE_SIZE } from "../utils/constants";
 
 const SUPPORTED_FORMATS = ["image/jpeg", "image/png", "image/webp"];
 
-type GroupImage = {
-  imageUrl: string;
-  publicId: string;
-};
-
 export interface SavingsGoalValues {
   title: string;
   savingType: string;
   targetAmount: number;
   paymentInterval: "daily" | "weekly" | "monthly" | "once" | null;
-  duration: string; // e.g. "1month", "6months", etc.
+  duration: string;
   interestRate: number;
   weeklyPaymentDay?: string;
   monthlyPaymentDay?: number;
@@ -21,15 +16,21 @@ export interface SavingsGoalValues {
 
 export interface CreateGroupValues {
   title: string;
+  savingType: "group" | "personal";
   targetAmount: number;
-  frequentAmount?: number;
-  frequentTime?: string;
-  savingType: string;
-  frequencyDuration?: string;
+  paymentInterval: "daily" | "weekly" | "monthly" | "once";
+  weeklyPaymentDay?: string;
+  monthlyPaymentDay?: number;
+  duration: string;
+  interestRate?: number;
+  groupRefferalCode?: string;
+  memberLimit?: number;
+  groupImage?: {
+    imageUrl: string;
+    publicId: string;
+  };
   groupDescription?: string;
-  memberLimit: number;
-  groupImage: GroupImage;
-  image: File;
+  image?: File;
 }
 
 export interface EditGroupValues {
@@ -50,29 +51,6 @@ export interface JoinGroupValues {
 export interface BreakSavings {
   savingId: string;
 }
-
-const schemaWithoutType = Yup.object({
-  title: Yup.string().required("Title is required"),
-  targetAmount: Yup.number().required("Target amount is required"),
-
-  frequentTime: Yup.string().notRequired(),
-
-  frequencyDuration: Yup.string().notRequired(),
-  groupDescription: Yup.string().notRequired(),
-
-  memberLimit: Yup.number().notRequired(),
-
-  image: Yup.mixed()
-    .required("Group image is required")
-    .test("fileType", "Only image files are allowed", (value) => {
-      if (!value || !(value instanceof File)) return false;
-      return SUPPORTED_FORMATS.includes(value.type);
-    })
-    .test("fileSize", "Image must be less than 2MB", (value) => {
-      if (!value || !(value instanceof File)) return false;
-      return value.size <= MAX_FILE_SIZE;
-    }),
-});
 
 export const savingsGoalSchemaWithoutType = Yup.object({
   title: Yup.string().required("Title is required").min(3, "Title must be at least 3 characters"),
@@ -109,26 +87,44 @@ export const savingsGoalSchemaWithoutType = Yup.object({
 export const savingsGoalSchema: Yup.ObjectSchema<SavingsGoalValues> =
   savingsGoalSchemaWithoutType as Yup.ObjectSchema<SavingsGoalValues>;
 
-export const quickSavingSchema = Yup.object().shape({
-  amount: Yup.number().required("Amount is required").min(1000, "Minimum ammount is ₦1000"),
-});
+const schemaWithoutType = Yup.object({
+  title: Yup.string().required("Title is required"),
+  savingType: Yup.mixed<"group" | "personal">()
+    .oneOf(["group", "personal"], "Invalid saving type")
+    .required("Saving type is required"),
+  targetAmount: Yup.number().required("Target amount is required"),
+  paymentInterval: Yup.mixed<"daily" | "weekly" | "monthly" | "once">()
+    .oneOf(["daily", "weekly", "monthly", "once"], "Invalid payment interval")
+    .required("Payment interval is required"),
 
-// export const savingsGoalSchema: Yup.ObjectSchema<SavingsGoalValues> = Yup.object().shape({
-//   title: Yup.string().required("Purpose is required"),
-//   targetAmount: Yup.number().required("Target amount is required"),
-//   frequentAmount: Yup.number().when("isOnce", {
-//     is: false,
-//     then: (schema) =>
-//       schema.required("Frequent amount is required").min(1000, "Minimum amount is ₦1000"),
-//     otherwise: (schema) => schema.notRequired(),
-//   }),
-//   frequency: Yup.string().required("Payment frequency is required"),
-//   duration: Yup.string().required("Goal duration is required"),
-//   interestRate: Yup.string().required("Interest Rate must be generated"),
-// });
+  weeklyPaymentDay: Yup.string().notRequired(),
+
+  monthlyPaymentDay: Yup.number().notRequired(),
+  duration: Yup.string().required("Duration is required"),
+  interestRate: Yup.number().notRequired(),
+  groupRefferalCode: Yup.string().notRequired(),
+  memberLimit: Yup.number().notRequired(),
+
+  image: Yup.mixed()
+    .required("Group image is required")
+    .test("fileType", "Only image files are allowed", (value) => {
+      if (!value || !(value instanceof File)) return false;
+      return SUPPORTED_FORMATS.includes(value.type);
+    })
+    .test("fileSize", "Image must be less than 2MB", (value) => {
+      if (!value || !(value instanceof File)) return false;
+      return value.size <= MAX_FILE_SIZE;
+    }),
+
+  groupDescription: Yup.string().notRequired(),
+});
 
 export const createGroupSchema: Yup.ObjectSchema<CreateGroupValues> =
   schemaWithoutType as Yup.ObjectSchema<CreateGroupValues>;
+
+export const quickSavingSchema = Yup.object().shape({
+  amount: Yup.number().required("Amount is required").min(1000, "Minimum ammount is ₦1000"),
+});
 
 export const editGroupSchema: Yup.ObjectSchema<EditGroupValues> = Yup.object().shape({
   title: Yup.string().required("Title is required"),

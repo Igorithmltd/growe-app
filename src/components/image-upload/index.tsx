@@ -1,8 +1,10 @@
-import { Box, Input, VStack, Icon, Image } from "@chakra-ui/react";
+"use client";
+
+import { useState, ChangeEvent } from "react";
+import { Box, Input, VStack, Icon, Image, Spinner, Flex } from "@chakra-ui/react";
 import { Field } from "@chakra-ui/react";
 import { StyledText } from "@/src/components";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { ChangeEvent, useState } from "react";
 import { FiImage } from "react-icons/fi";
 
 interface ImageUploadFieldProps {
@@ -10,6 +12,7 @@ interface ImageUploadFieldProps {
   labelColor?: string;
   fieldProps?: UseFormRegisterReturn;
   error?: string;
+  isUploading?: boolean;
 }
 
 const ImageUploadField = ({
@@ -17,14 +20,31 @@ const ImageUploadField = ({
   labelColor = "secondary",
   fieldProps,
   error,
+  isUploading,
 }: ImageUploadFieldProps) => {
   const [preview, setPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setLoading(true);
+
+      // generate preview
       const url = URL.createObjectURL(file);
       setPreview(url);
+
+      // simulate async upload delay (remove if not needed)
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      setLoading(false);
+
+      fieldProps?.onChange?.({
+        target: {
+          name: fieldProps.name,
+          value: file,
+        },
+      });
     }
   };
 
@@ -55,7 +75,21 @@ const ImageUploadField = ({
         onClick={() => document.getElementById("image-upload")?.click()}
       >
         <VStack spaceY={2}>
-          {preview ? (
+          {loading || isUploading ? (
+            <Flex direction="column" align="center">
+              <Spinner />
+              {isUploading && (
+                <StyledText
+                  color="grey"
+                  fontWeight="medium"
+                  fontSize={{ base: "sm", md: "md" }}
+                  py={2}
+                >
+                  Uploading file, please wait...
+                </StyledText>
+              )}
+            </Flex>
+          ) : preview ? (
             <Image
               src={preview}
               alt="Uploaded preview"
@@ -64,14 +98,13 @@ const ImageUploadField = ({
               borderRadius="md"
             />
           ) : (
-            <>
+            <Flex direction="column" align="center" color="bfgrey">
               <Icon as={FiImage} boxSize={6} color="primary" />
-              <StyledText color="bfgrey" fontSize={{ base: "md", lg: "lg" }}>
-                Upload photo
-              </StyledText>
-            </>
+              <StyledText fontSize={{ base: "md", lg: "lg" }}>Upload photo</StyledText>
+            </Flex>
           )}
         </VStack>
+
         <Input
           type="file"
           id="image-upload"
@@ -79,16 +112,7 @@ const ImageUploadField = ({
           display="none"
           ref={fieldProps?.ref}
           name={fieldProps?.name}
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            handleImageChange(e);
-            fieldProps?.onChange?.({
-              target: {
-                name: fieldProps.name,
-                value: file,
-              },
-            });
-          }}
+          onChange={handleImageChange}
         />
       </Box>
 

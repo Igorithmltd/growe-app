@@ -2,23 +2,31 @@ import { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { useFetcher } from "@/src/hooks/useFetcher";
 import { handleError } from "@/src/utils/helpers";
-//
 
-interface UploadResponseData {
-  data: string[];
-}
+export type UploadResponseData = {
+  success: boolean;
+  message: string;
+  data: {
+    imageUrl: string;
+    publicId: string;
+  };
+};
 
 interface UploadImageRequest {
-  files: File[];
+  file: File;
 }
 
 export const useUploadImages = () => {
   const uploadImages = async (data: UploadImageRequest): Promise<UploadResponseData> => {
     const formData = new FormData();
 
-    data.files.forEach((file) => {
-      formData.append("files", file);
-    });
+    console.log(data);
+
+    if (data.file) {
+      formData.append("file", data.file);
+    } else {
+      throw new Error("No file provided");
+    }
 
     const response = await useFetcher({
       url: "/utils/image-upload-single",

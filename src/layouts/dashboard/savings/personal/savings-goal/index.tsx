@@ -75,15 +75,6 @@ const SavingGoalLayout = () => {
     },
   };
 
-  const selectProps = {
-    bg: "#F8F8F8",
-    border: "2px solid #9BAB69",
-    _focus: {
-      outlineWidth: "2px",
-      border: "none",
-    },
-  };
-
   const handleBack = () => {
     if (isCompleted) {
       setIsCompleted(false);
@@ -223,7 +214,6 @@ const SavingGoalLayout = () => {
                   disabled={loading || isError}
                   fieldProps={register("duration")}
                   error={errors?.duration?.message}
-                  {...selectProps}
                 />
 
                 <StyledField

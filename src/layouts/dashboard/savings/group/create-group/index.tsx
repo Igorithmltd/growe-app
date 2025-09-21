@@ -10,52 +10,89 @@ import {
   StyledText,
   SelectButtonGroup,
   StyledCheckbox,
+  StyledSelect,
 } from "@/src/components";
-// import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon, GroupMark } from "@/public/svgs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WeekModal from "../../modals/WeekModal";
 import { useModal } from "@/src/contexts/ModalContext";
 import MonthModal from "../../modals/MonthModal";
-import CalendarModal from "../../modals/CalenderModal";
 import InfoModal from "@/src/components/modals/InfoModal";
 import ImageUploadField from "@/src/components/image-upload";
 import { createGroupSchema, CreateGroupValues } from "@/src/schema/savings.schema";
 import { useSavings } from "@/src/hooks/apis/mutation/dashboard/useSavings";
+import useDuration from "@/src/hooks/apis/queries/useSavings";
+import { useQuery } from "@tanstack/react-query";
+import { useUploadImages } from "@/src/hooks/apis/mutation/dashboard/useFileUpload";
 
 const CreateGroupLayout = () => {
   const router = useRouter();
-  const { createSavingGroup } = useSavings();
-
-  const { setIsWeekOpen, setIsMonthOpen, setIsCalendarOpen, setIsInfoOpen } = useModal();
+  const { createSavingGroup, isCreatingGroup } = useSavings();
+  const { mutateAsync: uploadImages, isPending: isUploading } = useUploadImages();
+  const { setIsWeekOpen, setIsMonthOpen, setIsInfoOpen } = useModal();
 
   const [frequency, setFrequency] = useState("");
   const [weekDay, setWeekDay] = useState("");
   const [monthDay, setMonthDay] = useState("");
-  const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
   const [isOnce, setIsOnce] = useState<boolean>(false);
+
+  const { getSavingDurations } = useDuration();
+
+  const {
+    data: durationResponse,
+    isPending,
+    isFetching,
+    isError,
+  } = useQuery({
+    queryKey: ["saving-durations"],
+    queryFn: getSavingDurations,
+  });
+
+  const durations: Duration[] = durationResponse?.data?.message ?? [];
+  const loading = isPending || isFetching;
 
   const {
     register,
     handleSubmit,
     setValue,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<CreateGroupValues>({
     resolver: yupResolver(createGroupSchema),
+    defaultValues: {
+      duration: "6 months",
+      interestRate: 10,
+      savingType: "group",
+    },
   });
 
-  const onSubmit = (data: CreateGroupValues) => {
+  const durationWatch = watch("duration");
+  useEffect(() => {
+    if (durationWatch && durations.length > 0) {
+      const selected = durations.find((d) => d._id === durationWatch);
+      if (selected) {
+        setValue("interestRate", selected.interestPercentage);
+      }
+    }
+  }, [durationWatch, durations, setValue]);
+
+  const onSubmit = async (data: CreateGroupValues) => {
+    if (!data.image) {
+      throw new Error("Image is required");
+    }
+
+    const uploadResponse = await uploadImages({ file: data.image });
+
     const payload = {
       ...data,
-      savingType: "group",
-      frequentAmount: 20000,
+      savingType: "group" as const,
+      weeklyPaymentDay: data.weeklyPaymentDay?.toLowerCase(),
       groupImage: {
-        imageUrl:
-          "https://png.pngtree.com/png-vector/20230126/ourmid/pngtree-halftone-gradient-background-vector-pattern-grunge-texture-futuristic-half-banner-vector-png-image_46057032.jpg",
-        publicId: "group-image",
+        imageUrl: uploadResponse.data.imageUrl,
+        publicId: uploadResponse.data.publicId,
       },
     };
 
@@ -84,7 +121,7 @@ const CreateGroupLayout = () => {
   console.log("errors", errors);
 
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={2} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
         <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
@@ -118,7 +155,7 @@ const CreateGroupLayout = () => {
             />
 
             <AmountInput
-              label="Amount"
+              label="Target Amount"
               placeholder="Enter target amount"
               labelColor="secondary"
               field={register("targetAmount")}
@@ -131,6 +168,7 @@ const CreateGroupLayout = () => {
               placeholder="e.g Rent, Vacation..."
               labelColor="secondary"
               type="text"
+              isTextarea
               fieldProps={register("groupDescription")}
               error={errors?.groupDescription?.message}
               {...commonProps}
@@ -139,41 +177,77 @@ const CreateGroupLayout = () => {
             <StyledCheckbox
               label="Just this once"
               checked={isOnce}
-              onChange={() => setIsOnce((prev) => !prev)}
+              onChange={() => {
+                const newVal = !isOnce;
+                setIsOnce(newVal);
+                if (newVal) {
+                  setFrequency("");
+                  setWeekDay("");
+                  setMonthDay("");
+                  setValue("paymentInterval", "once");
+                  setValue("weeklyPaymentDay", undefined);
+                  setValue("monthlyPaymentDay", undefined);
+                } else {
+                  setValue("paymentInterval", null as any);
+                }
+              }}
             />
 
             {!isOnce && (
               <SelectButtonGroup
                 label="Every"
                 labelColor="secondary"
-                options={["Day", "Week", "Month"]}
+                options={["daily", "weekly", "monthly"]}
                 value={frequency}
-                error={errors?.frequentTime?.message}
+                error={errors?.paymentInterval?.message}
                 onChange={(val) => {
                   setFrequency(val);
-                  setValue("frequentTime", val);
-                  if (val === "Week") {
+                  setValue("paymentInterval", val as any);
+
+                  if (val === "weekly") {
+                    setMonthDay("");
+                    setValue("monthlyPaymentDay", undefined);
+                    setValue("weeklyPaymentDay", undefined);
                     setIsWeekOpen(true);
-                  } else if (val === "Month") {
+                  }
+
+                  if (val === "monthly") {
+                    setWeekDay("");
+                    setValue("weeklyPaymentDay", undefined);
+                    setValue("monthlyPaymentDay", undefined);
                     setIsMonthOpen(true);
+                  }
+
+                  if (val === "daily") {
+                    setWeekDay("");
+                    setMonthDay("");
+                    setValue("weeklyPaymentDay", undefined);
+                    setValue("monthlyPaymentDay", undefined);
                   }
                 }}
               />
             )}
-            <SelectButtonGroup
-              isGrid
-              label="For"
+
+            <StyledSelect
+              label="Duration"
               labelColor="secondary"
-              options={["6 months", "9 months", "1 year", "Let me choose"]}
-              value={frequency}
-              error={errors?.frequencyDuration?.message}
-              onChange={(val) => {
-                setFrequency(val);
-                setValue("frequencyDuration", val);
-                if (val === "Let me choose") {
-                  setIsCalendarOpen(true);
-                }
-              }}
+              options={durations.map((d) => ({
+                label: d.duration,
+                value: d._id,
+              }))}
+              disabled={loading || isError}
+              fieldProps={register("duration")}
+              error={errors?.duration?.message}
+            />
+
+            <StyledField
+              label="Interest Rate (%)"
+              labelColor="secondary"
+              type="text"
+              readOnly
+              fieldProps={register("interestRate")}
+              error={errors?.interestRate?.message}
+              {...commonProps}
             />
 
             <StyledField
@@ -188,28 +262,38 @@ const CreateGroupLayout = () => {
 
             <ImageUploadField
               fieldProps={register("image")}
-              error={errors.image?.message}
+              error={errors?.image?.message as string}
               label="Group savings photo"
+              isUploading={isUploading}
             />
 
-            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isCreatingGroup}>
               Create Group
             </StyledButton>
           </VStack>
 
-          <WeekModal value={weekDay} onChange={(val) => setWeekDay(val)} />
-          <MonthModal value={monthDay} onChange={(val) => setMonthDay(val)} />
-          <CalendarModal
-            selectedDate={calendarDate}
-            onSelect={(date) => setCalendarDate(date)}
-            onClear={() => setCalendarDate(undefined)}
+          <WeekModal
+            value={weekDay}
+            onChange={(val) => {
+              setWeekDay(val);
+              setValue("weeklyPaymentDay", val as CreateGroupValues["weeklyPaymentDay"]);
+            }}
+          />
+
+          <MonthModal
+            value={monthDay}
+            onChange={(val) => {
+              setMonthDay(val);
+              setValue("monthlyPaymentDay", Number(val));
+            }}
           />
         </form>
       </Box>
       <InfoModal
-        message="Congratulations! 🎉 Your Group Savings Has Been Created!"
+        message="Congratulations! 🎉 Your Savings Group Has Been Created!"
         hasButton={true}
         buttonText={"Go back to savings"}
+        onButtonClick={() => router.push("/savings")}
         icon={<GroupMark />}
       />
     </Box>
