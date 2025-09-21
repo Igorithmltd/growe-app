@@ -53,7 +53,7 @@ const JoinGroupLayout = () => {
           daysLeft={daysLeft}
           members={group.groupMembers.length}
           percentageCompletion={group.savingProgress}
-          savingsPerMember={`₦${group.frequentAmount.toLocaleString()}`}
+          savingsPerMember={`₦${(group.targetAmount / group.memberLimit).toLocaleString()}`}
           totalSavings={`₦${group.targetAmount.toLocaleString()}`}
           interest={parseFloat(group.interestRate)}
           image={group.groupImage.imageUrl || "/images/group/3.jpg"}
