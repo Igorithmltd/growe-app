@@ -20,7 +20,7 @@ export const useUploadImages = () => {
   const uploadImages = async (data: UploadImageRequest): Promise<UploadResponseData> => {
     const formData = new FormData();
 
-    console.log(data)
+    console.log(data);
 
     if (data.file) {
       formData.append("file", data.file);
