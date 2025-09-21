@@ -31,7 +31,7 @@ const JoinGroupModal = () => {
     queryFn: getBankList,
   });
 
-  const banks: Bank[] = bankResponse?.data ?? [];
+  const banks: Bank[] = bankResponse?.data.message ?? [];
   const loading = isPending || isFetching;
 
   // ✅ Invite code form
@@ -83,7 +83,7 @@ const JoinGroupModal = () => {
             accountNumber,
             bankCode,
           });
-          setValue("accountName", response.data.account_name);
+          setValue("accountName", response.data.message.account_name);
         } catch (err) {
           console.error("Failed to fetch account name", err);
         }
