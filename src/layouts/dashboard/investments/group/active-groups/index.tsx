@@ -1,12 +1,15 @@
 "use client";
 
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 //
-import { StyledText } from "@/src/components";
+import { Loader, StyledText } from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
-import { InvestmentGroupCard } from "../../../cards";
+import { EmptyCard, InvestmentGroupCard } from "../../../cards";
+import useInvestments from "@/src/hooks/apis/queries/useInvestments";
+import { useQuery } from "@tanstack/react-query";
+import { getDaysLeft } from "@/src/utils/helpers";
 
 const JoinedInvestmentsGroupsLayout = () => {
   const router = useRouter();
@@ -14,6 +17,16 @@ const JoinedInvestmentsGroupsLayout = () => {
   const handleBack = () => {
     router.back();
   };
+
+  const { getGroupInvestments } = useInvestments();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["active-group"],
+    queryFn: getGroupInvestments,
+  });
+
+  const investments = data?.data.message || [];
+  const loading = isPending || isFetching;
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -28,50 +41,34 @@ const JoinedInvestmentsGroupsLayout = () => {
       </Box>
 
       <VStack align="stretch" spaceY={8} mt={14}>
-        <InvestmentGroupCard
-          title="Enviable Transport Invest Group"
-          image="/images/investments/1.png"
-          members={30}
-          target="1M"
-          contribution="100K"
-          returnRate="10"
-          progress={30}
-          daysLeft={20}
-          link="/investments/active-groups/123"
-        />
-        <InvestmentGroupCard
-          title="Enviable Transport Invest Group"
-          image="/images/investments/1.png"
-          members={30}
-          target="1M"
-          contribution="100K"
-          returnRate="10"
-          progress={30}
-          daysLeft={20}
-          link="/investments/active-groups/123"
-        />
-        <InvestmentGroupCard
-          title="Enviable Transport Invest Group"
-          image="/images/investments/1.png"
-          members={30}
-          target="1M"
-          contribution="100K"
-          returnRate="10"
-          progress={30}
-          daysLeft={20}
-          link="/investments/active-groups/123"
-        />
-        <InvestmentGroupCard
-          title="Enviable Transport Invest Group"
-          image="/images/investments/1.png"
-          members={30}
-          target="1M"
-          contribution="100K"
-          returnRate="10"
-          progress={30}
-          daysLeft={20}
-          link="/investments/active-groups/123"
-        />
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Flex h="250px" alignItems="center" justifyContent="center">
+            <StyledText color="red.500" fontSize="md">
+              {error instanceof Error ? error.message : "Unknown error"}
+            </StyledText>
+          </Flex>
+        ) : investments.length === 0 ? (
+          <Box mt={6}>
+            <EmptyCard title="No active group investments" />
+          </Box>
+        ) : (
+          investments.map((investment, index) => (
+            <InvestmentGroupCard
+              key={index}
+              title={investment.title}
+              image="/images/investments/1.png"
+              members={investment.memberLimit}
+              target={investment.investmentTarget}
+              contribution={investment.minimumMemberContribution}
+              returnRate={investment.interestRate}
+              progress={investment.totalAmount}
+              daysLeft={Number(getDaysLeft(investment.startDate, investment.withdrawalDate))}
+              link={`/investments/${investment._id}`}
+            />
+          ))
+        )}
       </VStack>
     </Box>
   );

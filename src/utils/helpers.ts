@@ -239,14 +239,10 @@ export function getFrequency(data: {
     case "daily":
       return "Daily";
     case "weekly":
-      return data.weeklyPaymentDay
-        ? `Every ${capitalizeFirst(data.weeklyPaymentDay)}`
-        : "Weekly";
+      return data.weeklyPaymentDay ? `Every ${capitalizeFirst(data.weeklyPaymentDay)}` : "Weekly";
     case "monthly":
       return data.monthlyPaymentDay
-        ? `Every ${data.monthlyPaymentDay}${getOrdinalSuffix(
-            data.monthlyPaymentDay
-          )}`
+        ? `Every ${data.monthlyPaymentDay}${getOrdinalSuffix(data.monthlyPaymentDay)}`
         : "Monthly";
     case "once":
       return "Just this once";
@@ -255,3 +251,11 @@ export function getFrequency(data: {
   }
 }
 
+export const formatCurrencyShort = (value: number): string => {
+  if (value >= 1_000_000) {
+    return `${(value / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
+  } else if (value >= 1_000) {
+    return `${(value / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
+  }
+  return value.toString();
+};

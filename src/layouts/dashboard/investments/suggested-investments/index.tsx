@@ -54,10 +54,11 @@ const SuggestedInvestmentsLayout = () => {
         ) : (
           investments.map((investment, index) => (
             <InvestmentInfoCard
-              key={investment._id ?? index}
+              key={index}
+              id={investment._id}
               name={investment.title}
               investors={investment.groupMembers?.length ?? 0}
-              amountPerUnit={`₦${investment.minimumMemberContribution?.toLocaleString()}`}
+              amountPerUnit={investment.minimumMemberContribution}
               annualReturn={Number(investment.interestRate)}
               image="/images/investments/1.png"
             />
