@@ -88,6 +88,31 @@ type Duration = {
   interestPercentage: number;
 };
 
+type Investment = {
+  _id: string;
+  title: string;
+  investType: "group" | "personal";
+  investmentId: string;
+  investmentTarget: number;
+  minimumMemberContribution: number;
+  memberLimit: number;
+  groupDescription: string;
+  groupRefferalCode: string;
+  dayToBePaid: string;
+  interestRate: string;
+  admin: string;
+  groupMembers: string[];
+  members: {
+    user: string;
+    amount: number;
+    intendingAmount: number;
+  }[];
+  startDate: string; // could also be Date if parsed
+  withdrawalDate: string; // could also be Date if parsed
+  isClosed: boolean;
+  totalAmount: number;
+};
+
 type Note = {
   _id: string;
   title: string;
@@ -105,7 +130,7 @@ type Bank = {
   active: boolean;
   country: string;
   currency: string;
-}
+};
 
 type BankAccount = {
   account_number: string;
