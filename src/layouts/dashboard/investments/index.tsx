@@ -156,6 +156,7 @@ const InvestmentLayout = () => {
           ) : (
             investments.map((investment, index) => (
               <InvestmentCard
+                key={index}
                 name={investment.title}
                 annualReturn={Number(investment.interestRate)}
                 image={"/images/investments/3.png"}
