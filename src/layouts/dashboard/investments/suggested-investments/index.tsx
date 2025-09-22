@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, VStack, Flex } from "@chakra-ui/react";
-import { StyledText, Spinner, Loader } from "@/src/components";
+import { StyledText, Loader } from "@/src/components";
 import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
 import { InvestmentInfoCard, EmptyCard } from "../../cards";
