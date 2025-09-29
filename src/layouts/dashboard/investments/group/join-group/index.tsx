@@ -32,8 +32,8 @@ const JoinInvestmentsGroupsLayout = () => {
           title="Enviable Transport Invest Group"
           image="/images/investments/1.png"
           members={30}
-          target="1M"
-          contribution="1M"
+          target={1000000}
+          contribution={10000}
           returnRate="10"
           progress={30}
           daysLeft={20}
@@ -43,8 +43,8 @@ const JoinInvestmentsGroupsLayout = () => {
           title="Enviable Transport Invest Group"
           image="/images/investments/1.png"
           members={30}
-          target="1M"
-          contribution="1M"
+          target={1000000}
+          contribution={10000}
           returnRate="10"
           progress={30}
           daysLeft={20}
@@ -54,8 +54,8 @@ const JoinInvestmentsGroupsLayout = () => {
           title="Enviable Transport Invest Group"
           image="/images/investments/1.png"
           members={30}
-          target="1M"
-          contribution="1M"
+          target={1000000}
+          contribution={10000}
           returnRate="10"
           progress={30}
           daysLeft={20}
@@ -65,8 +65,8 @@ const JoinInvestmentsGroupsLayout = () => {
           title="Enviable Transport Invest Group"
           image="/images/investments/1.png"
           members={30}
-          target="1M"
-          contribution="1M"
+          target={1000000}
+          contribution={10000}
           returnRate="10"
           progress={30}
           daysLeft={20}

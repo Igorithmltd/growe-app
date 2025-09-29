@@ -825,7 +825,7 @@ export const InvestmentGroupCard = ({
   title: string;
   image: string;
   members: number;
-  target: number; // <-- make these numbers
+  target: number; 
   contribution: number;
   returnRate: string;
   progress: number;
