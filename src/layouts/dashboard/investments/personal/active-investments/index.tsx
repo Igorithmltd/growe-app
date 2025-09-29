@@ -1,12 +1,14 @@
 "use client";
 
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 //
-import { StyledText } from "@/src/components";
+import { Loader, StyledText } from "@/src/components";
 // import { ROUTES } from "@/src/utils/constants";
 import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
-import { InvestmentInfoCard } from "../../../cards";
+import { EmptyCard, InvestmentInfoCard } from "../../../cards";
+import { useQuery } from "@tanstack/react-query";
+import useInvestments from "@/src/hooks/apis/queries/useInvestments";
 
 const PersonalInvestmentsLayout = () => {
   const router = useRouter();
@@ -14,6 +16,16 @@ const PersonalInvestmentsLayout = () => {
   const handleBack = () => {
     router.back();
   };
+
+  const { getPersonalInvestments } = useInvestments();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["personal-investments"],
+    queryFn: getPersonalInvestments,
+  });
+
+  const investments = data?.data.message || [];
+  const loading = isPending || isFetching;
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -28,38 +40,32 @@ const PersonalInvestmentsLayout = () => {
       </Box>
 
       <VStack align="stretch" spaceY={8} mt={14}>
-        <InvestmentInfoCard
-          name="Enviable Transport"
-          investors={30}
-          amountPerUnit="₦1M"
-          annualReturn={10}
-          image="/images/investments/1.png"
-          isSuggested={false}
-        />
-        <InvestmentInfoCard
-          name="Enviable Transport"
-          investors={30}
-          amountPerUnit="₦1M"
-          annualReturn={10}
-          image="/images/investments/1.png"
-          isSuggested={false}
-        />
-        <InvestmentInfoCard
-          name="Enviable Transport"
-          investors={30}
-          amountPerUnit="₦1M"
-          annualReturn={10}
-          image="/images/investments/1.png"
-          isSuggested={false}
-        />
-        <InvestmentInfoCard
-          name="Enviable Transport"
-          investors={30}
-          amountPerUnit="₦1M"
-          annualReturn={10}
-          image="/images/investments/1.png"
-          isSuggested={false}
-        />
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Flex h="250px" alignItems="center" justifyContent="center">
+            <StyledText color="red.500" fontSize="md">
+              {error instanceof Error ? error.message : "Unknown error"}
+            </StyledText>
+          </Flex>
+        ) : investments.length === 0 ? (
+          <Box mt={6}>
+            <EmptyCard title="No active personal investments" />
+          </Box>
+        ) : (
+          investments.map((investment, index) => (
+            <InvestmentInfoCard
+              key={index}
+              id={investment._id}
+              name={investment.title}
+              investors={30}
+              amountPerUnit={investment.minimumMemberContribution}
+              annualReturn={Number(investment.interestRate)}
+              image="/images/investments/1.png"
+              isSuggested={false}
+            />
+          ))
+        )}
       </VStack>
     </Box>
   );

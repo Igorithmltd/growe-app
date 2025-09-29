@@ -1,7 +1,7 @@
 import { ChatIcon, EmptyFolder } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import useShowToast from "@/src/hooks/useShowToast";
-import { copyToClipboard, hexToRgba } from "@/src/utils/helpers";
+import { copyToClipboard, formatCurrencyShort, hexToRgba } from "@/src/utils/helpers";
 import {
   Box,
   Flex,
@@ -710,6 +710,7 @@ export const InvestmentCard = ({
 export const InvestmentInfoCard = ({
   bg = "white",
   name,
+  id,
   image,
   investors,
   amountPerUnit,
@@ -720,8 +721,9 @@ export const InvestmentInfoCard = ({
   bg?: string;
   name: string;
   image: string;
+  id: string;
   investors: number;
-  amountPerUnit: string;
+  amountPerUnit: number;
   annualReturn: number;
   isSuggested?: boolean;
   canClick?: boolean;
@@ -730,15 +732,15 @@ export const InvestmentInfoCard = ({
 
   const infoItems = [
     { value: investors, label: "Investors" },
-    { value: amountPerUnit, label: "Per Unit" },
+    { value: `₦${formatCurrencyShort(amountPerUnit)}`, label: "Per Unit" },
     { value: `${annualReturn}%`, label: "Annual Return" },
   ];
   const handleClick = () => {
     if (canClick) {
       if (isSuggested) {
-        router.push("/investments/suggested-investments/123");
+        router.push(`/investments/suggested-investments/${id}`);
       } else {
-        router.push("/investments/my-investments/123");
+        router.push(`/investments/my-investments/${id}`);
       }
     }
   };
@@ -823,8 +825,8 @@ export const InvestmentGroupCard = ({
   title: string;
   image: string;
   members: number;
-  target: string;
-  contribution: string;
+  target: number; 
+  contribution: number;
   returnRate: string;
   progress: number;
   daysLeft: number;
@@ -832,8 +834,8 @@ export const InvestmentGroupCard = ({
 }) => {
   const infoItems = [
     { value: members, label: "Members" },
-    { value: `₦${target}`, label: "Investment Target" },
-    { value: `₦${contribution}`, label: "Member Contribution" },
+    { value: `₦${formatCurrencyShort(target)}`, label: "Investment Target" },
+    { value: `₦${formatCurrencyShort(contribution)}`, label: "Member Contribution" },
     { value: `${returnRate}%`, label: "Annual Return" },
   ];
 

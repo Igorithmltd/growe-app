@@ -1,14 +1,16 @@
 "use client";
 
-import { StyledText } from "@/src/components";
+import { Spinner, StyledText } from "@/src/components";
 import { Box, Flex, HStack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import PersonalInvestments from "./personal";
-import { InvestmentCard, PromoCard } from "../cards";
+import { EmptyCard, InvestmentCard, PromoCard } from "../cards";
 import { MdChevronRight } from "react-icons/md";
 import { useRouter } from "next/navigation";
 import GroupInvestments from "./group";
+import useInvestments from "@/src/hooks/apis/queries/useInvestments";
+import { useQuery } from "@tanstack/react-query";
 
 const MotionBox = motion.create(Box);
 
@@ -16,6 +18,16 @@ const InvestmentLayout = () => {
   const router = useRouter();
 
   const [isPersonal, setIsPersonal] = useState(true);
+
+  const { getSuggestedInvestments } = useInvestments();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["suggested-investments"],
+    queryFn: getSuggestedInvestments,
+  });
+
+  const investments = data?.data.message || [];
+  const loading = isPending || isFetching;
 
   return (
     <Box p={2} px={{ xl: 50 }}>
@@ -127,21 +139,30 @@ const InvestmentLayout = () => {
             },
           }}
         >
-          <InvestmentCard
-            name="Enviable Transport"
-            annualReturn={20}
-            image="/images/investments/1.png"
-          />
-          <InvestmentCard
-            name="Enviable Transport"
-            annualReturn={20}
-            image="/images/investments/2.png"
-          />
-          <InvestmentCard
-            name="Enviable Transport"
-            annualReturn={20}
-            image="/images/investments/3.png"
-          />
+          {loading ? (
+            <Flex h="250px" alignItems="center" justifyContent="center">
+              <Spinner />
+            </Flex>
+          ) : error ? (
+            <Flex h="250px" alignItems="center" justifyContent="center">
+              <StyledText color="red.500" fontSize="md">
+                {error instanceof Error ? error.message : "Unknown error"}
+              </StyledText>
+            </Flex>
+          ) : investments.length === 0 ? (
+            <Box mt={6}>
+              <EmptyCard title="No suggested investments" />
+            </Box>
+          ) : (
+            investments.map((investment, index) => (
+              <InvestmentCard
+                key={index}
+                name={investment.title}
+                annualReturn={Number(investment.interestRate)}
+                image={"/images/investments/3.png"}
+              />
+            ))
+          )}
         </HStack>
       </Box>
 
