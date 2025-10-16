@@ -92,23 +92,7 @@ interface Investment {
   _id: string;
   title: string;
   investType: "group" | "individual";
-  investmentId: {
-    _id: string;
-    title: string;
-    investmentType: string;
-    minimumInvestmentAmount: number;
-    expectedROI: number;
-    investmentDuration: number;
-    investmentDescription: string;
-    investors: number;
-    createdAt: string; // ISO date string
-    updatedAt: string; // ISO date string
-    __v: number;
-    startDate: string; // ISO date string
-    withdrawalDate: string; // ISO date string
-    annualReturn: number;
-    id: string;
-  };
+  investmentId: InvestmentPlan
   investmentTarget: number;
   minimumMemberContribution: number;
   memberLimit: number;
@@ -142,10 +126,19 @@ interface Investment {
 type InvestmentPlan = {
   _id: string;
   title: string;
+  investmentType: string;
   minimumInvestmentAmount: number;
   expectedROI: number;
   investmentDuration: number;
   investmentDescription: string;
+  investors: number;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+  startDate: string; // ISO date string
+  withdrawalDate: string; // ISO date string
+  annualReturn: number;
+  id: string;
 };
 
 type Note = {
