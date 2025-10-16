@@ -21,6 +21,7 @@ import {
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import useInvestments from "@/src/hooks/apis/queries/useInvestments";
 import { useQuery } from "@tanstack/react-query";
+import { useUserDetailsStore } from "@/src/stores/user-details";
 
 const performanceData = [
   { year: 2025, performance: 20 },
@@ -33,6 +34,8 @@ const JoinedInvestmentDetailsLayout = ({ id }: { id: string }) => {
   const router = useRouter();
   const toast = useShowToast();
   const { getInvestment } = useInvestments();
+
+  const user = useUserDetailsStore((state) => state.user);
 
   const { data, isPending, isFetching, error } = useQuery({
     queryKey: ["investment-details", id],
@@ -52,8 +55,6 @@ const JoinedInvestmentDetailsLayout = ({ id }: { id: string }) => {
     });
   };
 
-  const isOwner = true;
-
   if (loading) {
     return <Loader />;
   }
@@ -67,6 +68,8 @@ const JoinedInvestmentDetailsLayout = ({ id }: { id: string }) => {
       </Box>
     );
   }
+
+  const isOwner = user?._id === investment?.admin;
 
   return (
     <Box px={{ md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
