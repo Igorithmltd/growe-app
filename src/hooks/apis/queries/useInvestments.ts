@@ -42,7 +42,7 @@ const useInvestments = () => {
   const getInvestmentPlan = useCallback(async (id: string): Promise<GlobalResponseData<InvestmentPlan>> => {
     try {
       const response = await useFetcher({
-        url: `/investments/get-invest/${id}`,
+        url: `/investments/get-investment/${id}`,
         useBaseUrl: true,
       });
 

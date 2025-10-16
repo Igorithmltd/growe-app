@@ -47,7 +47,7 @@ const SuggestedInvestmentsLayout = () => {
       </Box>
 
       {/* Content */}
-      <VStack align="stretch" spaceY={8} mt={14}>
+      <VStack align="stretch" spaceY={8} mt={8}>
         {loading ? (
           <Loader />
         ) : error ? (
