@@ -30,7 +30,7 @@ const JoinedInvestmentsGroupsLayout = () => {
 
   return (
     <Box
-      px={{ base: 3, md: 6 }}
+      px={{ md: 6 }}
       py={{ base: 5, lg: 10 }}
       w={{ lg: "65%" }}
       mx="auto"
