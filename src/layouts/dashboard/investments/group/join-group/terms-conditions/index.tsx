@@ -209,7 +209,7 @@ const InvestmentGroupTerms = ({ id }: InvestmentGroupTermsProps) => {
             </Box>
 
             <StyledCheckbox
-              label={`By clicking "Agree and Join", you acknowledge that you have read, understood, and agreed to these terms of participation.`}
+              label={"By clicking \"Agree and Join\", you acknowledge that you have read, understood, and agreed to these terms of participation."}
               checked={agreed}
               onChange={() => setAgreed((prev) => !prev)}
             />
