@@ -109,6 +109,23 @@ const useInvestments = () => {
     }
   }, []);
 
+  const getAllInvestments = useCallback(async (): Promise<GlobalResponseData<InvestmentPlan[]>> => {
+    try {
+      const response = await useFetcher({
+        url: "/investments/get-investments",
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw new Error("Error fetching active investments: " + response.error?.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
   return {
     getInvestments,
     getInvestment,
@@ -116,6 +133,7 @@ const useInvestments = () => {
     getGroupInvestments,
     getSuggestedInvestments,
     getActiveInvestments,
+    getAllInvestments,
   };
 };
 

@@ -10,7 +10,7 @@ import {
   JoinInvestmentGroupValues,
 } from "@/src/schema/investments.schema";
 
-export const useSavings = () => {
+export const useInveestments = () => {
   const showToast = useShowToast();
 
   const createGroup = async (data: CreateInvestmentGroupValues): Promise<AuthResponseData> => {
@@ -70,7 +70,7 @@ export const useSavings = () => {
     onSuccess: () => {
       showToast({
         title: "Success",
-        description: "Savings Group created successfully",
+        description: "Inveestments Group created successfully",
         status: "success",
       });
     },

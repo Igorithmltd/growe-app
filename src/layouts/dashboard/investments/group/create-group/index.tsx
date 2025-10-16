@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, VStack, HStack } from "@chakra-ui/react";
+import { Box, VStack, HStack, Flex, Spinner } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import {
   StyledField,
@@ -20,17 +20,27 @@ import {
   CreateInvestmentGroupValues,
 } from "@/src/schema/investments.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-const investmentOptions = [
-  { name: "Enviable Transport", target: 1000000 },
-  { name: "Farmcrowdy Maize Farming", target: 5000000 },
-  { name: "Nigeria Commodity Exchange (NCX)", target: 3000000 },
-  { name: "Stanbic IBTC Money Market Fund", target: 1000000 },
-];
+import useInvestments from "@/src/hooks/apis/queries/useInvestments";
+import { useQuery } from "@tanstack/react-query";
 
 const CreateInvestmentGroupLayout = () => {
   const router = useRouter();
   const { setIsInfoOpen, setIsSelectOpen } = useModal();
+  const { getAllInvestments } = useInvestments();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["all-investments"],
+    queryFn: getAllInvestments,
+  });
+
+  const investments: InvestmentPlan[] = data?.data.message || [];
+  const loading = isPending || isFetching;
+
+  // ✅ Map fetched investments into selection options
+  const investmentOptions = investments.map((inv) => ({
+    name: inv.title,
+    target: inv.minimumInvestmentAmount || 0,
+  }));
 
   const {
     register,
@@ -43,14 +53,16 @@ const CreateInvestmentGroupLayout = () => {
   });
 
   const selectedInvestment = watch("investment");
-  // const targetAmount = watch("targetAmount");
 
   const onSubmit = (data: CreateInvestmentGroupValues) => {
     console.log(data);
     setIsInfoOpen(true);
   };
 
-  const handleInvestmentSelect = (investment: { name: string; target: number }) => {
+  const handleInvestmentSelect = (investment: {
+    name: string;
+    target: number;
+  }) => {
     setValue("investment", investment.name);
     setValue("targetAmount", investment.target);
     setIsSelectOpen(false);
@@ -69,13 +81,22 @@ const CreateInvestmentGroupLayout = () => {
   const handleBack = () => router.back();
 
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
-      <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
+    <Box px={{ lg: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+      <Box
+        display="flex"
+        gap={4}
+        alignItems="center"
+        mt={{ base: 6, lg: "unset" }}
+      >
         <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
         </Box>
 
-        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
+        <StyledText
+          fontSize={{ base: "xl", md: "2xl" }}
+          fontWeight="medium"
+          color="secondary"
+        >
           Create Investment Group
         </StyledText>
       </Box>
@@ -86,10 +107,11 @@ const CreateInvestmentGroupLayout = () => {
         fontWeight="normal"
         color="bfgrey"
       >
-        Create a group investment with like-minded individuals to achieve bigger goals and grow
-        wealth together!
+        Create a group investment with like-minded individuals to achieve bigger
+        goals and grow wealth together!
       </StyledText>
 
+      {/* Form */}
       <Box mt={14}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spaceY={4} align="stretch">
@@ -106,8 +128,14 @@ const CreateInvestmentGroupLayout = () => {
             <SelectInputBox
               label="Select Investment"
               value={selectedInvestment}
-              placeholder="Choose an investment"
-              onClick={() => setIsSelectOpen(true)}
+              placeholder={
+                loading
+                  ? "Loading investments..."
+                  : error
+                    ? "Failed to load investments"
+                    : "Choose an investment"
+              }
+              onClick={() => !loading && !error && setIsSelectOpen(true)}
             />
 
             <AmountInput
@@ -160,7 +188,7 @@ const CreateInvestmentGroupLayout = () => {
       <InfoModal
         message="Congratulations! 🎉 Your Investment Group Has Been Created!"
         hasButton={true}
-        buttonText={"Go back to investments"}
+        buttonText="Go back to investments"
         icon={<GroupMark />}
       />
 

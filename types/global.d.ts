@@ -113,6 +113,15 @@ type Investment = {
   totalAmount: number;
 };
 
+type InvestmentPlan = {
+  _id: string;
+  title: string;
+  minimumInvestmentAmount: number;
+  expectedROI: number;
+  investmentDuration: number;
+  investmentDescription: string;
+};
+
 type Note = {
   _id: string;
   title: string;
