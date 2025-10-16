@@ -11,11 +11,11 @@ import useInvestments from "@/src/hooks/apis/queries/useInvestments";
 const PersonalInvestments = () => {
   const router = useRouter();
 
-  const { getActiveInvestments } = useInvestments();
+  const { getPersonalInvestments } = useInvestments();
 
   const { data, isPending, isFetching, error } = useQuery({
-    queryKey: ["active-investments"],
-    queryFn: getActiveInvestments,
+    queryKey: ["personal-investments"],
+    queryFn: getPersonalInvestments,
   });
 
   const investments = data?.data.message || [];
@@ -66,53 +66,44 @@ const PersonalInvestments = () => {
         )}
       </HStack>
 
-      <HStack
-        spaceX={{ base: 2, md: 4 }}
-        mt={6}
-        overflowX="auto"
-        css={{
-          // "@media (min-width: 62em)": {
-          //   // 62em = 992px = lg breakpoint
-          //   "&::-webkit-scrollbar": {
-          //     display: "initial",
-          //   },
-          //   scrollbarWidth: "auto",
-          //   msOverflowStyle: "auto",
-          // },
-          "@media (max-width: 61.99em)": {
-            "&::-webkit-scrollbar": {
-              display: "none",
-            },
-            scrollbarWidth: "none", // Firefox
-            msOverflowStyle: "none", // IE 10+
-          },
-        }}
-      >
-        {loading ? (
-          <Flex h="250px" alignItems="center" justifyContent="center">
-            <Spinner />
-          </Flex>
-        ) : error ? (
-          <Flex h="250px" alignItems="center" justifyContent="center">
-            <StyledText color="red.500" fontSize="md">
-              {error instanceof Error ? error.message : "Unknown error"}
-            </StyledText>
-          </Flex>
-        ) : investments.length === 0 ? (
-          <Box mt={6}>
-            <EmptyCard title="No active personal investments" />
-          </Box>
-        ) : (
-          investments.map((investment, index) => (
-            <InvestmentCard
-            key={index}
-              name={investment.title}
-              annualReturn={Number(investment.interestRate)}
-              image={"/images/investments/3.png"}
-            />
-          ))
-        )}
-      </HStack>
+      {loading ? (
+  <Flex h="250px" alignItems="center" justifyContent="center">
+    <Spinner />
+  </Flex>
+) : error ? (
+  <Flex h="250px" alignItems="center" justifyContent="center">
+    <StyledText color="red.500" fontSize="md">
+      {error instanceof Error ? error.message : "Unknown error"}
+    </StyledText>
+  </Flex>
+) : investments.length === 0 ? (
+  <Box mt={6}>
+    <EmptyCard title="No active personal investments" />
+  </Box>
+) : (
+  <HStack
+    spaceX={{ base: 2, md: 4 }}
+    mt={6}
+    overflowX="auto"
+    css={{
+      "@media (max-width: 61.99em)": {
+        "&::-webkit-scrollbar": { display: "none" },
+        scrollbarWidth: "none", // Firefox
+        msOverflowStyle: "none", // IE 10+
+      },
+    }}
+  >
+    {investments.map((investment, index) => (
+      <InvestmentCard
+        key={index}
+        name={investment.title}
+        annualReturn={Number(investment.interestRate)}
+        image="/images/investments/3.png"
+      />
+    ))}
+  </HStack>
+)}
+
     </Box>
   );
 };

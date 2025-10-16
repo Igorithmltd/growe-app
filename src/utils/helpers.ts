@@ -8,52 +8,52 @@ export const handleNavigationClick =
     setActiveSection: (section: string) => void,
     onClose?: () => void
   ) =>
-  (e: React.MouseEvent) => {
-    e.preventDefault();
+    (e: React.MouseEvent) => {
+      e.preventDefault();
 
-    if (href === "/" || href === "/#home" || href === "#home") {
-      setActiveSection("#home");
+      if (href === "/" || href === "/#home" || href === "#home") {
+        setActiveSection("#home");
 
-      if (pathname !== "/") {
-        window.location.href = "/";
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        history.replaceState(null, "", "#home");
-      }
-
-      setTimeout(() => onClose?.(), 1500); // 👈 delay closing menu
-      return;
-    }
-
-    const sectionId = href.startsWith("/#")
-      ? href.slice(2)
-      : href.startsWith("#")
-        ? href.slice(1)
-        : null;
-
-    if (sectionId) {
-      setActiveSection(`#${sectionId}`);
-
-      if (pathname === "/") {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const headerHeight = document.querySelector("header")?.clientHeight || 0;
-          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-
-          window.scrollTo({
-            top: elementPosition - headerHeight,
-            behavior: "smooth",
-          });
+        if (pathname !== "/") {
+          window.location.href = "/";
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          history.replaceState(null, "", "#home");
         }
 
-        history.replaceState(null, "", `#${sectionId}`);
-        setTimeout(() => onClose?.(), 300); // 👈 delay closing menu
-      } else {
-        window.location.href = `/#${sectionId}`;
-        setTimeout(() => onClose?.(), 300); // for good measure
+        setTimeout(() => onClose?.(), 1500); // 👈 delay closing menu
+        return;
       }
-    }
-  };
+
+      const sectionId = href.startsWith("/#")
+        ? href.slice(2)
+        : href.startsWith("#")
+          ? href.slice(1)
+          : null;
+
+      if (sectionId) {
+        setActiveSection(`#${sectionId}`);
+
+        if (pathname === "/") {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const headerHeight = document.querySelector("header")?.clientHeight || 0;
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+
+            window.scrollTo({
+              top: elementPosition - headerHeight,
+              behavior: "smooth",
+            });
+          }
+
+          history.replaceState(null, "", `#${sectionId}`);
+          setTimeout(() => onClose?.(), 300); // 👈 delay closing menu
+        } else {
+          window.location.href = `/#${sectionId}`;
+          setTimeout(() => onClose?.(), 300); // for good measure
+        }
+      }
+    };
 
 export const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -146,10 +146,10 @@ export function formatDate(dateString?: string): string {
   return isNaN(date.getTime())
     ? "-"
     : date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
 }
 
 export function calculateMaturityDate(duration: string, startDate: Date = new Date()): string {
@@ -258,4 +258,38 @@ export const formatCurrencyShort = (value: number): string => {
     return `${(value / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
   }
   return value.toString();
+};
+
+export const getPercentage = (current: number, total: number): number => {
+  if (total === 0 || isNaN(total) || isNaN(current)) return 0;
+  const percentage = (current / total) * 100;
+  return Math.round(percentage);
+};
+
+
+export const formatDateWithSuffix = (dateString: string): string => {
+  if (!dateString) return "";
+
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "";
+
+  const day = date.getDate();
+  const month = date.toLocaleString("en-US", { month: "short" });
+  const year = date.getFullYear();
+
+  const getDaySuffix = (d: number) => {
+    if (d > 3 && d < 21) return "th";
+    switch (d % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  return `${day}${getDaySuffix(day)} ${month} ${year}`;
 };

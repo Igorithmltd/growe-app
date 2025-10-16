@@ -10,11 +10,11 @@ import { useQuery } from "@tanstack/react-query";
 
 const SuggestedInvestmentsLayout = () => {
   const router = useRouter();
-  const { getSuggestedInvestments } = useInvestments();
+  const { getAllInvestments } = useInvestments();
 
   const { data, isPending, isFetching, error } = useQuery({
     queryKey: ["suggested-investments"],
-    queryFn: getSuggestedInvestments,
+    queryFn: getAllInvestments,
   });
 
   const investments = data?.data.message || [];
@@ -25,20 +25,29 @@ const SuggestedInvestmentsLayout = () => {
   };
 
   return (
-    <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{ md: 6 }} py={{ base: 2, lg: 6 }} w={{ lg: "65%" }} mx="auto">
       {/* Header */}
-      <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
+      <Box
+        display="flex"
+        gap={4}
+        alignItems="center"
+        mt={{ base: 6, lg: "unset" }}
+      >
         <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
         </Box>
 
-        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
+        <StyledText
+          fontSize={{ base: "xl", md: "2xl" }}
+          fontWeight="medium"
+          color="secondary"
+        >
           Suggested Investments
         </StyledText>
       </Box>
 
       {/* Content */}
-      <VStack align="stretch" spaceY={8} mt={14}>
+      <VStack align="stretch" spaceY={8} mt={8}>
         {loading ? (
           <Loader />
         ) : error ? (
@@ -57,9 +66,9 @@ const SuggestedInvestmentsLayout = () => {
               key={index}
               id={investment._id}
               name={investment.title}
-              investors={investment.groupMembers?.length ?? 0}
-              amountPerUnit={investment.minimumMemberContribution}
-              annualReturn={Number(investment.interestRate)}
+              investors={investment.investors ?? 0}
+              amountPerUnit={investment.minimumInvestmentAmount}
+              annualReturn={Number(investment.annualReturn)}
               image="/images/investments/1.png"
             />
           ))

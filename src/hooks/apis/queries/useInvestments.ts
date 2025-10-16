@@ -20,10 +20,29 @@ const useInvestments = () => {
     }
   }, []);
 
+
+
   const getInvestment = useCallback(async (id: string): Promise<GlobalResponseData<Investment>> => {
     try {
       const response = await useFetcher({
-        url: `/investments/invest/${id}`,
+        url: `/investments/get-invest/${id}`,
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw new Error("Error fetching investment: " + response.error?.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
+  const getInvestmentPlan = useCallback(async (id: string): Promise<GlobalResponseData<InvestmentPlan>> => {
+    try {
+      const response = await useFetcher({
+        url: `/investments/get-investment/${id}`,
         useBaseUrl: true,
       });
 
@@ -109,6 +128,23 @@ const useInvestments = () => {
     }
   }, []);
 
+  const getAllInvestments = useCallback(async (): Promise<GlobalResponseData<InvestmentPlan[]>> => {
+    try {
+      const response = await useFetcher({
+        url: "/investments/get-investments",
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw new Error("Error fetching active investments: " + response.error?.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
   return {
     getInvestments,
     getInvestment,
@@ -116,6 +152,8 @@ const useInvestments = () => {
     getGroupInvestments,
     getSuggestedInvestments,
     getActiveInvestments,
+    getAllInvestments,
+    getInvestmentPlan,
   };
 };
 

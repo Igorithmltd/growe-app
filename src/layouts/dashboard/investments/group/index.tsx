@@ -11,11 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 const GroupInvestments = () => {
   const router = useRouter();
 
-  const { getActiveInvestments } = useInvestments();
+  const { getGroupInvestments } = useInvestments();
 
   const { data, isPending, isFetching, error } = useQuery({
-    queryKey: ["active-investments"],
-    queryFn: getActiveInvestments,
+    queryKey: ["group-investments"],
+    queryFn: getGroupInvestments,
   });
 
   const investments = data?.data.message || [];
@@ -77,61 +77,60 @@ const GroupInvestments = () => {
             cursor="pointer"
             onClick={() => router.push("/investments/active-groups")}
           >
-            <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="medium" color="inherit">
+            <StyledText
+              fontSize={{ base: "sm", md: "md" }}
+              fontWeight="medium"
+              color="inherit"
+            >
               Find more
             </StyledText>
-            <MdChevronRight size={30} fontWeight={400} cursor="pointer" color="secondary" />
+            <MdChevronRight
+              size={30}
+              fontWeight={400}
+              cursor="pointer"
+              color="secondary"
+            />
           </Flex>
         )}
       </HStack>
 
-      <HStack
-        spaceX={{ base: 2, md: 4 }}
-        mt={6}
-        overflowX="auto"
-        css={{
-          // "@media (min-width: 62em)": {
-          //   // 62em = 992px = lg breakpoint
-          //   "&::-webkit-scrollbar": {
-          //     display: "initial",
-          //   },
-          //   scrollbarWidth: "auto",
-          //   msOverflowStyle: "auto",
-          // },
-          "@media (max-width: 61.99em)": {
-            "&::-webkit-scrollbar": {
-              display: "none",
+      {loading ? (
+        <Flex h="250px" alignItems="center" justifyContent="center">
+          <Spinner />
+        </Flex>
+      ) : error ? (
+        <Flex h="250px" alignItems="center" justifyContent="center">
+          <StyledText color="red.500" fontSize="md">
+            {error instanceof Error ? error.message : "Unknown error"}
+          </StyledText>
+        </Flex>
+      ) : investments.length === 0 ? (
+        <Box mt={6}>
+          <EmptyCard title="No active personal investments" />
+        </Box>
+      ) : (
+        <HStack
+          spaceX={{ base: 2, md: 4 }}
+          mt={6}
+          overflowX="auto"
+          css={{
+            "@media (max-width: 61.99em)": {
+              "&::-webkit-scrollbar": { display: "none" },
+              scrollbarWidth: "none", // Firefox
+              msOverflowStyle: "none", // IE 10+
             },
-            scrollbarWidth: "none", // Firefox
-            msOverflowStyle: "none", // IE 10+
-          },
-        }}
-      >
-        {loading ? (
-          <Flex h="250px" alignItems="center" justifyContent="center">
-            <Spinner />
-          </Flex>
-        ) : error ? (
-          <Flex h="250px" alignItems="center" justifyContent="center">
-            <StyledText color="red.500" fontSize="md">
-              {error instanceof Error ? error.message : "Unknown error"}
-            </StyledText>
-          </Flex>
-        ) : investments.length === 0 ? (
-          <Box mt={6}>
-            <EmptyCard title="No active personal investments" />
-          </Box>
-        ) : (
-          investments.map((investment, index) => (
+          }}
+        >
+          {investments.map((investment, index) => (
             <InvestmentCard
               key={index}
               name={investment.title}
               annualReturn={Number(investment.interestRate)}
-              image={"/images/investments/3.png"}
+              image="/images/investments/3.png"
             />
-          ))
-        )}
-      </HStack>
+          ))}
+        </HStack>
+      )}
     </Box>
   );
 };

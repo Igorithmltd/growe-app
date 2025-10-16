@@ -5,8 +5,13 @@ export const metadata: Metadata = {
   title: "Growe | Join Investment Group",
 };
 
-const SavingsGroupPage = () => {
-  return <JoinPreviewDetailsLayout />;
+const SavingsGroupPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  return <JoinPreviewDetailsLayout id={id} />;
 };
 
 export default SavingsGroupPage;

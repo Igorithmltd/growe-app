@@ -29,13 +29,27 @@ const JoinedInvestmentsGroupsLayout = () => {
   const loading = isPending || isFetching;
 
   return (
-    <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
-      <Box display="flex" gap={4} alignItems="center" mt={{ base: 6, lg: "unset" }}>
+    <Box
+      px={{ md: 6 }}
+      py={{ base: 5, lg: 10 }}
+      w={{ lg: "65%" }}
+      mx="auto"
+    >
+      <Box
+        display="flex"
+        gap={4}
+        alignItems="center"
+        mt={{ base: 6, lg: "unset" }}
+      >
         <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
         </Box>
 
-        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
+        <StyledText
+          fontSize={{ base: "xl", md: "2xl" }}
+          fontWeight="medium"
+          color="secondary"
+        >
           Investment Groups
         </StyledText>
       </Box>
@@ -59,13 +73,15 @@ const JoinedInvestmentsGroupsLayout = () => {
               key={index}
               title={investment.title}
               image="/images/investments/1.png"
-              members={investment.memberLimit}
+              members={Number(investment.memberLimit)}
               target={investment.investmentTarget}
               contribution={investment.minimumMemberContribution}
               returnRate={investment.interestRate}
               progress={investment.totalAmount}
-              daysLeft={Number(getDaysLeft(investment.startDate, investment.withdrawalDate))}
-              link={`/investments/${investment._id}`}
+              daysLeft={Number(
+                getDaysLeft(investment.startDate, investment.withdrawalDate)
+              )}
+              link={`/investments/active-groups/${investment._id}`}
             />
           ))
         )}

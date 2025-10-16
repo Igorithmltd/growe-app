@@ -88,29 +88,57 @@ type Duration = {
   interestPercentage: number;
 };
 
-type Investment = {
+interface Investment {
   _id: string;
   title: string;
-  investType: "group" | "personal";
-  investmentId: string;
+  investType: "group" | "individual";
+  investmentId: InvestmentPlan
   investmentTarget: number;
   minimumMemberContribution: number;
   memberLimit: number;
   groupDescription: string;
-  groupRefferalCode: string;
-  dayToBePaid: string;
   interestRate: string;
   admin: string;
   groupMembers: string[];
+  disbursementMethod: "rational-payout" | "equal-payout" | string;
+  startDate: string;
+  withdrawalDate: string;
   members: {
     user: string;
     amount: number;
     intendingAmount: number;
+    _id: string;
   }[];
-  startDate: string; // could also be Date if parsed
-  withdrawalDate: string; // could also be Date if parsed
-  isClosed: boolean;
   totalAmount: number;
+  status: "active" | "inactive" | "completed" | "cancelled";
+  isClosed: boolean;
+  isCompleted: boolean;
+  isCancelled: boolean;
+  isWithdrawn: boolean;
+  createdAt: string;
+  updatedAt: string;
+  groupRefferalCode: string;
+  __v: number;
+}
+
+
+
+type InvestmentPlan = {
+  _id: string;
+  title: string;
+  investmentType: string;
+  minimumInvestmentAmount: number;
+  expectedROI: number;
+  investmentDuration: number;
+  investmentDescription: string;
+  investors: number;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  __v: number;
+  startDate: string; // ISO date string
+  withdrawalDate: string; // ISO date string
+  annualReturn: number;
+  id: string;
 };
 
 type Note = {
