@@ -36,8 +36,8 @@ const CreateInvestmentGroupLayout = () => {
   const investments: InvestmentPlan[] = data?.data.message || [];
   const loading = isPending || isFetching;
 
-  // ✅ Map fetched investments into selection options
   const investmentOptions = investments.map((inv) => ({
+    _id: inv._id,
     name: inv.title,
     target: inv.minimumInvestmentAmount || 0,
   }));
@@ -52,7 +52,7 @@ const CreateInvestmentGroupLayout = () => {
     resolver: yupResolver(createInvestmentGroupSchema),
   });
 
-  const selectedInvestment = watch("investment");
+  const selectedInvestment = watch("investmentId");
 
   const onSubmit = (data: CreateInvestmentGroupValues) => {
     console.log(data);
@@ -60,11 +60,12 @@ const CreateInvestmentGroupLayout = () => {
   };
 
   const handleInvestmentSelect = (investment: {
+    _id: string;
     name: string;
     target: number;
   }) => {
-    setValue("investment", investment.name);
-    setValue("targetAmount", investment.target);
+    setValue("investmentId", investment._id);
+    setValue("investmentTarget", investment.target);
     setIsSelectOpen(false);
   };
 
@@ -82,6 +83,7 @@ const CreateInvestmentGroupLayout = () => {
 
   return (
     <Box px={{ lg: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+      {/* Header */}
       <Box
         display="flex"
         gap={4}
@@ -115,16 +117,18 @@ const CreateInvestmentGroupLayout = () => {
       <Box mt={14}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spaceY={4} align="stretch">
+            {/* Group Title */}
             <StyledField
-              label="Investment Group Name"
-              placeholder="Enter name for investment group"
+              label="Group Title"
+              placeholder="Enter group title"
               labelColor="secondary"
               type="text"
-              fieldProps={register("groupName")}
-              error={errors?.groupName?.message}
+              fieldProps={register("title")}
+              error={errors?.title?.message}
               {...commonProps}
             />
 
+            {/* Investment Selection */}
             <SelectInputBox
               label="Select Investment"
               value={selectedInvestment}
@@ -138,34 +142,38 @@ const CreateInvestmentGroupLayout = () => {
               onClick={() => !loading && !error && setIsSelectOpen(true)}
             />
 
+            {/* Investment Target */}
             <AmountInput
               label="Investment Target"
               labelColor="secondary"
               placeholder="Enter target amount"
-              field={register("targetAmount")}
+              field={register("investmentTarget")}
               readOnly
               {...commonProps}
             />
 
+            {/* Minimum Member Contribution */}
             <AmountInput
               label="Minimum Contribution per Member"
               placeholder="Enter minimum contribution per member"
               labelColor="secondary"
-              field={register("minContribution")}
-              error={errors?.minContribution?.message}
+              field={register("minimumMemberContribution")}
+              error={errors?.minimumMemberContribution?.message}
               {...commonProps}
             />
 
+            {/* Member Limit (optional) */}
             <StyledField
-              label="Members Limit (optional)"
+              label="Member Limit (optional)"
               placeholder="e.g 2, 3, 50..."
               labelColor="secondary"
               type="number"
-              fieldProps={register("membersLimit")}
-              error={errors?.membersLimit?.message}
+              fieldProps={register("memberLimit")}
+              error={errors?.memberLimit?.message}
               {...commonProps}
             />
 
+            {/* Description */}
             <StyledField
               label="What's this group about?"
               placeholder="Enter description"
@@ -173,11 +181,12 @@ const CreateInvestmentGroupLayout = () => {
               type="text"
               isTextarea
               bgColor="#F8F8F8"
-              fieldProps={register("description")}
-              error={errors?.description?.message}
+              fieldProps={register("groupDescription")}
+              error={errors?.groupDescription?.message}
               {...commonProps}
             />
 
+            {/* Submit */}
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
               Create Group
             </StyledButton>
@@ -185,6 +194,7 @@ const CreateInvestmentGroupLayout = () => {
         </form>
       </Box>
 
+      {/* Success Modal */}
       <InfoModal
         message="Congratulations! 🎉 Your Investment Group Has Been Created!"
         hasButton={true}
@@ -192,10 +202,11 @@ const CreateInvestmentGroupLayout = () => {
         icon={<GroupMark />}
       />
 
+      {/* Investment Selection Modal */}
       <SelectOptionModal
         options={investmentOptions}
         onSelect={handleInvestmentSelect}
-        getKey={(option) => option.name}
+        getKey={(option) => option._id}
         render={(option, isSelected) => (
           <HStack align="center" justify="space-between">
             <StyledText
