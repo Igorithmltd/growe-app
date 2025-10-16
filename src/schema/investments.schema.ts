@@ -12,7 +12,8 @@ export interface CreateInvestmentGroupValues {
 
 
 export interface JoinInvestmentGroupValues {
-  inviteCode: string;
+  groupRefferalCode: string;
+  investmentGroupId?: string;
 }
 
 
@@ -57,8 +58,10 @@ export const createInvestmentGroupSchema: Yup.ObjectSchema<CreateInvestmentGroup
 
 export const joinInvestmentGroupSchema: Yup.ObjectSchema<JoinInvestmentGroupValues> =
   Yup.object().shape({
-    inviteCode: Yup.string()
+    groupRefferalCode: Yup.string()
       .required()
       .matches(/^([a-zA-Z0-9/_-]*)$/, "Referral code contains invalid characters")
       .max(50, "Referral code must be less than 50 characters"),
+
+    investmentGroupId: Yup.string().optional(),
   });

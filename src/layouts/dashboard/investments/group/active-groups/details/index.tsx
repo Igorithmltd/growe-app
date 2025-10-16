@@ -17,6 +17,7 @@ import {
   copyToClipboard,
   formatDateWithSuffix,
   getDaysLeft,
+  getPercentage,
 } from "@/src/utils/helpers";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 import useInvestments from "@/src/hooks/apis/queries/useInvestments";
