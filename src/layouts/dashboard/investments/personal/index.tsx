@@ -11,11 +11,11 @@ import useInvestments from "@/src/hooks/apis/queries/useInvestments";
 const PersonalInvestments = () => {
   const router = useRouter();
 
-  const { getActiveInvestments } = useInvestments();
+  const { getPersonalInvestments } = useInvestments();
 
   const { data, isPending, isFetching, error } = useQuery({
-    queryKey: ["active-investments"],
-    queryFn: getActiveInvestments,
+    queryKey: ["personal-investments"],
+    queryFn: getPersonalInvestments,
   });
 
   const investments = data?.data.message || [];

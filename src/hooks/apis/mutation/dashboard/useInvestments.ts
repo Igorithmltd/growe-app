@@ -10,12 +10,12 @@ import {
   JoinInvestmentGroupValues,
 } from "@/src/schema/investments.schema";
 
-export const useInveestments = () => {
+export const useInvestmentsMutations = () => {
   const showToast = useShowToast();
 
   const createGroup = async (data: CreateInvestmentGroupValues): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: "/auth/forgot-password",
+      url: "/investments/create-invest",
       requestType: "POST",
       body: data,
       useBaseUrl: true,

@@ -2,7 +2,7 @@ import * as Yup from "yup";
 
 export interface CreateInvestmentGroupValues {
   title: string;
-  investType: string;
+  investType?: string;
   investmentId: string;
   investmentTarget: number;
   minimumMemberContribution: number;

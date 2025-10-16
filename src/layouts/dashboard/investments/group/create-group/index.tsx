@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, VStack, HStack, Flex, Spinner } from "@chakra-ui/react";
+import { Box, VStack, HStack } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   StyledField,
@@ -22,6 +23,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import useInvestments from "@/src/hooks/apis/queries/useInvestments";
 import { useQuery } from "@tanstack/react-query";
+import { useInvestmentsMutations } from "@/src/hooks/apis/mutation/dashboard/useInvestments";
 
 const CreateInvestmentGroupLayout = () => {
   const router = useRouter();
@@ -42,6 +44,8 @@ const CreateInvestmentGroupLayout = () => {
     target: inv.minimumInvestmentAmount || 0,
   }));
 
+  const { createInvestmentGroup, isCreatingGroup } = useInvestmentsMutations();
+
   const {
     register,
     handleSubmit,
@@ -52,11 +56,22 @@ const CreateInvestmentGroupLayout = () => {
     resolver: yupResolver(createInvestmentGroupSchema),
   });
 
-  const selectedInvestment = watch("investmentId");
+  // ✅ Set investType = "group" when the form loads
+  useEffect(() => {
+    setValue("investType", "group");
+  }, [setValue]);
 
-  const onSubmit = (data: CreateInvestmentGroupValues) => {
-    console.log(data);
-    setIsInfoOpen(true);
+  const selectedInvestmentId = watch("investmentId");
+  const selectedInvestment = investmentOptions.find(
+    (inv) => inv._id === selectedInvestmentId
+  );
+
+  const onSubmit = async (data: CreateInvestmentGroupValues) => {
+    createInvestmentGroup(data, {
+      onSuccess: () => {
+        setIsInfoOpen(true);
+      },
+    });
   };
 
   const handleInvestmentSelect = (investment: {
@@ -131,7 +146,7 @@ const CreateInvestmentGroupLayout = () => {
             {/* Investment Selection */}
             <SelectInputBox
               label="Select Investment"
-              value={selectedInvestment}
+              value={selectedInvestment ? selectedInvestment.name : ""}
               placeholder={
                 loading
                   ? "Loading investments..."
@@ -173,7 +188,6 @@ const CreateInvestmentGroupLayout = () => {
               {...commonProps}
             />
 
-            {/* Description */}
             <StyledField
               label="What's this group about?"
               placeholder="Enter description"
@@ -186,8 +200,12 @@ const CreateInvestmentGroupLayout = () => {
               {...commonProps}
             />
 
-            {/* Submit */}
-            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+            <StyledButton
+              type="submit"
+              w="full"
+              mt={2}
+              loading={isSubmitting || isCreatingGroup}
+            >
               Create Group
             </StyledButton>
           </VStack>
@@ -199,6 +217,7 @@ const CreateInvestmentGroupLayout = () => {
         message="Congratulations! 🎉 Your Investment Group Has Been Created!"
         hasButton={true}
         buttonText="Go back to investments"
+        onButtonClick={() => router.push("/investmensts")}
         icon={<GroupMark />}
       />
 

@@ -5,8 +5,13 @@ export const metadata: Metadata = {
   title: "Growe | Investment Group",
 };
 
-const InvestmentsGroupPage = () => {
-  return <JoinedInvestmentDetailsLayout />;
+const InvestmentsGroupPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  return <JoinedInvestmentDetailsLayout id={id} />;
 };
 
 export default InvestmentsGroupPage;

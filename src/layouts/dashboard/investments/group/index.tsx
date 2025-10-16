@@ -11,11 +11,11 @@ import { useQuery } from "@tanstack/react-query";
 const GroupInvestments = () => {
   const router = useRouter();
 
-  const { getActiveInvestments } = useInvestments();
+  const { getGroupInvestments } = useInvestments();
 
   const { data, isPending, isFetching, error } = useQuery({
-    queryKey: ["active-investments"],
-    queryFn: getActiveInvestments,
+    queryKey: ["group-investments"],
+    queryFn: getGroupInvestments,
   });
 
   const investments = data?.data.message || [];
