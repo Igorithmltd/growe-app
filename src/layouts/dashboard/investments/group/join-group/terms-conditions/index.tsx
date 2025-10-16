@@ -91,7 +91,7 @@ const InvestmentGroupTerms = () => {
   };
 
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={6} py={{ base: 2, lg: 6 }} w={{ lg: "65%" }} mx="auto">
       {/* Header */}
       <Box display="flex" gap={4} alignItems="center">
         <Box cursor="pointer" onClick={() => router.back()}>

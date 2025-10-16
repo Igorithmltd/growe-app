@@ -1,21 +1,24 @@
 "use client";
 
 import { BackIcon } from "@/public/svgs";
-import { StyledButton, StyledProgress, StyledText } from "@/src/components";
+import {
+  Loader,
+  StyledButton,
+  StyledProgress,
+  StyledText,
+} from "@/src/components";
 import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { DetailsCard, InvestmentImageCard } from "../../../../cards";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
-
-const data = [
-  { label: "Investment type", value: "Full Equity" },
-  { label: "Withdrawal Date", value: "₦2,000.00 per share" },
-  { label: "Start Date", value: "30th of November" },
-  { label: "Payout Type", value: "Profit paid by unit shares" },
-  { label: "Annual Return", value: "20%" },
-  { label: "Investors", value: "30" },
-];
+import useInvestments from "@/src/hooks/apis/queries/useInvestments";
+import { useQuery } from "@tanstack/react-query";
+import {
+  formatDateWithSuffix,
+  getDaysLeft,
+  getPercentage,
+} from "@/src/utils/helpers";
 
 const performanceData = [
   { year: 2025, performance: 20 },
@@ -24,28 +27,61 @@ const performanceData = [
   { year: 2022, performance: 9.2 },
 ];
 
-const JoinPreviewDetailsLayout = () => {
+const JoinPreviewDetailsLayout = ({ id }: { id: string }) => {
   const router = useRouter();
+  const { getInvestment } = useInvestments();
 
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["join-investment-details", id],
+    queryFn: () => getInvestment(id),
+    enabled: !!id,
+  });
+
+  const loading = isPending || isFetching;
+  const investment = data?.data.message;
+
+  if (loading) return <Loader />;
+
+  if (error) {
+    return (
+      <Box py={10} textAlign="center">
+        <StyledText color="red.400">
+          Failed to load investment details.
+        </StyledText>
+      </Box>
+    );
+  }
+
+  const progress = getPercentage(
+    investment?.investmentTarget ?? 0,
+    investment?.totalAmount ?? 0
+  );
 
   return (
-    <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{ md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+      {/* Header */}
       <HStack spaceX={3}>
         <Box onClick={() => router.back()} cursor="pointer">
           <BackIcon />
         </Box>
-        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          Enviable Transport Investment Group
+        <StyledText
+          fontSize={{ base: "xl", md: "2xl" }}
+          fontWeight="medium"
+          color="secondary"
+        >
+          {investment?.title ?? "Join Investment"}
         </StyledText>
       </HStack>
 
       <VStack align="stretch" spaceY={8} mt={14}>
+        {/* Investment Image */}
         <InvestmentImageCard
-          name="Farmcrowdy Maize Farming"
+          name={investment?.title ?? "N/A"}
           bgImage={"url('/images/investments/cover.jpg')"}
           image="/images/investments/2.png"
         />
 
+        {/* Verified Tag */}
         <StyledText
           alignSelf="flex-end"
           fontSize={{ base: "xs", md: "sm", lg: "md" }}
@@ -53,111 +89,130 @@ const JoinPreviewDetailsLayout = () => {
           color="primary"
           display="flex"
           alignItems="center"
-          spaceX={1}
         >
-          Verified investment <RiVerifiedBadgeFill size={20} style={{ marginLeft: "6px" }} />
+          Verified investment{" "}
+          <RiVerifiedBadgeFill size={20} style={{ marginLeft: "6px" }} />
         </StyledText>
 
+        {/* Header Section */}
         <HStack justify="space-between" align="center">
           <Box>
             <StyledText
               fontSize={{ base: "lg", md: "xl" }}
               mb={2}
-              fontWeight="normal"
               color="secondary"
             >
-              Farmcrowdy Maize Farming
+              {investment?.investmentId?.title ?? "Investment Name"}
             </StyledText>
-            <StyledText
-              fontSize={{ base: "sm", md: "md" }}
-              mb={2}
-              fontWeight="normal"
-              color="bfgrey"
-            >
-              By Taiwo Faith & CO
+            <StyledText fontSize={{ base: "sm", md: "md" }} color="bfgrey">
+              By {investment?.investmentId.investmentType ?? "Unknown"}
             </StyledText>
           </Box>
 
           <Box textAlign="center">
-            <StyledText
-              fontSize={{ base: "lg", md: "xl" }}
-              mb={2}
-              fontWeight="normal"
-              color="primary"
-            >
-              ₦2,000,000
+            <StyledText fontSize={{ base: "lg", md: "xl" }} color="primary">
+              ₦
+              {investment?.investmentId.minimumInvestmentAmount?.toLocaleString() ??
+                "0"}
             </StyledText>
-            <StyledText
-              fontSize={{ base: "sm", md: "md" }}
-              mb={2}
-              fontWeight="normal"
-              color="bfgrey"
-            >
+            <StyledText fontSize={{ base: "sm", md: "md" }} color="bfgrey">
               Per Unit
             </StyledText>
           </Box>
         </HStack>
 
-        <StyledProgress max={100} value={30} />
+        {/* Progress Bar */}
+        <StyledProgress max={100} value={progress} />
 
         <HStack justify="space-between">
           <StyledText
             fontSize={{ base: "xs", md: "sm", lg: "md" }}
-            fontWeight="normal"
             color="bfgrey"
           >
-            30% completed
+            {progress}% completed
           </StyledText>
           <StyledText
             fontSize={{ base: "xs", md: "sm", lg: "md" }}
-            fontWeight="normal"
             color="bfgrey"
           >
-            28 days left
+            {Number(
+              getDaysLeft(investment?.startDate, investment?.withdrawalDate)
+            )}{" "}
+            days left
           </StyledText>
         </HStack>
 
-        <StyledButton onClick={() => router.push("/investments/join-group/123/terms")}>
+        {/* Join Button */}
+        <StyledButton
+          onClick={() =>
+            router.push(`/investments/join-group/${investment?._id}/terms`)
+          }
+        >
           Join Investment
         </StyledButton>
 
+        {/* Investment Information */}
         <Box>
           <StyledText
             fontSize={{ base: "md", md: "lg" }}
             mb={2}
-            fontWeight="normal"
             color="secondary"
           >
             Investment Information
           </StyledText>
           <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
-            {data.map(({ label, value }) => (
-              <DetailsCard title={label} value={value} key={label} />
+            {[
+              {
+                label: "Investment Type",
+                value: investment?.investType ?? "N/A",
+              },
+              {
+                label: "Start Date",
+                value:
+                  formatDateWithSuffix(String(investment?.startDate)) ?? "N/A",
+              },
+              {
+                label: "Withdrawal Date",
+                value:
+                  formatDateWithSuffix(String(investment?.withdrawalDate)) ??
+                  "N/A",
+              },
+              {
+                label: "Annual Return",
+                value: `${investment?.interestRate ?? 0}%`,
+              },
+              {
+                label: "Group Size",
+                value: investment?.groupMembers?.length ?? 0,
+              },
+            ].map(({ label, value }) => (
+              <DetailsCard title={label} value={String(value)} key={label} />
             ))}
           </Grid>
         </Box>
 
+        {/* Overview */}
         <Box>
           <StyledText
             fontSize={{ base: "md", md: "lg" }}
             mb={2}
-            fontWeight="normal"
             color="secondary"
           >
             Investment Overview
           </StyledText>
-          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
-            Farmcrowdy is Nigeria’s first digital agriculture platform that connects investors with
-            small-scale farmers. Invest in crops like maize, cassava, and rice, or poultry farming,
-            and enjoy high-impact returns while supporting local agriculture. With flexible options
-            starting from ₦90,000 per unit, Farmcrowdy offers returns of up to 25% per farming
-            cycle. Each unit represents a share in a farm project, covering all essential costs from
-            seeds to harvest. Take part in transforming Nigeria’s agriculture, one farm at a time.
+          <StyledText fontSize={{ base: "sm", md: "md" }} color="bfgrey">
+            {investment?.investmentId.investmentDescription ??
+              "No description available for this investment group."}
           </StyledText>
         </Box>
 
+        {/* Historical Performance */}
         <Box>
-          <StyledText fontSize={{ base: "md", md: "lg" }} fontWeight="medium" color="secondary">
+          <StyledText
+            fontSize={{ base: "md", md: "lg" }}
+            fontWeight="medium"
+            color="secondary"
+          >
             Historical Performance
           </StyledText>
 
@@ -171,13 +226,12 @@ const JoinPreviewDetailsLayout = () => {
             {performanceData.map(({ year, performance }) => (
               <HStack justify="space-between" key={year} px={4} py={3}>
                 <StyledText
-                  fontSize={{ base: "sm", md: "md" }}
-                  fontWeight="medium"
+                  fontSize={{ base: "md", md: "lg" }}
                   color="secondary"
                 >
                   {year}
                 </StyledText>
-                <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="medium" color="primary">
+                <StyledText fontSize={{ base: "md", md: "lg" }} color="primary">
                   {performance}%
                 </StyledText>
               </HStack>
@@ -185,9 +239,17 @@ const JoinPreviewDetailsLayout = () => {
           </VStack>
         </Box>
 
-        <HStack py="12px" px="6px" bg="#FFF4EB" borderRadius="10px" justify="center" align="center">
+        {/* Info Footer */}
+        <HStack
+          py="12px"
+          px="6px"
+          bg="#FFF4EB"
+          borderRadius="10px"
+          justify="center"
+          align="center"
+        >
           <IoIosInformationCircleOutline size={20} color="#FFCA99" />
-          <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="#D4A880">
+          <StyledText fontSize={{ base: "sm", md: "md" }} color="#D4A880">
             Past performance is not indicative of future returns
           </StyledText>
         </HStack>

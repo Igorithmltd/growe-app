@@ -71,6 +71,11 @@ const JoinedInvestmentDetailsLayout = ({ id }: { id: string }) => {
 
   const isOwner = user?._id === investment?.admin;
 
+  const progress = getPercentage(
+    investment?.investmentTarget ?? 0,
+    investment?.totalAmount ?? 0
+  );
+
   return (
     <Box px={{ md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <HStack spaceX={3}>
@@ -148,7 +153,7 @@ const JoinedInvestmentDetailsLayout = ({ id }: { id: string }) => {
           </Box>
         </HStack>
 
-        <StyledProgress max={100} value={30} />
+        <StyledProgress max={100} value={progress} />
 
         <HStack justify="space-between">
           <StyledText
