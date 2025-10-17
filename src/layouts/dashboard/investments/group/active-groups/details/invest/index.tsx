@@ -18,7 +18,7 @@ import useShowToast from "@/src/hooks/useShowToast";
 import { useUserDetailsStore } from "@/src/stores/user-details";
 import { useModal } from "@/src/contexts/ModalContext";
 
-const InvestForm = () => {
+const PaymentForm = () => {
   const { setIsInfoOpen } = useModal();
   const router = useRouter();
   const { id } = useParams();
@@ -143,4 +143,4 @@ const InvestForm = () => {
   );
 };
 
-export default InvestForm;
+export default PaymentForm;
