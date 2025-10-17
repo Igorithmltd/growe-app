@@ -54,7 +54,7 @@ const InvestForm = () => {
 
     initializePayment(
       { email, amount, metadata },
-      (response: any) => {
+      () => {
         toast({
           title: "Payment Successful!",
           description:

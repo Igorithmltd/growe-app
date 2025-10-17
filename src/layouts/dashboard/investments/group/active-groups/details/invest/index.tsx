@@ -64,7 +64,6 @@ const PaymentForm = () => {
           duration: 3000,
         });
 
-        // ✅ Open Info Modal via global modal context
         setIsInfoOpen(true);
       },
       () => {
@@ -88,7 +87,7 @@ const PaymentForm = () => {
   };
 
   return (
-    <Box px={{ lg: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{ lg: 6 }} py={{ base: 2, lg: 6 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center">
         <Box cursor="pointer" onClick={() => router.back()}>
           <BackIcon />
