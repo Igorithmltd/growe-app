@@ -3,9 +3,8 @@
 import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-//
 import { StyledButton, StyledText } from "@/src/components";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   quickSavingSchema,
   QuickSavingValues,
@@ -13,21 +12,69 @@ import {
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon, PendingMark } from "@/public/svgs";
 import InfoModal from "@/src/components/modals/InfoModal";
+import { useEffect } from "react";
+import { usePaystackPayment } from "@/src/hooks/usePaystack";
+import useShowToast from "@/src/hooks/useShowToast";
+import { useUserDetailsStore } from "@/src/stores/user-details";
+import { useModal } from "@/src/contexts/ModalContext";
 
 const InvestForm = () => {
+  const { setIsInfoOpen } = useModal();
   const router = useRouter();
+  const { id } = useParams();
+  const toast = useShowToast();
+  const user = useUserDetailsStore((state) => state.user);
 
   const {
     register,
     handleSubmit,
-    // reset,
     formState: { errors, isSubmitting },
   } = useForm<QuickSavingValues>({
     resolver: yupResolver(quickSavingSchema),
   });
 
-  const onSubmit = (data: QuickSavingValues) => {
-    console.log(data);
+  const initializePayment = usePaystackPayment();
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://js.paystack.co/v1/inline.js";
+    document.body.appendChild(script);
+  }, []);
+
+  const onSubmit = async (data: QuickSavingValues) => {
+    const amount = Number(data.amount);
+    const email = user?.email || "guest@example.com";
+    const actionId = id;
+
+    const metadata = {
+      amount,
+      email,
+      type: "quick-saving",
+      actionId,
+    };
+
+    initializePayment(
+      { email, amount, metadata },
+      () => {
+        toast({
+          title: "Payment Successful!",
+          description:
+            "We’ll confirm your transaction once Paystack verifies it.",
+          status: "success",
+          duration: 3000,
+        });
+
+        // ✅ Open Info Modal via global modal context
+        setIsInfoOpen(true);
+      },
+      () => {
+        toast({
+          title: "Payment window closed.",
+          status: "info",
+          duration: 2000,
+        });
+      }
+    );
   };
 
   const commonProps = {
@@ -63,7 +110,7 @@ const InvestForm = () => {
         color="bfgrey"
       >
         Enter the amount you want to invest and take the next step toward
-        growing your wealth. Start small or go big
+        growing your wealth. Start small or go big.
       </StyledText>
 
       <Box mt={14}>
@@ -79,17 +126,18 @@ const InvestForm = () => {
             />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
-              Next
+              Proceed to Payment
             </StyledButton>
           </VStack>
         </form>
       </Box>
 
       <InfoModal
-        message="We’re reviewing your transaction, and it will be confirmed within 1-2 days. Thank you!"
+        message="We’re reviewing your transaction, and it will be confirmed within 1–2 days. Thank you!"
         hasButton={true}
         buttonText={"Back to Investments"}
         icon={<PendingMark />}
+        onButtonClick={() => router.push("/investments")}
       />
     </Box>
   );
