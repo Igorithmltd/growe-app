@@ -47,3 +47,48 @@ type UserDetails = {
     isRegistrationComplete: boolean;
   };
 };
+
+interface GroupImage {
+  _id: string;
+  imageUrl: string;
+  publicId: string;
+}
+
+interface Group {
+  _id: string;
+  title: string;
+  savingType: "group" | string;
+  totalAmount: number;
+  targetAmount: number;
+  frequentAmount: number;
+  frequencyDuration: string;
+  interestRate: number;
+  admin: string;
+  savingProgress: number;
+  isClosed: boolean;
+  isCompleted: boolean;
+  isCancelled: boolean;
+  isWithdrawn: boolean;
+  status: "active" | "inactive" | string;
+  groupMembers: string[];
+  memberLimit: number;
+  groupImage: GroupImage;
+  groupDescription: string;
+  disbursementMethod: string;
+  startDate: string;
+  withdrawalDate: string;
+  createdAt: string;
+  updatedAt: string;
+  groupRefferalCode: string;
+  __v: number;
+}
+
+interface ChatRoom {
+  _id: string;
+  groupId: Group;
+  members: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+

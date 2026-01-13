@@ -2,19 +2,10 @@
 import { useCallback } from "react";
 import { useFetcher } from "../../useFetcher";
 
-export type ChatRoom = {
-  _id: string;
-  groupId: string;
-  members: string[];
-};
 
-export type GetRoomsResponse = {
-  success: boolean;
-  rooms: ChatRoom[];
-};
 
 const useChats = () => {
-  const getChatList = useCallback(async (): Promise<GetRoomsResponse> => {
+  const getChatList = useCallback(async (): Promise<GlobalResponseData<ChatRoom[]>> => {
     try {
       const response = await useFetcher({
         url: "/chat/get-chat-rooms",

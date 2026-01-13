@@ -2,7 +2,7 @@ import { StyledText } from "@/src/components";
 import { Badge, Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
-const ChatItem = ({ id }: { id: string }) => {
+const ChatItem = ({  chat }: {  chat: ChatRoom }) => {
   const router = useRouter();
 
   return (
@@ -11,12 +11,12 @@ const ChatItem = ({ id }: { id: string }) => {
       borderRadius="lg"
       p={3}
       _hover={{ shadow: "md", cursor: "pointer" }}
-      onClick={() => router.push(`/chat/${id}`)}
+      onClick={() => router.push(`/chat/${chat._id}`)}
     >
       <Flex align="center">
         <img
-          src="/images/group/3.jpg"
-          alt="Education"
+          src={chat.groupId.groupImage.imageUrl || "/images/group/3.jpg"}
+          alt={chat.groupId.title}
           style={{
             width: "40px",
             height: "40px",
@@ -28,10 +28,10 @@ const ChatItem = ({ id }: { id: string }) => {
 
         <VStack align="start" spaceX={0} spaceY={0} flex="1">
           <StyledText fontWeight="normal" color="secondary" fontSize={{ base: "md", md: "lg" }}>
-            Education Savings Group
+            {chat.groupId.title}
           </StyledText>
           <StyledText fontSize={{ base: "xs", md: "sm" }} color="bfgrey">
-            20 group members
+            {chat.groupId.groupMembers.length} group members
           </StyledText>
         </VStack>
 

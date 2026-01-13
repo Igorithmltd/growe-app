@@ -30,8 +30,8 @@ const Layout = ({ children }: LayoutProps) => {
             </Box>
           </Box>
         ) : (
-          <Box height="100vh" display="flex" flexDirection="column" bg="#FDFDFD" pt={5}>
-            <Box flex={1} overflowY="auto" pb="80px" px={4}>
+          <Box height="100vh" display="flex" flexDirection="column" bg="#FDFDFD" pt={1}>
+            <Box flex={1} overflowY="auto" pb="80px" >
               {children}
             </Box>
             <MobileNavbar />
