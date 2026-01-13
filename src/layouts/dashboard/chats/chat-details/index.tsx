@@ -10,69 +10,45 @@ import {
   Text,
   VStack,
   Avatar,
+  Center,
 } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useRef, useState, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiSolidSend } from "react-icons/bi";
 import { BackIcon } from "@/public/svgs";
 import useChats from "@/src/hooks/apis/queries/useChats";
 import { useQuery } from "@tanstack/react-query";
-
-type ChatMessage = {
-  sender: string;
-  text: string;
-  timestamp: string;
-};
+import { useChatMutation } from "@/src/hooks/apis/mutation/dashboard/useChat";
+import { timeAgo } from "@/src/utils/helpers";
 
 export default function ChatDetailsLayout() {
   const router = useRouter();
+  const { id } = useParams<{ id: string }>();
+
   const [message, setMessage] = useState("");
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const menuRef = useRef<HTMLDivElement>(null);
+
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const {getChatMessages} = useChats()
+  const { getChatMessages } = useChats();
+  const { sendChatMessage, isSendingMessage } = useChatMutation();
 
-  const { data, isLoading, isPending } = useQuery({
-      queryKey: ["chat-messages"],
-      queryFn: getChatMessages,
-    });
+  const { data, isLoading, isPending, refetch } = useQuery({
+    queryKey: ["chat-messages", id],
+    queryFn: () =>
+      getChatMessages({
+        roomId: id,
+        page: 1,
+        limit: 50,
+      }),
+    enabled: !!id,
+  });
 
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      sender: "Me",
-      text: `Hello Guys, Welcome to Educational Savings Group.`,
-      timestamp: "2 minutes ago",
-    },
-    {
-      sender: "Goodluck Ben",
-      text: "Thank you for this group.",
-      timestamp: "1 minute ago",
-    },
-    {
-      sender: "Me",
-      text: `Hello Guys, Welcome to Educational Savings Group.`,
-      timestamp: "2 minutes ago",
-    },
-    {
-      sender: "Goodluck Ben",
-      text: "Thank you for this group.",
-      timestamp: "1 minute ago",
-    },
-    {
-      sender: "Me",
-      text: `Hello Guys, Welcome to Educational Savings Group.`,
-      timestamp: "2 minutes ago",
-    },
-    {
-      sender: "Goodluck Ben",
-      text: "Thank you for this group.",
-      timestamp: "1 minute ago",
-    },
-  ]);
+  // Use our typed Message array
+  const messages: Message[] = data?.data?.message ?? [];
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -81,14 +57,19 @@ export default function ChatDetailsLayout() {
   const handleSend = () => {
     if (!message.trim()) return;
 
-    setMessages((prev) => [
-      ...prev,
+    sendChatMessage(
       {
-        sender: "Me",
-        text: message,
-        timestamp: "Just now",
+        groupId: id,
+        receiverId: id,
+        message,
+        type: "text",
       },
-    ]);
+      {
+        onSuccess: () => {
+          refetch();
+        },
+      }
+    );
 
     setMessage("");
   };
@@ -96,37 +77,32 @@ export default function ChatDetailsLayout() {
   return (
     <Box h="100dvh">
       <Flex direction="column" h="full" w={{ lg: "65%" }} mx="auto" bg="white">
+        {/* ================= HEADER ================= */}
         <Flex
           position="sticky"
-          top="0"
-          zIndex="10"
+          top={0}
+          zIndex={10}
           bg="white"
           px={4}
           py={3}
-          borderBottom="1px solid"
-          borderColor="gray.200"
           justify="space-between"
           align="center"
+          boxShadow="0 4px 6px -4px rgba(0,0,0,0.15)"
         >
           {showSearchInput ? (
-            <HStack gap={3} width="100%">
+            <HStack gap={3} w="full">
               <BackIcon
-                aria-label="Back"
                 cursor="pointer"
                 onClick={() => {
                   setShowSearchInput(false);
                   setSearchQuery("");
                 }}
               />
-
               <Input
                 placeholder="Search messages..."
-                outline="none"
-                border="none"
-                bg={"bluelight"}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                width="full"
+                bg="bluelight"
                 borderRadius="full"
               />
             </HStack>
@@ -136,21 +112,18 @@ export default function ChatDetailsLayout() {
                 <Box cursor="pointer" onClick={() => router.back()}>
                   <BackIcon />
                 </Box>
-                <Box
-                  w="30px"
-                  h="30px"
-                  borderRadius="md"
-                  bg="gray.300"
-                  bgImage="url('/images/group/3.jpg')"
-                  bgSize="cover"
-                  backgroundPosition="center"
-                />
+
+                <Avatar.Root size="sm">
+                  <Avatar.Image src="/images/group/3.jpg" />
+                  <Avatar.Fallback name="Group" />
+                </Avatar.Root>
+
                 <Box>
-                  <Text fontWeight="medium" fontSize={{ base: "md", md: "lg" }} color="secondary">
+                  <Text fontWeight="medium" color="secondary">
                     Educational Savings Group
                   </Text>
-                  <Text fontSize={{ base: "xs", md: "sm" }} color="bfgrey" truncate>
-                    Me, Ben Victor, Goodluck Ben...
+                  <Text fontSize="xs" color="bfgrey" truncate>
+                    Group Chat
                   </Text>
                 </Box>
               </HStack>
@@ -166,41 +139,52 @@ export default function ChatDetailsLayout() {
           )}
         </Flex>
 
-        <VStack flex="1" align="stretch" spaceY={4} px={4} py={3} mt={6} overflowY="auto">
-          {messages.map((msg, idx) => (
-            <Box key={idx} display="flex" gap={4} w="full">
-              <Avatar.Root size="lg">
-                <Avatar.Fallback name={msg.sender} />
-                <Avatar.Image src="/images/profile-Image.jpeg" />
-              </Avatar.Root>
+        <VStack flex="1" align="stretch" spaceY={4} px={4} py={3} overflowY="auto" mt={{base: "100px", lg: 14}}>
+          {isLoading || isPending ? (
+            <Center flex={1}>
+              <Text textAlign="center" color="secondary" fontSize={{ base: "md", lg: "lg" }}>
+                Loading messages...
+              </Text>
+            </Center>
+          ) : messages.length ? (
+            messages.map((msg) => (
+              <Box key={msg._id} display="flex" gap={4}>
+                <Avatar.Root size="sm">
+                  <Avatar.Fallback name={`${msg.senderId.firstName} ${msg.senderId.lastName}`} />
+                </Avatar.Root>
 
-              <Box w="full">
-                <Flex justify="space-between" mb={1}>
-                  <Text fontSize="xs" color="secondary">
-                    {msg.sender}
-                  </Text>
-                  <Text fontSize="xs" color="bfgrey">
-                    {msg.timestamp}
-                  </Text>
-                </Flex>
+                <Box w="full">
+                  <Flex justify="space-between" mb={1}>
+                    <Text fontSize="xs" color="secondary">
+                      {msg.senderId.firstName} {msg.senderId.lastName}
+                    </Text>
+                    <Text fontSize="xs" color="bfgrey">
+                      {timeAgo(msg.createdAt)}
+                    </Text>
+                  </Flex>
 
-                <Box bg="#f8fbea" p={3} borderRadius="8px">
-                  <Text fontSize="sm" color="bfgrey" whiteSpace="pre-line">
-                    {msg.text}
-                  </Text>
+                  <Box bg="#f8fbea" p={3} borderRadius="lg">
+                    <Text fontSize="sm" color="bfgrey">
+                      {msg.message}
+                    </Text>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          ))}
+            ))
+          ) : (
+            <Center flex={1}>
+              <Text textAlign="center" color="secondary" fontSize={{ base: "md", lg: "lg" }}>
+                No messages yet. Start the conversation!
+              </Text>
+            </Center>
+          )}
 
-          {/* scroll anchor */}
           <Box ref={bottomRef} />
         </VStack>
 
-        {/* ================= INPUT ================= */}
         <Flex
           position="sticky"
-          bottom="0"
+          bottom={0}
           bg="white"
           px={3}
           py={2}
@@ -213,9 +197,7 @@ export default function ChatDetailsLayout() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             borderRadius="full"
-            border="none"
             bg="bluelight"
-            _focus={{ bg: "bluelight" }}
           />
 
           <IconButton
@@ -224,15 +206,14 @@ export default function ChatDetailsLayout() {
             color="white"
             borderRadius="full"
             onClick={handleSend}
+            loading={isSendingMessage}
           >
             <BiSolidSend />
           </IconButton>
         </Flex>
 
-        {/* ================= MENU ================= */}
         {isMenuOpen && (
           <Box
-            ref={menuRef}
             position="fixed"
             top="70px"
             right="20px"
@@ -243,15 +224,8 @@ export default function ChatDetailsLayout() {
             p={2}
             w="200px"
           >
-            <VStack spaceY={2} align="stretch">
-              <Button
-                variant="ghost"
-                justifyContent="flex-start"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  router.push("/chat/education/group-details");
-                }}
-              >
+            <VStack align="stretch">
+              <Button variant="ghost" justifyContent="flex-start">
                 View Group Details
               </Button>
               <Button
@@ -264,25 +238,8 @@ export default function ChatDetailsLayout() {
               >
                 Search Messages
               </Button>
-              <Button
-                variant="ghost"
-                justifyContent="flex-start"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  router.push("/chat");
-                }}
-              >
+              <Button variant="ghost" justifyContent="flex-start">
                 Leave Group
-              </Button>
-              <Button
-                variant="ghost"
-                justifyContent="flex-start"
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  router.push("/me");
-                }}
-              >
-                Settings
               </Button>
             </VStack>
           </Box>

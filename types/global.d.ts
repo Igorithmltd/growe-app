@@ -92,3 +92,20 @@ interface ChatRoom {
   __v: number;
 }
 
+
+
+
+type Message = {
+  _id: string;
+  groupId: string;
+  senderId: UserDetails;
+  receiverId: User | null;
+  message: string;
+  type: "text" | "image" | "video" | "file"; 
+  isDeleted: boolean;
+  readBy: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+

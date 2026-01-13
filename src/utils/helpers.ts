@@ -112,3 +112,41 @@ export const hexToRgba = (hex: string, alpha: number) => {
   const b = bigint & 255;
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
+
+export function timeAgo(createdAt: string): string {
+  const date = new Date(createdAt);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime(); // difference in milliseconds
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffSeconds / 60);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffSeconds < 60) return "just now";
+  if (diffMinutes < 60) return `${diffMinutes} minute${diffMinutes > 1 ? "s" : ""} ago`;
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+
+  // Check if it was yesterday
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+  if (
+    date.getDate() === yesterday.getDate() &&
+    date.getMonth() === yesterday.getMonth() &&
+    date.getFullYear() === yesterday.getFullYear()
+  ) {
+    return "yesterday";
+  }
+
+  // If today (but more than hours ago)
+  if (
+    date.getDate() === now.getDate() &&
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear()
+  ) {
+    return "today";
+  }
+
+  // Otherwise return exact date like 12 Dec 2025
+  const options: Intl.DateTimeFormatOptions = { day: "2-digit", month: "short", year: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+}

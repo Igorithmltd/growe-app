@@ -35,7 +35,7 @@ const useChats = () => {
       beforeTime,
       page = 1,
       limit = 50,
-    }: GetChatMessagesParams): Promise<GlobalResponseData<any>> => {
+    }: GetChatMessagesParams): Promise<GlobalResponseData<Message[]>> => {
       try {
         const response = await useFetcher({
           url: `/chat/get-chat-messages/${roomId}`,
