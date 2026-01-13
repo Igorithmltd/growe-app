@@ -16,6 +16,8 @@ import { useRef, useState, useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { BiSolidSend } from "react-icons/bi";
 import { BackIcon } from "@/public/svgs";
+import useChats from "@/src/hooks/apis/queries/useChats";
+import { useQuery } from "@tanstack/react-query";
 
 type ChatMessage = {
   sender: string;
@@ -31,6 +33,13 @@ export default function ChatDetailsLayout() {
   const [searchQuery, setSearchQuery] = useState("");
   const menuRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+  const {getChatMessages} = useChats()
+
+  const { data, isLoading, isPending } = useQuery({
+      queryKey: ["chat-messages"],
+      queryFn: getChatMessages,
+    });
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -65,7 +74,6 @@ export default function ChatDetailsLayout() {
     },
   ]);
 
-  /** Auto-scroll to last message */
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
