@@ -20,7 +20,7 @@ import { BackIcon } from "@/public/svgs";
 import useChats from "@/src/hooks/apis/queries/useChats";
 import { useQuery } from "@tanstack/react-query";
 import { useChatMutation } from "@/src/hooks/apis/mutation/dashboard/useChat";
-import { timeAgo } from "@/src/utils/helpers";
+import { groupMessagesByDate, timeAgo } from "@/src/utils/helpers";
 
 export default function ChatDetailsLayout() {
   const router = useRouter();
@@ -77,7 +77,6 @@ export default function ChatDetailsLayout() {
   return (
     <Box h="100dvh">
       <Flex direction="column" h="full" w={{ lg: "65%" }} mx="auto" bg="white">
-        {/* ================= HEADER ================= */}
         <Flex
           position="sticky"
           top={0}
@@ -139,7 +138,15 @@ export default function ChatDetailsLayout() {
           )}
         </Flex>
 
-        <VStack flex="1" align="stretch" spaceY={4} px={4} py={3} overflowY="auto" mt={{base: "100px", lg: 14}}>
+        <VStack
+          flex="1"
+          align="stretch"
+          spaceY={4} 
+          px={4}
+          py={3}
+          overflowY="auto"
+          mt={{ base: "100px", lg: 14 }}
+        >
           {isLoading || isPending ? (
             <Center flex={1}>
               <Text textAlign="center" color="secondary" fontSize={{ base: "md", lg: "lg" }}>
@@ -147,28 +154,38 @@ export default function ChatDetailsLayout() {
               </Text>
             </Center>
           ) : messages.length ? (
-            messages.map((msg) => (
-              <Box key={msg._id} display="flex" gap={4}>
-                <Avatar.Root size="sm">
-                  <Avatar.Fallback name={`${msg.senderId.firstName} ${msg.senderId.lastName}`} />
-                </Avatar.Root>
+            groupMessagesByDate(messages).map((group) => (
+              <Box key={group.dateLabel} mb={4}>
+                <Text textAlign="center" fontSize="xs" color="bfgrey" mb={2}>
+                  {group.dateLabel}
+                </Text>
 
-                <Box w="full">
-                  <Flex justify="space-between" mb={1}>
-                    <Text fontSize="xs" color="secondary">
-                      {msg.senderId.firstName} {msg.senderId.lastName}
-                    </Text>
-                    <Text fontSize="xs" color="bfgrey">
-                      {timeAgo(msg.createdAt)}
-                    </Text>
-                  </Flex>
+                {group.messages.map((msg) => (
+                  <Box key={msg._id} display="flex" gap={4} mb={2}>
+                    <Avatar.Root size="sm">
+                      <Avatar.Fallback
+                        name={`${msg.senderId.firstName} ${msg.senderId.lastName}`}
+                      />
+                    </Avatar.Root>
 
-                  <Box bg="#f8fbea" p={3} borderRadius="lg">
-                    <Text fontSize="sm" color="bfgrey">
-                      {msg.message}
-                    </Text>
+                    <Box w="full">
+                      <Flex justify="space-between" mb={1}>
+                        <Text fontSize="xs" color="secondary">
+                          {msg.senderId.firstName} {msg.senderId.lastName}
+                        </Text>
+                        <Text fontSize="xs" color="bfgrey">
+                          {timeAgo(msg.createdAt)}
+                        </Text>
+                      </Flex>
+
+                      <Box bg="#f8fbea" p={3} borderRadius="lg">
+                        <Text fontSize="sm" color="bfgrey">
+                          {msg.message}
+                        </Text>
+                      </Box>
+                    </Box>
                   </Box>
-                </Box>
+                ))}
               </Box>
             ))
           ) : (

@@ -150,3 +150,52 @@ export function timeAgo(createdAt: string): string {
   const options: Intl.DateTimeFormatOptions = { day: "2-digit", month: "short", year: "numeric" };
   return date.toLocaleDateString("en-US", options);
 }
+
+type MessageGroup = {
+  dateLabel: string; // "Today", "Yesterday", or "12 Dec 2025"
+  messages: Message[];
+};
+
+export function groupMessagesByDate(messages: Message[]): MessageGroup[] {
+  const groups: Record<string, Message[]> = {};
+
+  const now = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+
+  messages.forEach((msg) => {
+    const msgDate = new Date(msg.createdAt);
+
+    let label = "";
+    if (
+      msgDate.getDate() === now.getDate() &&
+      msgDate.getMonth() === now.getMonth() &&
+      msgDate.getFullYear() === now.getFullYear()
+    ) {
+      label = "Today";
+    } else if (
+      msgDate.getDate() === yesterday.getDate() &&
+      msgDate.getMonth() === yesterday.getMonth() &&
+      msgDate.getFullYear() === yesterday.getFullYear()
+    ) {
+      label = "Yesterday";
+    } else {
+      label = msgDate.toLocaleDateString("en-US", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+    }
+
+    if (!groups[label]) groups[label] = [];
+    groups[label].push(msg);
+  });
+
+  // Convert to array of { dateLabel, messages } sorted by date ascending
+  return Object.entries(groups)
+    .sort(
+      ([aLabel, aMsgs], [bLabel, bMsgs]) =>
+        new Date(aMsgs[0].createdAt).getTime() - new Date(bMsgs[0].createdAt).getTime()
+    )
+    .map(([dateLabel, msgs]) => ({ dateLabel, messages: msgs }));
+}
