@@ -80,7 +80,7 @@ const GroupDetails = () => {
         <Text fontWeight="medium" mb={2}>
           Group Rules:
         </Text>
-        <VStack spacing={2} align="start">
+        <VStack spaceY={2} align="start">
           {groupRules.map((rule, idx) => (
             <HStack key={idx} align="start">
               <Text fontSize="sm" color="gray.600">
