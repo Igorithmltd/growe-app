@@ -1,5 +1,5 @@
 import { StyledText } from "@/src/components";
-import { Badge, Box, Flex, Text, VStack } from "@chakra-ui/react";
+import { Badge, Box, Flex, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 const ChatItem = ({  chat }: {  chat: ChatRoom }) => {
