@@ -4,6 +4,7 @@ import { Box, useMediaQuery } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { DesktopSidebar, MobileNavbar } from "@/src/components/layouts/dashboard";
 import { RouteGuard } from "@/src/guard/auth";
+import { usePathname } from "next/navigation";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,6 +13,8 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const [isClient, setIsClient] = useState(false);
   const [isDesktop] = useMediaQuery(["(min-width: 62em)"]);
+
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsClient(true);
@@ -30,8 +33,8 @@ const Layout = ({ children }: LayoutProps) => {
             </Box>
           </Box>
         ) : (
-          <Box height="100vh" display="flex" flexDirection="column" bg="#FDFDFD" pt={5}>
-            <Box flex={1} overflowY="auto" pb="80px" px={4}>
+          <Box height="100vh" display="flex" flexDirection="column" bg="#FDFDFD" pt={1}>
+            <Box flex={1} overflowY={pathname.startsWith("/chat/") ? "hidden" : "auto"} pb="80px">
               {children}
             </Box>
             <MobileNavbar />

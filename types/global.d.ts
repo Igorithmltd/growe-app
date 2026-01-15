@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+/* =========================
+   GENERIC API RESPONSES
+========================= */
+
 type GlobalResponseData<T> = {
   success: boolean;
   data: {
@@ -24,6 +28,10 @@ type ErrorResponseData = {
   user?: ErrorUser;
   raw?: any;
 };
+
+/* =========================
+   USER & AUTH TYPES
+========================= */
 
 type ErrorUser = {
   isVerified: boolean;
@@ -54,6 +62,45 @@ type UserDetails = {
   };
 };
 
+/* =========================
+   GROUP / SAVINGS
+========================= */
+
+interface GroupImage {
+  _id?: string;
+  imageUrl: string;
+  publicId: string;
+}
+
+interface Group {
+  _id: string;
+  title: string;
+  savingType: "group" | string;
+  totalAmount: number;
+  targetAmount: number;
+  frequentAmount: number;
+  frequencyDuration: string;
+  interestRate: number;
+  admin: string;
+  savingProgress: number;
+  isClosed: boolean;
+  isCompleted: boolean;
+  isCancelled: boolean;
+  isWithdrawn: boolean;
+  status: "active" | "inactive" | string;
+  groupMembers: string[];
+  memberLimit: number;
+  groupImage: GroupImage;
+  groupDescription: string;
+  disbursementMethod: string;
+  startDate: string;
+  withdrawalDate: string;
+  createdAt: string;
+  updatedAt: string;
+  groupRefferalCode: string;
+  __v: number;
+}
+
 type Savings = {
   _id: string;
   title: string;
@@ -63,8 +110,8 @@ type Savings = {
   duration: string;
   interestRate: string;
   groupRefferalCode: string;
-  startDate: string; // ISO date string
-  withdrawalDate: string; // ISO date string
+  startDate: string;
+  withdrawalDate: string;
   savingProgress: number;
   isClosed: boolean;
   isCompleted: boolean;
@@ -82,17 +129,66 @@ type Savings = {
   };
 };
 
+/* =========================
+   CHAT
+========================= */
+
+interface ChatRoom {
+  _id: string;
+  groupId: Group;
+  members: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+type Message = {
+  _id: string;
+  groupId: string;
+  senderId: UserDetails;
+  receiverId: UserDetails | null;
+  message: string;
+  type: "text" | "image" | "video" | "file";
+  isDeleted: boolean;
+  readBy: string[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
+/* =========================
+   INVESTMENTS
+========================= */
+
 type Duration = {
   _id: string;
   duration: string;
   interestPercentage: number;
 };
 
+type InvestmentPlan = {
+  _id: string;
+  title: string;
+  investmentType: string;
+  minimumInvestmentAmount: number;
+  expectedROI: number;
+  investmentDuration: number;
+  investmentDescription: string;
+  investors: number;
+  startDate: string;
+  withdrawalDate: string;
+  annualReturn: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  id: string;
+};
+
 interface Investment {
   _id: string;
   title: string;
   investType: "group" | "individual";
-  investmentId: InvestmentPlan
+  investmentId: InvestmentPlan;
   investmentTarget: number;
   minimumMemberContribution: number;
   memberLimit: number;
@@ -121,25 +217,9 @@ interface Investment {
   __v: number;
 }
 
-
-
-type InvestmentPlan = {
-  _id: string;
-  title: string;
-  investmentType: string;
-  minimumInvestmentAmount: number;
-  expectedROI: number;
-  investmentDuration: number;
-  investmentDescription: string;
-  investors: number;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
-  __v: number;
-  startDate: string; // ISO date string
-  withdrawalDate: string; // ISO date string
-  annualReturn: number;
-  id: string;
-};
+/* =========================
+   NOTES
+========================= */
 
 type Note = {
   _id: string;
@@ -148,6 +228,10 @@ type Note = {
   amount: number;
   description: string;
 };
+
+/* =========================
+   BANKING
+========================= */
 
 type Bank = {
   name: string;

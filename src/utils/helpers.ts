@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { AxiosError } from "axios";
 import { deleteCookie } from "cookies-next";
 
@@ -112,6 +114,93 @@ export const hexToRgba = (hex: string, alpha: number) => {
   const b = bigint & 255;
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
+
+export function timeAgo(createdAt: string): string {
+  const date = new Date(createdAt);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime(); // difference in milliseconds
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffSeconds / 60);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffSeconds < 60) return "just now";
+  if (diffMinutes < 60) return `${diffMinutes} minute${diffMinutes > 1 ? "s" : ""} ago`;
+  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
+
+  // Check if it was yesterday
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+  if (
+    date.getDate() === yesterday.getDate() &&
+    date.getMonth() === yesterday.getMonth() &&
+    date.getFullYear() === yesterday.getFullYear()
+  ) {
+    return "yesterday";
+  }
+
+  // If today (but more than hours ago)
+  if (
+    date.getDate() === now.getDate() &&
+    date.getMonth() === now.getMonth() &&
+    date.getFullYear() === now.getFullYear()
+  ) {
+    return "today";
+  }
+
+  // Otherwise return exact date like 12 Dec 2025
+  const options: Intl.DateTimeFormatOptions = { day: "2-digit", month: "short", year: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+}
+
+type MessageGroup = {
+  dateLabel: string; // "Today", "Yesterday", or "12 Dec 2025"
+  messages: Message[];
+};
+
+export function groupMessagesByDate(messages: Message[]): MessageGroup[] {
+  const groups: Record<string, Message[]> = {};
+
+  const now = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(now.getDate() - 1);
+
+  messages.forEach((msg) => {
+    const msgDate = new Date(msg.createdAt);
+
+    let label = "";
+    if (
+      msgDate.getDate() === now.getDate() &&
+      msgDate.getMonth() === now.getMonth() &&
+      msgDate.getFullYear() === now.getFullYear()
+    ) {
+      label = "Today";
+    } else if (
+      msgDate.getDate() === yesterday.getDate() &&
+      msgDate.getMonth() === yesterday.getMonth() &&
+      msgDate.getFullYear() === yesterday.getFullYear()
+    ) {
+      label = "Yesterday";
+    } else {
+      label = msgDate.toLocaleDateString("en-US", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      });
+    }
+
+    if (!groups[label]) groups[label] = [];
+    groups[label].push(msg);
+  });
+
+  // Convert to array of { dateLabel, messages } sorted by date ascending
+  return Object.entries(groups)
+    .sort(
+      ([aLabel, aMsgs], [bLabel, bMsgs]) =>
+        new Date(aMsgs[0].createdAt).getTime() - new Date(bMsgs[0].createdAt).getTime()
+    )
+    .map(([dateLabel, msgs]) => ({ dateLabel, messages: msgs }));
+}
 
 export const getDaysLeft = (start?: string, end?: string): number | "-" => {
   if (!start || !end) return "-";
