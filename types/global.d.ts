@@ -115,3 +115,18 @@ type Message = {
   __v: number;
 };
 
+type Bank = {
+  name: string;
+  slug: string;
+  code: string;
+  longcode: string;
+  gateway: string;
+  active: boolean;
+  country: string;
+  currency: string;
+};
+
+type BankAccount = {
+  account_number: string;
+  account_name: string;
+};
