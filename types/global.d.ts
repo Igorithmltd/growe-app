@@ -98,9 +98,6 @@ interface ChatRoom {
   __v: number;
 }
 
-
-
-
 type Message = {
   _id: string;
   groupId: string;
