@@ -1,29 +1,76 @@
 "use client";
 
 import { BackIcon } from "@/public/svgs";
-import { StyledButton, StyledText } from "@/src/components";
-import { Box, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
+import { Loader, StyledButton, StyledText } from "@/src/components";
+import { Box, Flex, Grid, HStack, StackSeparator, VStack } from "@chakra-ui/react";
 import { ActivityCard, DetailsCard, GroupInfoCard } from "../../../../cards";
 import { FaUser } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/src/contexts/ModalContext";
 import JoinGroupModal from "../../../modals/JoinGroupModal";
+import { useQuery } from "@tanstack/react-query";
+import useSavings from "@/src/hooks/apis/queries/useSavings";
+import { formatDate, getDaysLeft } from "@/src/utils/helpers";
 
-const data = [
-  { label: "Start Date", value: "10th Jan 2025" },
-  { label: "Withdrawal Date", value: "10th June 2025" },
-  { label: "Target Group savings amount", value: "₦2Million" },
-  { label: "Target per member", value: "₦200,000" },
-  { label: "Frequency amount", value: "₦25,000 Monthly" },
-  { label: "Interest Rate", value: "10%" },
-  { label: "Savings duration", value: "6 months" },
-  { label: "Days left", value: "160" },
-];
-
-const GroupPreviewLayout = () => {
+const GroupPreviewLayout = ({ id }: { id: string }) => {
   const router = useRouter();
 
+  const { getSaving } = useSavings();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["group-details", id],
+    queryFn: () => getSaving(id),
+  });
+
+  const loading = isPending || isFetching;
+  const saving = data?.data.message;
+
+  const daysLeft = getDaysLeft(saving?.startDate, saving?.withdrawalDate);
+
+  const savingData = [
+    { label: "Start Date", value: formatDate(saving?.startDate) },
+    { label: "Withdrawal Date", value: formatDate(saving?.withdrawalDate) },
+    {
+      label: "Target Group savings amount",
+      value: `₦${Number(saving?.targetAmount).toLocaleString()}`,
+    },
+    {
+      label: "Target per member",
+      value:
+        saving?.targetAmount && saving?.memberLimit && saving.memberLimit > 0
+          ? (Number(saving.targetAmount) / Number(saving.memberLimit)).toLocaleString("en-NG", {
+              style: "currency",
+              currency: "NGN",
+              minimumFractionDigits: 0,
+            })
+          : "N/A",
+    },
+    { label: "Frequency amount", value: `₦${Number(saving?.frequentAmount).toLocaleString()}` },
+    { label: "Interest Rate", value: saving?.interestRate ? `${saving.interestRate}%` : "N/A" },
+    { label: "Savings duration", value: saving?.duration },
+    { label: "Days left", value: daysLeft },
+  ];
+
   const { setIsJoinSavingsOpen } = useModal();
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <Flex h="50vh" alignItems="center" justifyContent="center">
+        <StyledText color="red.500" textAlign="justify" fontSize="md">
+          {error instanceof Error ? error.message : "Unknown error"}
+        </StyledText>
+      </Flex>
+    );
+  }
+
+  if (!saving) {
+    router.push("/savings/saving-groups");
+    return null;
+  }
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -38,14 +85,19 @@ const GroupPreviewLayout = () => {
 
       <VStack align="stretch" spaceY={8} mt={14}>
         <GroupInfoCard
-          title="Education Savings Group"
-          daysLeft={28}
-          members={30}
-          percentageCompletion={65}
-          savingsPerMember="₦200K"
+          id={saving._id}
+          title={saving?.title}
+          daysLeft={Number(daysLeft)}
+          members={saving?.groupMembers?.length ?? 0}
+          percentageCompletion={saving?.savingProgress ?? 0}
+          savingsPerMember={
+            saving?.targetAmount && saving?.memberLimit
+              ? `₦${(Number(saving.targetAmount) / Number(saving.memberLimit)).toLocaleString()}`
+              : "N/A"
+          }
           totalSavings="₦700K"
-          interest={10}
-          image="/images/group/3.jpg"
+          interest={Number(saving?.interestRate)}
+          image={saving.groupImage.imageUrl || "/images/group/3.jpg"}
         />
 
         <Box>
@@ -53,9 +105,7 @@ const GroupPreviewLayout = () => {
             About Group
           </StyledText>
           <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
-            Education Savings Group helps you and others save collectively for tuition,
-            certifications, and educational goals. Together, make learning affordable and achievable
-            for everyone!
+            {saving?.groupDescription}
           </StyledText>
         </Box>
 
@@ -77,8 +127,8 @@ const GroupPreviewLayout = () => {
         </Box>
 
         <Grid templateColumns="repeat(2, 1fr)" justifyContent="start" gap={6}>
-          {data.map(({ label, value }) => (
-            <DetailsCard title={label} value={value} key={label} />
+          {savingData.map(({ label, value }) => (
+            <DetailsCard title={label} value={String(value)} key={label} />
           ))}
         </Grid>
 

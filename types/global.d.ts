@@ -7,6 +7,12 @@ type GlobalResponseData<T> = {
   };
 };
 
+type NewResponse<T> = {
+  success: boolean;
+  message: string;
+  data: T;
+};
+
 type AuthResponseData = {
   success: boolean;
   message: string;

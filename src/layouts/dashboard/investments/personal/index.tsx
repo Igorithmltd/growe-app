@@ -1,12 +1,26 @@
-import { StyledText } from "@/src/components";
+"use client";
+
+import { Spinner, StyledText } from "@/src/components";
 import { Box, Flex, HStack, VStack } from "@chakra-ui/react";
 import { EmptyCard, InvestmentCard, SavingsCard } from "../../cards";
 import { useRouter } from "next/navigation";
 import { MdChevronRight } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
+import useInvestments from "@/src/hooks/apis/queries/useInvestments";
 
 const PersonalInvestments = () => {
   const router = useRouter();
-  const isEmpty = false;
+
+  const { getPersonalInvestments } = useInvestments();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["personal-investments"],
+    queryFn: getPersonalInvestments,
+  });
+
+  const investments = data?.data.message || [];
+  const loading = isPending || isFetching;
+  const isEmpty = investments.length === 0;
 
   return (
     <Box>
@@ -27,6 +41,7 @@ const PersonalInvestments = () => {
           }}
         />
       </VStack>
+
       <HStack justify="space-between" mt={12}>
         <StyledText
           fontSize={{ base: "md", md: "lg", lg: "xl" }}
@@ -51,50 +66,44 @@ const PersonalInvestments = () => {
         )}
       </HStack>
 
-      <VStack align="stretch" spaceY={4} mt={6}>
-        {isEmpty ? (
-          <EmptyCard title="You Don’t Have Any Active Personal Investments Yet!" />
-        ) : (
-          <HStack
-            spaceX={{ base: 2, md: 4 }}
-            mt={6}
-            overflowX="auto"
-            css={{
-              // "@media (min-width: 62em)": {
-              //   // 62em = 992px = lg breakpoint
-              //   "&::-webkit-scrollbar": {
-              //     display: "initial",
-              //   },
-              //   scrollbarWidth: "auto",
-              //   msOverflowStyle: "auto",
-              // },
-              "@media (max-width: 61.99em)": {
-                "&::-webkit-scrollbar": {
-                  display: "none",
-                },
-                scrollbarWidth: "none", // Firefox
-                msOverflowStyle: "none", // IE 10+
-              },
-            }}
-          >
-            <InvestmentCard
-              name="Enviable Transport"
-              annualReturn={20}
-              image="/images/investments/1.png"
-            />
-            <InvestmentCard
-              name="Enviable Transport"
-              annualReturn={20}
-              image="/images/investments/2.png"
-            />
-            <InvestmentCard
-              name="Enviable Transport"
-              annualReturn={20}
-              image="/images/investments/3.png"
-            />
-          </HStack>
-        )}
-      </VStack>
+      {loading ? (
+  <Flex h="250px" alignItems="center" justifyContent="center">
+    <Spinner />
+  </Flex>
+) : error ? (
+  <Flex h="250px" alignItems="center" justifyContent="center">
+    <StyledText color="red.500" fontSize="md">
+      {error instanceof Error ? error.message : "Unknown error"}
+    </StyledText>
+  </Flex>
+) : investments.length === 0 ? (
+  <Box mt={6}>
+    <EmptyCard title="No active personal investments" />
+  </Box>
+) : (
+  <HStack
+    spaceX={{ base: 2, md: 4 }}
+    mt={6}
+    overflowX="auto"
+    css={{
+      "@media (max-width: 61.99em)": {
+        "&::-webkit-scrollbar": { display: "none" },
+        scrollbarWidth: "none", // Firefox
+        msOverflowStyle: "none", // IE 10+
+      },
+    }}
+  >
+    {investments.map((investment, index) => (
+      <InvestmentCard
+        key={index}
+        name={investment.title}
+        annualReturn={Number(investment.interestRate)}
+        image="/images/investments/3.png"
+      />
+    ))}
+  </HStack>
+)}
+
     </Box>
   );
 };

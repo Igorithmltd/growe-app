@@ -1,9 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
 
 import { Box, HStack, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-//
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { BsTag } from "react-icons/bs";
+import { LiaCalendarWeekSolid } from "react-icons/lia";
+
 import {
   StyledField,
   StyledButton,
@@ -11,26 +17,22 @@ import {
   SelectInputBox,
   SelectOptionModal,
 } from "@/src/components";
-// import { ROUTES } from "@/src/utils/constants";
-import { useRouter } from "next/navigation";
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon, GroupMark } from "@/public/svgs";
-import { useState } from "react";
 import { useModal } from "@/src/contexts/ModalContext";
-
-import InfoModal from "@/src/components/modals/InfoModal";
 import CalendarModal from "../../savings/modals/CalenderModal";
-import { createNoteSchema, CreateNoteValues } from "@/src/schema/finance-notes.schema";
-import { BsTag } from "react-icons/bs";
-import { LiaCalendarWeekSolid } from "react-icons/lia";
+import InfoModal from "@/src/components/modals/InfoModal";
 import TagsModal from "../modal/TagsModal";
+import { createNoteSchema, CreateNoteValues } from "@/src/schema/finance-notes.schema";
+import { useFinanceNotes } from "@/src/hooks/apis/mutation/dashboard/useFinanceNotes";
 
 const categoryOptions = ["Personal Savings", "Group Savings", "Goals", "Investments"];
 
 const CreateNoteLayout = () => {
   const router = useRouter();
+  const { createFinanceNote, isCreatingNote } = useFinanceNotes();
 
-  const { setIsCalendarOpen, setIsInfoOpen, setIsSelectOpen, setIsTagsOpen } = useModal();
+  const { setIsInfoOpen, setIsSelectOpen } = useModal();
 
   const [calendarDate, setCalendarDate] = useState<Date | undefined>(undefined);
   const [selectedTag, setSelectedTag] = useState<string>("");
@@ -40,15 +42,19 @@ const CreateNoteLayout = () => {
     handleSubmit,
     setValue,
     watch,
-    // reset,
-    formState: { errors, isSubmitting },
+    reset,
+    formState: { errors },
   } = useForm<CreateNoteValues>({
     resolver: yupResolver(createNoteSchema),
   });
 
   const onSubmit = (data: CreateNoteValues) => {
-    console.log(data);
-    setIsInfoOpen(true);
+    createFinanceNote(data, {
+      onSuccess: () => {
+        setIsInfoOpen(true);
+        reset(); // Clear the form
+      },
+    });
   };
 
   const handleCategorySelect = (category: string) => {
@@ -100,7 +106,7 @@ const CreateNoteLayout = () => {
             <SelectInputBox
               label="What is the category?"
               value={selectedCategory}
-              placeholder="Choose an category"
+              placeholder="Choose a category"
               error={errors?.category?.message}
               onClick={() => setIsSelectOpen(true)}
             />
@@ -125,6 +131,8 @@ const CreateNoteLayout = () => {
               {...commonProps}
             />
 
+            {/* Uncomment if tag or calendar functionality is to be enabled */}
+            {/* 
             <HStack spaceX={4} mt={2} justify="space-between" align="center">
               <StyledButton
                 variant="ghost"
@@ -149,8 +157,9 @@ const CreateNoteLayout = () => {
                 <LiaCalendarWeekSolid size="18px" color="#9BAB69" /> Set Reminder
               </StyledButton>
             </HStack>
+            */}
 
-            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+            <StyledButton type="submit" w="full" mt={2} loading={isCreatingNote}>
               Save Note
             </StyledButton>
           </VStack>
@@ -181,10 +190,11 @@ const CreateNoteLayout = () => {
           />
         </form>
       </Box>
+
       <InfoModal
-        message="Congratulations! 🎉 Your Group Savings Has Been Created!"
+        message="Congratulations! 🎉 Your Finance Note Has Been Created!"
         hasButton={true}
-        buttonText={"Go back to savings"}
+        buttonText={"Go back to notes"}
         icon={<GroupMark />}
       />
     </Box>

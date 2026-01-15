@@ -1,7 +1,7 @@
 import { ChatIcon, EmptyFolder } from "@/public/svgs";
 import { ReuseableCard, StyledButton, StyledProgress, StyledText } from "@/src/components";
 import useShowToast from "@/src/hooks/useShowToast";
-import { copyToClipboard, hexToRgba } from "@/src/utils/helpers";
+import { copyToClipboard, formatCurrencyShort, hexToRgba } from "@/src/utils/helpers";
 import {
   Box,
   Flex,
@@ -296,12 +296,14 @@ export const ActiveSavingsCard = ({
   name,
   plan,
   amount,
+  id,
 }: {
   bg?: string;
   value: number;
   name: string;
   plan: string;
   amount: string;
+  id: string;
 }) => {
   const router = useRouter();
 
@@ -314,7 +316,7 @@ export const ActiveSavingsCard = ({
       px={{ base: 3, md: 6 }}
       py={6}
       bg={bg}
-      onClick={() => router.push("/savings/saving-goals/123")}
+      onClick={() => router.push(`/savings/saving-goals/${id}`)}
     >
       <VStack align="stretch" spaceY={3}>
         <HStack justify="space-between" align="stretch">
@@ -533,6 +535,7 @@ export const ActivityCard = ({
 
 export const GroupInfoCard = ({
   bg = "white",
+  id,
   title,
   image,
   members,
@@ -545,6 +548,7 @@ export const GroupInfoCard = ({
   canClick = true,
 }: {
   bg?: string;
+  id: string;
   title: string;
   image: string;
   members: number;
@@ -567,9 +571,9 @@ export const GroupInfoCard = ({
   const handleClick = () => {
     if (canClick) {
       if (isJoin) {
-        router.push("/savings/join-group/123");
+        router.push(`/savings/join-group/${id}`);
       } else {
-        router.push("/savings/saving-groups/123");
+        router.push(`/savings/saving-groups/${id}`);
       }
     }
   };
@@ -706,6 +710,7 @@ export const InvestmentCard = ({
 export const InvestmentInfoCard = ({
   bg = "white",
   name,
+  id,
   image,
   investors,
   amountPerUnit,
@@ -716,8 +721,9 @@ export const InvestmentInfoCard = ({
   bg?: string;
   name: string;
   image: string;
+  id: string;
   investors: number;
-  amountPerUnit: string;
+  amountPerUnit: number;
   annualReturn: number;
   isSuggested?: boolean;
   canClick?: boolean;
@@ -726,15 +732,15 @@ export const InvestmentInfoCard = ({
 
   const infoItems = [
     { value: investors, label: "Investors" },
-    { value: amountPerUnit, label: "Per Unit" },
+    { value: `₦${formatCurrencyShort(amountPerUnit)}`, label: "Per Unit" },
     { value: `${annualReturn}%`, label: "Annual Return" },
   ];
   const handleClick = () => {
     if (canClick) {
       if (isSuggested) {
-        router.push("/investments/suggested-investments/123");
+        router.push(`/investments/suggested-investments/${id}`);
       } else {
-        router.push("/investments/my-investments/123");
+        router.push(`/investments/my-investments/${id}`);
       }
     }
   };
@@ -792,7 +798,7 @@ export const InvestmentInfoCard = ({
             bg="#F8FBEB"
             color="primary"
             alignSelf="start"
-            py="7px"
+            // py="4px"
             borderRadius="full"
             fontSize={{ base: "2xs", md: "xs", lg: "sm" }}
             onClick={handleClick}
@@ -819,8 +825,8 @@ export const InvestmentGroupCard = ({
   title: string;
   image: string;
   members: number;
-  target: string;
-  contribution: string;
+  target: number; 
+  contribution: number;
   returnRate: string;
   progress: number;
   daysLeft: number;
@@ -828,8 +834,8 @@ export const InvestmentGroupCard = ({
 }) => {
   const infoItems = [
     { value: members, label: "Members" },
-    { value: `₦${target}`, label: "Investment Target" },
-    { value: `₦${contribution}`, label: "Member Contribution" },
+    { value: `₦${formatCurrencyShort(target)}`, label: "Investment Target" },
+    { value: `₦${formatCurrencyShort(contribution)}`, label: "Member Contribution" },
     { value: `${returnRate}%`, label: "Annual Return" },
   ];
 
@@ -1165,6 +1171,52 @@ export const ProfileIconCard = ({
         </HStack>
         <HiOutlineChevronRight size={16} color="#454839" />
       </HStack>
+    </ReuseableCard>
+  );
+};
+
+export const BreakSavingsCard = ({
+  title,
+  value,
+  subtitle,
+  titleColor = "bfgrey",
+  valueColor = "secondary",
+}: {
+  title: string;
+  value: string | number;
+  subtitle?: string;
+  titleColor?: string;
+  valueColor?: string;
+}) => {
+  return (
+    <ReuseableCard
+      boxShadow="none"
+      borderRadius="15px"
+      px={{ base: 2, md: 6 }}
+      py={4}
+      bg="white"
+      position="relative"
+      minH="105px"
+    >
+      <VStack align="stretch" spaceY={1}>
+        <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color={titleColor}>
+          {title}
+        </StyledText>
+
+        <StyledText
+          fontSize={{ base: "2xl", md: "3xl", lg: "3xl" }}
+          fontWeight="bold"
+          color={valueColor}
+        >
+          {value}
+        </StyledText>
+
+        {subtitle && (
+          <StyledText fontSize={{ base: "xs", md: "sm", lg: "md" }} color="#285100">
+            {subtitle}
+          </StyledText>
+        )}
+      </VStack>
     </ReuseableCard>
   );
 };

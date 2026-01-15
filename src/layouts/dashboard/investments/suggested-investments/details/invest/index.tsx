@@ -38,7 +38,7 @@ const InvestForm = () => {
   };
 
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{lg:6}} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center">
         <Box cursor="pointer" onClick={() => router.back()}>
           <BackIcon />

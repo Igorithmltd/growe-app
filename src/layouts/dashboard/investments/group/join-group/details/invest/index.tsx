@@ -6,7 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledButton, StyledText } from "@/src/components";
 import { useRouter } from "next/navigation";
-import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
+import {
+  quickSavingSchema,
+  QuickSavingValues,
+} from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon, PendingMark } from "@/public/svgs";
 import InfoModal from "@/src/components/modals/InfoModal";
@@ -38,13 +41,17 @@ const InvestForm = () => {
   };
 
   return (
-    <Box px={6} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{ lg: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center">
         <Box cursor="pointer" onClick={() => router.back()}>
           <BackIcon />
         </Box>
 
-        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
+        <StyledText
+          fontSize={{ base: "xl", md: "2xl" }}
+          fontWeight="medium"
+          color="secondary"
+        >
           Invest Now
         </StyledText>
       </Box>
@@ -55,8 +62,8 @@ const InvestForm = () => {
         fontWeight="normal"
         color="bfgrey"
       >
-        Enter the amount you want to invest and take the next step toward growing your wealth. Start
-        small or go big
+        Enter the amount you want to invest and take the next step toward
+        growing your wealth. Start small or go big
       </StyledText>
 
       <Box mt={14}>

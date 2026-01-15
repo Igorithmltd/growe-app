@@ -1,28 +1,67 @@
 "use client";
 
-import { Box, VStack } from "@chakra-ui/react";
-//
-import { StyledText } from "@/src/components";
-// import { ROUTES } from "@/src/utils/constants";
+import { Box, VStack, Flex } from "@chakra-ui/react";
+import { Loader, StyledText } from "@/src/components";
 import { useRouter } from "next/navigation";
 import { BackIcon } from "@/public/svgs";
-import { GroupInfoCard } from "../../../cards";
-
-export interface QuickSavingValues {
-  purpose: string;
-  targetAmount: number;
-  frequentAmount: number;
-  frequency: string;
-  duration: string;
-  interestRate: number;
-}
+import { EmptyCard, GroupInfoCard } from "../../../cards";
+import useSavings from "@/src/hooks/apis/queries/useSavings";
+import { useQuery } from "@tanstack/react-query";
 
 const JoinedGroupsLayout = () => {
   const router = useRouter();
+  const { getActiveSavings } = useSavings();
+
+  const { data, isPending, isFetching, error } = useQuery({
+    queryKey: ["all-active-groups"],
+    queryFn: getActiveSavings,
+  });
 
   const handleBack = () => {
     router.back();
   };
+
+  const savings = data?.data.message || [];
+  const loading = isPending || isFetching;
+
+  let content;
+
+  if (loading) {
+    content = <Loader />;
+  } else if (error) {
+    content = (
+      <Flex h="50vh" alignItems="center" justifyContent="center">
+        <StyledText color="red.500" textAlign="justify" fontSize="md">
+          {error instanceof Error ? error.message : "Unknown error"}
+        </StyledText>
+      </Flex>
+    );
+  } else if (savings.length === 0) {
+    content = <EmptyCard title="You Don’t Have Any Active Group Savings Yet!" />;
+  } else {
+    content = savings.map((group) => {
+      const daysLeft = Math.max(
+        0,
+        Math.ceil((new Date(group.withdrawalDate).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+      );
+
+      return (
+        <GroupInfoCard
+          key={group._id}
+          id={group._id}
+          title={group.title}
+          daysLeft={daysLeft}
+          members={group.groupMembers.length}
+          percentageCompletion={group.savingProgress}
+          savingsPerMember={`₦${(group.targetAmount / group.memberLimit).toLocaleString()}`}
+          totalSavings={`₦${group.targetAmount.toLocaleString()}`}
+          interest={parseFloat(group.interestRate)}
+          image="/images/group/3.jpg"
+          isJoin={false}
+        />
+      );
+    });
+  }
 
   return (
     <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto">
@@ -37,39 +76,7 @@ const JoinedGroupsLayout = () => {
       </Box>
 
       <VStack align="stretch" spaceY={8} mt={14}>
-        <GroupInfoCard
-          title="Education Savings Group"
-          daysLeft={28}
-          members={30}
-          percentageCompletion={65}
-          savingsPerMember="₦200K"
-          totalSavings="₦700K"
-          interest={10}
-          image="/images/group/3.jpg"
-          isJoin={false}
-        />
-        <GroupInfoCard
-          title="Valentine’s Day Celebration"
-          daysLeft={28}
-          members={10}
-          percentageCompletion={25}
-          savingsPerMember="₦200K"
-          totalSavings="₦700K"
-          interest={10}
-          image="/images/group/2.jpg"
-          isJoin={false}
-        />
-        <GroupInfoCard
-          title="Travel Savings Group"
-          daysLeft={28}
-          members={30}
-          percentageCompletion={85}
-          savingsPerMember="₦200K"
-          totalSavings="₦700K"
-          interest={10}
-          image="/images/group/1.jpg"
-          isJoin={false}
-        />
+        {content}
       </VStack>
     </Box>
   );
