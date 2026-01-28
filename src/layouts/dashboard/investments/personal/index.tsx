@@ -26,7 +26,7 @@ const PersonalInvestments = () => {
     <Box>
       <VStack align="stretch" spaceY={5} mt={6}>
         <SavingsCard
-          title="Total Personal Investments"
+          title="Total Investments"
           amount="0.00"
           amountColor="#285100"
           interest="0%"
@@ -48,7 +48,7 @@ const PersonalInvestments = () => {
           fontWeight="medium"
           color="secondary"
         >
-          Active Personal Investments
+          Active Investments
         </StyledText>
 
         {!isEmpty && (
@@ -78,7 +78,7 @@ const PersonalInvestments = () => {
   </Flex>
 ) : investments.length === 0 ? (
   <Box mt={6}>
-    <EmptyCard title="No active personal investments" />
+    <EmptyCard title="No active investments" />
   </Box>
 ) : (
   <HStack
