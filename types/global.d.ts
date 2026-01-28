@@ -248,3 +248,18 @@ type BankAccount = {
   account_number: string;
   account_name: string;
 };
+
+type InvestmentComposition = {
+  title: string;
+  totalAmount: number;
+  percentageComposition: number;
+};
+
+type InvestmentPerformance = {
+  totalInvest: number;
+  activeInvestmentCount: number;
+  nearestInvestmentDaysLeft: number;
+  totalInvestmentRevenue: number;
+  investmentComposition: InvestmentComposition[];
+};
+
