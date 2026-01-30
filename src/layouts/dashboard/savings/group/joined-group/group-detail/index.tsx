@@ -101,7 +101,7 @@ const GroupDetailsLayout = ({ id }: { id: string }) => {
           }
           totalSavings="₦700K"
           interest={Number(saving?.interestRate)}
-          image={saving.groupImage.imageUrl || "/images/group/3.jpg"}
+          image={"/images/group/3.jpg"}
         />
 
         <Box>
@@ -109,7 +109,10 @@ const GroupDetailsLayout = ({ id }: { id: string }) => {
             About Group
           </StyledText>
           <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
-            {saving?.groupDescription}
+            {/* {saving?.groupDescription} */}
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum, nihil voluptas. Laborum
+            natus ducimus corporis, voluptatum autem reprehenderit cupiditate voluptas. Enim dolores
+            obcaecati sapiente expedita repudiandae sequi iusto, optio commodi.
           </StyledText>
         </Box>
 

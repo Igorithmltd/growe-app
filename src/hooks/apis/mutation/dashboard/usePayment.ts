@@ -4,22 +4,29 @@ import { useMutation } from "@tanstack/react-query";
 
 import { handleError } from "@/src/utils/helpers";
 import { useFetcher } from "../../../useFetcher";
-import { LoginFormValues } from "@/src/schema/auth.schema";
 import useShowToast from "../../../useShowToast";
 
 type ActionType = "savings" | "investments";
 
 export type PaymentValues = {
   email: string;
-  amount: string; 
+  amount: string;
   actionType: ActionType;
   actionId: string;
+};
+
+type PaystackAuthorizationData = {
+  data: {
+    authorization_url: string;
+    access_code: string;
+    reference: string;
+  };
 };
 
 export const usePayment = () => {
   const showToast = useShowToast();
 
-  const makePayment = async (data: PaymentValues): Promise<AuthResponseData> => {
+  const makePayment = async (data: PaymentValues): Promise<PaystackAuthorizationData> => {
     const response = await useFetcher({
       url: "/utils/initialize-payment",
       requestType: "POST",
@@ -32,7 +39,7 @@ export const usePayment = () => {
     return response.data;
   };
 
-  return useMutation<AuthResponseData, AxiosError<ErrorResponseData>, PaymentValues>({
+  return useMutation<PaystackAuthorizationData, AxiosError<ErrorResponseData>, PaymentValues>({
     mutationFn: makePayment,
     onError: (error) => {
       if (error.response) {
@@ -57,11 +64,11 @@ export const usePayment = () => {
       }
     },
     onSuccess: () => {
-    //   showToast({
-    //     title: "Success",
-    //     description: "Logged in successfully.",
-    //     status: "success",
-    //   });
+        showToast({
+          title: "Payment Initialized",
+          description: "Redirecting to payment gateway...",
+          status: "success",
+        });
     },
   });
 };

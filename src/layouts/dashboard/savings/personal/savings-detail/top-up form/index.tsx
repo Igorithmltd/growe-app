@@ -3,30 +3,22 @@
 import { Box, VStack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
 //
 import { StyledButton, StyledText } from "@/src/components";
 import { useParams, useRouter } from "next/navigation";
-import {
-  quickSavingSchema,
-  QuickSavingValues,
-} from "@/src/schema/savings.schema";
+import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
-import { BackIcon, SuccessMark } from "@/public/svgs";
-import InfoModal from "@/src/components/modals/InfoModal";
-import { usePaystackPayment } from "@/src/hooks/usePaystack";
+import { BackIcon } from "@/public/svgs";
 import { useUserDetailsStore } from "@/src/stores/user-details";
-import { useModal } from "@/src/contexts/ModalContext";
-import useShowToast from "@/src/hooks/useShowToast";
+import { usePayment } from "@/src/hooks/apis/mutation/dashboard/usePayment";
 
 const TopUpLayout = () => {
   const router = useRouter();
-  const { id } = useParams(); // actionId (if top-up is tied to a specific saving)
-  const toast = useShowToast();
-  const { setIsInfoOpen } = useModal();
+  const { id } = useParams();
+
   const user = useUserDetailsStore((state) => state.user);
 
-  const initializePayment = usePaystackPayment();
+  const { mutate: makePayment, isPending } = usePayment();
 
   const {
     register,
@@ -36,43 +28,58 @@ const TopUpLayout = () => {
     resolver: yupResolver(quickSavingSchema),
   });
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://js.paystack.co/v1/inline.js";
-    document.body.appendChild(script);
-  }, []);
+  // useEffect(() => {
+  //   const script = document.createElement("script");
+  //   script.src = "https://js.paystack.co/v1/inline.js";
+  //   document.body.appendChild(script);
+  // }, []);
 
-  const onSubmit = async (data: QuickSavingValues) => {
-    const amount = Number(data.amount);
-    const email = user?.email || "guest@example.com";
+  // const onSubmit = async (data: QuickSavingValues) => {
+  //   const amount = Number(data.amount);
+  //   const email = user?.email || "guest@example.com";
 
-    const metadata = {
-      amount,
-      email,
-      type: "savings",
-      actionId: id,
+  //   const metadata = {
+  //     amount,
+  //     email,
+  //     type: "savings",
+  //     actionId: id,
+  //   };
+
+  //   initializePayment(
+  //     { email, amount, metadata },
+  //     () => {
+  //       toast({
+  //         title: "Payment Successful!",
+  //         description: "Your top-up was successful and will reflect shortly.",
+  //         status: "success",
+  //         duration: 3000,
+  //       });
+
+  //       setIsInfoOpen(true);
+  //     },
+  //     () => {
+  //       toast({
+  //         title: "Payment window closed.",
+  //         status: "info",
+  //         duration: 2000,
+  //       });
+  //     }
+  //   );
+  // };
+
+  const onSubmit = (data: QuickSavingValues) => {
+    const payload = {
+      email: user?.email as string,
+      amount: String(data.amount),
+      actionType: "savings" as const,
+      actionId: id as string,
     };
 
-    initializePayment(
-      { email, amount, metadata },
-      () => {
-        toast({
-          title: "Payment Successful!",
-          description: "Your top-up was successful and will reflect shortly.",
-          status: "success",
-          duration: 3000,
-        });
-
-        setIsInfoOpen(true);
+    makePayment(payload, {
+      onSuccess: (res) => {
+        window.location.href = res.data.authorization_url;
       },
-      () => {
-        toast({
-          title: "Payment window closed.",
-          status: "info",
-          duration: 2000,
-        });
-      }
-    );
+    });
   };
 
   const commonProps = {
@@ -86,17 +93,13 @@ const TopUpLayout = () => {
   };
 
   return (
-    <Box px={{lg:6}} py={{ base: 2, lg: 6 }} w={{ lg: "65%" }} mx="auto">
+    <Box px={{ lg: 6 }} py={{ base: 2, lg: 6 }} w={{ lg: "65%" }} mx="auto">
       <Box display="flex" gap={4} alignItems="center">
         <Box cursor="pointer" onClick={() => router.back()}>
           <BackIcon />
         </Box>
 
-        <StyledText
-          fontSize={{ base: "xl", md: "2xl" }}
-          fontWeight="medium"
-          color="secondary"
-        >
+        <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
           Top Up Savings
         </StyledText>
       </Box>
@@ -122,20 +125,12 @@ const TopUpLayout = () => {
               {...commonProps}
             />
 
-            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting}>
+            <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
               Top up
             </StyledButton>
           </VStack>
         </form>
       </Box>
-
-      <InfoModal
-        message="Woohoo! 🎉 Your Transaction Was a Success!"
-        hasButton={true}
-        buttonText="Go back to Quick Save"
-        icon={<SuccessMark />}
-        onButtonClick={() => router.push("/savings")}
-      />
     </Box>
   );
 };

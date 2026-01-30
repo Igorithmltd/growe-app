@@ -104,30 +104,31 @@ interface Group {
 type Savings = {
   _id: string;
   title: string;
+  savingType: "group" | "goal";
   targetAmount: number;
-  frequentAmount: number;
-  savingType: "personal" | "goal" | "group";
-  duration: string;
-  interestRate: string;
-  groupRefferalCode: string;
-  startDate: string;
-  withdrawalDate: string;
+  paymentInterval: "daily" | "weekly" | "monthly";
+  monthlyPaymentDay: number;
+  duration: string; // e.g. "6 months"
+  interestRate: number;
+  admin: string;
   savingProgress: number;
   isClosed: boolean;
   isCompleted: boolean;
   isCancelled: boolean;
   isWithdrawn: boolean;
+  totalAmount: number;
   status: "active" | "inactive" | "completed" | "cancelled";
   groupMembers: string[];
   memberLimit: number;
-  groupDescription: string;
-  admin: string;
-  chatId: string;
-  groupImage: {
-    imageUrl: string;
-    publicId: string;
-  };
+  disbursementMethod: "rational-payout" | "equal-payout";
+  startDate: string; // ISO date string
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  withdrawalDate: string; // ISO date string
+  groupRefferalCode: string;
+  __v: number;
 };
+
 
 /* =========================
    CHAT
