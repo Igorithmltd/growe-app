@@ -75,22 +75,7 @@ const useInvestments = () => {
     }
   }, []);
 
-  const getGroupInvestments = useCallback(async (): Promise<GlobalResponseData<Investment[]>> => {
-    try {
-      const response = await useFetcher({
-        url: "/investments/get-group-invests",
-        useBaseUrl: true,
-      });
 
-      if (response.error) {
-        throw new Error("Error fetching group investments: " + response.error?.message);
-      }
-
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  }, []);
 
   const getSuggestedInvestments = useCallback(async (): Promise<
     GlobalResponseData<Investment[]>
@@ -145,15 +130,32 @@ const useInvestments = () => {
     }
   }, []);
 
+  const getInvestmentPerformance = useCallback(async (): Promise<GlobalResponseData<InvestmentPerformance>> => {
+    try {
+      const response = await useFetcher({
+        url: "/investments/get-investment-performance",
+        useBaseUrl: true,
+      });
+
+      if (response.error) {
+        throw new Error("Error fetching active investments: " + response.error?.message);
+      }
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }, []);
+
   return {
     getInvestments,
     getInvestment,
     getPersonalInvestments,
-    getGroupInvestments,
     getSuggestedInvestments,
     getActiveInvestments,
     getAllInvestments,
     getInvestmentPlan,
+    getInvestmentPerformance,
   };
 };
 

@@ -12,6 +12,8 @@ import { useModal } from "@/src/contexts/ModalContext";
 import PerformanceOverview from "./performance-overview";
 import PortfolioAllocation from "./portfolio-allocation";
 import TransactionHistory from "./transaction-history";
+import useInvestments from "@/src/hooks/apis/queries/useInvestments";
+import { useQuery } from "@tanstack/react-query";
 
 const MotionBox = motion(Box);
 
@@ -55,6 +57,21 @@ const tabs = ["Performance overview", "Portfolio Allocation", "Transaction Histo
 export default function InvestmentPerformance() {
   const router = useRouter();
   const [selectedTab, setSelectedTab] = useState("Performance overview");
+
+  const { getInvestmentPerformance } = useInvestments();
+
+  const {
+    data: res,
+    isPending,
+    isFetching,
+    error,
+  } = useQuery({
+    queryKey: ["investment-performance"],
+    queryFn: getInvestmentPerformance,
+  });
+
+  const performance = res?.data.message;
+  const loading = isPending || isFetching;
 
   const [dateRange, setDateRange] = useState<{ start: Date | null; end: Date | null }>({
     start: null,
