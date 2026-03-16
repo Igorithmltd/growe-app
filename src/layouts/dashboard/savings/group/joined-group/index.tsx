@@ -55,7 +55,7 @@ const JoinedGroupsLayout = () => {
           percentageCompletion={group.savingProgress}
           savingsPerMember={`₦${(group.targetAmount / group.memberLimit).toLocaleString()}`}
           totalSavings={`₦${group.targetAmount.toLocaleString()}`}
-          interest={parseFloat(group.interestRate)}
+          interest={group.interestRate}
           image="/images/group/3.jpg"
           isJoin={false}
         />

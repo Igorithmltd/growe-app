@@ -125,7 +125,7 @@ const GroupSavings = () => {
                   maxMemberAllowed={group.memberLimit}
                   membersJoined={group.groupMembers.length}
                   amountEach={`₦${(group.targetAmount / group.memberLimit).toLocaleString()}`}
-                  image={group.groupImage.imageUrl}
+                  image={group.groupImage.imageUrl || "/images/group/3.jpg"}
                 />
               ))}
             </HStack>

@@ -33,7 +33,7 @@ const Layout = ({ children }: LayoutProps) => {
             </Box>
           </Box>
         ) : (
-          <Box height="100vh" display="flex" flexDirection="column" bg="#FDFDFD" pt={1}>
+          <Box height="100vh" display="flex" px={2} flexDirection="column" bg="#FDFDFD" pt={2}>
             <Box flex={1} overflowY={pathname.startsWith("/chat/") ? "hidden" : "auto"} pb="80px">
               {children}
             </Box>
