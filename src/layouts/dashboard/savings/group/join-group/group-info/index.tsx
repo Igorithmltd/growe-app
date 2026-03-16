@@ -45,7 +45,7 @@ const GroupPreviewLayout = ({ id }: { id: string }) => {
             })
           : "N/A",
     },
-    { label: "Frequency amount", value: `₦${Number(saving?.frequentAmount).toLocaleString()}` },
+    // { label: "Frequency amount", value: `₦${Number(saving?.frequentAmount).toLocaleString()}` },
     { label: "Interest Rate", value: saving?.interestRate ? `${saving.interestRate}%` : "N/A" },
     { label: "Savings duration", value: saving?.duration },
     { label: "Days left", value: daysLeft },
@@ -105,7 +105,7 @@ const GroupPreviewLayout = ({ id }: { id: string }) => {
             About Group
           </StyledText>
           <StyledText fontSize={{ base: "sm", md: "md" }} fontWeight="normal" color="bfgrey">
-            {saving?.groupDescription}
+            {saving?.groupDescription || "No description provided for this group."}
           </StyledText>
         </Box>
 

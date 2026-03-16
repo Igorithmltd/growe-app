@@ -119,6 +119,9 @@ type Savings = {
   totalAmount: number;
   status: "active" | "inactive" | "completed" | "cancelled";
   groupMembers: string[];
+  groupImage: GroupImage;
+  groupDescription: string;
+  interestRate: number;
   memberLimit: number;
   disbursementMethod: "rational-payout" | "equal-payout";
   startDate: string; // ISO date string
