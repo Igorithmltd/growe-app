@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 //
 import { StyledButton, StyledText } from "@/src/components";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { quickSavingSchema, QuickSavingValues } from "@/src/schema/savings.schema";
 import { AmountInput } from "@/src/components/amount-input";
 import { BackIcon } from "@/public/svgs";
@@ -15,6 +15,10 @@ import { usePayment } from "@/src/hooks/apis/mutation/dashboard/usePayment";
 const TopUpLayout = () => {
   const router = useRouter();
   const { id } = useParams();
+
+  const pathname = usePathname();
+  const isSavings = pathname.includes("savings");
+  const actionType: "savings" | "investments" = isSavings ? "savings" : "investments";
 
   const user = useUserDetailsStore((state) => state.user);
 
@@ -32,7 +36,7 @@ const TopUpLayout = () => {
     const payload = {
       email: user?.email as string,
       amount: String(data.amount),
-      actionType: "savings" as const,
+      actionType,
       actionId: id as string,
     };
 
