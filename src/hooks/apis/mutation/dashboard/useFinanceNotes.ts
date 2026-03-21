@@ -29,8 +29,8 @@ export const useFinanceNotes = () => {
     data: EditGroupValues;
   }): Promise<AuthResponseData> => {
     const response = await useFetcher({
-      url: `/finances/edit-note/${id}`, // Adjust to your correct endpoint
-      requestType: "PATCH",
+      url: `/finances/update-note/${id}`, 
+      requestType: "PUT",
       body: data,
       useBaseUrl: true,
     });
