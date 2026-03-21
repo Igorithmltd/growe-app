@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { FC, Fragment, ReactNode } from "react";
+import { FC, Fragment, ReactNode, useEffect } from "react";
 import { deleteCookie } from "cookies-next";
 
 import useShowToast from "@/src/hooks/useShowToast";
@@ -26,52 +26,49 @@ export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
 
   const setUser = useUserDetailsStore((state) => state.setUser);
 
-  // ✅ Loading state
+  // ✅ HANDLE SIDE EFFECTS HERE
+  useEffect(() => {
+    if (data?.success) {
+      const user = data.data.message;
+
+      setUser(user);
+
+      const isKycCompleted = user?.identityVerification.isVerified;
+
+      if (!isKycCompleted && pathname !== ROUTES.KYC.ROOT) {
+        router.push(ROUTES.KYC.ROOT);
+        showToast({
+          title: "Complete Your KYC",
+          description: "Please complete your KYC to access your dashboard",
+          status: "info",
+        });
+      }
+    }
+  }, [data, pathname, router, setUser]);
+
+  // ✅ HANDLE ERRORS HERE
+  useEffect(() => {
+    if (error) {
+      const statusCode = (error as any)?.response?.status || (error as any)?.status || null;
+
+      if (statusCode === 401) {
+        deleteCookie("x-token");
+        deleteCookie("refresh-token");
+        router.push(ROUTES.AUTH.LOGIN);
+        return;
+      }
+
+      showToast({
+        title: error?.message || "Network Error",
+        description: "No response received from the server, try again",
+        status: "error",
+      });
+    }
+  }, [error, router, showToast]);
+
+  // ✅ LOADING STATE
   if (isPending || isFetching) {
     return <Loader />;
-  }
-
-  // ✅ Auth success
-  if (data?.success) {
-    const user = data.data.message;
-
-    setUser(user);
-
-    // ✅ 🔥 KYC CHECK
-    const isKycCompleted = user?.identityVerification.isVerified; // adjust based on your backend
-
-    if (!isKycCompleted && pathname !== ROUTES.KYC.ROOT) {
-      router.push(ROUTES.KYC.ROOT);
-      showToast({
-        title: "KYC Required",
-        description: "Please complete your KYC to access this page",
-        status: "warning",
-      });
-      return null;
-    }
-  }
-
-  // ❌ Error handling
-  if (error) {
-    const statusCode = (error as any)?.response?.status || (error as any)?.status || null;
-
-    // ✅ Fix: handle 401 properly
-    if (statusCode === 401) {
-      deleteCookie("x-token");
-      deleteCookie("refresh-token");
-
-      router.push(ROUTES.AUTH.LOGIN);
-      return null;
-    }
-
-    // Other errors
-    showToast({
-      title: error?.message || "Network Error",
-      description: "No response received from the server, try again",
-      status: "error",
-    });
-
-    return <Fragment>{children}</Fragment>;
   }
 
   return <Fragment>{children}</Fragment>;
