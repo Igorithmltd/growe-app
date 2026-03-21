@@ -28,45 +28,6 @@ const TopUpLayout = () => {
     resolver: yupResolver(quickSavingSchema),
   });
 
-  // useEffect(() => {
-  //   const script = document.createElement("script");
-  //   script.src = "https://js.paystack.co/v1/inline.js";
-  //   document.body.appendChild(script);
-  // }, []);
-
-  // const onSubmit = async (data: QuickSavingValues) => {
-  //   const amount = Number(data.amount);
-  //   const email = user?.email || "guest@example.com";
-
-  //   const metadata = {
-  //     amount,
-  //     email,
-  //     type: "savings",
-  //     actionId: id,
-  //   };
-
-  //   initializePayment(
-  //     { email, amount, metadata },
-  //     () => {
-  //       toast({
-  //         title: "Payment Successful!",
-  //         description: "Your top-up was successful and will reflect shortly.",
-  //         status: "success",
-  //         duration: 3000,
-  //       });
-
-  //       setIsInfoOpen(true);
-  //     },
-  //     () => {
-  //       toast({
-  //         title: "Payment window closed.",
-  //         status: "info",
-  //         duration: 2000,
-  //       });
-  //     }
-  //   );
-  // };
-
   const onSubmit = (data: QuickSavingValues) => {
     const payload = {
       email: user?.email as string,
@@ -100,7 +61,7 @@ const TopUpLayout = () => {
         </Box>
 
         <StyledText fontSize={{ base: "xl", md: "2xl" }} fontWeight="medium" color="secondary">
-          Top Up Savings
+          Make Payment
         </StyledText>
       </Box>
 
@@ -110,7 +71,8 @@ const TopUpLayout = () => {
         fontWeight="normal"
         color="bfgrey"
       >
-        Add money to your savings and watch your goals grow instantly!
+        Enter the amount you wish to top up. You will be redirected to a secure payment page to
+        complete your transaction.
       </StyledText>
 
       <Box mt={14}>
@@ -126,7 +88,7 @@ const TopUpLayout = () => {
             />
 
             <StyledButton type="submit" w="full" mt={2} loading={isSubmitting || isPending}>
-              Top up
+              Make Payment
             </StyledButton>
           </VStack>
         </form>
