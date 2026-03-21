@@ -11,9 +11,8 @@ import { EmptyCard, FinanceCard } from "../cards";
 import useGetFinanceNotes from "@/src/hooks/apis/queries/useFinanceNotes";
 import { useModal } from "@/src/contexts/ModalContext";
 import { useFinanceNotes } from "@/src/hooks/apis/mutation/dashboard/useFinanceNotes";
-import MoreOptionsModal from "./modal/MoreoPtionsModal";
+import MoreOptionsModal from "./modal/MoreOptionsModal";
 import EditNotesModal from "./modal/EditNoteModal";
-
 
 const colorSchemes = [
   { bg: "#E3F0E12B", accent: "#89C184" },
@@ -31,7 +30,7 @@ const FinanceNotesLayout = () => {
 
   const [selectedNote, setSelectedNote] = useState<any>(null);
 
-  const { data, isPending, isFetching, error,refetch } = useQuery({
+  const { data, isPending, isFetching, error, refetch } = useQuery({
     queryKey: ["all-finance-notes"],
     queryFn: getAllFinanceNotes,
   });
@@ -67,8 +66,15 @@ const FinanceNotesLayout = () => {
   };
 
   return (
-    <Box px={{ base: 3, md: 6 }} py={{ base: 5, lg: 10 }} w={{ lg: "65%" }} mx="auto" minH="90vh" position="relative" pb="80px">
-      
+    <Box
+      px={{ base: 3, md: 6 }}
+      py={{ base: 5, lg: 10 }}
+      w={{ lg: "65%" }}
+      mx="auto"
+      minH="90vh"
+      position="relative"
+      pb="80px"
+    >
       <Box display="flex" gap={4} alignItems="center" mt={{ base: 6 }}>
         <Box cursor="pointer" onClick={handleBack}>
           <BackIcon />
