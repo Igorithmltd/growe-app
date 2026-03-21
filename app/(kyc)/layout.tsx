@@ -10,7 +10,6 @@ import { Suspense } from "react";
 function KycLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const isKycPage = pathname === "/kyc";
   const isSecond = pathname === "/kyc/nin" || pathname === "/kyc/bvn";

@@ -2,7 +2,7 @@
 
 import { Modal } from "@/src/components";
 import { useModal } from "@/src/contexts/ModalContext";
-import { VStack, HStack, Box, Text } from "@chakra-ui/react";
+import { VStack, HStack, Text } from "@chakra-ui/react";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
 interface MoreOptionsModalProps {

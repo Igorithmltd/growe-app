@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText } from "@/src/components";
 import { BVNFormValues, bvnSchema } from "@/src/schema/kyc.schema";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ROUTES } from "@/src/utils/constants";
 import { useKyc } from "@/src/hooks/apis/mutation/kyc/useKyc";
 
@@ -46,7 +46,7 @@ const BVNLayout = () => {
   };
 
   return (
-    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg:  "unset" }}>
+    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>
       <VStack align="stretch" spaceY={6}>
         <Box>
           <StyledText
@@ -73,9 +73,6 @@ const BVNLayout = () => {
               error={errors?.bvn?.message}
               {...commonProps}
             />
-
-           
-
 
             <StyledText
               smVariant="p12-regular"
