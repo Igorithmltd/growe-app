@@ -2,7 +2,7 @@
 
 import { Box, Flex, HStack, Spacer, Stack } from "@chakra-ui/react";
 import { BackIcon } from "@/public/svgs";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import KycCarousel from "@/src/layouts/kyc/carousel";
 import { StyledText } from "@/src/components";
 import { Suspense } from "react";

@@ -1,5 +1,4 @@
 import * as Yup from "yup";
-import { phoneRegExp } from "../utils/helpers";
 
 export const bvnSchema = Yup.object().shape({
   bvn: Yup.string()
