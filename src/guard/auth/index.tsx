@@ -26,30 +26,39 @@ export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
 
   const setUser = useUserDetailsStore((state) => state.setUser);
 
-  // ✅ HANDLE SIDE EFFECTS HERE
+  // ✅ AUTH + KYC CHECK
   useEffect(() => {
     if (data?.success) {
       const user = data.data.message;
 
       setUser(user);
 
-      const isKycCompleted = user?.identityVerification.isVerified;
+      const isKycCompleted = user?.identityVerification?.isVerified;
 
       if (!isKycCompleted && pathname !== ROUTES.KYC.ROOT) {
         router.push(ROUTES.KYC.ROOT);
-        showToast({
-          title: "Complete Your KYC",
-          description: "Please complete your KYC to access your dashboard",
-          status: "info",
-        });
       }
     }
   }, [data, pathname, router, setUser]);
 
-  // ✅ HANDLE ERRORS HERE
+  // ✅ SHOW TOAST ONLY WHEN ON KYC PAGE
+  useEffect(() => {
+    if (pathname === ROUTES.KYC.ROOT) {
+      showToast({
+        title: "Complete Your KYC",
+        description: "Please complete your KYC to access your dashboard",
+        status: "info",
+      });
+    }
+  }, [pathname, showToast]);
+
+  // ✅ HANDLE ERRORS
   useEffect(() => {
     if (error) {
-      const statusCode = (error as any)?.response?.status || (error as any)?.status || null;
+      const statusCode =
+        (error as any)?.response?.status ||
+        (error as any)?.status ||
+        null;
 
       if (statusCode === 401) {
         deleteCookie("x-token");
