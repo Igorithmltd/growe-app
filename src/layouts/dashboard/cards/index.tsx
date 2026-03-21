@@ -1039,6 +1039,7 @@ export const FinanceCard = ({
   tag = "Goal",
   bg = "purple.50",
   accentColor = "purple.300",
+  onMore,
 }: {
   title: string;
   description: string;
@@ -1047,6 +1048,7 @@ export const FinanceCard = ({
   tag?: string;
   bg?: string;
   accentColor?: string;
+  onMore: () => void;
 }) => {
   const [hexColor] = useToken("colors", [accentColor]);
   const bgColor = hexToRgba(hexColor, 0.3);
@@ -1107,7 +1109,7 @@ export const FinanceCard = ({
           </VStack>
 
           <VStack justify="space-between" spaceY={8} align="end" flex={0.5}>
-            <IconButton aria-label="More options" variant="ghost" size="sm" color="gray.400">
+            <IconButton aria-label="More options" variant="ghost" size="sm" color="gray.400" onClick={onMore}>
               <FiMoreVertical size={50} />
             </IconButton>
 
