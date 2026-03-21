@@ -5,11 +5,14 @@ import { ActiveSavingsCard, EmptyCard, SavingsCard } from "../../cards";
 import { useRouter } from "next/navigation";
 import useSavings from "@/src/hooks/apis/queries/useSavings";
 import { useQuery } from "@tanstack/react-query";
+import { useBalanceStore } from "@/src/stores/balance";
+import { formatAmount } from "@/src/utils/helpers";
 
 const PersonalSavings = () => {
   const router = useRouter();
 
   const { getPersonalSavings } = useSavings();
+  const { balance } = useBalanceStore((state) => state);
 
   const { data, isPending, isFetching, error } = useQuery({
     queryKey: ["all-personal-savings"],
@@ -24,7 +27,7 @@ const PersonalSavings = () => {
       <VStack align="stretch" spaceY={5} mt={6}>
         <SavingsCard
           title="Total Personal Savings"
-          amount="0.00"
+          amount={formatAmount(balance?.savingBalance || 0)}
           amountColor="secondary"
           interest="0%"
           bg="white"

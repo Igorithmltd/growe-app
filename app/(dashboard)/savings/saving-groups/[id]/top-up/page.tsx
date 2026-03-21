@@ -1,4 +1,4 @@
-import TopUpLayout from "@/src/layouts/dashboard/savings/personal/savings-detail/top-up form";
+import TopUpLayout from "@/src/layouts/dashboard/payment/form";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

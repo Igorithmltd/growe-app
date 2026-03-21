@@ -31,10 +31,14 @@ export default function ChatDetailsLayout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { getChatMessages } = useChats();
+  const { getChatMessages, searchMessages } = useChats();
   const { sendChatMessage, isSendingMessage } = useChatMutation();
+
+  /* ---------------- NORMAL MESSAGES QUERY ---------------- */
 
   const { data, isLoading, isPending, refetch } = useQuery({
     queryKey: ["chat-messages", id],
@@ -47,12 +51,40 @@ export default function ChatDetailsLayout() {
     enabled: !!id,
   });
 
-  // Use our typed Message array
-  const messages: Message[] = data?.data?.message ?? [];
+  /* ---------------- SEARCH QUERY (DEBOUNCED) ---------------- */
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const { data: searchData, isFetching: isSearching } = useQuery({
+    queryKey: ["search-messages", id, debouncedQuery],
+    queryFn: () =>
+      searchMessages({
+        roomId: id,
+        keyword: debouncedQuery,
+      }),
+    enabled: !!debouncedQuery && showSearchInput,
+  });
+
+  /* ---------------- SELECT MESSAGE SOURCE ---------------- */
+
+  const defaultMessages: Message[] = data?.data?.message ?? [];
+  const searchedMessages: Message[] = searchData?.data?.message ?? [];
+
+  const messages = debouncedQuery ? searchedMessages : defaultMessages;
+
+  /* ---------------- AUTO SCROLL ---------------- */
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  /* ---------------- SEND MESSAGE ---------------- */
 
   const handleSend = () => {
     if (!message.trim()) return;
@@ -77,6 +109,7 @@ export default function ChatDetailsLayout() {
   return (
     <Box h="100dvh">
       <Flex direction="column" h="full" w={{ lg: "65%" }} mx="auto" bg="white">
+        {/* Header */}
         <Flex
           position="sticky"
           top={0}
@@ -95,8 +128,10 @@ export default function ChatDetailsLayout() {
                 onClick={() => {
                   setShowSearchInput(false);
                   setSearchQuery("");
+                  setDebouncedQuery("");
                 }}
               />
+
               <Input
                 placeholder="Search messages..."
                 value={searchQuery}
@@ -121,7 +156,7 @@ export default function ChatDetailsLayout() {
                   <Text fontWeight="medium" color="secondary">
                     Educational Savings Group
                   </Text>
-                  <Text fontSize="xs" color="bfgrey" truncate>
+                  <Text fontSize="xs" color="bfgrey">
                     Group Chat
                   </Text>
                 </Box>
@@ -138,20 +173,19 @@ export default function ChatDetailsLayout() {
           )}
         </Flex>
 
+        {/* Messages */}
         <VStack
           flex="1"
           align="stretch"
-          spaceY={4} 
+          spaceY={4}
           px={4}
           py={3}
           overflowY="auto"
           mt={{ base: "100px", lg: 14 }}
         >
-          {isLoading || isPending ? (
+          {isLoading || isPending || isSearching ? (
             <Center flex={1}>
-              <Text textAlign="center" color="secondary" fontSize={{ base: "md", lg: "lg" }}>
-                Loading messages...
-              </Text>
+              <Text color="secondary">Loading messages...</Text>
             </Center>
           ) : messages.length ? (
             groupMessagesByDate(messages).map((group) => (
@@ -188,17 +222,20 @@ export default function ChatDetailsLayout() {
                 ))}
               </Box>
             ))
+          ) : debouncedQuery ? (
+            <Center flex={1}>
+              <Text color="secondary">No messages found</Text>
+            </Center>
           ) : (
             <Center flex={1}>
-              <Text textAlign="center" color="secondary" fontSize={{ base: "md", lg: "lg" }}>
-                No messages yet. Start the conversation!
-              </Text>
+              <Text color="secondary">No messages yet. Start the conversation!</Text>
             </Center>
           )}
 
           <Box ref={bottomRef} />
         </VStack>
 
+        {/* Send Message */}
         <Flex
           position="sticky"
           bottom={0}
@@ -229,6 +266,7 @@ export default function ChatDetailsLayout() {
           </IconButton>
         </Flex>
 
+        {/* Menu */}
         {isMenuOpen && (
           <Box
             position="fixed"
@@ -245,6 +283,7 @@ export default function ChatDetailsLayout() {
               <Button variant="ghost" justifyContent="flex-start">
                 View Group Details
               </Button>
+
               <Button
                 variant="ghost"
                 justifyContent="flex-start"
@@ -255,6 +294,7 @@ export default function ChatDetailsLayout() {
               >
                 Search Messages
               </Button>
+
               <Button variant="ghost" justifyContent="flex-start">
                 Leave Group
               </Button>

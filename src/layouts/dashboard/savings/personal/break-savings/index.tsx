@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 "use client";
 
 import { Box, VStack, HStack, Spinner, Center } from "@chakra-ui/react";
@@ -17,34 +19,37 @@ import { withdrawalInfoSchema, WithdrawalInfoValues } from "@/src/schema/profile
 import { useState } from "react";
 import SavingsSummarySection from "./summary";
 import useSavings from "@/src/hooks/apis/queries/useSavings";
+import { useSavings as useSavingsMutation } from "@/src/hooks/apis/mutation/dashboard/useSavings";
 import { useQuery } from "@tanstack/react-query";
-
-const banks = [
-  "Access Bank",
-  "Zenith Bank",
-  "First Bank",
-  "Guaranty Trust Bank",
-  "United Bank Of Africa (UBA)",
-  "Fidelity Bank",
-  "Union Bank",
-  "Sterling Bank",
-  "Polaris Bank",
-  "Wema Bank",
-];
+import useBankInfo from "@/src/hooks/apis/queries/useBankInfo";
 
 export default function BreakSavingsLayout({ id }: { id: string }) {
   const router = useRouter();
-  const { setIsSelectOpen } = useModal();
+  const { setIsSelectOpen, isSelectOpen } = useModal();
   const { getSaving } = useSavings();
+  const { getBankList } = useBankInfo();
   const [isFirstStep, setIsFirstStep] = useState(true);
 
+  const { breakSavings, isBreaking } = useSavingsMutation();
+
+  // Fetch saving details
   const { data, isPending, isFetching, error } = useQuery({
     queryKey: ["goal-details", id],
     queryFn: () => getSaving(id),
   });
-
   const loading = isPending || isFetching;
   const saving = data?.data?.message as Savings;
+
+  // Fetch banks from API
+  const {
+    data: bankResponse,
+    isLoading: isBankLoading,
+    isError: isBankError,
+  } = useQuery({
+    queryKey: ["bank-list"],
+    queryFn: getBankList,
+  });
+  const banks: string[] = bankResponse?.data?.message?.map((b: Bank) => b.name) ?? [];
 
   const {
     register,
@@ -80,7 +85,7 @@ export default function BreakSavingsLayout({ id }: { id: string }) {
   };
 
   // -------- Loading / Error Handling --------
-  if (loading) {
+  if (loading || isBankLoading) {
     return (
       <Center h="100vh">
         <Spinner size="xl" color="primary" />
@@ -88,11 +93,11 @@ export default function BreakSavingsLayout({ id }: { id: string }) {
     );
   }
 
-  if (error) {
+  if (error || isBankError) {
     return (
       <Center h="100vh">
         <StyledText color="red.500" fontSize="lg">
-          Failed to load savings details. Please try again.
+          Failed to load data. Please try again.
         </StyledText>
       </Center>
     );

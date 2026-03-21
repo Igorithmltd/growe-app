@@ -52,7 +52,7 @@ const CreateNoteLayout = () => {
     createFinanceNote(data, {
       onSuccess: () => {
         setIsInfoOpen(true);
-        reset(); // Clear the form
+        reset(); 
       },
     });
   };

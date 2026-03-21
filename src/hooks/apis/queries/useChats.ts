@@ -8,6 +8,7 @@ type GetChatMessagesParams = {
   beforeTime?: string;
   page?: number;
   limit?: number;
+  keyword?: string;
 };
 
 const useChats = () => {
@@ -57,12 +58,37 @@ const useChats = () => {
         throw error;
       }
     },
-    []
+    [],
+  );
+
+  const searchMessages = useCallback(
+    async ({ roomId, keyword }: GetChatMessagesParams): Promise<GlobalResponseData<Message[]>> => {
+      try {
+        const response = await useFetcher({
+          url: "/chat/search-message",
+          params: {
+            roomId,
+            keyword,
+          },
+          useBaseUrl: true,
+        });
+
+        if (response.error) {
+          throw new Error("Error fetching messages: " + response.error?.message);
+        }
+
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    [],
   );
 
   return {
     getChatList,
     getChatMessages,
+    searchMessages,
   };
 };
 

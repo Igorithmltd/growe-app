@@ -8,61 +8,59 @@ export const handleNavigationClick =
     href: string,
     pathname: string,
     setActiveSection: (section: string) => void,
-    onClose?: () => void
+    onClose?: () => void,
   ) =>
-    (e: React.MouseEvent) => {
-      e.preventDefault();
+  (e: React.MouseEvent) => {
+    e.preventDefault();
 
-      if (href === "/" || href === "/#home" || href === "#home") {
-        setActiveSection("#home");
+    if (href === "/" || href === "/#home" || href === "#home") {
+      setActiveSection("#home");
 
-        if (pathname !== "/") {
-          window.location.href = "/";
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          history.replaceState(null, "", "#home");
-        }
-
-        setTimeout(() => onClose?.(), 1500); // 👈 delay closing menu
-        return;
+      if (pathname !== "/") {
+        window.location.href = "/";
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        history.replaceState(null, "", "#home");
       }
 
-      const sectionId = href.startsWith("/#")
-        ? href.slice(2)
-        : href.startsWith("#")
-          ? href.slice(1)
-          : null;
+      setTimeout(() => onClose?.(), 1500); // 👈 delay closing menu
+      return;
+    }
 
-      if (sectionId) {
-        setActiveSection(`#${sectionId}`);
+    const sectionId = href.startsWith("/#")
+      ? href.slice(2)
+      : href.startsWith("#")
+        ? href.slice(1)
+        : null;
 
-        if (pathname === "/") {
-          const element = document.getElementById(sectionId);
-          if (element) {
-            const headerHeight = document.querySelector("header")?.clientHeight || 0;
-            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+    if (sectionId) {
+      setActiveSection(`#${sectionId}`);
 
-            window.scrollTo({
-              top: elementPosition - headerHeight,
-              behavior: "smooth",
-            });
-          }
+      if (pathname === "/") {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const headerHeight = document.querySelector("header")?.clientHeight || 0;
+          const elementPosition = element.getBoundingClientRect().top + window.scrollY;
 
-          history.replaceState(null, "", `#${sectionId}`);
-          setTimeout(() => onClose?.(), 300); // 👈 delay closing menu
-        } else {
-          window.location.href = `/#${sectionId}`;
-          setTimeout(() => onClose?.(), 300); // for good measure
+          window.scrollTo({
+            top: elementPosition - headerHeight,
+            behavior: "smooth",
+          });
         }
+
+        history.replaceState(null, "", `#${sectionId}`);
+        setTimeout(() => onClose?.(), 300); // 👈 delay closing menu
+      } else {
+        window.location.href = `/#${sectionId}`;
+        setTimeout(() => onClose?.(), 300); // for good measure
       }
-    };
+    }
+  };
 
 export const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 export const signOutUser = async (redirectLogin = true) => {
-  "use client";
-
   // Delete the cookies
   deleteCookie("x-token");
   deleteCookie("refresh-token");
@@ -96,14 +94,16 @@ export const copyToClipboard = async (text: string): Promise<boolean> => {
   }
 };
 
-export const formatAmount = (amount: number | string): string => {
+export const formatAmount = (amount: number | string, hasSymbol = true): string => {
   const numericAmount = typeof amount === "string" ? parseFloat(amount) : amount;
 
-  if (isNaN(numericAmount)) return "₦0";
+  if (isNaN(numericAmount)) return hasSymbol ? "₦0" : "0";
 
-  return `₦${numericAmount.toLocaleString("en-NG", {
+  const formattedAmount = numericAmount.toLocaleString("en-NG", {
     maximumFractionDigits: 0,
-  })}`;
+  });
+
+  return hasSymbol ? `₦${formattedAmount}` : formattedAmount;
 };
 
 export const hexToRgba = (hex: string, alpha: number) => {
@@ -197,7 +197,7 @@ export function groupMessagesByDate(messages: Message[]): MessageGroup[] {
   return Object.entries(groups)
     .sort(
       ([aLabel, aMsgs], [bLabel, bMsgs]) =>
-        new Date(aMsgs[0].createdAt).getTime() - new Date(bMsgs[0].createdAt).getTime()
+        new Date(aMsgs[0].createdAt).getTime() - new Date(bMsgs[0].createdAt).getTime(),
     )
     .map(([dateLabel, msgs]) => ({ dateLabel, messages: msgs }));
 }
@@ -235,10 +235,10 @@ export function formatDate(dateString?: string): string {
   return isNaN(date.getTime())
     ? "-"
     : date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
 }
 
 export function calculateMaturityDate(duration: string, startDate: Date = new Date()): string {
@@ -269,7 +269,7 @@ export function calculateMaturityDate(duration: string, startDate: Date = new Da
 export function calculateFutureAmount(
   principal: number,
   duration: string,
-  interestRate: number
+  interestRate: number,
 ): number {
   const lower = duration.toLowerCase().trim();
 
@@ -354,7 +354,6 @@ export const getPercentage = (current: number, total: number): number => {
   const percentage = (current / total) * 100;
   return Math.round(percentage);
 };
-
 
 export const formatDateWithSuffix = (dateString: string): string => {
   if (!dateString) return "";

@@ -1,4 +1,4 @@
-import InvestForm from "@/src/layouts/dashboard/investments/suggested-investments/details/invest";
+import TopUpLayout from "@/src/layouts/dashboard/payment/form";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 };
 
 const InvestmentsPage = () => {
-  return <InvestForm />;
+  return <TopUpLayout />;
 };
 
 export default InvestmentsPage;
