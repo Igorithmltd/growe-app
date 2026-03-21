@@ -61,7 +61,6 @@ export const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 export const signOutUser = async (redirectLogin = true) => {
-
   // Delete the cookies
   deleteCookie("x-token");
   deleteCookie("refresh-token");
@@ -95,14 +94,16 @@ export const copyToClipboard = async (text: string): Promise<boolean> => {
   }
 };
 
-export const formatAmount = (amount: number | string): string => {
+export const formatAmount = (amount: number | string, hasSymbol = true): string => {
   const numericAmount = typeof amount === "string" ? parseFloat(amount) : amount;
 
-  if (isNaN(numericAmount)) return "₦0";
+  if (isNaN(numericAmount)) return hasSymbol ? "₦0" : "0";
 
-  return `₦${numericAmount.toLocaleString("en-NG", {
+  const formattedAmount = numericAmount.toLocaleString("en-NG", {
     maximumFractionDigits: 0,
-  })}`;
+  });
+
+  return hasSymbol ? `₦${formattedAmount}` : formattedAmount;
 };
 
 export const hexToRgba = (hex: string, alpha: number) => {

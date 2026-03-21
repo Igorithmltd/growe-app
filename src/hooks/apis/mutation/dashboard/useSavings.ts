@@ -95,6 +95,18 @@ export const useSavings = () => {
     return response.data;
   };
 
+  const withdraw = async (id: string): Promise<AuthResponseData> => {
+    const response = await useFetcher({
+      url: `/savings/withdraw-saving/${id}`,
+      requestType: "POST",
+      useBaseUrl: true,
+    });
+
+    if (response.error) handleError(response.error);
+
+    return response.data;
+  };
+
   const { mutate: createSavingsGoal, isPending: isCreatingGoal } = useMutation<
     AuthResponseData,
     AxiosError<ErrorResponseData>,
@@ -312,6 +324,43 @@ export const useSavings = () => {
       showToast({
         title: "Success",
         description: "Breaking successful",
+        status: "success",
+      });
+    },
+  });
+
+  const { mutate: withdrawSaving, isPending: isWithdrawing } = useMutation<
+    AuthResponseData,
+    AxiosError<ErrorResponseData>,
+    string
+  >({
+    mutationFn: withdraw,
+    onError: (error) => {
+      if (error.response) {
+        const errorData = error.response.data;
+        showToast({
+          title: "Error",
+          description: errorData.message || "Something went wrong on the server",
+          status: "error",
+        });
+      } else if (error.request) {
+        showToast({
+          title: "Network Error",
+          description: "No response received from the server, try again",
+          status: "warning",
+        });
+      } else {
+        showToast({
+          title: "Error",
+          description: error.message || "An unknown error occurred",
+          status: "error",
+        });
+      }
+    },
+    onSuccess: () => {
+      showToast({
+        title: "Success",
+        description: "Withdrawal successful",
         status: "success",
       });
     },
