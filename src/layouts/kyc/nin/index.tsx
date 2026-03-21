@@ -1,35 +1,21 @@
 "use client";
 
-import { Box, VStack, Link, Text } from "@chakra-ui/react";
+import { Box, VStack, Link } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-//
-import { StyledField, StyledButton, StyledText, StyledPinInput } from "@/src/components";
+import { StyledField, StyledButton, StyledText } from "@/src/components";
 import { NINFormValues, ninSchema } from "@/src/schema/kyc.schema";
-import { usePathname, useRouter } from "next/navigation";
-import { useQueryString } from "@/src/hooks/useQueryString";
-import { useQueryParams } from "@/src/hooks/useQueryParams";
-import { otpSchema } from "@/src/schema/auth.schema";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ROUTES } from "@/src/utils/constants";
+import { useKyc } from "@/src/hooks/apis/mutation/kyc/useKyc";
 
 const NINLayout = () => {
   const router = useRouter();
-  const pathname = usePathname();
-  const createQueryString = useQueryString();
-  const { getQueryParams } = useQueryParams();
 
-  const [phone, setPhone] = useState<string>("");
+  const { ninMutation } = useKyc();
+  const { mutate: verifyNin, isPending } = ninMutation;
 
-  useEffect(() => {
-    const storedPhone = sessionStorage.getItem("phone");
-    if (storedPhone) {
-      setPhone(storedPhone);
-    }
-  }, []);
-
-  const nin = getQueryParams("verify");
-
+  // ✅ NIN FORM
   const {
     register,
     handleSubmit,
@@ -39,28 +25,14 @@ const NINLayout = () => {
     resolver: yupResolver(ninSchema),
   });
 
-  const {
-    register: otpRegister,
-    handleSubmit: handleOtpSubmit,
-    reset: resetOtpForm,
-    formState: { errors: otpErrors },
-  } = useForm<{ code: string }>({
-    resolver: yupResolver(otpSchema),
-  });
-
+  // ✅ SUBMIT NIN
   const onSubmit = (data: NINFormValues) => {
-    console.log("Submitting email:", data);
-    sessionStorage.setItem("phone", data.phone);
-    setPhone(data.phone);
-    router.replace(pathname + "?" + createQueryString("verify", String(data.nin)), {
-      scroll: false,
+    verifyNin(data, {
+      onSuccess: () => {
+        router.push("/home");
+        reset();
+      },
     });
-    reset();
-  };
-
-  const onSubmitOtp = (data: { code: string }) => {
-    console.log("Verifying OTP:", data.code);
-    resetOtpForm();
   };
 
   const commonProps = {
@@ -74,119 +46,56 @@ const NINLayout = () => {
   };
 
   return (
-    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: nin ? "120px" : "unset" }}>
-      {!nin ? (
-        <VStack align="stretch" spaceY={6}>
-          <Box>
-            <StyledText
-              fontSize={{ base: "18px", md: "21px", lg: "24px" }}
-              fontWeight="semibold"
-              color="secondary"
-            >
-              NIN Verification
-            </StyledText>
-            <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={2}>
-              Enter your NIN details for quick verification
-            </StyledText>
-          </Box>
-
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <VStack spaceY={4} align="stretch">
-              <StyledField
-                label="National Identification Number"
-                placeholder="Enter 11-digits NIN"
-                labelColor="secondary"
-                type="text"
-                fieldProps={register("nin")}
-                error={errors?.nin?.message}
-                {...commonProps}
-              />
-
-              <StyledField
-                label="Phone Number linked to NIN"
-                placeholder="eg. 08163149876"
-                labelColor="secondary"
-                fieldProps={register("phone")}
-                type="tel"
-                error={errors?.phone?.message}
-                {...commonProps}
-              />
-
-              <StyledText smVariant="p12-regular" mdVariant="p12-regular" variant="p14-regular">
-                We'll send a one-time password to this phone number to confirm your identity{" "}
-              </StyledText>
-
-              <StyledText
-                smVariant="p12-regular"
-                mdVariant="p12-regular"
-                variant="p14-regular"
-                color="secondary"
-              >
-                Don't have your NIN? Visit the nearest NIMC enrollment center
-              </StyledText>
-
-              <StyledButton type="submit" w="full" mt={2}>
-                Verify
-              </StyledButton>
-            </VStack>
-          </form>
-
-          <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
-            Use BVN instead? Click{" "}
-            <Link
-              href={ROUTES.KYC.BVN}
-              fontWeight="semibold"
-              color="secondary"
-              _hover={{
-                textDecor: "none",
-              }}
-              _focus={{
-                outline: "none",
-              }}
-            >
-              here
-            </Link>
+    <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>
+      <VStack align="stretch" spaceY={6}>
+        <Box>
+          <StyledText
+            fontSize={{ base: "18px", md: "21px", lg: "24px" }}
+            fontWeight="semibold"
+            color="secondary"
+          >
+            NIN Verification
           </StyledText>
-        </VStack>
-      ) : (
-        <VStack spaceY={6} align="stretch">
-          <Box>
+          <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={2}>
+            Enter your NIN details for quick verification
+          </StyledText>
+        </Box>
+
+        {/* ✅ SAME PATTERN AS BVN */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <VStack spaceY={4} align="stretch">
+            <StyledField
+              label="National Identification Number"
+              placeholder="Enter 11-digits NIN"
+              labelColor="secondary"
+              type="text"
+              fieldProps={register("nin")}
+              error={errors?.nin?.message}
+              {...commonProps}
+            />
+
             <StyledText
-              fontSize={{ base: "16px", md: "21px", lg: "24px" }}
+              smVariant="p12-regular"
+              mdVariant="p12-regular"
+              variant="p14-regular"
               color="secondary"
-              fontWeight="semibold"
             >
-              NIN Verification
+              Don't have your NIN? Visit the nearest NIMC enrollment center
             </StyledText>
-            <StyledText fontSize={{ base: "12px", md: "14px", lg: "16px" }} mt={3}>
-              We’ve sent a verification code to “{phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2")}
-              ”.
-            </StyledText>
-          </Box>
 
-          <form onSubmit={handleOtpSubmit(onSubmitOtp)}>
-            <VStack spaceY={4} align="stretch">
-              <StyledPinInput
-                count={6}
-                fieldProps={otpRegister("code")}
-                error={otpErrors.code?.message}
-              />
+            <StyledButton type="submit" w="full" mt={2} loading={isPending}>
+              Verify
+            </StyledButton>
+          </VStack>
+        </form>
 
-              <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
-                Didn’t receive the code?{" "}
-                <Text as="span" fontWeight="semibold" color="secondary">
-                  Resend
-                </Text>{" "}
-                in 30 seconds.
-              </StyledText>
-
-              <StyledButton type="submit" w="full" mt={4}>
-                Verify
-              </StyledButton>
-            </VStack>
-          </form>
-        </VStack>
-      )}
+        <StyledText textAlign="center" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
+          Use BVN instead? Click{" "}
+          <Link href={ROUTES.KYC.BVN} fontWeight="semibold" color="secondary">
+            here
+          </Link>
+        </StyledText>
+      </VStack>
     </Box>
   );
 };

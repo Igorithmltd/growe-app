@@ -12,22 +12,18 @@ function KycLayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const hasQuery = searchParams.has("verify");
-
   const isKycPage = pathname === "/kyc";
   const isSecond = pathname === "/kyc/nin" || pathname === "/kyc/bvn";
 
-  const step = isKycPage ? 1 : isSecond && !hasQuery ? 2 : hasQuery ? 3 : 0;
+  const step = isKycPage ? 1 : isSecond ? 2 : 0;
 
   const handleBack = () => {
     if (isKycPage) {
       router.back();
-    } else if (isSecond && !hasQuery) {
+    } else if (isSecond) {
       router.back();
-    } else if (hasQuery && pathname === "/kyc/bvn") {
-      router.push("/kyc/bvn");
-    } else if (hasQuery && pathname === "/kyc/nin") {
-      router.push("/kyc/kyc");
+    } else {
+      router.push("/kyc");
     }
   };
 
@@ -44,11 +40,11 @@ function KycLayoutContent({ children }: { children: React.ReactNode }) {
           <Flex w="90%">
             <Box h="7px" bg="primary" flex="1" borderLeftRadius="50px" />
             <Box h="7px" bg={isSecond ? "primary" : "#F8F8F8"} flex="1" />
-            <Box h="7px" bg={hasQuery ? "primary" : "#F8F8F8"} flex="1" borderRightRadius="50px" />
+            {/* <Box h="7px" bg={hasQuery ? "primary" : "#F8F8F8"} flex="1" borderRightRadius="50px" /> */}
           </Flex>
 
           <StyledText textWrap="nowrap" fontSize={{ base: "10px", md: "12px", lg: "14px" }}>
-            Step {step} of 3
+            Step {step} of 2
           </StyledText>
         </HStack>
 
