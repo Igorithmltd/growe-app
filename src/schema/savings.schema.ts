@@ -43,6 +43,8 @@ export interface VerifyInviteValues {
 }
 
 export interface JoinGroupValues {
+  groupRefferalCode: string;
+  recipientCode: string;
   accountName: string;
   accountNumber: string;
   bank: string;
