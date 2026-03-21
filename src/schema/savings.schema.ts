@@ -138,6 +138,8 @@ export const verifyInviteSchema = Yup.object({
 });
 
 export const joinGroupSchema = Yup.object({
+  groupRefferalCode: Yup.string().required("Referral or invite code is required"),
+  recipientCode: Yup.string().required("Recipient code is required"),
   accountName: Yup.string().required("Account name is required"),
   accountNumber: Yup.string()
     .required("Account number is required")
