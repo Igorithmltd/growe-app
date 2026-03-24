@@ -56,9 +56,8 @@ type UserDetails = {
     status: "unverified" | "verified" | string;
   };
   identityVerification: {
-    status: "complete" | "pending" | string;
-    isVerified: boolean;
-    isRegistrationComplete: boolean;
+    status: "completed" | "pending" | string;
+    type: "bvn" | "nin";
   };
 };
 
@@ -131,7 +130,6 @@ type Savings = {
   groupRefferalCode: string;
   __v: number;
 };
-
 
 /* =========================
    CHAT
@@ -266,4 +264,3 @@ type InvestmentPerformance = {
   totalInvestmentRevenue: number;
   investmentComposition: InvestmentComposition[];
 };
-
