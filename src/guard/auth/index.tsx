@@ -50,7 +50,7 @@ export const RouteGuard: FC<RouteGuardProps> = ({ children }) => {
       const user = data.data.message;
       setUser(user);
 
-      const isKycCompleted = user?.identityVerification?.isVerified;
+      const isKycCompleted = user?.identityVerification?.status === "completed";
       if (!isKycCompleted && pathname !== ROUTES.KYC.ROOT) {
         router.push(ROUTES.KYC.ROOT);
       }
