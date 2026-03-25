@@ -1,6 +1,10 @@
 import { StyledText } from "@/src/components";
+import { useUserDetailsStore } from "@/src/stores/user-details";
+import { ROUTES } from "@/src/utils/constants";
 import { Box, VStack, Text, HStack } from "@chakra-ui/react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { MdOutlineLock } from "react-icons/md";
 
 interface VerificationOptionProps {
@@ -33,6 +37,20 @@ const VerificationOption = ({ title, subtitle, label }: VerificationOptionProps)
 };
 
 const KycPage = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const user = useUserDetailsStore((state) => state.user);
+
+  useEffect(() => {
+    if (
+      pathname.startsWith(ROUTES.KYC.ROOT) &&
+      user?.identityVerification?.status === "completed"
+    ) {
+      router.push(ROUTES.DASHBOARD.HOME);
+    }
+  }, [pathname, user, router]);
+
   return (
     <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "80px" }}>
       <VStack spaceY={6} align="stretch">
