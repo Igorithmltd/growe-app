@@ -1,3 +1,5 @@
+"use client"
+
 import { StyledText } from "@/src/components";
 import { useUserDetailsStore } from "@/src/stores/user-details";
 import { ROUTES } from "@/src/utils/constants";
