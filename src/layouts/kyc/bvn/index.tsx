@@ -5,12 +5,17 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { StyledField, StyledButton, StyledText } from "@/src/components";
 import { BVNFormValues, bvnSchema } from "@/src/schema/kyc.schema";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ROUTES } from "@/src/utils/constants";
 import { useKyc } from "@/src/hooks/apis/mutation/kyc/useKyc";
+import { useUserDetailsStore } from "@/src/stores/user-details";
+import { useEffect } from "react";
 
 const BVNLayout = () => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const user = useUserDetailsStore((state) => state.user);
 
   const { bvnMutation } = useKyc();
   const { mutate: verifyBvn, isPending } = bvnMutation;
@@ -29,7 +34,7 @@ const BVNLayout = () => {
   const onSubmit = (data: BVNFormValues) => {
     verifyBvn(data, {
       onSuccess: () => {
-        router.push("/home");
+        router.push(ROUTES.DASHBOARD.HOME);
         reset();
       },
     });
@@ -44,6 +49,15 @@ const BVNLayout = () => {
       border: "none",
     },
   };
+
+  useEffect(() => {
+    if (
+      pathname.startsWith(ROUTES.KYC.ROOT) &&
+      user?.identityVerification?.status === "completed"
+    ) {
+      router.push(ROUTES.DASHBOARD.HOME);
+    }
+  }, [pathname, user, router]);
 
   return (
     <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>
