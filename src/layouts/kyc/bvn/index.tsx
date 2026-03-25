@@ -13,10 +13,9 @@ import { useEffect } from "react";
 
 const BVNLayout = () => {
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   const user = useUserDetailsStore((state) => state.user);
-
 
   const { bvnMutation } = useKyc();
   const { mutate: verifyBvn, isPending } = bvnMutation;
@@ -51,14 +50,14 @@ const BVNLayout = () => {
     },
   };
 
-   useEffect(() => {
-      if (
-        pathname.startsWith(ROUTES.KYC.ROOT) &&
-        user?.identityVerification?.status === "completed"
-      ) {
-        router.push(ROUTES.DASHBOARD.HOME);
-      }
-    }, [pathname, user, router]);
+  useEffect(() => {
+    if (
+      pathname.startsWith(ROUTES.KYC.ROOT) &&
+      user?.identityVerification?.status === "completed"
+    ) {
+      router.push(ROUTES.DASHBOARD.HOME);
+    }
+  }, [pathname, user, router]);
 
   return (
     <Box px={6} py={10} mx="auto" mt={{ base: 6, lg: "unset" }}>

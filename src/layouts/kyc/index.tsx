@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { StyledText } from "@/src/components";
 import { useUserDetailsStore } from "@/src/stores/user-details";
